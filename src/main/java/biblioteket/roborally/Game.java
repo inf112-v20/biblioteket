@@ -28,10 +28,8 @@ public class Game extends InputAdapter implements ApplicationListener {
     private Cell playerWonCell;
     private Vector2 playerPosition;
 
-
     @Override
     public void create() {
-
         TiledMap tiledMap = new TmxMapLoader().load("assets/board.tmx");
 
         properties = tiledMap.getProperties();
@@ -40,7 +38,6 @@ public class Game extends InputAdapter implements ApplicationListener {
         int mapWidth = properties.get("width", Integer.class);
         int mapHeight = properties.get("height", Integer.class);
 
-        TiledMapTileLayer boardLayer = (TiledMapTileLayer) tiledMap.getLayers().get("Board");
         playerLayer = (TiledMapTileLayer) tiledMap.getLayers().get("Player");
         holeLayer = (TiledMapTileLayer) tiledMap.getLayers().get("Hole");
         flagLayer = (TiledMapTileLayer) tiledMap.getLayers().get("Flag");
@@ -66,7 +63,6 @@ public class Game extends InputAdapter implements ApplicationListener {
 
     @Override
     public void dispose() {
-
     }
 
     @Override
@@ -102,34 +98,34 @@ public class Game extends InputAdapter implements ApplicationListener {
     public boolean keyUp(int keyCode) {
         playerLayer.setCell((int) playerPosition.x, (int) playerPosition.y, null);
 
-        int playerPosX = (int) playerPosition.x;
-        int playerPosY = (int) playerPosition.y;
+        float playerPosX = playerPosition.x;
+        float playerPosY = playerPosition.y;
         int width = properties.get("width", Integer.class);
         int height = properties.get("height", Integer.class);
 
         switch (keyCode) {
             case Input.Keys.A:
-                if (playerPosX - 1 < 0 || playerPosX - 1 >= width) return false;
+                if (playerPosX - 1.0 < 0 || playerPosY - 1.0 >= width) return false;
                 else {
-                    playerPosition.set(playerPosX - 1, playerPosY);
+                    playerPosition.set(new Vector2(playerPosX - 1, playerPosY));
                     return true;
                 }
             case Input.Keys.D:
                 if (playerPosX + 1 < 0 || playerPosX + 1 >= width) return false;
                 else {
-                    playerPosition.set(playerPosX + 1, playerPosY);
+                    playerPosition.set(new Vector2(playerPosX + 1, playerPosY));
                     return true;
                 }
             case Input.Keys.W:
                 if (playerPosY + 1 < 0 || playerPosY + 1 >= height) return false;
                 else {
-                    playerPosition.set(playerPosX, playerPosY + 1);
+                    playerPosition.set(new Vector2(playerPosX, playerPosY + 1));
                     return true;
                 }
             case Input.Keys.S:
                 if (playerPosY - 1 < 0 || playerPosY - 1 >= height) return false;
                 else {
-                    playerPosition.set(playerPosX, playerPosY - 1);
+                    playerPosition.set(new Vector2(playerPosX, playerPosY - 1));
                     return true;
                 }
             default:
