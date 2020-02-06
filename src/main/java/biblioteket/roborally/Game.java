@@ -26,6 +26,7 @@ public class Game extends InputAdapter implements ApplicationListener {
     private Cell playerCell;
     private Cell playerDiedCell;
     private Cell playerWonCell;
+
     private Vector2 playerPosition;
 
     @Override
