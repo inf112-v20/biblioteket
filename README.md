@@ -3,6 +3,14 @@
 Simple skeleton with libgdx. 
 
 ## Known bugs
-Currently throws "WARNING: An illegal reflective access operation has occurred", 
-when the java version used is >8. This has no effect on function or performance, and is just a warning.
+Currently throws "WARNING: An illegal reflective access operation has occurred",
+when the java version used is >8. This has no effect on function or performance,
+and is just a warning.
 
+## How to run
+
+You can either run the project in your IDE of choice, if you're using IntelliJ
+IDEA you can simply just run the Main class. If you are using `maven` from the
+command line you can package the game and its dependencies by running `mvn -B
+package` and then `java -jar
+target/roborally-1.0-SNAPSHOT-jar-with-dependencies.jar`.
