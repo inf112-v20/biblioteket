@@ -133,7 +133,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>inf112.biblioteket.roborally.Main</mainClass>
+                            <mainClass>biblioteket.roborally.Main</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
