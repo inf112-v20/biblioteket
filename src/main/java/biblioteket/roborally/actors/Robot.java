@@ -35,21 +35,6 @@ public class Robot implements IRobot {
     }
 
     @Override
-    public void setNumberOfDamageTokens(int damageTokens) { this.damageTokens = damageTokens; }
-
-    @Override
-    public void addOneDamageToken() {
-
-        this.damageTokens++;
-    }
-
-    @Override
-    public void removeOneDamageToken() {
-
-        this.damageTokens--;
-    }
-
-    @Override
     public void removeDamageTokens(int damageTokens) {
 
         this.damageTokens = this.damageTokens - damageTokens;

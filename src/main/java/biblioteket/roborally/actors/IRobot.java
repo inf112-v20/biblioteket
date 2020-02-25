@@ -17,27 +17,12 @@ public interface IRobot {
      */
     IPlayer getPlayer();
 
-    /**
-     * Set the number of damage the robot has taken.
-     * @param damageTokens
-     */
-    void setNumberOfDamageTokens(int damageTokens);
 
     /**
      * Return number of damage tokens a robot has.
      * @return number of accumulated damage tokens
      */
     int getNumberOfDamageTokens();
-
-    /**
-     * Adds one damage token to the robot.
-     */
-    void addOneDamageToken();
-
-    /**
-     * Removes one damage token from the robot.
-     */
-    void removeOneDamageToken();
 
     /**
      * Removes as many damage tokens from robot as specified.

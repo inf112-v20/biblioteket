@@ -3,17 +3,11 @@ package biblioteket.roborally.actors;
 public interface IPlayer {
 
     /**
-     * Set the number of lives the player has.
-     * @param lives
-     */
-    void setNumberOfLivesRemaining(int lives);
-
-    /**
      * Get the number of lives the player has left.
      *
      * @return The number of lives the player has left
      */
-    int getNumberOfLivesRemaining();
+    int getLives();
 
     /**
      * If player has no more lives the player is considered permanent dead.

@@ -7,10 +7,7 @@ public class Player implements IPlayer{
     private IRobot robot;
 
     @Override
-    public void setNumberOfLivesRemaining(int lives) { this.lives = lives; }
-
-    @Override
-    public int getNumberOfLivesRemaining() { return lives; }
+    public int getLives() { return lives; }
 
     @Override
     public boolean isPermanentDead() {

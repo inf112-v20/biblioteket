@@ -21,24 +21,6 @@ class RobotTest {
     }
 
     @Test
-    void addOneDamageToken() {
-
-        int originalNumberOfDamageTokens = robot.getNumberOfDamageTokens();
-        robot.addOneDamageToken();
-        int newNumberOfDamageTokens = originalNumberOfDamageTokens + 1;
-        assertEquals(newNumberOfDamageTokens, robot.getNumberOfDamageTokens());
-    }
-
-    @Test
-    void removeOneDamageToken() {
-
-        int originalNumberOfDamageTokens = robot.getNumberOfDamageTokens();
-        robot.removeOneDamageToken();
-        int newNumberOfDamageTokens = originalNumberOfDamageTokens - 1;
-        assertEquals(newNumberOfDamageTokens, robot.getNumberOfDamageTokens());
-    }
-
-    @Test
     void removeDamageTokens() {
 
         int removedDamageTokens = 2;
