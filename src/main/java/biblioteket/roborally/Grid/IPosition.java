@@ -1,6 +1,5 @@
 package biblioteket.roborally.Grid;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,10 +15,10 @@ public interface IPosition<T> {
     /**
      * Removes and returns a certain element from the current grid
      * @param element to be removed
-     * @return the element
+     * @return true if the element was successfully removed, false otherwise
      * @throws Exception if no such element exists in current position
      */
-    T remove(T element);
+    boolean remove(T element);
 
     /**
      * Adds a certain element to the position

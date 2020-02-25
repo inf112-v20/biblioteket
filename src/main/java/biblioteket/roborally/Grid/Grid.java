@@ -1,25 +1,24 @@
 package biblioteket.roborally.Grid;
 
-import biblioteket.roborally.Elements.IElement;
-import biblioteket.roborally.ILocation;
+import biblioteket.roborally.BoardDirections;
 
-import java.util.Iterator;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Grid implements IGrid {
+public class Grid<T> implements IGrid<T> {
     private int height;
     private int width;
-    private IPosition<IElement>[] grid;     // Each position holds all objects in that position
+    private List<IPosition<T>> grid;     // Each position holds all objects in that position
 
     public Grid(int width, int height){
         this.height = height;
         this.width = width;
 
-        grid = new IPosition[height*width];
-
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
-                int index = x + (width * y);
-                grid[index] = new Position<IElement>(x,y);
+        grid = new ArrayList<>();
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                int index = getIndex(x,y);
+                grid.add(new Position<>(x,y));
             }
         }
     }
@@ -35,31 +34,64 @@ public class Grid implements IGrid {
     }
 
     @Override
-    public void placeElement(int x, int y, IElement element) {
-        if(x < 0 || x >= getWidth())
+    public void placeElement(int x, int y, T element) {
+        if(checkIndexOutOfBounds(x,y))
             throw new IndexOutOfBoundsException();
-        if(y < 0 || y >= getHeight())
-            throw new IndexOutOfBoundsException();
-
-        int index = x + (getWidth() * y);
-        grid[index].put(element);
+        int index = getIndex(x,y);
+        grid.get(index).put(element);
     }
 
     @Override
     public IPosition getPosition(int x, int y) {
-        if(x < 0 || x >= getWidth())
+        if(checkIndexOutOfBounds(x,y))
             throw new IndexOutOfBoundsException();
-        if(y < 0 || y >= getHeight())
-            throw new IndexOutOfBoundsException();
-
-        int index = x + (width * y);
-        return grid[index];
+        int index = getIndex(x,y);
+        return grid.get(index);
 
     }
 
     @Override
-    // No idea
-    public Iterator<ILocation> iterator() {
+    public List<IPosition<T>> allNeighbours(int x, int y) {
+        List<IPosition<T>> allNeighbours = new ArrayList<>();
         return null;
     }
+
+    @Override
+    public List<IPosition<T>> allNeighbours(IPosition<T> position) {
+        return allNeighbours(position.getX(), position.getY());
+    }
+
+    @Override
+    public List<IPosition<T>> cardinalNeighbours(int x, int y) {
+        return null;
+    }
+
+    @Override
+    public List<IPosition<T>> cardinalNeighbours(IPosition<T> position) {
+        return cardinalNeighbours(position.getX(), position.getY());
+    }
+
+    @Override
+    public boolean containsImmovableObject(IPosition<T> currentPosition, BoardDirections direction) {
+        return false;
+    }
+
+    /**
+     * @param x position
+     * @param y position
+     * @return grid index for the given x,y coordinates
+     */
+    private int getIndex(int x, int y){
+        return x + (width * y);
+    }
+
+    /**
+     * @param x position
+     * @param y position
+     * @return true if index is out of bounds, false otherwise
+     */
+    private boolean checkIndexOutOfBounds(int x, int y){
+        return x < 0 || x >= getWidth() || y < 0 || y >= getHeight();
+    }
+
 }

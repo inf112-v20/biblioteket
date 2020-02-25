@@ -3,10 +3,12 @@ package biblioteket.roborally.Grid;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PositionTest {
-    IPosition<Integer> position;
+    IPosition<Object> position;
 
     @BeforeEach
     public void setUp(){
@@ -16,17 +18,21 @@ public class PositionTest {
 
     @Test
     void putTest(){
-        position.put(1);
-        int get = position.getContents().get(0);
-        assertEquals(1,get);
+        Object object = new Object();
+        position.put(object);
+        Object retrievedObject = position.getContents().get(0);
+        assertEquals(object,retrievedObject);
 
     }
 
     @Test
     void removeTest(){
-        position.put(1);
-        int removed = position.remove(1);
-        assertEquals(1,removed);
+        Object object = new Object();
+        position.put(object);
+        boolean removed = position.remove(object);
+        assert(removed);
+        List contents = position.getContents();
+        assert(contents.isEmpty());
         assert (position.getContents().isEmpty());
     }
 }

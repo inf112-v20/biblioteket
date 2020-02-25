@@ -1,30 +1,28 @@
 package biblioteket.roborally.Grid;
 
-import biblioteket.roborally.Elements.IElement;
-import biblioteket.roborally.Elements.IRobot;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Position<T> implements IPosition<T> {
     private final int x, y;         // The x and y location of the position on the grid.
     private ArrayList<T> contents;  // The contents of the position
 
-    public Position(int x, int y){
+    Position(int x, int y){
         this.x = x;
         this.y = y;
         contents = new ArrayList<>();
     }
 
-    //Burde sjekke contains?
     @Override
-    public T remove(T element) {
-        contents.remove(element);
-        return element; // If you need the element to remove the element then why would it return the element lmao
+    public boolean remove(T element) {
+        if (contents.contains(element)){
+            contents.remove(element);
+            return true;
+        }
+        return false;
     }
 
-
-    // Should this check for multiple robots in same position?
     @Override
     public boolean put(T element) {
         contents.add(element);
@@ -45,4 +43,19 @@ public class Position<T> implements IPosition<T> {
     public int getY() {
         return this.y;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Position<?> position = (Position<?>) o;
+        return x == position.x &&
+                y == position.y;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y);
+    }
+
 }
