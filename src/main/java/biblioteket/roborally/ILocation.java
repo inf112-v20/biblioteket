@@ -2,7 +2,7 @@ package biblioteket.roborally;
 
 import java.util.Collection;
 
-public interface ILocation {
+public interface ILocation<T> {
 
     /**
      * Sets the x of the position to be the given int.
@@ -155,5 +155,6 @@ public interface ILocation {
      */
     @Override
     boolean equals(Object object);
+
 
 }
