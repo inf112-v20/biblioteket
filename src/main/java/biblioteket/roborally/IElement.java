@@ -1,5 +1,7 @@
 package biblioteket.roborally;
 
+import biblioteket.roborally.Grid.IPosition;
+
 import java.util.UUID;
 
 public interface IElement {
@@ -9,15 +11,15 @@ public interface IElement {
     IPosition getPos();
 
     /**
+     * @param pos the position on the board
+     */
+    void setPos(IPosition pos);
+
+    /**
      * @param x position on the grid
      * @param y position on the grid
      */
     void setPos(int x, int y);
-
-    /**
-     * @param pos the position on the board
-     */
-    void setPos(IPosition pos);
 
     /**
      * Some items in the game does not allow a robot to pass through or stand
