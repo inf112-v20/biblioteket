@@ -37,9 +37,19 @@ for the group in the early stages.
 Test manager: Tobias’ is our test manager, and is therefore responsible for the quality of our code by ensuring 
 that each team member are developing using TDD.
 
-We choose the use of Kanban for our project, which we are still using as it provides great 
-flexibility because of different time schedules and it provides a good overview of what needs to be done, 
+We chose the use of Kanban for our project, which we are still using as it provides great 
+flexibility because of different time schedules and it provides a good overview of; what needs to be done, 
 what the other team members are working on, and what is completed. 
-We also use pair-programming when we are working together in person which allows for 
+We also use pair-programming when we are having in person meetings which allows for 
 different opinions and more efficient ways of developing as we get the chance of discussing while programming. 
+
+When working together as a group, it's hard to distribute the work equally in a way that everyone has the same 
+amount of work. However we have handled it somewhat okay, and it have not led to any conflicts in the group.
+We are working well together with the chosen methods and are trying to include everyone as much as possible. 
+When disagreeing about something, everyone says their opinion, or we vote on what to do. 
+
+Communication has not been a problem either. We are using our slack channel for discussing, questions and planning
+extra meetings if necessary. It's also easy to get hold of the lecturer or group leaders if we have any questions 
+regarding the assignments or something else.  
+
 
