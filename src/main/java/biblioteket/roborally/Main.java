@@ -1,5 +1,6 @@
 package biblioteket.roborally;
 
+import biblioteket.roborally.game.RoboRally;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 
@@ -10,6 +11,6 @@ public class Main {
         cfg.width = 640;
         cfg.height = 640;
 
-        new LwjglApplication(new Game(), cfg);
+        new LwjglApplication(new RoboRally(), cfg);
     }
 }
