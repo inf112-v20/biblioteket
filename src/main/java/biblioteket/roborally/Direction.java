@@ -89,7 +89,7 @@ public enum Directions {
                 return Direction.NORTH;
             case EAST:
                 return Direction.WEST;
-            case WEST:
+            case WEST:  
                 return Direction.EAST;
             default:
                 throw new IllegalStateException("Should never happen: " + this + " has no opposite." +

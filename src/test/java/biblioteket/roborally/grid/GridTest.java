@@ -18,7 +18,7 @@ public class GridTest {
     @BeforeEach
     public void setUp() {
         random = new Random();
-        // Width and height between 5 and 14
+        // Random width and height between 5 and 14
         this.width = random.nextInt(10) + 5;
         this.height = random.nextInt(10) + 5;
         this.grid = new Grid<>(width, height);

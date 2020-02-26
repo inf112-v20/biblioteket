@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Grid<T> implements IGrid<T> {
-    private int height;
-    private int width;
+    private final int height;
+    private final int width;
     private List<IPosition<T>> grid;     // Each position holds all objects in that position
 
     public Grid(int width, int height) {
@@ -34,11 +34,17 @@ public class Grid<T> implements IGrid<T> {
     }
 
     @Override
-    public void placeElement(int x, int y, T element) {
+    public boolean placeElement(int x, int y, T element) {
         if (checkIndexOutOfBounds(x, y))
-            throw new IndexOutOfBoundsException();
+            return false;
         int index = getIndex(x, y);
         grid.get(index).put(element);
+        return true;
+    }
+
+    @Override
+    public boolean placeElement(IPosition<T> position, T element) {
+        return placeElement(position.getX(), position.getY(), element);
     }
 
     @Override

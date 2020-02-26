@@ -18,12 +18,21 @@ public interface IGrid<T> {
 
     /**
      * Places an element in an IPosition in a given x,y location
+     * will return false if position is out of boudnds
      *
      * @param x       position
      * @param y       position
      * @param element to be placed
+     * @return true if element was successfully places, false otherwise
      */
-    void placeElement(int x, int y, T element);
+    boolean placeElement(int x, int y, T element);
+
+    /**
+     * @param position
+     * @param element
+     * @return true if element was successfully places, false otherwise
+     */
+    boolean placeElement(IPosition<T> position, T element);
 
     /**
      * @param x position
