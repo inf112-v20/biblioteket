@@ -1,6 +1,6 @@
 package biblioteket.roborally;
 
-import biblioteket.roborally.Grid.IPosition;
+import biblioteket.roborally.grid.IPosition;
 
 import java.util.UUID;
 

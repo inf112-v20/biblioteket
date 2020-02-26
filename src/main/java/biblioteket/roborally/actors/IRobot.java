@@ -1,9 +1,10 @@
 package biblioteket.roborally.actors;
 
 import biblioteket.roborally.Direction;
-import biblioteket.roborally.Grid.IPosition;
+import biblioteket.roborally.IElement;
+import biblioteket.roborally.grid.IPosition;
 
-public interface IRobot<T> {
+public interface IRobot<T> extends IElement {
 
     /**
      * Get the player who is the owner of the robot.

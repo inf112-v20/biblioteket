@@ -1,7 +1,9 @@
 package biblioteket.roborally.actors;
 
 import biblioteket.roborally.Direction;
-import biblioteket.roborally.Grid.IPosition;
+import biblioteket.roborally.grid.IPosition;
+
+import java.util.UUID;
 
 public class Robot<T> implements IRobot<T> {
     private IPosition<T> position;
@@ -79,6 +81,31 @@ public class Robot<T> implements IRobot<T> {
     }
 
     @Override
+    public IPosition getPos() {
+        return null;
+    }
+
+    @Override
+    public void setPos(IPosition pos) {
+
+    }
+
+    @Override
+    public void setPos(int x, int y) {
+
+    }
+
+    @Override
+    public boolean immovable() {
+        return false;
+    }
+
+    @Override
+    public UUID getID() {
+        return null;
+    }
+
+    @Override
     public Direction getDirection() {
         return direction;
     }
@@ -96,8 +123,9 @@ public class Robot<T> implements IRobot<T> {
 
     @Override
     public void turnRight() {
+        return;
 
-        this.direction = this.direction.direction90DegreesToTheRight();
+        //this.direction = this.direction.direction90DegreesToTheRight();
     }
 
     // TODO
