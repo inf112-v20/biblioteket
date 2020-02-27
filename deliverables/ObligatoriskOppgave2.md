@@ -90,10 +90,10 @@ Dersom dere har oppgaver som dere skal til å starte med, hvor dere har oversikt
 Forklar kort hvordan dere har prioritert oppgavene fremover 
 * In order to ensure we complete the assignment in a timely and effective manner, we prioritized the tasks as follows;
   * At this moment, the backend and the frontend parts of the game live in different worlds. As we have finished a lot of the backend that we consider necessary, the goal now will be to connect the map with the backend.
-  * Get the map connected to the current back end
-  * Create a proper GUI for the game.
-  * Program cards
-  * We will be prioritizing this before working on the logic for the actual game.
+    * Get the map connected to the current back end
+    * Create a proper GUI for the game.
+    * Program cards
+    * We will be prioritizing this before working on the logic for the actual game.
 
 Forklar kort hvilke hovedkrav dere anser som en del av MVP og hvorfor. Hvis det er gjort endringer i rekkefølge utfra hva som er gitt fra kunde, hvorfor er dette gjort?
 * We believe the following hovedkrav are a part of MVP;
@@ -123,7 +123,6 @@ Husk å skrive hvilke bugs som finnes i de kravene dere har utført (dersom det 
   * Player is unmovable
     * This isn’t as much of a bug as it is just unfinished, this will be fixed as development proceeds.
   * Player/Robot not completely synchronised with board.
-* There’s very limited bug testing to be done.
 
 Kravlista er lang, men det er ikke nødvendig å levere på alle kravene hvis det ikke er realistisk. Det er viktigere at de oppgavene som er utført holder høy kvalitet. Utførte oppgaver skal være ferdige.
 
