@@ -90,41 +90,63 @@ Dersom dere har oppgaver som dere skal til å starte med, hvor dere har oversikt
 Forklar kort hvordan dere har prioritert oppgavene fremover 
 
 In order to ensure we complete the assignment in a timely and effective manner, we prioritized the tasks as follows;
-  At this moment, the backend and the frontend parts of the game live in different worlds. As we have finished a lot of the backend that we consider necessary, the goal now will be to connect the map with the backend.
-  Get the map connected to the current back end
-  Create a proper GUI for the game.
-   Program cards
-   We will be prioritizing this before working on the logic for the actual game.
+
+--At this moment, the backend and the frontend parts of the game live in different worlds. As we have finished a lot of the backend that we consider necessary, the goal now will be to connect the map with the backend.
+
+--Get the map connected to the current back end
+
+--Create a proper GUI for the game.
+
+---Program cards
+
+---We will be prioritizing this before working on the logic for the actual game.
 
 Forklar kort hvilke hovedkrav dere anser som en del av MVP og hvorfor. Hvis det er gjort endringer i rekkefølge utfra hva som er gitt fra kunde, hvorfor er dette gjort?
 
 We believe the following hovedkrav are a part of MVP;
-  Krav 
-   Reasoning
-  Det blir (/blir ikkje) gjort endringer i rekkefølge utfra hva som er gitt fra kunde
-   Grunn
+
+-Krav 
+
+--Reasoning
+
+-Det blir (/blir ikkje) gjort endringer i rekkefølge utfra hva som er gitt fra kunde
+
+--Grunn
 
 Oppdater hvilke krav dere har prioritert, hvor langt dere har kommet og hva dere har gjort siden forrige gang.
 
-Since last time we have
+Since last time we have:
+
   Added locations and directions
+  
    These are absolutely necessary in order for a playable finished product, each entity on the board must be able to determine their location and which direction they are facing.
+  
   Made a grid
+  
    Worked on grid and position for grid
+   
   Implemented finishing touches to Player and Robot
+  
   Refactored grid
+  
   Merged ILocation in IPosition
+  
   Updated Robot and Player to meet feedback
-We prioritized
+  
+We prioritized:
+
   Primarily we worked on the backend of the game, and implementing features to the backend that will prove useful later on. 
   We did not work too much on the Player or board objects, as it would be nonsensical to program this without making sure the board is functional to as full of an extent as possible.
 
 
 Husk å skrive hvilke bugs som finnes i de kravene dere har utført (dersom det finnes bugs). ✔️
 
-Currently known bugs
+Currently known bugs:
+  
   Player is unmovable
+  
    This isn’t as much of a bug as it is just unfinished, this will be fixed as development proceeds.
+  
   There’s very limited bug testing to be done.
 
 Kravlista er lang, men det er ikke nødvendig å levere på alle kravene hvis det ikke er realistisk. Det er viktigere at de oppgavene som er utført holder høy kvalitet. Utførte oppgaver skal være ferdige.
@@ -132,8 +154,11 @@ Kravlista er lang, men det er ikke nødvendig å levere på alle kravene hvis de
 
 
 How did the team roles function?
-First compulsory → roles worked
-Second compulsory → roles changed
+
+-First compulsory → roles worked
+
+-Second compulsory → roles changed
+
 The team roles had to be swapped for this assignment, but this is to be expected, as the further our development 
 goes, the necessity of different roles will shift as the requirements become more clear.
 
