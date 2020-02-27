@@ -143,9 +143,11 @@ Husk å skrive hvilke bugs som finnes i de kravene dere har utført (dersom det 
 
 Currently known bugs:
   
-  Player is unmovable
+  -Player is unmovable
   
-   This isn’t as much of a bug as it is just unfinished, this will be fixed as development proceeds.
+   --This isn’t as much of a bug as it is just unfinished, this will be fixed as development proceeds.
+  
+  -Player/Robot not completely synchronised with board.
   
   There’s very limited bug testing to be done.
 
