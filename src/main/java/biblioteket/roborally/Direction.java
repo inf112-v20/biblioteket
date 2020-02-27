@@ -14,12 +14,6 @@ public enum Direction {
     public static final List<Direction> FOUR_DIRECTIONS = Arrays.asList(EAST, NORTH, WEST, SOUTH);
 
     /**
-=======
-public enum Directions {
-    NORTH, EAST, SOUTH, WEST;
-
-    /**
->>>>>>> Stashed changes:src/main/java/biblioteket/roborally/Directions.java
      * Will return the direction 90 degrees to the left.<p>
      * {@link #NORTH} -> {@link #WEST} <p>
      * {@link #SOUTH} -> {@link #EAST} <p>
