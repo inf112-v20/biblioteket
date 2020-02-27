@@ -4,6 +4,12 @@
 
 ## Team roles
 
+How did the team roles function?
+* **First compulsory → roles worked**
+* **Second compulsory → roles changed**
+  * The team roles had to be swapped for this assignment, but this is to be expected, as the further our development 
+goes, the necessity of different roles will shift as the requirements become more clear.
+
 The roles we had assigned during the first assignment proved effective at first, however, we had to change the roles for the second assignment. Tor Kristian and Tobias weren't in Bergen for most of the assignment. As a result of this, the team then made the decision that they should share the secretary role, and focus less on the technical aspects and more on the documentation aspects of the project. The rest of the group was in Bergen and therefore able to meet up for a coding session, this meant that Sondre, Silje and Marcus, completed the programming aspects of the assignment. Our assigned team-leader, Sondre, had to travel the 26th of February. Due to this, “...” was appointed as substitute team leader during the Thursday group meeting. 
 
 Sondre and Silje will keep their roles as team-leader and customer contact, likewise Marcus and Tobias will also keep their current roles. Although as we move further with the project and the group as a whole gains more libGDX experience, we may not need an exclusive libGDX role. 
@@ -61,9 +67,9 @@ During this assignment, Tor Kristian and Tobias will have less commits because o
 ## User Stories 
 
 We generally went light on user stories for this release as most of the implementation is back-end related and as such has very little visibility to any users.
-As a user I expect the game does not allow me to do illegal moves
-The game should handle collisions between players or a user moving outside the bounds of the game without crashing or throwing errors.
-Criteria: Once the game has initialized and we have created a set amount of players, attempting to move a robot of the grid itself should not work. Neither should players be able to move onto tiles already occupied unless they have cards that can for example push other robots away.
+* As a user I expect the game does not allow me to do illegal moves
+  * The game should handle collisions between players or a user moving outside the bounds of the game without crashing or throwing errors.
+  * **Criteria:** Once the game has initialized and we have created a set amount of players, attempting to move a robot of the grid itself should not work. Neither should players be able to move onto tiles already occupied unless they have cards that can for example push other robots away.
 ## Developer Stories 
 
 Because of how little the user will see of the work this sprint we also did a few acceptance criteria specifically for us developers.
@@ -125,14 +131,6 @@ Husk å skrive hvilke bugs som finnes i de kravene dere har utført (dersom det 
   * Player/Robot not completely synchronised with board.
 
 Kravlista er lang, men det er ikke nødvendig å levere på alle kravene hvis det ikke er realistisk. Det er viktigere at de oppgavene som er utført holder høy kvalitet. Utførte oppgaver skal være ferdige.
-
-
-
-How did the team roles function?
-* **First compulsory → roles worked**
-* **Second compulsory → roles changed**
-  * The team roles had to be swapped for this assignment, but this is to be expected, as the further our development 
-goes, the necessity of different roles will shift as the requirements become more clear.
 
 
 # Task 3 - Code 
