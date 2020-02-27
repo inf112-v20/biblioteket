@@ -147,9 +147,8 @@ Hvis dere tester manuelt: lever beskrivelser av hvordan testen foregår, slik at
 ## Transcripts
 
 All transcripts are listed by date at our wiki.
-* Transcript Thursday 13.02
-  * https://github.com/inf112-v20/biblioteket/wiki/Transcript-13.02
-* Transcript Thursday 20.02 
-  * https://github.com/inf112-v20/biblioteket/wiki/Transcripts-20.02
-* Transcript Tuesday 25.02
-  * https://github.com/inf112-v20/biblioteket/wiki/Transcript-25.02
+
+* [Transcripts Thursday 13.02](https://github.com/inf112-v20/biblioteket/wiki/Transcript-13.02)
+* [Transcripts Thursday 20.02](https://github.com/inf112-v20/biblioteket/wiki/Transcript-20.02)
+* [Transcripts Tuesday 25.02](https://github.com/inf112-v20/biblioteket/wiki/Transcript-25.02)
+* [Transcripts Thursday 27.02](https://github.com/inf112-v20/biblioteket/wiki/Transcript-27.02)
