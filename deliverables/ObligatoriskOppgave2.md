@@ -67,12 +67,12 @@ Criteria: Once the game has initialized and we have created a set amount of play
 ## Developer Stories 
 
 Because of how little the user will see of the work this sprint we also did a few acceptance criteria specifically for us developers.
- Criteria: The game should abstract away locations and the underlying grid and use that to represent elements on the board, not the other way around.
-We need a way to keep track of the position of elements, and a grid that matches the entire board.
- Criteria: The game should have a clear hierarchy of inheritance for elements, with a single root interface that is inherited down through the specific elements placed on the grid.
-A robot is an element, and so is a laser or a flag. As such they should inherit a common interface exposing the minimally required methods for an element.
- Criteria: A player should control one and only one robot.
-A player has HP and a robot takes damage. We need to ensure that a player can never control more than one robot at a time and that damage inflicted (and subsequently the death of a robot) affects his or hers HP.
+* **Criteria**: The game should abstract away locations and the underlying grid and use that to represent elements on the board, not the other way around.
+  * We need a way to keep track of the position of elements, and a grid that matches the entire board.
+* **Criteria**: The game should have a clear hierarchy of inheritance for elements, with a single root interface that is inherited down through the specific elements placed on the grid.
+  * A robot is an element, and so is a laser or a flag. As such they should inherit a common interface exposing the minimally required methods for an element.
+* **Criteria**: A player should control one and only one robot.
+  * A player has HP and a robot takes damage. We need to ensure that a player can never control more than one robot at a time and that damage inflicted (and subsequently the death of a robot) affects his or hers HP.
 
 
 ## Testing 
@@ -88,80 +88,51 @@ For hvert krav dere jobber med, må dere lage 1) ordentlige brukerhistorier, 2) 
 Dersom dere har oppgaver som dere skal til å starte med, hvor dere har oversikt over både brukerhistorie, akseptansekriterier og arbeidsoppgaver, kan dere ta med disse i innleveringen også. ✔️
 
 Forklar kort hvordan dere har prioritert oppgavene fremover 
-
-In order to ensure we complete the assignment in a timely and effective manner, we prioritized the tasks as follows;
-
---At this moment, the backend and the frontend parts of the game live in different worlds. As we have finished a lot of the backend that we consider necessary, the goal now will be to connect the map with the backend.
-
---Get the map connected to the current back end
-
---Create a proper GUI for the game.
-
----Program cards
-
----We will be prioritizing this before working on the logic for the actual game.
+* In order to ensure we complete the assignment in a timely and effective manner, we prioritized the tasks as follows;
+  * At this moment, the backend and the frontend parts of the game live in different worlds. As we have finished a lot of the backend that we consider necessary, the goal now will be to connect the map with the backend.
+  * Get the map connected to the current back end
+  * Create a proper GUI for the game.
+  * Program cards
+  * We will be prioritizing this before working on the logic for the actual game.
 
 Forklar kort hvilke hovedkrav dere anser som en del av MVP og hvorfor. Hvis det er gjort endringer i rekkefølge utfra hva som er gitt fra kunde, hvorfor er dette gjort?
-
-We believe the following hovedkrav are a part of MVP;
-
--Krav 
-
---Reasoning
-
--Det blir (/blir ikkje) gjort endringer i rekkefølge utfra hva som er gitt fra kunde
-
---Grunn
+* We believe the following hovedkrav are a part of MVP;
+  * Krav 
+    * Reasoning
+* Det blir (/blir ikkje) gjort endringer i rekkefølge utfra hva som er gitt fra kunde
+  * Grunn
 
 Oppdater hvilke krav dere har prioritert, hvor langt dere har kommet og hva dere har gjort siden forrige gang.
 
-Since last time we have:
-
-  Added locations and directions
-  
-   These are absolutely necessary in order for a playable finished product, each entity on the board must be able to determine their location and which direction they are facing.
-  
-  Made a grid
-  
-   Worked on grid and position for grid
-   
-  Implemented finishing touches to Player and Robot
-  
-  Refactored grid
-  
-  Merged ILocation in IPosition
-  
-  Updated Robot and Player to meet feedback
-  
-We prioritized:
-
-  Primarily we worked on the backend of the game, and implementing features to the backend that will prove useful later on. 
-  We did not work too much on the Player or board objects, as it would be nonsensical to program this without making sure the board is functional to as full of an extent as possible.
+* Since last time we have:
+  * Added locations and directions
+    * These are absolutely necessary in order for a playable finished product, each entity on the board must be able to determine their location and which direction they are facing.
+  * Made a grid
+  * Worked on grid and position for grid
+  * Implemented finishing touches to Player and Robot
+  * Refactored grid
+  * Merged ILocation in IPosition
+  * Updated Robot and Player to meet feedback
+* We prioritized:
+  * Primarily we worked on the backend of the game, and implementing features to the backend that will prove useful later on. 
+  * We did not work too much on the Player or board objects, as it would be nonsensical to program this without making sure the board is functional to as full of an extent as possible.
 
 
 Husk å skrive hvilke bugs som finnes i de kravene dere har utført (dersom det finnes bugs). ✔️
-
-Currently known bugs:
-  
-  -Player is unmovable
-  
-   --This isn’t as much of a bug as it is just unfinished, this will be fixed as development proceeds.
-  
-  -Player/Robot not completely synchronised with board.
-  
-  There’s very limited bug testing to be done.
+* Currently known bugs:
+  * Player is unmovable
+    * This isn’t as much of a bug as it is just unfinished, this will be fixed as development proceeds.
+  * Player/Robot not completely synchronised with board.
+* There’s very limited bug testing to be done.
 
 Kravlista er lang, men det er ikke nødvendig å levere på alle kravene hvis det ikke er realistisk. Det er viktigere at de oppgavene som er utført holder høy kvalitet. Utførte oppgaver skal være ferdige.
 
 
 
 How did the team roles function?
-
--First compulsory → roles worked
-
--Second compulsory → roles changed
-
-The team roles had to be swapped for this assignment, but this is to be expected, as the further our development 
+* **First compulsory → roles worked**
+* **Second compulsory → roles changed**
+  * The team roles had to be swapped for this assignment, but this is to be expected, as the further our development 
 goes, the necessity of different roles will shift as the requirements become more clear.
 
 
