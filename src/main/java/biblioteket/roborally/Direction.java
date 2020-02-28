@@ -3,6 +3,7 @@ package biblioteket.roborally;
 import java.util.Arrays;
 import java.util.List;
 
+
 public enum Direction {
     NORTH, EAST, SOUTH, WEST;
 
@@ -21,6 +22,7 @@ public enum Direction {
      *
      * @return direction 90 degrees to left.
      */
+
     public Direction direction90DegreesToTheLeft() {
         switch (this) {
             case NORTH:
@@ -46,6 +48,7 @@ public enum Direction {
      *
      * @return direction 90 degrees to right.
      */
+
     public Direction direction90DegreesToTheRight() {
         switch (this) {
             case NORTH:
@@ -71,6 +74,7 @@ public enum Direction {
      *
      * @return opposite direction.
      */
+
     public Direction oppositeDirection() {
         switch (this) {
             case NORTH:

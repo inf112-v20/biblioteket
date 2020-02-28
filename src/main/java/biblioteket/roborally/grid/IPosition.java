@@ -1,4 +1,4 @@
-package biblioteket.roborally.Grid;
+package biblioteket.roborally.grid;
 
 import java.util.List;
 
@@ -34,6 +34,11 @@ public interface IPosition<T> {
      * @return a list containing all contents of the current position
      */
     List<T> getContents();
+
+    /**
+     * @return true if Position contains robot, false otherwise
+     */
+    boolean containsRobot();
 
     /**
      * @return the x location of the position

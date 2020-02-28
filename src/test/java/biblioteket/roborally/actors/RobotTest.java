@@ -1,8 +1,8 @@
 package biblioteket.roborally.actors;
 
 import biblioteket.roborally.Direction;
-import biblioteket.roborally.Grid.IPosition;
-import biblioteket.roborally.Grid.Position;
+import biblioteket.roborally.grid.IPosition;
+import biblioteket.roborally.grid.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;

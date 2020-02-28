@@ -1,4 +1,6 @@
-package biblioteket.roborally.Grid;
+package biblioteket.roborally.grid;
+
+import biblioteket.roborally.actors.IRobot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +34,15 @@ public class Position<T> implements IPosition<T> {
     @Override
     public List<T> getContents() {
         return this.contents;
+    }
+
+    @Override
+    public boolean containsRobot() {
+        for (T t : getContents()) {
+            if (t instanceof IRobot<?>)
+                return true;
+        }
+        return false;
     }
 
     @Override

@@ -1,4 +1,4 @@
-package biblioteket.roborally.Grid;
+package biblioteket.roborally.grid;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

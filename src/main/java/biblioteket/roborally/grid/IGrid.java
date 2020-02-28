@@ -1,4 +1,4 @@
-package biblioteket.roborally.Grid;
+package biblioteket.roborally.grid;
 
 import biblioteket.roborally.Direction;
 
@@ -18,17 +18,26 @@ public interface IGrid<T> {
 
     /**
      * Places an element in an IPosition in a given x,y location
+     * will return false if position is out of boudnds
      *
      * @param x       position
      * @param y       position
      * @param element to be placed
+     * @return true if element was successfully places, false otherwise
      */
-    void placeElement(int x, int y, T element);
+    boolean placeElement(int x, int y, T element);
+
+    /**
+     * @param position
+     * @param element
+     * @return true if element was successfully places, false otherwise
+     */
+    boolean placeElement(IPosition<T> position, T element);
 
     /**
      * @param x position
      * @param y position
-     * @return the IPosition in a given x,y location
+     * @return the IPosition in a given x,y location if it is withing bounds, null otherwise
      */
     IPosition<T> getPosition(int x, int y);
 
@@ -66,13 +75,20 @@ public interface IGrid<T> {
      */
     List<IPosition<T>> cardinalNeighbours(IPosition<T> position);
 
+
     /**
-     * Checks if a given direction from a location contains an immovable object
-     * Immovable objects consist of walls and lasers
-     *
-     * @param currentPosition
-     * @param direction       cardinal direction from current position to check
-     * @return true if robot can move in given direction.
+     * @param x         position
+     * @param y         position
+     * @param direction to find new position
+     * @return IPosition in the given direction from the given position, or null if out of bounds
      */
-    boolean containsImmovableObject(IPosition<T> currentPosition, Direction direction);
+    IPosition<T> positionInDirection(int x, int y, Direction direction);
+
+    /**
+     * @param currentPosition
+     * @param direction
+     * @return IPosition in the given direction from the given position, or null if out of boudns
+     */
+    IPosition<T> positionInDirection(IPosition<T> currentPosition, Direction direction);
+
 }

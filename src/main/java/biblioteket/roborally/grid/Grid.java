@@ -1,4 +1,4 @@
-package biblioteket.roborally.Grid;
+package biblioteket.roborally.grid;
 
 import biblioteket.roborally.Direction;
 
@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Grid<T> implements IGrid<T> {
-    private int height;
-    private int width;
+    private final int height;
+    private final int width;
     private List<IPosition<T>> grid;     // Each position holds all objects in that position
 
     public Grid(int width, int height) {
@@ -34,17 +34,23 @@ public class Grid<T> implements IGrid<T> {
     }
 
     @Override
-    public void placeElement(int x, int y, T element) {
+    public boolean placeElement(int x, int y, T element) {
         if (checkIndexOutOfBounds(x, y))
-            throw new IndexOutOfBoundsException();
+            return false;
         int index = getIndex(x, y);
         grid.get(index).put(element);
+        return true;
+    }
+
+    @Override
+    public boolean placeElement(IPosition<T> position, T element) {
+        return placeElement(position.getX(), position.getY(), element);
     }
 
     @Override
     public IPosition<T> getPosition(int x, int y) {
         if (checkIndexOutOfBounds(x, y))
-            throw new IndexOutOfBoundsException();
+            return null;
         int index = getIndex(x, y);
         return grid.get(index);
 
@@ -53,7 +59,16 @@ public class Grid<T> implements IGrid<T> {
     @Override
     public List<IPosition<T>> allNeighbours(int x, int y) {
         List<IPosition<T>> allNeighbours = new ArrayList<>();
-        return null;
+
+        for (int i = x - 1; i <= x + 1; i++) {
+            for (int j = y - 1; j <= y + 1; j++) {
+                if (!(i == x && j == y)) {
+                    IPosition<T> pos = getPosition(i, j);
+                    if (!(pos == null)) allNeighbours.add(pos);
+                }
+            }
+        }
+        return allNeighbours;
     }
 
     @Override
@@ -63,7 +78,18 @@ public class Grid<T> implements IGrid<T> {
 
     @Override
     public List<IPosition<T>> cardinalNeighbours(int x, int y) {
-        return null;
+        ArrayList<IPosition<T>> cardinalNeighbours = new ArrayList<>();
+
+        IPosition<T> north = getPosition(x, y - 1);
+        if (!(north == null)) cardinalNeighbours.add(north);
+        IPosition<T> south = getPosition(x, y + 1);
+        if (!(south == null)) cardinalNeighbours.add(south);
+        IPosition<T> east = getPosition(x - 1, y);
+        if (!(east == null)) cardinalNeighbours.add(east);
+        IPosition<T> west = getPosition(x + 1, y);
+        if (!(west == null)) cardinalNeighbours.add(west);
+
+        return cardinalNeighbours;
     }
 
     @Override
@@ -72,8 +98,23 @@ public class Grid<T> implements IGrid<T> {
     }
 
     @Override
-    public boolean containsImmovableObject(IPosition<T> currentPosition, Direction direction) {
-        return false;
+    public IPosition<T> positionInDirection(int x, int y, Direction direction) {
+        if (direction == Direction.NORTH) {
+            return getPosition(x, y - 1);
+        } else if (direction == Direction.SOUTH) {
+            return getPosition(x, y + 1);
+        } else if (direction == Direction.EAST) {
+            return getPosition(x + 1, y);
+        } else if (direction == Direction.WEST) {
+            return getPosition(x - 1, y);
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public IPosition<T> positionInDirection(IPosition<T> currentPosition, Direction direction) {
+        return positionInDirection(currentPosition.getX(), currentPosition.getY(), direction);
     }
 
     /**
