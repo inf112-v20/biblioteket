@@ -59,10 +59,6 @@ We should also improve at making sure everyone is working and committing their w
 Regarding the list of high level requirements from task 1
 * Allthough we wanted to start working on the visual part of the game and get something that is playable, we quickly realized that we need to create a good back-end part of the game first. This is what we ended up working on in this iteration.
 
-Regarding testing and test driven development
-* In the first iteration our codebase really only consisted of what we learnt in the guide posted on MittUiB. As the game UI actually needed to run to test anything, we couldnt really write any tests.
-In this iteration we have prioritized tests and followed the principles of test driven development. We currently have 24 working tests. 
-
 ## Commits 
 
 During this assignment, Tor Kristian and Tobias will have less commits because of the teams decision to give them the secretary role and to do the written assignment together. 
@@ -94,6 +90,8 @@ We have made several test classes with several test methods, to ensure that what
 One for directions, the grid, position, player, robotest
 
 We are continuing to work with the principles of test driven development
+* In the first iteration our codebase really only consisted of what we learnt in the guide posted on MittUiB. As the game UI actually needed to run to test anything, we couldnt really write any tests.
+In this iteration we have prioritized tests and followed the principles of test driven development. We currently have 24 working tests. 
 
 For hvert krav dere jobber med, må dere lage 1) ordentlige brukerhistorier, 2) akseptansekriterier og 3) arbeidsoppgaver. Husk at akseptansekriterier ofte skrives mer eller mindre som tester ✔️
 
@@ -227,9 +225,7 @@ We can keep the priority list of requirements from the first assignment, but mak
 - If a robot ends the last register at a cross-wrench then one damage is repaired and they are assigned an Option card.
 - A destroyed robot immediately loses an Option card of the player’s choice.
 - a robot with an Option card can discard it to avoid receiving a Damage token
-
-* Det blir (/blir ikkje) gjort endringer i rekkefølge utfra hva som er gitt fra kunde
-  * Grunn
+* Allthough we wanted to start working on the visual part of the game and get something that is playable, we quickly realized that we need to create a good back-end part of the game first. This is what we ended up working on in this iteration.
 
 Oppdater hvilke krav dere har prioritert, hvor langt dere har kommet og hva dere har gjort siden forrige gang.
 
