@@ -118,9 +118,8 @@ We can keep the priority list of requirements from the first assignment, but mak
 
 ### Make sure the visuals work.
 
-- Show the game board.
-- Show the player.
-- Show a flag.
+- Show a game board that is connected to the current backend of the game.
+- Show elements like the player and flag that are connected to the current backend game.
 
 ### Be able to move around the board
 
@@ -142,6 +141,7 @@ We can keep the priority list of requirements from the first assignment, but mak
 
 - The players can die.
 - The player will die if they move out of the board.
+- The player will die if they take enough damage.
 - When all players are dead the game finishes.
 
 ### Damage
@@ -160,6 +160,7 @@ We can keep the priority list of requirements from the first assignment, but mak
 
 - Show walls, they are placed between tiles.
 - Walls stop robots from moving, they are not able to pass through a wall.
+- Walls prevent players from moving through.
 - Walls stop lasers.
 - Robots stop lasers.
 
@@ -245,11 +246,7 @@ Oppdater hvilke krav dere har prioritert, hvor langt dere har kommet og hva dere
 
 Husk å skrive hvilke bugs som finnes i de kravene dere har utført (dersom det finnes bugs). ✔️
 * Currently known bugs:
-  * Player is unmovable
-    * This isn’t as much of a bug as it is just unfinished, this will be fixed as development proceeds.
   * Player/Robot not completely synchronised with board.
-
-Kravlista er lang, men det er ikke nødvendig å levere på alle kravene hvis det ikke er realistisk. Det er viktigere at de oppgavene som er utført holder høy kvalitet. Utførte oppgaver skal være ferdige.
 
 
 # Task 3 - Code 
