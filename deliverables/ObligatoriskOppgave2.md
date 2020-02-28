@@ -56,6 +56,12 @@ Although the team were flexible during this assignment, Tor Kristian and Tobias 
 
 We should also improve at making sure everyone is working and committing their work to gitHub as it might look like someone is not contributing or contributing less to the project. It's a group project, and everyone should contribute somewhat equally. 
 
+Regarding the list of high level requirements from task 1
+* Allthough we wanted to start working on the visual part of the game and get something that is playable, we quickly realized that we need to create a good back-end part of the game first. This is what we ended up working on in this iteration.
+
+Regarding testing and test driven development
+* In the first iteration our codebase really only consisted of what we learnt in the guide posted on MittUiB. As the game UI actually needed to run to test anything, we couldnt really write any tests.
+In this iteration we have prioritized tests and followed the principles of test driven development. We currently have 24 working tests. 
 
 ## Commits 
 
@@ -87,7 +93,7 @@ We have made several test classes with several test methods, to ensure that what
 
 One for directions, the grid, position, player, robotest
 
-
+We are continuing to work with the principles of test driven development
 
 For hvert krav dere jobber med, må dere lage 1) ordentlige brukerhistorier, 2) akseptansekriterier og 3) arbeidsoppgaver. Husk at akseptansekriterier ofte skrives mer eller mindre som tester ✔️
 
@@ -105,6 +111,10 @@ Forklar kort hvilke hovedkrav dere anser som en del av MVP og hvorfor. Hvis det 
 * We believe the following hovedkrav are a part of MVP;
   * Krav 
     * Reasoning
+We can keep the priority list of requirements from the first assignment, but make them a little more specific.
+* Show a game board that is connected to the current backend of the game
+* Show elements like the player and flag that are connected to the current backend game
+
 * Det blir (/blir ikkje) gjort endringer i rekkefølge utfra hva som er gitt fra kunde
   * Grunn
 
