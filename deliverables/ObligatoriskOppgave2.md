@@ -111,9 +111,122 @@ Forklar kort hvilke hovedkrav dere anser som en del av MVP og hvorfor. Hvis det 
 * We believe the following hovedkrav are a part of MVP;
   * Krav 
     * Reasoning
+
 We can keep the priority list of requirements from the first assignment, but make them a little more specific.
 * Show a game board that is connected to the current backend of the game
 * Show elements like the player and flag that are connected to the current backend game
+
+## List of system requirements based on the high-level requirements
+
+### Make sure the visuals work.
+
+- Show the game board.
+- Show the player.
+- Show a flag.
+
+### Be able to move around the board
+
+- Handing out program cards.
+- The player can choose program cards.
+- The player can approve their choice of cards.
+- Reveal program cards for each register in turn.
+- A robot will move according to how it was programmed.
+
+### Visiting flags and winning the game
+
+- The robots are able to visit the flags.
+- The game keeps track of which flags each robot has visited. (Later also show it).
+- The game knows which order the flags have to be visited.
+- Winning the game by visiting all the flags in the correct order.
+- The game finishes when someone wins (later be prompted if they want to continue to play).
+
+### Death
+
+- The players can die.
+- The player will die if they move out of the board.
+- When all players are dead the game finishes.
+
+### Damage
+
+- Robots can receive damage.
+- Robots die if they receive 10 damage.
+
+### Lasers - way to take damage
+
+- A robot being hit by a laser causes damage.
+- Show board lasers.
+- Board can fire lasers in a specific direction. (I think some fire two lasers)
+- Robot fire lasers in the direction they are turned.
+
+### Walls and things that stop lasers
+
+- Show walls, they are placed between tiles.
+- Walls stop robots from moving, they are not able to pass through a wall.
+- Walls stop lasers.
+- Robots stop lasers.
+
+### Multiple lives and respawn
+
+- Robots have lives. (might be adjustable at the start of the game, how many they have?)
+- Robots will lose a life when they die.
+- When a robot dies all the damage they have received is removed.
+- Show where each robot’s archive is.
+- The Archive will at first be where the robot starts the game.
+- When a robot dies but still has lives left it will come back; it will respawn at its archive.
+- When a robot visits a flag their archive will be moved to that flag. ( Remember to later add that it will be moved to wrench)
+- Robots are allowed to share archive tile, but the robots cannot share tile.
+- Robots will re-enter in the order they were destroyed.
+- Repair damage - Wrenches and power down
+- Show single-wrench (Cross wrench will do the same until option cards are added).
+- When a robot ends a register at a wrench it places their archive there.
+- If a robot ends their LAST register at single-wrench it will repair one damage.
+- A player can announce their intention to go into power down the NEXT round.
+- When the NEXT round starts the player will not receive any program cards, but all the damage will be removed.
+- A robot in power down can still receive damage.
+- At the start of the following round after a power down, the player can declare that they will stay in power down. If so \* the damage is again removed. Otherwise, they get cards.
+
+### Locked registers
+
+- Damaged robots get one fewer Program card for each Damage token they have.
+- If a robot has 5 or more Damage tokens, its registers begin to lock up, from register 5 all the way down to register 1.
+- Once a register is locked, the Program card in that register stays there until the damage locking the register is repaired.
+- Being repaired will reverse the locked registers.
+
+### Moving elements on board
+
+- Show express conveyor belts.
+- Express conveyor belts move robots two steps.
+- Show normal conveyor belts.
+- Normal conveyor belts move robots one step.
+- Some conveyor belts make the robot rotate 90 degrees.
+- Show pushers.
+- Pushers shove the robots away.
+- Show gears.
+- Gears rotate 90 degrees.
+
+### Adding more players and pushing robots
+
+- Show multiple players.
+- The different Program cards have a priority number.
+- Higher priority number means faster movement.
+- Robots can be pushed by other robots when they collide.
+- Robots cannot share tile.
+- Robots cannot be pushed through walls.
+- Conveyor belts do not make robots push each other.
+
+### Timer
+
+- When the second to last player has placed their Program cards a timer goes off and the last player has 30 seconds to choose Program cards.
+- Random cards are assigned the registers without Program cards.
+- If all but one player is in power down then the players have 3x30 = 90 seconds to choose cards.
+
+### Option cards
+
+- Show cross-wrench
+- Add Option cards
+- If a robot ends the last register at a cross-wrench then one damage is repaired and they are assigned an Option card.
+- A destroyed robot immediately loses an Option card of the player’s choice.
+- a robot with an Option card can discard it to avoid receiving a Damage token
 
 * Det blir (/blir ikkje) gjort endringer i rekkefølge utfra hva som er gitt fra kunde
   * Grunn
