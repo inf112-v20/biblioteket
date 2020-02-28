@@ -81,6 +81,8 @@ Because of how little the user will see of the work this sprint we also did a fe
 
 ## Class Diagram
 
+![UML](./uml2.png)
+
 ## Testing
 
 We've continued developing with test-driven development, you can see the tests for the implemented functionality in the `tests` folder. Currently we're testing the directions elements are pointing, the underlying grid implementation together with our poisition system and the player and robot implementation.
