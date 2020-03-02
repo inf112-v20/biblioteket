@@ -153,11 +153,11 @@ public class GridTest {
 
         IPosition<Object> north = grid.positionInDirection(initialPosition, Direction.NORTH);
         assert (north.getX() == x);
-        assert (north.getY() == y - 1);
+        assert (north.getY() == y + 1);
 
         IPosition<Object> south = grid.positionInDirection(initialPosition, Direction.SOUTH);
         assert (south.getX() == x);
-        assert (south.getY() == y + 1);
+        assert (south.getY() == y - 1);
 
         IPosition<Object> east = grid.positionInDirection(initialPosition, Direction.EAST);
         assert (east.getX() == x + 1);

@@ -80,13 +80,13 @@ public class Grid<T> implements IGrid<T> {
     public List<IPosition<T>> cardinalNeighbours(int x, int y) {
         ArrayList<IPosition<T>> cardinalNeighbours = new ArrayList<>();
 
-        IPosition<T> north = getPosition(x, y - 1);
+        IPosition<T> north = positionInDirection(x, y, Direction.NORTH);
         if (!(north == null)) cardinalNeighbours.add(north);
-        IPosition<T> south = getPosition(x, y + 1);
+        IPosition<T> south = positionInDirection(x, y, Direction.SOUTH);
         if (!(south == null)) cardinalNeighbours.add(south);
-        IPosition<T> east = getPosition(x - 1, y);
+        IPosition<T> east = positionInDirection(x, y, Direction.EAST);
         if (!(east == null)) cardinalNeighbours.add(east);
-        IPosition<T> west = getPosition(x + 1, y);
+        IPosition<T> west = positionInDirection(x, y, Direction.WEST);
         if (!(west == null)) cardinalNeighbours.add(west);
 
         return cardinalNeighbours;
@@ -100,9 +100,9 @@ public class Grid<T> implements IGrid<T> {
     @Override
     public IPosition<T> positionInDirection(int x, int y, Direction direction) {
         if (direction == Direction.NORTH) {
-            return getPosition(x, y - 1);
-        } else if (direction == Direction.SOUTH) {
             return getPosition(x, y + 1);
+        } else if (direction == Direction.SOUTH) {
+            return getPosition(x, y - 1);
         } else if (direction == Direction.EAST) {
             return getPosition(x + 1, y);
         } else if (direction == Direction.WEST) {
