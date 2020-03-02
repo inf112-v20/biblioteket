@@ -8,24 +8,27 @@ public interface IGameBoard {
      * Checks if a given direction from a location contains an immovable object
      * Immovable objects consist of walls and lasers
      *
-     * @param x         position
-     * @param y         position
-     * @param direction cardinal direction from current position to check
+     * @param x position
+     * @param y position
+     * @param direction       cardinal direction from current position to check
      * @return true if position in given direction contains an immovable object
      */
     boolean containsImmovableObject(int x, int y, Direction direction);
 
     /**
      * @param currentPosition
-     * @param direction       from current position
+     * @param direction from current position
      * @return true if position in given direction contains an immovable object
      */
     boolean containsImmovableObject(IPosition<IElement> currentPosition, Direction direction);
 
+    boolean containsImmovableObject(int x, int y);
+
+    boolean containsImmovableObject(IPosition<IElement> currentPosition);
 
     /**
-     * @param x         position
-     * @param y         position
+     * @param x position
+     * @param y position
      * @param direction
      * @return first IPosition in a given cardinal direction with first collision or null
      * if no collision in that direction
