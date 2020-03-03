@@ -68,10 +68,10 @@ public class GameBoardTest {
             IPosition<IElement> positionContainingImmovableElement;
 
             if(direction == Direction.NORTH){
-                int y1 = random.nextInt(height - y - 1) + y + 1;
+                int y1 = random.nextInt(y);
                 positionContainingImmovableElement = grid.getPosition(x,y1);
             } else if (direction == Direction.SOUTH){
-                int y1 = random.nextInt(y);
+                int y1 = random.nextInt(height - y - 1) + y + 1;
                 positionContainingImmovableElement = grid.getPosition(x,y1);
             } else if (direction == Direction.WEST){
                 int x1 = random.nextInt(x);

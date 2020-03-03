@@ -100,9 +100,9 @@ public class Grid<T> implements IGrid<T> {
     @Override
     public IPosition<T> positionInDirection(int x, int y, Direction direction) {
         if (direction == Direction.NORTH) {
-            return getPosition(x, y + 1);
-        } else if (direction == Direction.SOUTH) {
             return getPosition(x, y - 1);
+        } else if (direction == Direction.SOUTH) {
+            return getPosition(x, y + 1);
         } else if (direction == Direction.EAST) {
             return getPosition(x + 1, y);
         } else if (direction == Direction.WEST) {
