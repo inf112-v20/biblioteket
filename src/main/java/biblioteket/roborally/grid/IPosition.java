@@ -1,5 +1,7 @@
 package biblioteket.roborally.grid;
 
+import biblioteket.roborally.Direction;
+
 import java.util.List;
 
 /**
@@ -26,7 +28,7 @@ public interface IPosition<T> {
      * Adds a certain element to the position
      *
      * @param element to be added
-     * @return true if added successfully, false otherwise
+     * @return true if added successfully
      */
     boolean put(T element); // false hvis feks det allerede er en robot på denne location
 
@@ -36,7 +38,7 @@ public interface IPosition<T> {
     List<T> getContents();
 
     /**
-     * @return true if Position contains robot, false otherwise
+     * @return true if Position contains robot
      */
     boolean containsRobot();
 
@@ -49,5 +51,28 @@ public interface IPosition<T> {
      * @return the y location of the position
      */
     int getY();
+
+    /**
+     * Add a new wall to position
+     * If the wall is only in one direction, let the unused direction be null
+     * @param y direction of wall (North/South)
+     * @param x direction of wall (East/West)
+     * @return false if position already contains a wall, true if setting wall was successfull
+     */
+    boolean setWall(Direction y, Direction x);
+
+    /**
+     * Checks if there is a wall blocking exit from current position in given direction
+     * @param to the direction robot is moving from the position
+     * @return true if robot can not move from this position in the given direction
+     */
+    boolean wallBlockingExit(Direction to);
+
+    /**
+     * Checks if there is a wall blocking entry to this position in a given direction
+     * @param to the direction robot is moving to the position
+     * @return true if robot can not move to this position in the given direction
+     */
+    boolean wallBlockingEntry(Direction to);
 
 }

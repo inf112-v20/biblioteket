@@ -43,4 +43,21 @@ public interface IGameBoard {
      */
     IPosition<IElement> firstCollisionInDirection(IPosition<IElement> currentPosition, Direction direction);
 
+    /**
+     * Checks if the position robot is moving to contains immovable object or a wall is blocking the way,
+     * or if move puts robot out of bounds
+     * @param from position robot is moving from
+     * @param direction robot is moving
+     * @return true is move is legal
+     */
+    boolean canMove(IPosition<IElement> from, Direction direction);
+
+    /** Sets a wall in a given position
+     * @param position to add wall
+     * @param xDirection of wall
+     * @param yDirection of wall
+     * @return false if position already has wall, true is setting wall was successful
+     */
+    boolean setWall(IPosition<IElement> position, Direction xDirection, Direction yDirection);
+
 }

@@ -7,8 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.Random;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class GridTest {
     int width, height;
@@ -153,11 +152,11 @@ public class GridTest {
 
         IPosition<Object> north = grid.positionInDirection(initialPosition, Direction.NORTH);
         assert (north.getX() == x);
-        assert (north.getY() == y + 1);
+        assert (north.getY() == y - 1);
 
         IPosition<Object> south = grid.positionInDirection(initialPosition, Direction.SOUTH);
         assert (south.getX() == x);
-        assert (south.getY() == y - 1);
+        assert (south.getY() == y + 1);
 
         IPosition<Object> east = grid.positionInDirection(initialPosition, Direction.EAST);
         assert (east.getX() == x + 1);
@@ -169,5 +168,48 @@ public class GridTest {
 
     }
 
+    @Test
+    void noWallMoveNotBlockedByWallTest(){
+        IPosition<Object> position = grid.getPosition(1, 1);
+        boolean moveBlockedByWall = grid.moveBlockedByWall(position,Direction.SOUTH);
+        assertFalse(moveBlockedByWall);
+    }
+
+    @Test
+    void moveBlockedByWallOnExitTest(){
+        IPosition<Object> position = grid.getPosition(1, 1);
+        grid.setWall(position,Direction.EAST, Direction.SOUTH);
+        boolean moveEastBlockedByWall = grid.moveBlockedByWall(position, Direction.EAST);
+        boolean moveSouthBlockedByWall = grid.moveBlockedByWall(position, Direction.SOUTH);
+        boolean moveWestBlockedByWall = grid.moveBlockedByWall(position, Direction.WEST);
+        boolean moveNorthBlockedByWall = grid.moveBlockedByWall(position, Direction.NORTH);
+
+        assertTrue(moveEastBlockedByWall);
+        assertTrue(moveSouthBlockedByWall);
+        assertFalse(moveWestBlockedByWall);
+        assertFalse(moveNorthBlockedByWall);
+
+    }
+
+    @Test
+    void moveBlockedByWallOnEntryTest(){
+        IPosition<Object> targetPosition = grid.getPosition(1, 1);
+        IPosition<Object> northOfTarget = grid.positionInDirection(targetPosition,Direction.NORTH);
+        IPosition<Object> eastOfTarget = grid.positionInDirection(targetPosition,Direction.EAST);
+        IPosition<Object> southOfTarget = grid.positionInDirection(targetPosition,Direction.SOUTH);
+        IPosition<Object> westOfTarget = grid.positionInDirection(targetPosition,Direction.WEST);
+
+        grid.setWall(targetPosition,Direction.EAST, Direction.NORTH);
+
+        boolean moveFromNorthBlockedByWall = grid.moveBlockedByWall(northOfTarget, Direction.SOUTH);
+        boolean moveFromEastBlockedByWall = grid.moveBlockedByWall(eastOfTarget, Direction.WEST);
+        boolean moveFromSouthBlockedByWall = grid.moveBlockedByWall(southOfTarget, Direction.NORTH);
+        boolean moveFromWestBlockedByWall = grid.moveBlockedByWall(westOfTarget, Direction.EAST);
+
+        assertTrue(moveFromNorthBlockedByWall);
+        assertTrue(moveFromEastBlockedByWall);
+        assertFalse(moveFromSouthBlockedByWall);
+        assertFalse(moveFromWestBlockedByWall);
+    }
 
 }

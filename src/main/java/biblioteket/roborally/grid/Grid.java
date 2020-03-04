@@ -117,6 +117,27 @@ public class Grid<T> implements IGrid<T> {
         return positionInDirection(currentPosition.getX(), currentPosition.getY(), direction);
     }
 
+    @Override
+    public boolean setWall(IPosition<T> position, Direction xDirection, Direction yDirection) {
+        return position.setWall(xDirection,yDirection);
+    }
+
+    @Override
+    public boolean setWall(int x, int y, Direction xDirection, Direction yDirection) {
+        return setWall(getPosition(x,y), xDirection, yDirection);
+    }
+
+    @Override
+    public boolean moveBlockedByWall(IPosition<T> from, Direction direction) {
+        IPosition<T> to = positionInDirection(from, direction);
+        return from.wallBlockingExit(direction) || to.wallBlockingEntry(direction);
+    }
+
+    @Override
+    public boolean moveBlockedByWall(int x, int y, Direction direction) {
+        return moveBlockedByWall(getPosition(x,y), direction);
+    }
+
     /**
      * @param x position
      * @param y position

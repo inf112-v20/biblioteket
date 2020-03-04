@@ -91,4 +91,38 @@ public interface IGrid<T> {
      */
     IPosition<T> positionInDirection(IPosition<T> currentPosition, Direction direction);
 
+    /**
+     * Sets a wall in a given position
+     * @param position to add wall
+     * @param xDirection of wall
+     * @param yDirection of wall
+     * @return false if position already has wall, true is setting wall was successful
+     */
+    boolean setWall(IPosition<T> position, Direction xDirection, Direction yDirection);
+
+    /**
+     * @param x coordinate of position
+     * @param y coordinate of position
+     * @param xDirection of wall
+     * @param yDirection of wall
+     * @return false if position already has wall, true is setting wall was successful
+     */
+    boolean setWall(int x, int y, Direction xDirection, Direction yDirection);
+
+    /**
+     * Checks if a move from a given position in a given direction is blocked by a wall
+     * @param from current position robot is moving from
+     * @param direction direction to move the robot
+     * @return true if there is a wall blocking the move
+     */
+    boolean moveBlockedByWall(IPosition<T> from, Direction direction);
+
+    /**
+     * @param x current x position of robot
+     * @param y current y position of robot
+     * @param direction direction to move the robot
+     * @return true if there is a wall blocking the move
+     */
+    boolean moveBlockedByWall(int x, int y, Direction direction);
+
 }

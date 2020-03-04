@@ -14,36 +14,31 @@ public class GameBoard implements IGameBoard{
     }
 
     public int getWidth(){
-        return getGrid().getWidth();
+        return this.grid.getWidth();
     }
 
     public int getHeight(){
-        return getGrid().getHeight();
+        return this.grid.getHeight();
     }
 
     public boolean placeElement(int x, int y, IElement element){
-        return getGrid().placeElement(x,y,element);
+        return this.grid.placeElement(x,y,element);
     }
 
     public boolean placeElement(IPosition<IElement> position, IElement element){
         return placeElement(position.getX(), position.getY(), element);
     }
 
-    //Need this for testing, should be removed?
-    public IGrid<IElement> getGrid(){
-        return this.grid;
-    }
-
     public IPosition<IElement> positionInDirection(int x, int y, Direction direction){
-        return getGrid().positionInDirection(x,y,direction);
+        return this.grid.positionInDirection(x,y,direction);
     }
 
     public IPosition<IElement> positionInDirection(IPosition<IElement> position, Direction direction){
-        return getGrid().positionInDirection(position.getX(), position.getY(), direction);
+        return this.grid.positionInDirection(position.getX(), position.getY(), direction);
     }
 
     public IPosition<IElement> getPosition(int x, int y){
-        return getGrid().getPosition(x,y);
+        return this.grid.getPosition(x,y);
     }
 
     @Override
@@ -82,16 +77,38 @@ public class GameBoard implements IGameBoard{
     //TODO
     @Override
     public IPosition<IElement> firstCollisionInDirection(int x, int y, Direction direction) {
-        IPosition<IElement> posInDirection = positionInDirection(x,y, direction);
-        while(!(posInDirection == null) && !containsImmovableObject(posInDirection)){
-            posInDirection = positionInDirection(posInDirection,direction);
-        }
-
-        return posInDirection;
+        return firstCollisionInDirection(getPosition(x,y), direction);
     }
 
     @Override
     public IPosition<IElement> firstCollisionInDirection(IPosition<IElement> currentPosition, Direction direction) {
-        return firstCollisionInDirection(currentPosition.getX(), currentPosition.getY(), direction);
+        while(canMove(currentPosition,direction)){
+            currentPosition = positionInDirection(currentPosition,direction);
+        }
+        return positionInDirection(currentPosition,direction);
+    }
+
+    @Override
+    public boolean canMove(IPosition<IElement> from, Direction direction) {
+        IPosition<IElement> to = positionInDirection(from, direction);
+        if(to == null) return false; // Out of bounds
+        if(containsImmovableObject(to)) return false;
+        if(moveBlockedByWall(from,direction)) return false;
+        return true;
+    }
+
+    @Override
+    public boolean setWall(IPosition<IElement> position, Direction xDirection, Direction yDirection) {
+        return grid.setWall(position, xDirection, yDirection);
+    }
+
+
+    /**
+     * @param from position robot is moving from
+     * @param direction robot is moving
+     * @return true if move is blocked by wall
+     */
+    private boolean moveBlockedByWall(IPosition<IElement> from, Direction direction) {
+        return grid.moveBlockedByWall(from,direction);
     }
 }
