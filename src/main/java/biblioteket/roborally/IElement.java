@@ -1,5 +1,6 @@
 package biblioteket.roborally;
 
+import biblioteket.roborally.board.Direction;
 import biblioteket.roborally.grid.IPosition;
 
 import java.util.UUID;

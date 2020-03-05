@@ -1,5 +1,6 @@
 package biblioteket.roborally;
 
+import biblioteket.roborally.board.Direction;
 import biblioteket.roborally.grid.Grid;
 import biblioteket.roborally.grid.IGrid;
 import biblioteket.roborally.grid.IPosition;

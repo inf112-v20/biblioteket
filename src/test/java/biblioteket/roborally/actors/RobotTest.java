@@ -1,6 +1,6 @@
 package biblioteket.roborally.actors;
 
-import biblioteket.roborally.Direction;
+import biblioteket.roborally.board.Direction;
 import biblioteket.roborally.grid.IPosition;
 import biblioteket.roborally.grid.Position;
 import org.junit.jupiter.api.BeforeEach;

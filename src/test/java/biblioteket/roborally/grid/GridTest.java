@@ -1,6 +1,6 @@
 package biblioteket.roborally.grid;
 
-import biblioteket.roborally.Direction;
+import biblioteket.roborally.board.Direction;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

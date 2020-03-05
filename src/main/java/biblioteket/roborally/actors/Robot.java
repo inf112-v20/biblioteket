@@ -1,6 +1,6 @@
 package biblioteket.roborally.actors;
 
-import biblioteket.roborally.Direction;
+import biblioteket.roborally.board.Direction;
 import biblioteket.roborally.grid.IPosition;
 
 import java.util.UUID;
@@ -117,12 +117,12 @@ public class Robot<T> implements IRobot<T> {
 
     @Override
     public void turnLeft() {
-        this.direction = this.direction.direction90DegreesToTheLeft();
+        this.direction = this.direction.left();
     }
 
     @Override
     public void turnRight() {
-        this.direction = this.direction.direction90DegreesToTheRight();
+        this.direction = this.direction.right();
     }
 
     // TODO

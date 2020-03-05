@@ -1,6 +1,6 @@
 package biblioteket.roborally.grid;
 
-import biblioteket.roborally.Direction;
+import biblioteket.roborally.board.Direction;
 
 import java.util.List;
 

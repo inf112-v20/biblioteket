@@ -1,6 +1,6 @@
 package biblioteket.roborally.actors;
 
-import biblioteket.roborally.Direction;
+import biblioteket.roborally.board.Direction;
 import biblioteket.roborally.IElement;
 import biblioteket.roborally.grid.IPosition;
 
