@@ -1,6 +1,6 @@
 package biblioteket.roborally.actors;
 
-import biblioteket.roborally.Direction;
+import biblioteket.roborally.grid.Direction;
 import biblioteket.roborally.grid.IPosition;
 
 import java.util.UUID;

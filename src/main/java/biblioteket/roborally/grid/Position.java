@@ -1,6 +1,5 @@
 package biblioteket.roborally.grid;
 
-import biblioteket.roborally.Direction;
 import biblioteket.roborally.actors.IRobot;
 
 import java.util.ArrayList;

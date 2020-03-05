@@ -1,7 +1,5 @@
 package biblioteket.roborally.grid;
 
-import biblioteket.roborally.Direction;
-
 import java.util.ArrayList;
 import java.util.List;
 

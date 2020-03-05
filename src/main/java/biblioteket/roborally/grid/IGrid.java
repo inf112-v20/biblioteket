@@ -1,7 +1,5 @@
 package biblioteket.roborally.grid;
 
-import biblioteket.roborally.Direction;
-
 import java.util.List;
 
 public interface IGrid<T> {

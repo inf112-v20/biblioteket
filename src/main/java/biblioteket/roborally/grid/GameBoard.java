@@ -1,15 +1,13 @@
-package biblioteket.roborally;
+package biblioteket.roborally.grid;
 
-import biblioteket.roborally.grid.Grid;
-import biblioteket.roborally.grid.IGrid;
-import biblioteket.roborally.grid.IPosition;
+import biblioteket.roborally.elements.IElement;
 
 import java.util.List;
 
 public class GameBoard implements IGameBoard{
     IGrid<IElement> grid;
 
-    GameBoard(int width, int height){
+    public GameBoard(int width, int height){
         grid = new Grid<>(width, height);
     }
 
@@ -98,8 +96,18 @@ public class GameBoard implements IGameBoard{
     }
 
     @Override
+    public boolean canMove(int x, int y, Direction direction) {
+        return canMove(getPosition(x,y), direction);
+    }
+
+    @Override
     public boolean setWall(IPosition<IElement> position, Direction xDirection, Direction yDirection) {
         return grid.setWall(position, xDirection, yDirection);
+    }
+
+    @Override
+    public boolean setWall(int x, int y, Direction xDirection, Direction yDirection) {
+        return setWall(getPosition(x,y), xDirection, yDirection);
     }
 
 

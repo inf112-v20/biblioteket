@@ -1,13 +1,13 @@
 package biblioteket.roborally;
 
-import biblioteket.roborally.actors.ImmovableElement;
-import biblioteket.roborally.grid.IGrid;
+import biblioteket.roborally.elements.IElement;
+import biblioteket.roborally.elements.ImmovableElement;
+import biblioteket.roborally.grid.Direction;
+import biblioteket.roborally.grid.GameBoard;
 import biblioteket.roborally.grid.IPosition;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import javax.swing.text.Position;
 import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;

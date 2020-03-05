@@ -1,12 +1,12 @@
 package biblioteket.roborally.game;
 
-import biblioteket.roborally.IElement;
+import biblioteket.roborally.elements.IElement;
+import biblioteket.roborally.grid.Direction;
+import biblioteket.roborally.grid.GameBoard;
 import biblioteket.roborally.grid.Grid;
 import biblioteket.roborally.grid.IPosition;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.Screen;
+import biblioteket.roborally.mapreader.MapReader;
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -25,7 +25,7 @@ import com.badlogic.gdx.math.Vector2;
  */
 public class GameScreen implements Screen {
     private final RoboRally game;
-    private final Grid<IPosition<IElement>> grid;
+    private final GameBoard gameBoard;
 
     private TiledMapTileLayer playerLayer;
     private TiledMapTileLayer holeLayer;
@@ -41,9 +41,10 @@ public class GameScreen implements Screen {
 
     public GameScreen(final RoboRally gam) {
         this.game = gam;
-        this.grid = new Grid<>(5, 5);
+        TiledMap tiledMap = new TmxMapLoader().load("assets/board_12x12.tmx");
 
-        TiledMap tiledMap = new TmxMapLoader().load("assets/board.tmx");
+        MapReader mapReader = new MapReader(tiledMap);
+        this.gameBoard = mapReader.getGameBoard();
 
         properties = tiledMap.getProperties();
         int tileWidth = properties.get("tilewidth", Integer.class);
@@ -87,31 +88,38 @@ public class GameScreen implements Screen {
 
                 switch (keycode) {
                     case Input.Keys.A:
-                        if (playerPosX - 1.0 < 0 || playerPosY - 1.0 >= width) return false;
-                        else {
+                        if(gameBoard.canMove((int)playerPosX,mapHeight-1-(int)playerPosY, Direction.WEST)) {
                             playerPosition.set(new Vector2(playerPosX - 1, playerPosY));
                             return true;
                         }
-                    case Input.Keys.D:
-                        if (playerPosX + 1 < 0 || playerPosX + 1 >= width) return false;
                         else {
+                            return false;
+                        }
+                    case Input.Keys.D:
+                        if(gameBoard.canMove((int)playerPosX,mapHeight-1-(int)playerPosY, Direction.EAST)) {
                             playerPosition.set(new Vector2(playerPosX + 1, playerPosY));
                             return true;
+                        } else {
+                            return false;
                         }
                     case Input.Keys.W:
-                        if (playerPosY + 1 < 0 || playerPosY + 1 >= height) return false;
-                        else {
+                        if(gameBoard.canMove((int)playerPosX,mapHeight-1-(int)playerPosY, Direction.NORTH)) {
                             playerPosition.set(new Vector2(playerPosX, playerPosY + 1));
                             return true;
+                        } else{
+                            return false;
                         }
                     case Input.Keys.S:
-                        if (playerPosY - 1 < 0 || playerPosY - 1 >= height) return false;
-                        else {
+                        if(gameBoard.canMove((int)playerPosX,mapHeight-1-(int)playerPosY, Direction.SOUTH)) {
                             playerPosition.set(new Vector2(playerPosX, playerPosY - 1));
                             return true;
+                        } else {
+                            return false;
                         }
                     default:
-                        return false;
+                        System.out.println("Old: " + playerPosX + "," + playerPosY);
+                        playerPosition.set(new Vector2(playerPosX, playerPosY));
+                        return true;
                 }
             }
         });

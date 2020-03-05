@@ -1,4 +1,4 @@
-package biblioteket.roborally;
+package biblioteket.roborally.grid;
 
 import java.util.Arrays;
 import java.util.List;
