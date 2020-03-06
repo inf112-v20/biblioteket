@@ -1,6 +1,7 @@
 package biblioteket.roborally.grid;
 
 import biblioteket.roborally.elements.IElement;
+import biblioteket.roborally.elements.WallElement;
 
 import java.util.List;
 
@@ -89,6 +90,8 @@ public class GameBoard implements IGameBoard{
     @Override
     public boolean canMove(IPosition<IElement> from, Direction direction) {
         IPosition<IElement> to = positionInDirection(from, direction);
+        //TODO
+        // out of bounds is legal and kills you i believe
         if(to == null) return false; // Out of bounds
         if(containsImmovableObject(to)) return false;
         if(moveBlockedByWall(from,direction)) return false;
@@ -100,23 +103,28 @@ public class GameBoard implements IGameBoard{
         return canMove(getPosition(x,y), direction);
     }
 
-    @Override
-    public boolean setWall(IPosition<IElement> position, Direction xDirection, Direction yDirection) {
-        return grid.setWall(position, xDirection, yDirection);
-    }
-
-    @Override
-    public boolean setWall(int x, int y, Direction xDirection, Direction yDirection) {
-        return setWall(getPosition(x,y), xDirection, yDirection);
-    }
-
 
     /**
      * @param from position robot is moving from
      * @param direction robot is moving
      * @return true if move is blocked by wall
      */
-    private boolean moveBlockedByWall(IPosition<IElement> from, Direction direction) {
-        return grid.moveBlockedByWall(from,direction);
+    private boolean moveBlockedByWall(IPosition<IElement> from, Direction direction){
+        IPosition<IElement> to = positionInDirection(from, direction);
+        for(IElement element: from.getContents()){
+            if (element instanceof WallElement){
+                IElement wall = (WallElement) element;
+                System.out.println("Exiting " + element + " in direction " + direction);
+                if (wall.blockingExit(direction)) return true;
+            }
+        }
+        for (IElement element : to.getContents()) {
+            if (element instanceof WallElement){
+                IElement wall = (WallElement) element;
+                System.out.println("Entering " + element + " in direction " + direction);
+                if (wall.blockingEntry(direction)) return true;
+            }
+        }
+        return false;
     }
 }

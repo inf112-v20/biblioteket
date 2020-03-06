@@ -60,21 +60,5 @@ public interface IGameBoard {
      */
     boolean canMove(int x, int y, Direction direction);
 
-    /** Sets a wall in a given position
-     * @param position to add wall
-     * @param xDirection of wall
-     * @param yDirection of wall
-     * @return false if position already has wall, true if setting wall was successful
-     */
-    boolean setWall(IPosition<IElement> position, Direction xDirection, Direction yDirection);
-
-    /**
-     * @param x position
-     * @param y position
-     * @param xDirection of wall
-     * @param yDirection of wall
-     * @return false if position already has wall, true if setting wall was successfull
-     */
-    boolean setWall(int x, int y, Direction xDirection, Direction yDirection);
 
 }

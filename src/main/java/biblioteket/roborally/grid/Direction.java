@@ -91,4 +91,15 @@ public enum Direction {
         }
     }
 
+    @Override
+    public String toString(){
+        switch(this){
+            case NORTH: return "North";
+            case SOUTH: return "South";
+            case WEST: return "West";
+            case EAST: return "East";
+            default: return "";
+        }
+    }
+
 }

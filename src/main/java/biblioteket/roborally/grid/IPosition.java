@@ -36,11 +36,6 @@ public interface IPosition<T> {
     List<T> getContents();
 
     /**
-     * @return true if Position contains robot
-     */
-    boolean containsRobot();
-
-    /**
      * @return the x location of the position
      */
     int getX();
@@ -50,27 +45,5 @@ public interface IPosition<T> {
      */
     int getY();
 
-    /**
-     * Add a new wall to position
-     * If the wall is only in one direction, let the unused direction be null
-     * @param y direction of wall (North/South)
-     * @param x direction of wall (East/West)
-     * @return false if position already contains a wall, true if setting wall was successfull
-     */
-    boolean setWall(Direction y, Direction x);
-
-    /**
-     * Checks if there is a wall blocking exit from current position in given direction
-     * @param to the direction robot is moving from the position
-     * @return true if robot can not move from this position in the given direction
-     */
-    boolean wallBlockingExit(Direction to);
-
-    /**
-     * Checks if there is a wall blocking entry to this position in a given direction
-     * @param to the direction robot is moving to the position
-     * @return true if robot can not move to this position in the given direction
-     */
-    boolean wallBlockingEntry(Direction to);
 
 }

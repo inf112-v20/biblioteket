@@ -15,13 +15,15 @@ public class WallElement implements IElement {
 
     }
 
+    @Override
+    public boolean blockingExit(Direction direction){
+        return direction == this.xDirection || direction == this.yDirection;
+    }
+
+    @Override
     public boolean blockingEntry(Direction direction ){
         Direction from = direction.oppositeDirection();
         return from == this.xDirection || from == this.yDirection;
-    }
-
-    public boolean blockingExit(IPosition<IElement> from, Direction direction){
-        return direction == this.xDirection || direction == this.yDirection;
     }
 
     // Temporary
@@ -36,7 +38,7 @@ public class WallElement implements IElement {
 
     @Override
     public String toString(){
-        return "Wall";
+        return "Wall " + xDirection +", " + yDirection;
     }
 
 
