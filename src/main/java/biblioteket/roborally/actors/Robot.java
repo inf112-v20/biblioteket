@@ -81,31 +81,6 @@ public class Robot<T> implements IRobot<T> {
     }
 
     @Override
-    public IPosition getPos() {
-        return null;
-    }
-
-    @Override
-    public void setPos(IPosition pos) {
-
-    }
-
-    @Override
-    public void setPos(int x, int y) {
-
-    }
-
-    @Override
-    public boolean immovable() {
-        return false;
-    }
-
-    @Override
-    public UUID getID() {
-        return null;
-    }
-
-    @Override
     public Direction getDirection() {
         return direction;
     }

@@ -4,7 +4,7 @@ import biblioteket.roborally.grid.Direction;
 import biblioteket.roborally.elements.IElement;
 import biblioteket.roborally.grid.IPosition;
 
-public interface IRobot<T> extends IElement {
+public interface IRobot<T> {
 
     /**
      * Get the player who is the owner of the robot.
