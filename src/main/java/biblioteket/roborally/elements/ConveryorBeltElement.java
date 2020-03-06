@@ -17,4 +17,9 @@ public class ConveryorBeltElement implements InteractingElement {
         robot.moveBackward();
     }
 
+    @Override
+    public String toString(){
+        return "Converor Belt";
+    }
+
 }

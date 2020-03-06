@@ -12,4 +12,10 @@ public class HoleElement implements InteractingElement {
         // robot.respawn();
         // robot.loseOneHP()
     }
+
+    @Override
+    public String toString(){
+        return "Hole";
+    }
+
 }

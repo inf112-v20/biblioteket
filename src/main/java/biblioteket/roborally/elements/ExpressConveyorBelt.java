@@ -17,4 +17,11 @@ public class ExpressConveyorBelt implements InteractingElement {
         robot.moveForward();
     }
 
+
+    @Override
+    public String toString(){
+        return "Express Converor Belt";
+    }
+
+
 }

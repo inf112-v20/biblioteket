@@ -14,4 +14,10 @@ public class FlagElement implements InteractingElement {
     public void interact(IRobot robot) {
         // Sjekk om riktig flag, tell at flag er tatt
     }
+
+    @Override
+    public String toString(){
+        return "Flag";
+    }
+
 }

@@ -34,4 +34,10 @@ public class WallElement implements IElement {
         return yDirection;
     }
 
+    @Override
+    public String toString(){
+        return "Wall";
+    }
+
+
 }

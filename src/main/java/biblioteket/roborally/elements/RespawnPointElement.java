@@ -9,4 +9,9 @@ public class RespawnPointElement implements IElement {
         this.point = point;
     }
 
+    @Override
+    public String toString(){
+        return "Respawn";
+    }
+
 }

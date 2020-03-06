@@ -117,7 +117,6 @@ public class GameScreen implements Screen {
                             return false;
                         }
                     default:
-                        System.out.println("Old: " + playerPosX + "," + playerPosY);
                         playerPosition.set(new Vector2(playerPosX, playerPosY));
                         return true;
                 }
