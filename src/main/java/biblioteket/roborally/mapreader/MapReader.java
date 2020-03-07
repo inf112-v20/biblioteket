@@ -13,56 +13,34 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
  * Reads elements from a TiledMap to a GameBoard
  */
 public class MapReader {
-    private TiledMap map;
-    private GameBoard gameBoard;
 
-    private MapProperties properties;
+    public static GameBoard readMap(TiledMap map){
+        MapProperties properties = map.getProperties();
+        int mapWidth = properties.get("width", Integer.class);
+        int mapHeight = properties.get("height", Integer.class);
 
-    int tileWidth;
-    int tileHeight;
-    int mapWidth;
-    int mapHeight;
+        GameBoard gameBoard = new GameBoard(mapWidth, mapHeight);
 
-    public MapReader(TiledMap map){
-        this.map = map;
-
-        properties = map.getProperties();
-        tileWidth = properties.get("tilewidth", Integer.class);
-        tileHeight = properties.get("tileheight", Integer.class);
-        mapWidth = properties.get("width", Integer.class);
-        mapHeight = properties.get("height", Integer.class);
-
-        this.gameBoard = new GameBoard(mapWidth, mapHeight);
-
-        readMap(map);
-    }
-
-    public GameBoard getGameBoard(){
-        return this.gameBoard;
-    }
-
-    private void readMap(TiledMap map){
         MapLayers layers = map.getLayers();
-        int numLayers = layers.size();
+        for (int layer = 0; layer < layers.size(); layer++) {
+            for (int x = 0; x < mapHeight; x++) {
+                for (int y = 0; y < mapWidth; y++) {
+                    TiledMapTileLayer mapLayer = (TiledMapTileLayer)layers.get(layer);
 
-        for (int x = 0; x < tileHeight; x++) {
-            for (int y = tileWidth - 1; y >= 0; y--) {
-                for (int i = 0; i < numLayers; i++) {
-                    TiledMapTileLayer layer = (TiledMapTileLayer)layers.get(i);
-
-                    if(layer != null && layer.getCell(x,y) != null){
-                        int ID = layer.getCell(x,y).getTile().getId();
-                        putElement(x,y,ID);
+                    if(mapLayer != null && mapLayer.getCell(x,y) != null){
+                        int ID = mapLayer.getCell(x,y).getTile().getId();
+                        putElement(x,mapHeight - 1 - y, ID, gameBoard);
                     }
                 }
             }
         }
+        return gameBoard;
     }
 
-    private void putElement(int x, int y, int id) {
-        IElement element = ElementCreator.getElement(id);
-        if(element != null){
-            this.gameBoard.placeElement(x,mapHeight-1-y,element);
+    private static void putElement(int x, int y, int ID, GameBoard gameBoard) {
+        IElement element = ElementCreator.getElement(ID);
+        if(element != null){    // Ignore elements not defined in ElementCreator
+            gameBoard.placeElement(x,y,element);
             System.out.println("Added " + element + " at " + x + "," + y);
         }
     }
