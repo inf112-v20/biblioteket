@@ -1,5 +1,7 @@
 package biblioteket.roborally.programcards;
 
+import org.lwjgl.Sys;
+
 import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -46,6 +48,16 @@ public class CardDeck implements ICardDeck {
     //TODO
     @Override
     public ArrayList<ICard> drawCards(int number) {
-        return null;
+        if (topOfDrawPile > cardDeck.size() - 1) {
+            topOfDrawPile = 0;
+            Collections.shuffle(cardDeck);
+        }
+
+        ArrayList<ICard> drawnCards = new ArrayList<>();
+        for (int i = 0; i < number; i++) {
+            drawnCards.add(cardDeck.get(topOfDrawPile++));
+        }
+        return drawnCards;
+
     }
 }

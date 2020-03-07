@@ -26,4 +26,10 @@ public class Card implements ICard {
     public void doCardAction(IRobot robot) {
 
     }
+
+    @Override
+    public String toString() {
+        return "Type= " + type +
+                " Priority number= " + priorityNumber;
+    }
 }
