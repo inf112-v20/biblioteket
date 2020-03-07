@@ -2,7 +2,7 @@ package biblioteket.roborally.programcards;
 
 import biblioteket.roborally.actors.IRobot;
 
-public class Card implements ICard{
+public class Card implements ICard {
     CardType type;
     int priorityNumber;
 
@@ -21,6 +21,7 @@ public class Card implements ICard{
         return priorityNumber;
     }
 
+    //TODO have made an test-class but not started to implement.
     @Override
     public void doCardAction(IRobot robot) {
 
