@@ -2,7 +2,6 @@ package biblioteket.roborally.mapreader;
 
 import biblioteket.roborally.elements.ElementCreator;
 import biblioteket.roborally.elements.IElement;
-import biblioteket.roborally.grid.Direction;
 import biblioteket.roborally.grid.GameBoard;
 import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.MapProperties;
@@ -11,7 +10,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
 
 /**
- * Takes a TiledMap and reads the walls to a GameBoard
+ * Reads elements from a TiledMap to a GameBoard
  */
 public class MapReader {
     private TiledMap map;
@@ -24,8 +23,6 @@ public class MapReader {
     int mapWidth;
     int mapHeight;
 
-    private TiledMapTileLayer wallLayer;
-
     public MapReader(TiledMap map){
         this.map = map;
 
@@ -37,8 +34,6 @@ public class MapReader {
 
         this.gameBoard = new GameBoard(mapWidth, mapHeight);
 
-        wallLayer = (TiledMapTileLayer) map.getLayers().get("Wall");
-//        addWalls();
         readMap(map);
     }
 

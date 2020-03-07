@@ -62,7 +62,7 @@ public class Position<T> implements IPosition<T> {
 
     @Override
     public String toString(){
-        return "Position at x,y coordinates " + getX() + "," + getY();
+        return "Position at " + getX() + "," + getY();
     }
 
 

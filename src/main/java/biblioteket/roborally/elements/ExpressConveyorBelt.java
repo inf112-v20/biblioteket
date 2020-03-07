@@ -11,10 +11,14 @@ public class ExpressConveyorBelt implements InteractingElement {
         this.direction = direction;
     }
 
+    /**
+     * Moves robot in the direction conveyor belt is facing, twice
+     * @param robot to be moved
+     */
     @Override
     public void interact(IRobot robot) {
-        robot.moveForward();
-        robot.moveForward();
+        robot.pushRobotInDirection(direction);
+        robot.pushRobotInDirection(direction);
     }
 
 

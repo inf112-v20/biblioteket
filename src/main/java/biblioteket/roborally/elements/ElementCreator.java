@@ -4,6 +4,12 @@ import biblioteket.roborally.grid.Direction;
 
 public class ElementCreator {
 
+
+    /**
+     * Takes tiled map IDs and returns the corresponding board element
+     * @param ID
+     * @return IElement corresponding to ID
+     */
     public static IElement getElement(int ID){
         switch(ID){
             // Hole

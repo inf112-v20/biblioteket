@@ -15,7 +15,7 @@ public class Grid<T> implements IGrid<T> {
         grid = new ArrayList<>();
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                int index = getIndex(x, y);
+//                int index = getIndex(x, y);
                 grid.add(new Position<>(x, y));
             }
         }
@@ -62,7 +62,7 @@ public class Grid<T> implements IGrid<T> {
             for (int j = y - 1; j <= y + 1; j++) {
                 if (!(i == x && j == y)) {
                     IPosition<T> pos = getPosition(i, j);
-                    if (!(pos == null)) allNeighbours.add(pos);
+                    if (pos != null) allNeighbours.add(pos);
                 }
             }
         }

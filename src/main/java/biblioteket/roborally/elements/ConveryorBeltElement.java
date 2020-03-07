@@ -12,14 +12,18 @@ public class ConveryorBeltElement implements InteractingElement {
 
     }
 
+    /**
+     * Moves robot in the direction conveyor belt is facing
+     * @param robot to be moved
+     */
     @Override
     public void interact(IRobot robot) {
-        robot.moveBackward();
+        robot.pushRobotInDirection(direction);
     }
 
     @Override
     public String toString(){
-        return "Converor Belt";
+        return "Conveyor Belt";
     }
 
 }

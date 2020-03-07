@@ -1,6 +1,7 @@
 package biblioteket.roborally.elements;
 
 // Maybe save x,y position?
+// Not sure yet how this would be implemented
 public class RespawnPointElement implements IElement {
 
     private final int point;

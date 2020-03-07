@@ -92,10 +92,11 @@ public class GameBoard implements IGameBoard{
         IPosition<IElement> to = positionInDirection(from, direction);
         //TODO
         // out of bounds is legal and kills you i believe
+        // Not sure atm what to do with containsImmovableObject
         if(to == null) return false; // Out of bounds
-        if(containsImmovableObject(to)) return false;
-        if(moveBlockedByWall(from,direction)) return false;
-        return true;
+        return !moveBlockedByWall(from,direction);
+
+//        if(containsImmovableObject(to)) return false;
     }
 
     @Override
@@ -113,15 +114,13 @@ public class GameBoard implements IGameBoard{
         IPosition<IElement> to = positionInDirection(from, direction);
         for(IElement element: from.getContents()){
             if (element instanceof WallElement){
-                IElement wall = (WallElement) element;
-                System.out.println("Exiting " + element + " in direction " + direction);
+                WallElement wall = (WallElement) element;
                 if (wall.blockingExit(direction)) return true;
             }
         }
         for (IElement element : to.getContents()) {
             if (element instanceof WallElement){
-                IElement wall = (WallElement) element;
-                System.out.println("Entering " + element + " in direction " + direction);
+                WallElement wall = (WallElement) element;
                 if (wall.blockingEntry(direction)) return true;
             }
         }
