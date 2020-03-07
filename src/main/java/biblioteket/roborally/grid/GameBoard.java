@@ -1,6 +1,8 @@
 package biblioteket.roborally.grid;
 
+import biblioteket.roborally.actors.SkellyRobot;
 import biblioteket.roborally.elements.IElement;
+import biblioteket.roborally.elements.InteractingElement;
 import biblioteket.roborally.elements.WallElement;
 
 import java.util.List;
@@ -126,4 +128,18 @@ public class GameBoard implements IGameBoard{
         }
         return false;
     }
+
+    // This could be handled by robot, player, gamescreen and gameboard, unsure which is best
+    public boolean interact(SkellyRobot robot) {
+        List<IElement> elements = robot.getPosition().getContents();
+        for (IElement element : elements) {
+            if (element instanceof InteractingElement){
+                InteractingElement interactingElement = (InteractingElement)element;
+                interactingElement.interact(robot);
+                return true;
+            }
+        }
+    return false;
+    }
+
 }

@@ -1,5 +1,6 @@
 package biblioteket.roborally.game;
 
+import biblioteket.roborally.actors.SkellyRobot;
 import biblioteket.roborally.elements.IElement;
 import biblioteket.roborally.grid.Direction;
 import biblioteket.roborally.grid.GameBoard;
@@ -38,13 +39,13 @@ public class GameScreen implements Screen {
     private TiledMapTileLayer.Cell playerWonCell;
 
     private Vector2 playerPosition;
+    private SkellyRobot robot;
 
     public GameScreen(final RoboRally gam) {
         this.game = gam;
         TiledMap tiledMap = new TmxMapLoader().load("assets/board_12x12.tmx");
 
-        MapReader mapReader = new MapReader(tiledMap);
-        this.gameBoard = mapReader.getGameBoard();
+        this.gameBoard = MapReader.readMap(tiledMap);
 
         properties = tiledMap.getProperties();
         int tileWidth = properties.get("tilewidth", Integer.class);
@@ -64,6 +65,7 @@ public class GameScreen implements Screen {
         playerWonCell = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(playerTextureSplit[0][2]));
 
         playerPosition = new Vector2(0, 0);
+        robot = new SkellyRobot(0,mapHeight-1,gameBoard.getPosition(0,mapHeight-1), gameBoard);
 
         OrthographicCamera camera = new OrthographicCamera();
         camera.setToOrtho(false, mapWidth, mapHeight);
@@ -83,39 +85,46 @@ public class GameScreen implements Screen {
 
                 float playerPosX = playerPosition.x;
                 float playerPosY = playerPosition.y;
-                int width = properties.get("width", Integer.class);
-                int height = properties.get("height", Integer.class);
 
                 switch (keycode) {
                     case Input.Keys.A:
-                        if(gameBoard.canMove((int)playerPosX,mapHeight-1-(int)playerPosY, Direction.WEST)) {
+                        if(gameBoard.canMove(robot.getX(),robot.getY(), Direction.WEST)) {
                             playerPosition.set(new Vector2(playerPosX - 1, playerPosY));
+                            robot.move(Direction.WEST);
                             return true;
                         }
                         else {
                             return false;
                         }
                     case Input.Keys.D:
-                        if(gameBoard.canMove((int)playerPosX,mapHeight-1-(int)playerPosY, Direction.EAST)) {
+                        if(gameBoard.canMove(robot.getX(),robot.getY(), Direction.EAST)) {
                             playerPosition.set(new Vector2(playerPosX + 1, playerPosY));
+                            robot.move(Direction.EAST);
                             return true;
                         } else {
                             return false;
                         }
                     case Input.Keys.W:
-                        if(gameBoard.canMove((int)playerPosX,mapHeight-1-(int)playerPosY, Direction.NORTH)) {
+                        if(gameBoard.canMove(robot.getX(), robot.getY(), Direction.NORTH)) {
                             playerPosition.set(new Vector2(playerPosX, playerPosY + 1));
+                            robot.move(Direction.NORTH);
                             return true;
                         } else{
                             return false;
                         }
                     case Input.Keys.S:
-                        if(gameBoard.canMove((int)playerPosX,mapHeight-1-(int)playerPosY, Direction.SOUTH)) {
+                        if(gameBoard.canMove(robot.getX(),robot.getY(), Direction.SOUTH)) {
                             playerPosition.set(new Vector2(playerPosX, playerPosY - 1));
+                            robot.move(Direction.SOUTH);
                             return true;
                         } else {
                             return false;
                         }
+                    case Input.Keys.SPACE:
+                        boolean interacted = gameBoard.interact(robot);
+                        if(interacted){
+                            playerPosition.set(new Vector2((float)robot.getX(),(float)(mapWidth - 1 - robot.getY())));
+                        } return interacted;
                     default:
                         playerPosition.set(new Vector2(playerPosX, playerPosY));
                         return true;

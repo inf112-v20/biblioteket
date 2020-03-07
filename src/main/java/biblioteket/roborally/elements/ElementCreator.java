@@ -29,10 +29,10 @@ public class ElementCreator {
             case(51): return new ConveryorBeltElement(Direction.WEST);
             case(52): return new ConveryorBeltElement(Direction.EAST);
             // Express Conveyor Belt
-            case(13): return new ExpressConveyorBelt(Direction.NORTH);
-            case(14): return new ExpressConveyorBelt(Direction.EAST);
-            case(21): return new ExpressConveyorBelt(Direction.SOUTH);
-            case(22): return new ExpressConveyorBelt(Direction.WEST);
+            case(13): return new ExpressConveyorBeltElement(Direction.NORTH);
+            case(14): return new ExpressConveyorBeltElement(Direction.EAST);
+            case(21): return new ExpressConveyorBeltElement(Direction.SOUTH);
+            case(22): return new ExpressConveyorBeltElement(Direction.WEST);
             // Respawn point
             case(121): return new RespawnPointElement(1);
             case(122): return new RespawnPointElement(2);

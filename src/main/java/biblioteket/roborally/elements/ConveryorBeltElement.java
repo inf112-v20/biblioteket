@@ -18,7 +18,7 @@ public class ConveryorBeltElement implements InteractingElement {
      */
     @Override
     public void interact(IRobot robot) {
-        robot.pushRobotInDirection(direction);
+        robot.move(direction);
     }
 
     @Override

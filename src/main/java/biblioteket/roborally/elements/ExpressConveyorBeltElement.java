@@ -3,11 +3,11 @@ package biblioteket.roborally.elements;
 import biblioteket.roborally.actors.IRobot;
 import biblioteket.roborally.grid.Direction;
 
-public class ExpressConveyorBelt implements InteractingElement {
+public class ExpressConveyorBeltElement implements InteractingElement {
 
     private final Direction direction;
 
-    public ExpressConveyorBelt(Direction direction){
+    public ExpressConveyorBeltElement(Direction direction){
         this.direction = direction;
     }
 
@@ -17,8 +17,9 @@ public class ExpressConveyorBelt implements InteractingElement {
      */
     @Override
     public void interact(IRobot robot) {
-        robot.pushRobotInDirection(direction);
-        robot.pushRobotInDirection(direction);
+        robot.move(direction);
+        robot.move(direction);
+
     }
 
 
