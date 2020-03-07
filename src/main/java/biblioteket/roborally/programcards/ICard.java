@@ -21,7 +21,7 @@ public interface ICard {
     /**
      * Make the robot do the action of the program card
      *
-     * @param robot
+     * @param robot which robot that should do the action.
      */
     void doCardAction(IRobot robot);
 }

@@ -3,8 +3,8 @@ package biblioteket.roborally.programcards;
 import biblioteket.roborally.actors.IRobot;
 
 public class Card implements ICard {
-    CardType type;
-    int priorityNumber;
+    private CardType type;
+    private int priorityNumber;
 
     public Card(CardType type, int priorityNumber) {
         this.type = type;
