@@ -43,6 +43,7 @@ public class GameScreen implements Screen {
 
     public GameScreen(final RoboRally gam) {
         this.game = gam;
+//        TiledMap tiledMap = new TmxMapLoader().load("assets/dockingbay.tmx");
         TiledMap tiledMap = new TmxMapLoader().load("assets/board_12x12.tmx");
 
         this.gameBoard = MapReader.readMap(tiledMap);
@@ -123,7 +124,7 @@ public class GameScreen implements Screen {
                     case Input.Keys.SPACE:
                         boolean interacted = gameBoard.interact(robot);
                         if(interacted){
-                            playerPosition.set(new Vector2((float)robot.getX(),(float)(mapWidth - 1 - robot.getY())));
+                            playerPosition.set(new Vector2((float)robot.getX(),(float)(mapHeight - 1 - robot.getY())));
                         } return interacted;
                     default:
                         playerPosition.set(new Vector2(playerPosX, playerPosY));

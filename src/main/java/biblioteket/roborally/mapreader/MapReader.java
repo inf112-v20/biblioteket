@@ -23,8 +23,12 @@ public class MapReader {
 
         MapLayers layers = map.getLayers();
         for (int layer = 0; layer < layers.size(); layer++) {
-            for (int x = 0; x < mapHeight; x++) {
-                for (int y = 0; y < mapWidth; y++) {
+            String layerName = layers.get(layer).getName();
+            System.out.println();
+            System.out.println(layerName + " layer");
+
+            for (int x = 0; x < mapWidth; x++) {
+                for (int y = 0; y < mapHeight; y++) {
                     TiledMapTileLayer mapLayer = (TiledMapTileLayer)layers.get(layer);
 
                     if(mapLayer != null && mapLayer.getCell(x,y) != null){
@@ -42,6 +46,8 @@ public class MapReader {
         if(element != null){    // Ignore elements not defined in ElementCreator
             gameBoard.placeElement(x,y,element);
             System.out.println("Added " + element + " at " + x + "," + y);
+        } else{
+            System.out.println("Ignored element with ID " + ID + " at " + x + "," + y);
         }
     }
 

@@ -75,12 +75,14 @@ public class GameBoard implements IGameBoard{
         return false;
     }
 
-    //TODO
+
     @Override
     public IPosition<IElement> firstCollisionInDirection(int x, int y, Direction direction) {
         return firstCollisionInDirection(getPosition(x,y), direction);
     }
 
+    // This can not be dependant on canMove if lasers rely on it to know, but might be able to know where lasers shoot
+    // from mapreader
     @Override
     public IPosition<IElement> firstCollisionInDirection(IPosition<IElement> currentPosition, Direction direction) {
         while(canMove(currentPosition,direction)){
@@ -135,7 +137,10 @@ public class GameBoard implements IGameBoard{
         for (IElement element : elements) {
             if (element instanceof InteractingElement){
                 InteractingElement interactingElement = (InteractingElement)element;
+                System.out.println("Interacting with " + element);
+                System.out.println("Old pos: " + robot.getPosition());
                 interactingElement.interact(robot);
+                System.out.println("New pos: " + robot.getPosition());
                 return true;
             }
         }
