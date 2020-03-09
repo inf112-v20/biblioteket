@@ -3,6 +3,7 @@ package biblioteket.roborally.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import javafx.scene.layout.Background;
 
 /**
  * A small wrapper around both the main menu and the game screen, by extending Game
@@ -18,6 +19,7 @@ public class RoboRally extends Game {
         this.setBatch(new SpriteBatch());
         this.setFont(new BitmapFont());
         this.setScreen(new MainMenuScreen(this));
+
     }
 
     @Override
