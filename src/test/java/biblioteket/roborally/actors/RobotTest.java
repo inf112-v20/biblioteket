@@ -2,12 +2,10 @@ package biblioteket.roborally.actors;
 
 import biblioteket.roborally.Direction;
 import biblioteket.roborally.GameBoard;
-import biblioteket.roborally.grid.Grid;
 import biblioteket.roborally.grid.IGrid;
 import biblioteket.roborally.grid.IPosition;
 import biblioteket.roborally.grid.Position;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -26,6 +24,7 @@ class RobotTest {
         IPosition<Integer> pos = new Position<>(1, 1);
         Direction direction = Direction.NORTH;
         board = new GameBoard(width, height);
+        grid = board.getGrid();
         player = new Player();
         robot = new Robot(pos, pos, direction, board);
         robot.setPlayer(player);
@@ -131,7 +130,7 @@ class RobotTest {
     void moveForwardTowardsSouthWhenThereIsNoObstacle() {
         robot.setDirection(Direction.SOUTH);
         IPosition<Integer> position = robot.getPosition();
-        IPosition<Integer> positionInDirection = grid.positionInDirection(position, Direction.SOUTH);
+        IPosition positionInDirection = grid.positionInDirection(position, Direction.SOUTH);
         robot.moveForward();
         assertEquals(positionInDirection, robot.getPosition());
     }
@@ -140,7 +139,7 @@ class RobotTest {
     void moveForwardTowardsEastWhenThereIsNoObstacle() {
         robot.setDirection(Direction.EAST);
         IPosition<Integer> position = robot.getPosition();
-        IPosition<Integer> positionInDirection = grid.positionInDirection(position, Direction.EAST);
+        IPosition positionInDirection = grid.positionInDirection(position, Direction.EAST);
         robot.moveForward();
         assertEquals(positionInDirection, robot.getPosition());
     }
@@ -149,7 +148,7 @@ class RobotTest {
     void moveForwardTowardsWestWhenThereIsNoObstacle() {
         robot.setDirection(Direction.WEST);
         IPosition<Integer> position = robot.getPosition();
-        IPosition<Integer> positionInDirection = grid.positionInDirection(position, Direction.WEST);
+        IPosition positionInDirection = grid.positionInDirection(position, Direction.WEST);
         robot.moveForward();
         assertEquals(positionInDirection, robot.getPosition());
     }
