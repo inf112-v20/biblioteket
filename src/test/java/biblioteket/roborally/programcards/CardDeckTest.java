@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class CardDeckTest {
     CardDeck cardDeck;
+    int maxNumberOfCards = 84;
 
     @BeforeEach
     void setUp() {
@@ -22,15 +23,15 @@ class CardDeckTest {
     }
 
     @Test
-    void drawAll84Cards() {
-        ArrayList<ICard> drawnCards = cardDeck.drawCards(84);
-        assertEquals(84, drawnCards.size());
+    void drawAllCards() {
+        ArrayList<ICard> drawnCards = cardDeck.drawCards(maxNumberOfCards);
+        assertEquals(maxNumberOfCards, drawnCards.size());
     }
 
     @Test
-    void firstDraw84Then1() {
-        ArrayList<ICard> drawnCards = cardDeck.drawCards(84);
-        assertEquals(84, drawnCards.size());
+    void firstDrawAllCardsThen1() {
+        ArrayList<ICard> drawnCards = cardDeck.drawCards(maxNumberOfCards);
+        assertEquals(maxNumberOfCards, drawnCards.size());
 
         ArrayList<ICard> drawnCards2 = cardDeck.drawCards(1);
         assertEquals(1, drawnCards2.size());

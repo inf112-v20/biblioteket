@@ -24,7 +24,34 @@ public class Card implements ICard {
     //TODO have made an test-class but not started to implement.
     @Override
     public void doCardAction(IRobot robot) {
-
+        /*
+        switch(type){
+            case ROTATE_LEFT: robot.turnLeft();
+                break;
+            case ROTATE_RIGHT: robot.turnRight();
+                break;
+            case U_TURN: {
+                robot.turnLeft();
+                robot.turnLeft();
+            }
+                break;
+            case MOVE_1: robot.moveForward();
+                break;
+            case MOVE_2: {
+                robot.moveForward();
+                robot.moveForward();
+            }
+                break;
+            case MOVE_3: {
+                robot.moveForward();
+                robot.moveForward();
+                robot.moveForward();
+            }
+                break;
+            case BACK_UP: robot.moveBackward();
+                break;
+        }
+         */
     }
 
     @Override
