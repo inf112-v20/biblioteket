@@ -39,7 +39,7 @@ public class Position<T> implements IPosition<T> {
     @Override
     public boolean containsRobot() {
         for (T t : getContents()) {
-            if (t instanceof IRobot<?>)
+            if (t instanceof IRobot)
                 return true;
         }
         return false;

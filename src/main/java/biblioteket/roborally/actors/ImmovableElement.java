@@ -1,36 +1,30 @@
 package biblioteket.roborally.actors;
 
-import biblioteket.roborally.board.Direction;
 import biblioteket.roborally.IElement;
-import biblioteket.roborally.grid.IPosition;
-
-import java.util.UUID;
+import biblioteket.roborally.board.DirVector;
+import biblioteket.roborally.board.Direction;
 
 // Need this for testing, can be removed once we get walls or lasers
 public class ImmovableElement implements IElement {
+
     @Override
-    public IPosition getPos() {
+    public DirVector getPosition() {
         return null;
     }
 
     @Override
-    public void setPos(IPosition pos) {
+    public void setPosition(DirVector pos) {
 
     }
 
     @Override
-    public void setPos(int x, int y) {
+    public void setPosition(int x, int y) {
 
     }
 
     @Override
     public boolean immovable() {
         return true;
-    }
-
-    @Override
-    public UUID getID() {
-        return null;
     }
 
     @Override

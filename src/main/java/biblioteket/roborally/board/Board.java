@@ -60,22 +60,42 @@ public class Board implements IBoard {
         return this.tileHeight;
     }
 
+    /**
+     * Return the layer containing all the ground tiles, i.e. just floor, holes, spawn points etc.
+     * @return a layer
+     */
     public TiledMapTileLayer getGroundLayer() {
         return this.groundLayer;
     }
 
+    /**
+     * Returns the layer that the player objects are.
+     * @return a layer
+     */
     public TiledMapTileLayer getPlayerLayer() {
         return this.playerLayer;
     }
 
+    /**
+     * Returns the layer that the flags are.
+     * @return a layer
+     */
     public TiledMapTileLayer getFlagLayer() {
         return this.flagLayer;
     }
 
+    /**
+     * Returns the layer that the lasers are.
+     * @return a layer
+     */
     public TiledMapTileLayer getLaserLayer() {
         return this.laserLayer;
     }
 
+    /**
+     * Returns the layer that the walls are.
+     * @return a layer
+     */
     public TiledMapTileLayer getWallLayer() {
         return this.wallLayer;
     }

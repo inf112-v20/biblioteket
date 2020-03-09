@@ -1,10 +1,10 @@
 package biblioteket.roborally.actors;
 
-import biblioteket.roborally.board.Direction;
 import biblioteket.roborally.IElement;
-import biblioteket.roborally.grid.IPosition;
+import biblioteket.roborally.board.DirVector;
+import biblioteket.roborally.board.Direction;
 
-public interface IRobot<T> extends IElement {
+public interface IRobot extends IElement {
 
     /**
      * Get the player who is the owner of the robot.
@@ -42,11 +42,6 @@ public interface IRobot<T> extends IElement {
     void addDamageTokens(int damageTokens);
 
     /**
-     * Remove all the damage tokens the robot has accumulated.
-     */
-    void removeAllDamageTokens();
-
-    /**
      * Returns true if robot has accumulated more than 10 damage tokens.
      *
      * @return true if robot is destroyed.
@@ -59,42 +54,14 @@ public interface IRobot<T> extends IElement {
      *
      * @return location of archive marker.
      */
-    IPosition<T> getArchiveMarker();
+    DirVector getArchiveMarker();
 
     /**
      * Set the robots archive marker, which is where it will be revived.
      *
      * @param location
      */
-    void setArchiveMarker(IPosition<T> location);
-
-    /**
-     * Get the position of the robot, retrieved as a location.
-     *
-     * @return
-     */
-    IPosition<T> getPosition();
-
-    /**
-     * Set the position of the robot, given as location.
-     *
-     * @param location
-     */
-    void setPosition(IPosition<T> location);
-
-    /**
-     * Returns the direction the robot faces.
-     *
-     * @return the direction the robot faces.
-     */
-    Direction getDirection();
-
-    /**
-     * Set the direction the robot faces.
-     *
-     * @param direction
-     */
-    void setDirection(Direction direction);
+    void setArchiveMarker(DirVector location);
 
     /**
      * Changes the direction the robot faces.
@@ -139,5 +106,4 @@ public interface IRobot<T> extends IElement {
      * @return true if robot can move in given direction.
      */
     boolean canMoveInDirection(Direction direction);
-
 }

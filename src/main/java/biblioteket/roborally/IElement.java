@@ -1,26 +1,24 @@
 package biblioteket.roborally;
 
+import biblioteket.roborally.board.DirVector;
 import biblioteket.roborally.board.Direction;
-import biblioteket.roborally.grid.IPosition;
-
-import java.util.UUID;
 
 public interface IElement {
     /**
      * @return the current position of the element.
      */
-    IPosition getPos();
+    DirVector getPosition();
 
     /**
      * @param pos the position on the board
      */
-    void setPos(IPosition pos);
+    void setPosition(DirVector pos);
 
     /**
      * @param x position on the grid
      * @param y position on the grid
      */
-    void setPos(int x, int y);
+    void setPosition(int x, int y);
 
     /**
      * Some items in the game does not allow a robot to pass through or stand
@@ -30,14 +28,6 @@ public interface IElement {
      * @return true if immovable, false otherwise.
      */
     boolean immovable();
-
-    /**
-     * An element has a uniquely generated ID so that one can easily distinguish
-     * between items that are the same class but not actually equal.
-     *
-     * @return the elements unique ID
-     */
-    UUID getID();
 
     /**
      * @return the current direction the element is facing.

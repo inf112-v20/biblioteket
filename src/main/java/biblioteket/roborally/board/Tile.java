@@ -44,17 +44,18 @@ public enum Tile {
     ;
 
 
-    private final int value;
     private final static Map<Integer, Tile> map = new HashMap<>();
-
-    Tile(int value) {
-        this.value = value;
-    }
 
     static {
         for (Tile pageType : Tile.values()) {
             map.put(pageType.value, pageType);
         }
+    }
+
+    private final int value;
+
+    Tile(int value) {
+        this.value = value;
     }
 
     public static Tile valueOf(int pageType) {

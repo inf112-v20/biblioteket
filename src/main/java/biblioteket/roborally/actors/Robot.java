@@ -1,29 +1,24 @@
 package biblioteket.roborally.actors;
 
+import biblioteket.roborally.board.DirVector;
 import biblioteket.roborally.board.Direction;
-import biblioteket.roborally.grid.IPosition;
 
-import java.util.UUID;
-
-public class Robot<T> implements IRobot<T> {
-    private IPosition<T> position;
-    private IPosition<T> archiveMarker;
-    private Direction direction;
+public class Robot implements IRobot {
+    private DirVector location;
+    private DirVector archiveMarker;
 
     private IPlayer player;
 
     private boolean destroyed = false;
     private int damageTokens = 0;
 
-    public Robot(IPosition<T> position, IPosition<T> archiveMarker, Direction direction) {
-        this.position = position;
-        this.archiveMarker = archiveMarker;
-        this.direction = direction;
+    public Robot(DirVector location) {
+        this.location = location;
     }
 
     @Override
     public IPlayer getPlayer() {
-        return player;
+        return this.player;
     }
 
     @Override
@@ -33,66 +28,78 @@ public class Robot<T> implements IRobot<T> {
 
     @Override
     public int getNumberOfDamageTokens() {
-        return damageTokens;
+        return this.damageTokens;
     }
 
     @Override
     public void removeDamageTokens(int damageTokens) {
-
-        this.damageTokens = this.damageTokens - damageTokens;
+        this.damageTokens -= damageTokens;
     }
 
     @Override
     public void addDamageTokens(int damageTokens) {
-
-        this.damageTokens = this.damageTokens + damageTokens;
-    }
-
-    @Override
-    public void removeAllDamageTokens() {
-
-        this.damageTokens = 0;
+        this.damageTokens += damageTokens;
     }
 
     @Override
     public boolean isDestroyed() {
-
-        return damageTokens > 9;
+        return this.damageTokens > 0;
     }
 
     @Override
-    public IPosition<T> getArchiveMarker() {
-        return archiveMarker;
+    public DirVector getArchiveMarker() {
+        return this.archiveMarker;
     }
 
     @Override
-    public void setArchiveMarker(IPosition<T> location) {
+    public void setArchiveMarker(DirVector location) {
         this.archiveMarker = location;
     }
 
     @Override
-    public IPosition<T> getPosition() {
-        return position;
+    public void turnLeft() {
+        this.location.left();
     }
 
     @Override
-    public void setPosition(IPosition<T> location) {
-        this.position = location;
+    public void turnRight() {
+        this.location.right();
     }
 
     @Override
-    public IPosition getPos() {
-        return null;
+    public void moveForward() {
+        this.location.forward(1);
     }
 
     @Override
-    public void setPos(IPosition pos) {
-
+    public void moveBackward() {
+        this.location.backward(1);
     }
 
     @Override
-    public void setPos(int x, int y) {
+    public void pushRobotInDirection(Direction direction) {
+        this.location.setDirection(direction);
+        this.location.forward(1);
+    }
 
+    @Override
+    public boolean canMoveInDirection(Direction direction) {
+        return false;
+    }
+
+    @Override
+    public DirVector getPosition() {
+        return this.location;
+    }
+
+    @Override
+    public void setPosition(DirVector location) {
+        this.location = location;
+    }
+
+    @Override
+    public void setPosition(int x, int y) {
+        this.location = new DirVector(x, y, this.location.getDirection());
     }
 
     @Override
@@ -101,52 +108,12 @@ public class Robot<T> implements IRobot<T> {
     }
 
     @Override
-    public UUID getID() {
-        return null;
-    }
-
-    @Override
     public Direction getDirection() {
-        return direction;
+        return this.location.getDirection();
     }
 
     @Override
     public void setDirection(Direction direction) {
-        this.direction = direction;
+        this.location.setDirection(direction);
     }
-
-    @Override
-    public void turnLeft() {
-        this.direction = this.direction.left();
-    }
-
-    @Override
-    public void turnRight() {
-        this.direction = this.direction.right();
-    }
-
-    // TODO
-    @Override
-    public void moveForward() {
-        // this.setPosition(position.locationInDirection(direction));
-    }
-
-    // TODO
-    @Override
-    public void moveBackward() {
-        // this.setPosition(position.locationInDirection(direction.oppositeDirection()));
-    }
-
-    //TODO
-    @Override
-    public void pushRobotInDirection(Direction direction) {
-
-    }
-
-    //TODO
-    @Override
-    public boolean canMoveInDirection(Direction direction) {
-        return false;
-    }
-
 }
