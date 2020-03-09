@@ -142,7 +142,15 @@ public class Robot<T> implements IRobot<T> {
     private void move(Direction direction){
         IGrid<IElement> grid = board.getGrid();
         IPosition<IElement> positionInDirection = grid.positionInDirection((IPosition<IElement>) this.position, direction);
-        this.position = (IPosition<T>) positionInDirection;
+        if(positionInDirection == null){
+            player.removeOneLife();
+            if(player.hasLivesLeft()){
+                removeAllDamageTokens();
+                setPos(archiveMarker); // TODO need to handle if archive marker position is taken.
+            }
+        }else{
+            this.position = (IPosition<T>) positionInDirection;
+        }
     }
 
     //TODO

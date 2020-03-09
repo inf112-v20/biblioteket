@@ -4,7 +4,6 @@ import biblioteket.roborally.Direction;
 import biblioteket.roborally.GameBoard;
 import biblioteket.roborally.grid.IGrid;
 import biblioteket.roborally.grid.IPosition;
-import biblioteket.roborally.grid.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,15 +17,19 @@ class RobotTest {
     GameBoard board;
     IGrid grid;
     IPlayer player;
+    IPosition pos1x1y;
+    int fullLife = 3;
+    IPosition archiveMarker;
 
     @BeforeEach
     void setUp() {
-        IPosition<Integer> pos = new Position<>(1, 1);
         Direction direction = Direction.NORTH;
         board = new GameBoard(width, height);
         grid = board.getGrid();
         player = new Player();
-        robot = new Robot(pos, pos, direction, board);
+        pos1x1y = grid.getPosition(1, 1);
+        archiveMarker = grid.getPosition(2,2);
+        robot = new Robot(pos1x1y, archiveMarker, direction, board);
         robot.setPlayer(player);
     }
 
@@ -151,6 +154,21 @@ class RobotTest {
         IPosition positionInDirection = grid.positionInDirection(position, Direction.WEST);
         robot.moveForward();
         assertEquals(positionInDirection, robot.getPosition());
+    }
+
+    @Test
+    void moveForwardTowardsNorthWhenItIsOutOfBoundaries(){
+        int damageBeforeDeath = 2;
+        robot.setDirection(Direction.NORTH);
+        robot.setPos(0,0);
+        robot.addDamageTokens(damageBeforeDeath);
+        assertEquals(fullLife, robot.getPlayer().getLives());
+        assertEquals(damageBeforeDeath, robot.getNumberOfDamageTokens());
+        robot.moveForward();
+        assertEquals(fullLife - 1, robot.getPlayer().getLives());
+        assertEquals(robot.getArchiveMarker(), robot.getPosition());
+        assertEquals(0, robot.getNumberOfDamageTokens());
+
     }
 
     @Test
