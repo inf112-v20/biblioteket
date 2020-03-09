@@ -1,24 +1,31 @@
 package biblioteket.roborally.actors;
 
 import biblioteket.roborally.Direction;
+import biblioteket.roborally.GameBoard;
+import biblioteket.roborally.IElement;
+import biblioteket.roborally.IGameBoard;
+import biblioteket.roborally.grid.IGrid;
 import biblioteket.roborally.grid.IPosition;
 
+import java.util.List;
 import java.util.UUID;
 
 public class Robot<T> implements IRobot<T> {
     private IPosition<T> position;
     private IPosition<T> archiveMarker;
     private Direction direction;
+    private GameBoard board; //Can't use IGameboard since it does not have getGrid method
 
     private IPlayer player;
 
     private boolean destroyed = false;
     private int damageTokens = 0;
 
-    public Robot(IPosition<T> position, IPosition<T> archiveMarker, Direction direction) {
+    public Robot(IPosition<T> position, IPosition<T> archiveMarker, Direction direction, GameBoard board) {
         this.position = position;
         this.archiveMarker = archiveMarker;
         this.direction = direction;
+        this.board = board;
     }
 
     @Override
@@ -38,25 +45,21 @@ public class Robot<T> implements IRobot<T> {
 
     @Override
     public void removeDamageTokens(int damageTokens) {
-
         this.damageTokens = this.damageTokens - damageTokens;
     }
 
     @Override
     public void addDamageTokens(int damageTokens) {
-
         this.damageTokens = this.damageTokens + damageTokens;
     }
 
     @Override
     public void removeAllDamageTokens() {
-
         this.damageTokens = 0;
     }
 
     @Override
     public boolean isDestroyed() {
-
         return damageTokens > 9;
     }
 
@@ -82,17 +85,16 @@ public class Robot<T> implements IRobot<T> {
 
     @Override
     public IPosition getPos() {
-        return null;
+        return position;
     }
 
     @Override
-    public void setPos(IPosition pos) {
-
-    }
+    public void setPos(IPosition pos) { this.position = pos; }
 
     @Override
     public void setPos(int x, int y) {
-
+        IGrid grid = board.getGrid();
+        this.position = grid.getPosition(x, y);
     }
 
     @Override
@@ -128,13 +130,19 @@ public class Robot<T> implements IRobot<T> {
     // TODO
     @Override
     public void moveForward() {
-        // this.setPosition(position.locationInDirection(direction));
+        move(direction);
     }
 
     // TODO
     @Override
     public void moveBackward() {
-        // this.setPosition(position.locationInDirection(direction.oppositeDirection()));
+        move(direction.oppositeDirection());
+    }
+
+    private void move(Direction direction){
+        IGrid<IElement> grid = board.getGrid();
+        IPosition<IElement> positionInDirection = grid.positionInDirection((IPosition<IElement>) this.position, direction);
+        this.position = (IPosition<T>) positionInDirection;
     }
 
     //TODO

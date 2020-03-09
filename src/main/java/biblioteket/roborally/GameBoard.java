@@ -9,7 +9,7 @@ import java.util.List;
 public class GameBoard implements IGameBoard {
     IGrid<IElement> grid;
 
-    GameBoard(int width, int height) {
+    public GameBoard(int width, int height) {
         grid = new Grid<>(width, height);
     }
 
