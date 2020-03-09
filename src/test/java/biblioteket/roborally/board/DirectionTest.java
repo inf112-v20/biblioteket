@@ -1,6 +1,5 @@
-package biblioteket.roborally;
+package biblioteket.roborally.board;
 
-import biblioteket.roborally.board.Direction;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
