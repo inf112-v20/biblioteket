@@ -19,7 +19,7 @@ public interface IElement {
      * @param x position on the grid
      * @param y position on the grid
      */
-    void setPos(int x, int y);
+    //void setPos(int x, int y);
 
     /**
      * Some items in the game does not allow a robot to pass through or stand
@@ -36,7 +36,7 @@ public interface IElement {
      *
      * @return the elements unique ID
      */
-    UUID getID();
+    //UUID getID();
 
     /**
      * @return the current direction the element is facing.
