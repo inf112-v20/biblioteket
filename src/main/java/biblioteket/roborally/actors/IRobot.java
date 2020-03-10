@@ -109,6 +109,13 @@ public interface IRobot<T> extends IElement {
     void turnRight();
 
     /**
+     * Tries to move robot in given direction.
+     *
+     * @param direction the direction one wants to move the robot.
+     */
+    void move(Direction direction);
+
+    /**
      * Changes the position of the robot.
      * Moves the robot one step in the direction it faces.
      */

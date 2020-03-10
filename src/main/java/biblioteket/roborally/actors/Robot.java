@@ -26,6 +26,7 @@ public class Robot<T> implements IRobot<T> {
         this.archiveMarker = archiveMarker;
         this.direction = direction;
         this.board = board;
+        this.position.put((T) this);
     }
 
     @Override
@@ -78,9 +79,12 @@ public class Robot<T> implements IRobot<T> {
         return position;
     }
 
+    //TODO should be removed.
     @Override
     public void setPosition(IPosition<T> location) {
+        this.position.remove((T) this);
         this.position = location;
+        this.position.put((T) this);
     }
 
     @Override
@@ -88,13 +92,20 @@ public class Robot<T> implements IRobot<T> {
         return position;
     }
 
+    //TODO needs test
     @Override
-    public void setPos(IPosition pos) { this.position = pos; }
+    public void setPos(IPosition pos) {
+        this.position.remove((T) this);
+        this.position = pos;
+        this.position.put((T) this);
+    }
 
     @Override
     public void setPos(int x, int y) {
         IGrid grid = board.getGrid();
+        this.position.remove((T) this);
         this.position = grid.getPosition(x, y);
+        this.position.put((T) this);
     }
 
     @Override
@@ -139,18 +150,34 @@ public class Robot<T> implements IRobot<T> {
         move(direction.oppositeDirection());
     }
 
-    private void move(Direction direction){
+    // TODO needs more
+    @Override
+    public void move(Direction direction) {
         IGrid<IElement> grid = board.getGrid();
         IPosition<IElement> positionInDirection = grid.positionInDirection((IPosition<IElement>) this.position, direction);
-        if(positionInDirection == null){
+        if (positionInDirection == null) { //Moves of board
             player.removeOneLife();
-            if(player.hasLivesLeft()){
+            if (player.hasLivesLeft()) {
                 removeAllDamageTokens();
                 setPos(archiveMarker); // TODO need to handle if archive marker position is taken.
             }
-        }else{
-            this.position = (IPosition<T>) positionInDirection;
+        } else if ((positionInDirection.containsRobot())) {
+            List<IElement> elementsInPosition = positionInDirection.getContents(); //This should be handled in position.
+            IRobot robotInPosition = null;
+            for (IElement element : elementsInPosition) {
+                if (element instanceof IRobot<?>)
+                    robotInPosition = (IRobot) element;
+            }
+            if (!robotInPosition.canMoveInDirection(direction)) {
+                return;
+            } else {
+                setPosition((IPosition<T>) positionInDirection);
+                robotInPosition.move(direction);
+            }
+        } else {
+            setPosition((IPosition<T>) positionInDirection);
         }
+
     }
 
     //TODO
@@ -159,10 +186,10 @@ public class Robot<T> implements IRobot<T> {
 
     }
 
-    //TODO
+    //TODO needs test
     @Override
     public boolean canMoveInDirection(Direction direction) {
-        return false;
+        return !board.containsImmovableObject((IPosition<IElement>) position, direction);
     }
 
 }
