@@ -43,8 +43,8 @@ public class GameScreen implements Screen {
 
     public GameScreen(final RoboRally gam) {
         this.game = gam;
-//        TiledMap tiledMap = new TmxMapLoader().load("assets/dockingbay.tmx");
-        TiledMap tiledMap = new TmxMapLoader().load("assets/board_12x12.tmx");
+        TiledMap tiledMap = new TmxMapLoader().load("assets/dockingbay.tmx");
+//        TiledMap tiledMap = new TmxMapLoader().load("assets/board_12x12.tmx");
 
         this.gameBoard = MapReader.readMap(tiledMap);
 

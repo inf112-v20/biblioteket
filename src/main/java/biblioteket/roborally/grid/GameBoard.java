@@ -137,10 +137,7 @@ public class GameBoard implements IGameBoard{
         for (IElement element : elements) {
             if (element instanceof InteractingElement){
                 InteractingElement interactingElement = (InteractingElement)element;
-                System.out.println("Interacting with " + element);
-                System.out.println("Old pos: " + robot.getPosition());
                 interactingElement.interact(robot);
-                System.out.println("New pos: " + robot.getPosition());
                 return true;
             }
         }
