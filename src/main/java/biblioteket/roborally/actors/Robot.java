@@ -1,5 +1,6 @@
 package biblioteket.roborally.actors;
 
+import biblioteket.roborally.board.Board;
 import biblioteket.roborally.board.DirVector;
 import biblioteket.roborally.board.Direction;
 
@@ -103,11 +104,6 @@ public class Robot implements IRobot {
     }
 
     @Override
-    public boolean immovable() {
-        return false;
-    }
-
-    @Override
     public Direction getDirection() {
         return this.location.getDirection();
     }
@@ -115,5 +111,21 @@ public class Robot implements IRobot {
     @Override
     public void setDirection(Direction direction) {
         this.location.setDirection(direction);
+    }
+
+    public boolean moveForward(Board board){
+        if(board.canMove(getPosition(), getDirection())){
+            this.location = this.location.dirVectorInDirection(getDirection());
+            return true;
+        }
+        return false;
+    }
+
+    public boolean move(Direction direction, Board board){
+        if(board.canMove(getPosition(), direction)){
+            this.location = this.location.dirVectorInDirection(getDirection());
+            return true;
+        }
+        return false;
     }
 }

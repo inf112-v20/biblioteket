@@ -155,6 +155,21 @@ public class DirVector {
         }
     }
 
+    public DirVector dirVectorInDirection(Direction direction) {
+        switch (direction) {
+            case NORTH:
+                return new DirVector(this.getX(), this.getY() + 1, direction);
+            case SOUTH:
+                return new DirVector(this.getX(), this.getY() - 1, direction);
+            case WEST:
+                return new DirVector(this.getX() - 1, this.getY() , direction);
+            case EAST:
+                return new DirVector(this.getX() + 1, this.getY() , direction);
+            default:
+                throw new UnsupportedOperationException();
+        }
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

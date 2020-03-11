@@ -1,10 +1,9 @@
 package biblioteket.roborally.actors;
 
-import biblioteket.roborally.IElement;
 import biblioteket.roborally.board.DirVector;
 import biblioteket.roborally.board.Direction;
 
-public interface IRobot extends IElement {
+public interface IRobot {
 
     /**
      * Get the player who is the owner of the robot.
@@ -106,4 +105,14 @@ public interface IRobot extends IElement {
      * @return true if robot can move in given direction.
      */
     boolean canMoveInDirection(Direction direction);
+
+    DirVector getPosition();
+
+    void setPosition(DirVector location);
+
+    void setPosition(int x, int y);
+
+    Direction getDirection();
+
+    void setDirection(Direction direction);
 }
