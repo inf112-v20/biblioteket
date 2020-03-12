@@ -13,7 +13,12 @@ public class Flag implements IElement {
     }
 
     public void setPos(IPosition pos) {
-        position = pos;
+        if(this.immovable()==false){
+            position = pos;
+        }
+        else {
+
+        }
     }
 
     public boolean immovable() {

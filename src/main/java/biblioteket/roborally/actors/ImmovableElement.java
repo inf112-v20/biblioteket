@@ -19,18 +19,8 @@ public class ImmovableElement implements IElement {
     }
 
     @Override
-    public void setPos(int x, int y) {
-
-    }
-
-    @Override
     public boolean immovable() {
         return true;
-    }
-
-    @Override
-    public UUID getID() {
-        return null;
     }
 
     @Override

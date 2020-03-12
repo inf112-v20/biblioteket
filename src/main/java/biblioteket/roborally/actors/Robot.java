@@ -90,7 +90,7 @@ public class Robot<T> implements IRobot<T> {
 
     }
 
-    @Override
+
     public void setPos(int x, int y) {
 
     }
@@ -100,7 +100,7 @@ public class Robot<T> implements IRobot<T> {
         return false;
     }
 
-    @Override
+
     public UUID getID() {
         return null;
     }
