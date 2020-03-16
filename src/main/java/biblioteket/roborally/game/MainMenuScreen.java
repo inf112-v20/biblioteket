@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 /**
  * The landing screen once the user starts the game, this is where the player(s)
@@ -21,17 +23,18 @@ public class MainMenuScreen implements Screen {
     private Texture quitPre;
     private Texture quitPost;
     OrthographicCamera camera;
-    private SpriteBatch batch;
+
 
     private int buttonHeight = 250;
     private int buttonWidth = 180;
-    private int buttonY = 40;
 
 
     public MainMenuScreen(final RoboRally game) {
         this.game = game;
         this.camera = new OrthographicCamera();
         camera.setToOrtho(false, 640, 640);
+
+
         background = new Texture("assets/background2.jpg");
         logo = new Texture("assets/logo.png");
         playPre = new Texture("assets/buttons/playPre.png");
