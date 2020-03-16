@@ -7,8 +7,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import javax.xml.soap.Text;
-
 /**
  * The landing screen once the user starts the game, this is where the player(s)
  * select how many players there are, multiplayer etc. Currently only a simple
@@ -18,19 +16,28 @@ public class MainMenuScreen implements Screen {
     private final RoboRally game;
     private Texture logo;
     private Texture background;
-    private Texture button;
-    private Texture button2;
+    private Texture playPre;
+    private Texture playPost;
+    private Texture quitPre;
+    private Texture quitPost;
     OrthographicCamera camera;
     private SpriteBatch batch;
+
+    private int buttonHeight = 250;
+    private int buttonWidth = 180;
+    private int buttonY = 40;
+
 
     public MainMenuScreen(final RoboRally game) {
         this.game = game;
         this.camera = new OrthographicCamera();
-        camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        camera.setToOrtho(false, 640, 640);
         background = new Texture("assets/background2.jpg");
         logo = new Texture("assets/logo.png");
-        button = new Texture("assets/button.png");
-        button2 = new Texture("assets/buttoninactive.png");
+        playPre = new Texture("assets/buttons/playPre.png");
+        playPost = new Texture("assets/buttons/playPost.png");
+        quitPre = new Texture("assets/buttons/quitPre.png");
+        quitPost = new Texture("assets/buttons/quitPost.png");
 
     }
 
@@ -41,32 +48,39 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        int center = (int) camera.viewportWidth / 2 - buttonWidth / 2;
+
         Gdx.gl.glClearColor(0, 0, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-
         camera.update();
+
         game.getBatch().setProjectionMatrix(camera.combined);
-
         game.getBatch().begin();
-        //game.getFont().draw(game.getBatch(), "ROBORALLY", 300, 320);
-        //game.getFont().draw(game.getBatch(), "Tap anywhere to begin!", 300, 300);
-        game.getBatch().draw(background, 0, 0,640,640);
-        game.getBatch().draw(logo, 70,340);
-        int x = (int) camera.viewportWidth / 2 - button.getWidth() / 2;
+        game.getBatch().draw(background, 0, 0, 700, 700);
+        game.getBatch().draw(logo, 70, 340);
+        game.getBatch().draw(playPre, center, camera.viewportHeight/4, buttonWidth, buttonHeight);
+        game.getBatch().draw(quitPre, center, camera.viewportHeight/10, buttonWidth, buttonHeight);
 
-
-
-        if (Gdx.input.getX() < x + button.getWidth() && Gdx.input.getX() > x && camera.viewportHeight - Gdx.input.getY() < 40 + 360 && camera.viewportHeight - Gdx.input.getY() > 40) {
-            game.getBatch().draw(button, 180,40,270,360);
-            if(Gdx.input.isTouched()) {
+        if (Gdx.input.getX() < center + buttonWidth && Gdx.input.getX() > center && camera.viewportHeight - Gdx.input.getY() < camera.viewportHeight/4 + buttonWidth && camera.viewportHeight - Gdx.input.getY() > camera.viewportHeight/4 + buttonWidth/(1.5)) {
+            game.getBatch().draw(quitPost, center, camera.viewportHeight/10, buttonWidth, buttonHeight);
+            if (Gdx.input.isTouched()) {
                 game.setScreen(new GameScreen(game));
                 dispose();
             }
         }
-        else {
-            game.getBatch().draw(button2, 180,40,270,360);
+        else if(Gdx.input.getX() < center + buttonWidth && Gdx.input.getX() > center && camera.viewportHeight - Gdx.input.getY() < camera.viewportHeight/7 + buttonWidth && camera.viewportHeight - Gdx.input.getY() > camera.viewportHeight/10 + buttonWidth/(1.5)) {
+            game.getBatch().draw(playPost, center, camera.viewportHeight/4, buttonWidth, buttonHeight);
+            if (Gdx.input.isTouched()) {
+                Gdx.app.exit();
+            }
         }
+        else {
+            game.getBatch().draw(playPost, center, camera.viewportHeight/4, buttonWidth, buttonHeight);
+            game.getBatch().draw(quitPost, center, camera.viewportHeight/10, buttonWidth, buttonHeight);
+
+        }
+
         game.getBatch().end();
     }
 

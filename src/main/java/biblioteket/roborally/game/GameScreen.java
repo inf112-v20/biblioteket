@@ -10,7 +10,6 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapProperties;
@@ -56,12 +55,11 @@ public class GameScreen implements Screen {
         this.game = gam;
         this.grid = new Grid<>(12, 12);
 
-       tiledMap = new TmxMapLoader().load("assets/board3.tmx");
-       batch = new SpriteBatch();
-       background = new Texture("assets/background2.jpg");
-       cards = new Texture("assets/cards.png");
-       logo = new Texture("assets/roborally.jpg");
-
+        tiledMap = new TmxMapLoader().load("assets/board3.tmx");
+        batch = new SpriteBatch();
+        background = new Texture("assets/background2.jpg");
+        cards = new Texture("assets/cards.png");
+        logo = new Texture("assets/roborally.jpg");
 
 
         properties = tiledMap.getProperties();
@@ -92,7 +90,6 @@ public class GameScreen implements Screen {
 
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap, (float) 1 / tileWidth);
         tiledMapRenderer.setView(camera);
-
 
 
         // For ease of use and iterating we define the input processor inline
@@ -159,15 +156,15 @@ public class GameScreen implements Screen {
             playerLayer.setCell((int) playerPosition.x, (int) playerPosition.y, playerCell);
 
         //Left of board x = 350, top y = 550, width = 290
-        Gdx.gl.glClearColor( 0, 0, 0, 1 );
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // Clears main menu screen
         batch.begin();
-        batch.draw(background, 350, 0,350,700);
-        batch.draw(cards, 350,0,100,90);
-        batch.draw(cards, 400,0,100,90);
-        batch.draw(cards, 450,0,100,90);
-        batch.draw(cards, 500,0,100,90);
-        batch.draw(cards, 550,0,100,90);
+        batch.draw(background, 0, 0, 700, 700);
+        batch.draw(cards, 350, 0, 100, 90);
+        batch.draw(cards, 400, 0, 100, 90);
+        batch.draw(cards, 450, 0, 100, 90);
+        batch.draw(cards, 500, 0, 100, 90);
+        batch.draw(cards, 550, 0, 100, 90);
         //batch.draw(logo, 350, 300,290,90);
         batch.end();
         tiledMapRenderer.render();
