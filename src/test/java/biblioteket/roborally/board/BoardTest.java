@@ -34,7 +34,7 @@ public class BoardTest {
     @Test
     void testBoardSize() {
         assertEquals(12, board.getWidth());
-        assertEquals(17, board.getHeight());
+        assertEquals(16, board.getHeight());
     }
 
     @Test

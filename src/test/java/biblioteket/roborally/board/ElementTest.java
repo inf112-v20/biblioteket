@@ -33,9 +33,9 @@ public class ElementTest {
 
     @Test
     void repairPositionTest() {
-        assertEquals(Element.SINGLE_REPAIR.getValue(), board.getGroundLayer().getCell(0,16).getTile().getId());
-        assertEquals(Element.SINGLE_REPAIR.getValue(), board.getGroundLayer().getCell(11,5).getTile().getId());
-        assertEquals(Element.DOUBLE_REPAIR.getValue(), board.getGroundLayer().getCell(7,9).getTile().getId());
+        assertEquals(Element.SINGLE_REPAIR.getValue(), board.getGroundLayer().getCell(0,15).getTile().getId());
+        assertEquals(Element.SINGLE_REPAIR.getValue(), board.getGroundLayer().getCell(11,4).getTile().getId());
+        assertEquals(Element.DOUBLE_REPAIR.getValue(), board.getGroundLayer().getCell(7,8).getTile().getId());
     }
 
     @Test
@@ -52,14 +52,14 @@ public class ElementTest {
 
     @Test
     void holePositionTest() {
-        assertEquals(Element.HOLE.getValue(), board.getGroundLayer().getCell(0, 6).getTile().getId());
-        assertEquals(Element.HOLE.getValue(), board.getGroundLayer().getCell(2, 15).getTile().getId());
+        assertEquals(Element.HOLE.getValue(), board.getGroundLayer().getCell(0, 5).getTile().getId());
+        assertEquals(Element.HOLE.getValue(), board.getGroundLayer().getCell(2, 14).getTile().getId());
     }
 
     @Test
     void flagPositionTest() {
-        assertEquals(Element.FLAG_1.getValue(), board.getFlagLayer().getCell(7, 15).getTile().getId());
-        assertEquals(Element.FLAG_2.getValue(), board.getFlagLayer().getCell(9, 9).getTile().getId());
-        assertEquals(Element.FLAG_3.getValue(), board.getFlagLayer().getCell(1, 12).getTile().getId());
+        assertEquals(Element.FLAG_1.getValue(), board.getFlagLayer().getCell(7, 14).getTile().getId());
+        assertEquals(Element.FLAG_2.getValue(), board.getFlagLayer().getCell(9, 8).getTile().getId());
+        assertEquals(Element.FLAG_3.getValue(), board.getFlagLayer().getCell(1, 11).getTile().getId());
     }
 }
