@@ -1,12 +1,13 @@
 package biblioteket.roborally.board;
 
 import biblioteket.roborally.actors.IRobot;
-import biblioteket.roborally.elements.IElement;
 import biblioteket.roborally.elements.InteractingElement;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+
+import java.util.Objects;
 
 public class Board implements IBoard {
     private final TiledMap map;
@@ -113,67 +114,31 @@ public class Board implements IBoard {
         return (TiledMapTileLayer) this.map.getLayers().get(layerName);
     }
 
-    IElement getInteractingElement(DirVector from, Direction direction) {
+    /**
+     * Gets an {@link InteractingElement} from the location of a robot, this can
+     * be something like a conveyor belt, a rotator or something similar.
+     *
+     * @param location location to check for elements
+     * @return {@link InteractingElement}
+     */
+    InteractingElement getInteractingElement(DirVector location) {
         try {
-            int fromId = this.getGroundLayer().getCell(from.getX(), from.getY()).getTile().getId();
+            int fromId = this.getGroundLayer().getCell(location.getX(), location.getY()).getTile().getId();
             if (Element.isInteractive(fromId)) {
-                return Element.factory(fromId);
+                return (InteractingElement) Element.factory(fromId);
             }
         } catch (Exception ignored) {
-        }
-
-        try {
-            int fromId = this.getFlagLayer().getCell(from.getX(), from.getY()).getTile().getId();
-            if (Element.isInteractive(fromId)) {
-                return Element.factory(fromId);
-            }
-        } catch (Exception ignored) {
+            // Ignored because getCell() can return null if the layer contains nothing in
+            // the given (x, y)-coordinates, we don't care about this as we just want to
+            // see if there are elements here.
         }
 
         return null;
     }
 
-    /**
-     * @param x position
-     * @param y position
-     * @return true if index is out of bounds, false otherwise
-     */
-    public boolean outOfBounds(int x, int y) {
-        return x < 0 || x >= getWidth() || y < 0 || y >= getHeight();
-    }
-
+    @Override
     public boolean outOfBounds(DirVector dir) {
         return dir.getX() < 0 || dir.getX() >= getWidth() || dir.getY() < 0 || dir.getY() >= getHeight();
-    }
-
-    @Override
-    public boolean containsImmovableObject(int x, int y, Direction direction) {
-        return false;
-    }
-
-    @Override
-    public boolean containsImmovableObject(DirVector currentPosition, Direction direction) {
-        return false;
-    }
-
-    @Override
-    public boolean containsImmovableObject(int x, int y) {
-        return false;
-    }
-
-    @Override
-    public boolean containsImmovableObject(DirVector currentPosition) {
-        return false;
-    }
-
-    @Override
-    public DirVector firstCollisionInDirection(int x, int y, Direction direction) {
-        return null;
-    }
-
-    @Override
-    public DirVector firstCollisionInDirection(DirVector currentPosition, Direction direction) {
-        return null;
     }
 
     @Override
@@ -182,10 +147,20 @@ public class Board implements IBoard {
         return !moveBlocked(robot.getPosition(), to, direction);
     }
 
+    /**
+     * Checks if a robot is blocked when it attempts to move between two cells
+     * in a given direction.
+     *
+     * @param from      location robot is moving from
+     * @param to        location robot is moving to
+     * @param direction direction robot is facing
+     * @return true if move is blocked, false otherwise
+     */
     private boolean moveBlocked(DirVector from, DirVector to, Direction direction) {
         try {
             int fromId = this.getWallLayer().getCell(from.getX(), from.getY()).getTile().getId();
-            if (Element.isWall(fromId) && Element.factory(fromId).blocking(direction, true)) return true;
+            if (Element.isWall(fromId) && Objects.requireNonNull(Element.factory(fromId)).blocking(direction, true))
+                return true;
         } catch (Exception ignored) {
             // Ignored because getCell() can return null if the layer contains nothing in
             // the given (x, y)-coordinates, we don't care about this as we just want to
@@ -194,13 +169,21 @@ public class Board implements IBoard {
 
         try {
             int toId = this.getWallLayer().getCell(to.getX(), to.getY()).getTile().getId();
-            if (Element.isWall(toId) && Element.factory(toId).blocking(direction, false)) return true;
+            if (Element.isWall(toId) && Objects.requireNonNull(Element.factory(toId)).blocking(direction, false))
+                return true;
         } catch (Exception ignored) {
             // See above.
         }
         return false;
     }
 
+    /**
+     * Returns a new {@link DirVector} in a given direction.
+     *
+     * @param from      location to move from
+     * @param direction direction to move
+     * @return new location in direction
+     */
     private DirVector positionInDirection(DirVector from, Direction direction) {
         return from.dirVectorInDirection(direction);
     }
@@ -208,9 +191,9 @@ public class Board implements IBoard {
 
     @Override
     public DirVector interact(IRobot robot) {
-        IElement element = getInteractingElement(robot.getPosition(), robot.getDirection());
-        if (element instanceof InteractingElement) {
-            ((InteractingElement) element).interact(robot);
+        InteractingElement element = getInteractingElement(robot.getPosition());
+        if (element != null) {
+            element.interact(robot);
             if (outOfBounds(robot.getPosition())) {
                 robot.addDamageTokens(1);
                 robot.setPosition(robot.getArchiveMarker());

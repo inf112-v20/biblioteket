@@ -144,12 +144,20 @@ public interface IRobot {
     void setDirection(Direction direction);
 
     /**
+     * Moves the robot forward a single cell.
+     *
+     * @param board current game board
+     * @return true if moved, false otherwise
+     */
+    boolean moveForward(Board board);
+
+    /**
      * Moves the robot in a given direction, if it falls of the map we add a
      * single damage token and move it back to its archive marker.
      *
      * @param direction direction to move in
-     * @param board     current gameboard
-     * @return true if can move, false otherwise
+     * @param board     current game board
+     * @return true if moved, false otherwise
      */
     boolean move(Direction direction, Board board);
 }

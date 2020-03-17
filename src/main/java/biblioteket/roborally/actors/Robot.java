@@ -114,6 +114,7 @@ public class Robot implements IRobot {
         this.location.setDirection(direction);
     }
 
+    @Override
     public boolean moveForward(Board board) {
         if (board.canMove(this, getDirection())) {
             this.location = this.location.dirVectorInDirection(getDirection());

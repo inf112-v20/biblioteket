@@ -160,6 +160,12 @@ public class DirVector {
         }
     }
 
+    /**
+     * Returns a new location if you move in the direction given as a parameter.
+     *
+     * @param direction direction to move
+     * @return new location in direction
+     */
     public DirVector dirVectorInDirection(Direction direction) {
         switch (direction) {
             case NORTH:
