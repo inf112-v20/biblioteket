@@ -1,29 +1,26 @@
 package biblioteket.roborally.actors;
 
-import biblioteket.roborally.Direction;
-import biblioteket.roborally.grid.IPosition;
+import biblioteket.roborally.board.Board;
+import biblioteket.roborally.board.DirVector;
+import biblioteket.roborally.board.Direction;
 
-import java.util.UUID;
-
-public class Robot<T> implements IRobot<T> {
-    private IPosition<T> position;
-    private IPosition<T> archiveMarker;
-    private Direction direction;
+public class Robot implements IRobot {
+    private DirVector location;
+    private DirVector archiveMarker;
 
     private IPlayer player;
 
     private boolean destroyed = false;
     private int damageTokens = 0;
 
-    public Robot(IPosition<T> position, IPosition<T> archiveMarker, Direction direction) {
-        this.position = position;
-        this.archiveMarker = archiveMarker;
-        this.direction = direction;
+    public Robot(DirVector location) {
+        this.location = location;
+        this.archiveMarker = new DirVector(location.getX(), location.getY(), Direction.NORTH);
     }
 
     @Override
     public IPlayer getPlayer() {
-        return player;
+        return this.player;
     }
 
     @Override
@@ -33,120 +30,109 @@ public class Robot<T> implements IRobot<T> {
 
     @Override
     public int getNumberOfDamageTokens() {
-        return damageTokens;
+        return this.damageTokens;
     }
 
     @Override
     public void removeDamageTokens(int damageTokens) {
-
-        this.damageTokens = this.damageTokens - damageTokens;
+        this.damageTokens -= damageTokens;
     }
 
     @Override
     public void addDamageTokens(int damageTokens) {
-
-        this.damageTokens = this.damageTokens + damageTokens;
-    }
-
-    @Override
-    public void removeAllDamageTokens() {
-
-        this.damageTokens = 0;
+        this.damageTokens += damageTokens;
     }
 
     @Override
     public boolean isDestroyed() {
-
-        return damageTokens > 9;
+        return this.damageTokens > 9;
     }
 
     @Override
-    public IPosition<T> getArchiveMarker() {
-        return archiveMarker;
+    public DirVector getArchiveMarker() {
+        return this.archiveMarker;
     }
 
     @Override
-    public void setArchiveMarker(IPosition<T> location) {
+    public void setArchiveMarker(DirVector location) {
         this.archiveMarker = location;
     }
 
     @Override
-    public IPosition<T> getPosition() {
-        return position;
-    }
-
-    @Override
-    public void setPosition(IPosition<T> location) {
-        this.position = location;
-    }
-
-    @Override
-    public IPosition getPos() {
-        return null;
-    }
-
-    @Override
-    public void setPos(IPosition pos) {
-
-    }
-
-    @Override
-    public void setPos(int x, int y) {
-
-    }
-
-    @Override
-    public boolean immovable() {
-        return false;
-    }
-
-    @Override
-    public UUID getID() {
-        return null;
-    }
-
-    @Override
-    public Direction getDirection() {
-        return direction;
-    }
-
-    @Override
-    public void setDirection(Direction direction) {
-        this.direction = direction;
-    }
-
-    @Override
     public void turnLeft() {
-        this.direction = this.direction.direction90DegreesToTheLeft();
+        this.location.left();
     }
 
     @Override
     public void turnRight() {
-        this.direction = this.direction.direction90DegreesToTheRight();
+        this.location.right();
     }
 
-    // TODO
     @Override
     public void moveForward() {
-        // this.setPosition(position.locationInDirection(direction));
+        this.location.forward(1);
     }
 
-    // TODO
     @Override
     public void moveBackward() {
-        // this.setPosition(position.locationInDirection(direction.oppositeDirection()));
+        this.location.backward(1);
     }
 
-    //TODO
     @Override
     public void pushRobotInDirection(Direction direction) {
-
+        this.location.setDirection(direction);
+        this.location.forward(1);
     }
 
-    //TODO
     @Override
     public boolean canMoveInDirection(Direction direction) {
         return false;
     }
 
+    @Override
+    public DirVector getPosition() {
+        return this.location;
+    }
+
+    @Override
+    public void setPosition(DirVector location) {
+        this.location = location;
+    }
+
+    @Override
+    public void setPosition(int x, int y) {
+        this.location = new DirVector(x, y, this.location.getDirection());
+    }
+
+    @Override
+    public Direction getDirection() {
+        return this.location.getDirection();
+    }
+
+    @Override
+    public void setDirection(Direction direction) {
+        this.location.setDirection(direction);
+    }
+
+    @Override
+    public boolean moveForward(Board board) {
+        if (board.canMove(this, getDirection())) {
+            this.location = this.location.dirVectorInDirection(getDirection());
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean move(Direction direction, Board board) {
+        if (board.canMove(this, direction)) {
+            this.location = this.location.dirVectorInDirection(direction);
+            if (board.outOfBounds(this.location)) {
+                this.addDamageTokens(1);
+                this.location = this.getArchiveMarker();
+            }
+            return true;
+        }
+        return false;
+    }
 }
