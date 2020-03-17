@@ -29,8 +29,6 @@ public class CardDeck implements ICardDeck {
                 ICard card = new Card(type, priorityNum);
                 cardDeck.add(card);
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {

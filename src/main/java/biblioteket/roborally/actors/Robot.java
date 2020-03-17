@@ -1,37 +1,26 @@
 package biblioteket.roborally.actors;
 
-import biblioteket.roborally.Direction;
-import biblioteket.roborally.GameBoard;
-import biblioteket.roborally.IElement;
-import biblioteket.roborally.IGameBoard;
-import biblioteket.roborally.grid.IGrid;
-import biblioteket.roborally.grid.IPosition;
+import biblioteket.roborally.board.Board;
+import biblioteket.roborally.board.DirVector;
+import biblioteket.roborally.board.Direction;
 
-import java.util.List;
-import java.util.UUID;
-
-public class Robot<T> implements IRobot<T> {
-    private IPosition<T> position;
-    private IPosition<T> archiveMarker;
-    private Direction direction;
-    private GameBoard board; //Can't use IGameboard since it does not have getGrid method
+public class Robot implements IRobot {
+    private DirVector location;
+    private DirVector archiveMarker;
 
     private IPlayer player;
 
     private boolean destroyed = false;
     private int damageTokens = 0;
 
-    public Robot(IPosition<T> position, IPosition<T> archiveMarker, Direction direction, GameBoard board) {
-        this.position = position;
-        this.archiveMarker = archiveMarker;
-        this.direction = direction;
-        this.board = board;
-        this.position.put((T) this);
+    public Robot(DirVector location) {
+        this.location = location;
+        this.archiveMarker = new DirVector(location.getX(), location.getY(), Direction.NORTH);
     }
 
     @Override
     public IPlayer getPlayer() {
-        return player;
+        return this.player;
     }
 
     @Override
@@ -41,155 +30,109 @@ public class Robot<T> implements IRobot<T> {
 
     @Override
     public int getNumberOfDamageTokens() {
-        return damageTokens;
+        return this.damageTokens;
     }
 
     @Override
     public void removeDamageTokens(int damageTokens) {
-        this.damageTokens = this.damageTokens - damageTokens;
+        this.damageTokens -= damageTokens;
     }
 
     @Override
     public void addDamageTokens(int damageTokens) {
-        this.damageTokens = this.damageTokens + damageTokens;
-    }
-
-    @Override
-    public void removeAllDamageTokens() {
-        this.damageTokens = 0;
+        this.damageTokens += damageTokens;
     }
 
     @Override
     public boolean isDestroyed() {
-        return damageTokens > 9;
+        return this.damageTokens > 9;
     }
 
     @Override
-    public IPosition<T> getArchiveMarker() {
-        return archiveMarker;
+    public DirVector getArchiveMarker() {
+        return this.archiveMarker;
     }
 
     @Override
-    public void setArchiveMarker(IPosition<T> location) {
+    public void setArchiveMarker(DirVector location) {
         this.archiveMarker = location;
     }
 
     @Override
-    public IPosition<T> getPosition() {
-        return position;
-    }
-
-    //TODO should be removed.
-    @Override
-    public void setPosition(IPosition<T> location) {
-        this.position.remove((T) this);
-        this.position = location;
-        this.position.put((T) this);
-    }
-
-    @Override
-    public IPosition getPos() {
-        return position;
-    }
-
-    //TODO needs test
-    @Override
-    public void setPos(IPosition pos) {
-        this.position.remove((T) this);
-        this.position = pos;
-        this.position.put((T) this);
-    }
-
-    @Override
-    public void setPos(int x, int y) {
-        IGrid grid = board.getGrid();
-        this.position.remove((T) this);
-        this.position = grid.getPosition(x, y);
-        this.position.put((T) this);
-    }
-
-    @Override
-    public boolean immovable() {
-        return false;
-    }
-
-    @Override
-    public UUID getID() {
-        return null;
-    }
-
-    @Override
-    public Direction getDirection() {
-        return direction;
-    }
-
-    @Override
-    public void setDirection(Direction direction) {
-        this.direction = direction;
-    }
-
-    @Override
     public void turnLeft() {
-        this.direction = this.direction.direction90DegreesToTheLeft();
+        this.location.left();
     }
 
     @Override
     public void turnRight() {
-        this.direction = this.direction.direction90DegreesToTheRight();
+        this.location.right();
     }
 
-    // TODO
     @Override
     public void moveForward() {
-        move(direction);
+        this.location.forward(1);
     }
 
-    // TODO
     @Override
     public void moveBackward() {
-        move(direction.oppositeDirection());
+        this.location.backward(1);
     }
 
-    // TODO needs more
-    @Override
-    public void move(Direction direction) {
-        IGrid<IElement> grid = board.getGrid();
-        IPosition<IElement> positionInDirection = grid.positionInDirection((IPosition<IElement>) this.position, direction);
-        if (positionInDirection == null) { //Moves of board
-            player.removeOneLife();
-            if (player.hasLivesLeft()) {
-                removeAllDamageTokens();
-                setPos(archiveMarker); // TODO need to handle if archive marker position is taken.
-            }
-        } else if ((positionInDirection.containsRobot())) {
-            List<IElement> elementsInPosition = positionInDirection.getContents(); //This should be handled in position.
-            IRobot robotInPosition = null;
-            for (IElement element : elementsInPosition) {
-                if (element instanceof IRobot<?>)
-                    robotInPosition = (IRobot) element;
-            }
-            if (!robotInPosition.canMoveInDirection(direction)) {
-                return;
-            } else {
-                setPosition((IPosition<T>) positionInDirection);
-                robotInPosition.move(direction);
-            }
-        } else {
-            setPosition((IPosition<T>) positionInDirection);
-        }
-
-    }
-
-    //TODO
     @Override
     public void pushRobotInDirection(Direction direction) {
-
+        this.location.setDirection(direction);
+        this.location.forward(1);
     }
 
-    //TODO needs test
     @Override
     public boolean canMoveInDirection(Direction direction) {
-        return !board.containsImmovableObject((IPosition<IElement>) position, direction);
+        return false;
     }
 
+    @Override
+    public DirVector getPosition() {
+        return this.location;
+    }
+
+    @Override
+    public void setPosition(DirVector location) {
+        this.location = location;
+    }
+
+    @Override
+    public void setPosition(int x, int y) {
+        this.location = new DirVector(x, y, this.location.getDirection());
+    }
+
+    @Override
+    public Direction getDirection() {
+        return this.location.getDirection();
+    }
+
+    @Override
+    public void setDirection(Direction direction) {
+        this.location.setDirection(direction);
+    }
+
+    @Override
+    public boolean moveForward(Board board) {
+        if (board.canMove(this, getDirection())) {
+            this.location = this.location.dirVectorInDirection(getDirection());
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean move(Direction direction, Board board) {
+        if (board.canMove(this, direction)) {
+            this.location = this.location.dirVectorInDirection(direction);
+            if (board.outOfBounds(this.location)) {
+                this.addDamageTokens(1);
+                this.location = this.getArchiveMarker();
+            }
+            return true;
+        }
+        return false;
+    }
 }
