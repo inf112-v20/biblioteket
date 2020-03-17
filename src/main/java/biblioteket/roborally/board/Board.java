@@ -65,6 +65,7 @@ public class Board implements IBoard {
 
     /**
      * Return the layer containing all the ground tiles, i.e. just floor, holes, spawn points etc.
+     *
      * @return a layer
      */
     public TiledMapTileLayer getGroundLayer() {
@@ -73,6 +74,7 @@ public class Board implements IBoard {
 
     /**
      * Returns the layer that the player objects are.
+     *
      * @return a layer
      */
     public TiledMapTileLayer getPlayerLayer() {
@@ -81,6 +83,7 @@ public class Board implements IBoard {
 
     /**
      * Returns the layer that the flags are.
+     *
      * @return a layer
      */
     public TiledMapTileLayer getFlagLayer() {
@@ -89,6 +92,7 @@ public class Board implements IBoard {
 
     /**
      * Returns the layer that the lasers are.
+     *
      * @return a layer
      */
     public TiledMapTileLayer getLaserLayer() {
@@ -97,6 +101,7 @@ public class Board implements IBoard {
 
     /**
      * Returns the layer that the walls are.
+     *
      * @return a layer
      */
     public TiledMapTileLayer getWallLayer() {
@@ -114,14 +119,16 @@ public class Board implements IBoard {
             if (Element.isInteractive(fromId)) {
                 return Element.factory(fromId);
             }
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
 
         try {
             int fromId = this.getFlagLayer().getCell(from.getX(), from.getY()).getTile().getId();
             if (Element.isInteractive(fromId)) {
                 return Element.factory(fromId);
             }
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
 
         return null;
     }
@@ -180,16 +187,18 @@ public class Board implements IBoard {
         try {
             int fromId = this.getWallLayer().getCell(from.getX(), from.getY()).getTile().getId();
             if (Element.isWall(fromId)) {
-                if (Element.factory(fromId).blockingExit(direction)) return true;
+                if (Element.factory(fromId).blocking(direction, true)) return true;
             }
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
 
-        try{
+        try {
             int toId = this.getWallLayer().getCell(to.getX(), to.getY()).getTile().getId();
             if (Element.isWall(toId)) {
-                return Element.factory(toId).blockingEntry(direction);
+                return Element.factory(toId).blocking(direction, false);
             }
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
         return false;
     }
 

@@ -36,11 +36,21 @@ public class DirVector {
 
     /**
      * Updates the (x,y) coordinates.
+     *
      * @param x x-position
      * @param y y-position
      */
     public void setVector(int x, int y) {
         this.setVector(new Vector2(x, y));
+    }
+
+    /**
+     * Returns the current x-position on the board;
+     *
+     * @return x-position
+     */
+    public int getX() {
+        return (int) this.vector.x;
     }
 
     /**
@@ -53,11 +63,12 @@ public class DirVector {
     }
 
     /**
-     * Returns the current x-position on the board;
-     * @return x-position
+     * Returns the current y-position on the board;
+     *
+     * @return y-position
      */
-    public int getX() {
-        return (int) this.vector.x;
+    public int getY() {
+        return (int) this.vector.y;
     }
 
     /**
@@ -67,14 +78,6 @@ public class DirVector {
      */
     public void setY(int y) {
         this.vector = new Vector2(this.vector.x, y);
-    }
-
-    /**
-     * Returns the current y-position on the board;
-     * @return y-position
-     */
-    public int getY() {
-        return (int) this.vector.y;
     }
 
     /**
@@ -111,6 +114,7 @@ public class DirVector {
 
     /**
      * Sets the location n-steps ahead.
+     *
      * @param moves how many spaces to move
      */
     public void forward(int moves) {
@@ -134,6 +138,7 @@ public class DirVector {
 
     /**
      * Sets the location n-steps backwards.
+     *
      * @param moves how many spaces to move
      */
     public void backward(int moves) {
@@ -162,9 +167,9 @@ public class DirVector {
             case SOUTH:
                 return new DirVector(this.getX(), this.getY() - 1, direction);
             case WEST:
-                return new DirVector(this.getX() - 1, this.getY() , direction);
+                return new DirVector(this.getX() - 1, this.getY(), direction);
             case EAST:
-                return new DirVector(this.getX() + 1, this.getY() , direction);
+                return new DirVector(this.getX() + 1, this.getY(), direction);
             default:
                 throw new UnsupportedOperationException();
         }

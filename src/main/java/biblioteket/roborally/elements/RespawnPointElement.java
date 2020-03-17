@@ -7,22 +7,18 @@ import biblioteket.roborally.board.Direction;
 public class RespawnPointElement implements IElement {
     private final int point;
 
-    public RespawnPointElement(int point){
+    public RespawnPointElement(int point) {
         this.point = point;
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return "Respawn";
     }
 
-    @Override
-    public boolean blockingExit(Direction direction) {
-        return false;
-    }
 
     @Override
-    public boolean blockingEntry(Direction direction) {
+    public boolean blocking(Direction direction, boolean exit) {
         return false;
     }
 }

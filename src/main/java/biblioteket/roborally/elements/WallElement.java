@@ -1,6 +1,5 @@
 package biblioteket.roborally.elements;
 
-import biblioteket.roborally.board.DirVector;
 import biblioteket.roborally.board.Direction;
 
 public class WallElement implements IElement {
@@ -14,27 +13,37 @@ public class WallElement implements IElement {
         this.yDirection = yDirection;
     }
 
-    /**
-     * @param direction actor wants to exit position of wall
-     * @return true if wall is blocking the exit in that direction
-     */
-    @Override
-    public boolean blockingExit(Direction direction){
-        return direction == this.xDirection || direction == this.yDirection;
-    }
 
-    /**
-     * @param direction the actor wants to enter the position of the wall
-     * @return true if wall is blocking entry in that direction
-     */
     @Override
-    public boolean blockingEntry(Direction direction){
+    public boolean blocking(Direction direction, boolean exit) {
+        if (exit) {
+            return direction == this.xDirection || direction == this.yDirection;
+        }
         Direction from = direction.opposite();
         return from == this.xDirection || from == this.yDirection;
     }
 
+    // /**
+    //  * @param direction actor wants to exit position of wall
+    //  * @return true if wall is blocking the exit in that direction
+    //  */
+    // @Override
+    // public boolean blockingExit(Direction direction){
+    //     return direction == this.xDirection || direction == this.yDirection;
+    // }
+    //
+    // /**
+    //  * @param direction the actor wants to enter the position of the wall
+    //  * @return true if wall is blocking entry in that direction
+    //  */
+    // @Override
+    // public boolean blockingEntry(Direction direction){
+    //     Direction from = direction.opposite();
+    //     return from == this.xDirection || from == this.yDirection;
+    // }
+
     @Override
-    public String toString(){
-        return "Wall " + xDirection +", " + yDirection;
+    public String toString() {
+        return "Wall " + xDirection + ", " + yDirection;
     }
 }

@@ -46,7 +46,7 @@ public class GameScreen implements Screen {
         playerDiedCell = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(playerTextureSplit[0][1]));
         playerWonCell = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(playerTextureSplit[0][2]));
 
-        playerPosition = new Vector2(0,0);
+        playerPosition = new Vector2(0, 0);
         robot = new Robot(new DirVector(0, 0, Direction.NORTH));
 
         OrthographicCamera camera = new OrthographicCamera();

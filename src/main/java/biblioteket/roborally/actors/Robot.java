@@ -113,16 +113,16 @@ public class Robot implements IRobot {
         this.location.setDirection(direction);
     }
 
-    public boolean moveForward(Board board){
-        if(board.canMove(getPosition(), getDirection())){
+    public boolean moveForward(Board board) {
+        if (board.canMove(getPosition(), getDirection())) {
             this.location = this.location.dirVectorInDirection(getDirection());
             return true;
         }
         return false;
     }
 
-    public boolean move(Direction direction, Board board){
-        if(board.canMove(getPosition(), direction)){
+    public boolean move(Direction direction, Board board) {
+        if (board.canMove(getPosition(), direction)) {
             this.location = this.location.dirVectorInDirection(getDirection());
             return true;
         }

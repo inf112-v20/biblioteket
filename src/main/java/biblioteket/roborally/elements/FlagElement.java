@@ -12,6 +12,7 @@ public class FlagElement implements InteractingElement {
 
     /**
      * If correct flag, let player register flag
+     *
      * @param robot
      */
     @Override
@@ -19,22 +20,18 @@ public class FlagElement implements InteractingElement {
         // Sjekk om riktig flag, tell at flag er tatt
     }
 
-    public int getFlagNumber(){
+    @Override
+    public boolean blocking(Direction direction, boolean exit) {
+        return false;
+    }
+
+    public int getFlagNumber() {
         return this.flagNumber;
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return "Flag";
     }
 
-    @Override
-    public boolean blockingExit(Direction direction) {
-        return false;
-    }
-
-    @Override
-    public boolean blockingEntry(Direction direction) {
-        return false;
-    }
 }

@@ -15,17 +15,12 @@ public class HoleElement implements InteractingElement {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return "Hole";
     }
 
     @Override
-    public boolean blockingExit(Direction direction) {
-        return false;
-    }
-
-    @Override
-    public boolean blockingEntry(Direction direction) {
+    public boolean blocking(Direction direction, boolean exit) {
         return false;
     }
 }

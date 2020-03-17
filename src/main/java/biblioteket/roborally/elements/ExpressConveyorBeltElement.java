@@ -6,12 +6,13 @@ import biblioteket.roborally.board.Direction;
 public class ExpressConveyorBeltElement implements InteractingElement {
     private final Direction direction;
 
-    public ExpressConveyorBeltElement(Direction direction){
+    public ExpressConveyorBeltElement(Direction direction) {
         this.direction = direction;
     }
 
     /**
      * Moves robot in the direction conveyor belt is facing, twice
+     *
      * @param robot to be moved
      */
     @Override
@@ -21,18 +22,12 @@ public class ExpressConveyorBeltElement implements InteractingElement {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return "Express Converor Belt";
     }
 
-
     @Override
-    public boolean blockingExit(Direction direction) {
-        return false;
-    }
-
-    @Override
-    public boolean blockingEntry(Direction direction) {
+    public boolean blocking(Direction direction, boolean exit) {
         return false;
     }
 }
