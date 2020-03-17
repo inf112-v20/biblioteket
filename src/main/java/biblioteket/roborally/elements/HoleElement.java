@@ -4,13 +4,10 @@ import biblioteket.roborally.actors.IRobot;
 import biblioteket.roborally.board.Direction;
 
 public class HoleElement implements InteractingElement {
-    /**
-     * @param robot
-     */
     @Override
     public void interact(IRobot robot) {
         robot.addDamageTokens(1);
-        // robot.respawn();
+        robot.setPosition(robot.getArchiveMarker());
     }
 
     @Override

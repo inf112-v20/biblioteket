@@ -13,7 +13,7 @@ class RobotTest {
 
     @BeforeEach
     void setUp() {
-        DirVector position = new DirVector(0,0, Direction.NORTH);
+        DirVector position = new DirVector(0, 0, Direction.NORTH);
         robot = new Robot(position);
     }
 

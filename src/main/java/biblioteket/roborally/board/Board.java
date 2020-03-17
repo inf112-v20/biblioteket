@@ -185,9 +185,7 @@ public class Board implements IBoard {
     private boolean moveBlocked(DirVector from, DirVector to, Direction direction) {
         try {
             int fromId = this.getWallLayer().getCell(from.getX(), from.getY()).getTile().getId();
-            if (Element.isWall(fromId)) {
-                if (Element.factory(fromId).blocking(direction, true)) return true;
-            }
+            if (Element.isWall(fromId) && Element.factory(fromId).blocking(direction, true)) return true;
         } catch (Exception ignored) {
             // Ignored because getCell() can return null if the layer contains nothing in
             // the given (x, y)-coordinates, we don't care about this as we just want to
@@ -196,9 +194,7 @@ public class Board implements IBoard {
 
         try {
             int toId = this.getWallLayer().getCell(to.getX(), to.getY()).getTile().getId();
-            if (Element.isWall(toId)) {
-                return Element.factory(toId).blocking(direction, false);
-            }
+            if (Element.isWall(toId) && Element.factory(toId).blocking(direction, false)) return true;
         } catch (Exception ignored) {
             // See above.
         }

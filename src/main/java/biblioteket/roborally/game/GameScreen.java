@@ -1,6 +1,5 @@
 package biblioteket.roborally.game;
 
-import biblioteket.roborally.actors.IRobot;
 import biblioteket.roborally.actors.Player;
 import biblioteket.roborally.actors.Robot;
 import biblioteket.roborally.board.Board;
@@ -17,7 +16,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
-import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,17 +29,10 @@ public class GameScreen implements Screen {
     private final RoboRally game;
     private final Board board;
 
-    List<Player> players;
-    Player currentPlayer;
+    private List<Player> players;
+    private Player currentPlayer;
 
     private OrthogonalTiledMapRenderer tiledMapRenderer;
-
-    private TiledMapTileLayer.Cell playerCell;
-    private TiledMapTileLayer.Cell playerDiedCell;
-    private TiledMapTileLayer.Cell playerWonCell;
-
-    private Vector2 playerPosition;
-    private IRobot robot;
 
     public GameScreen(final RoboRally gam) {
         this.game = gam;
@@ -50,14 +41,10 @@ public class GameScreen implements Screen {
         Texture playerTexture = new Texture("assets/player.png");
         TextureRegion[][] playerTextureSplit = TextureRegion.split(playerTexture, board.getTileWidth(), board.getTileHeight());
 
-        playerCell = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(playerTextureSplit[0][0]));
-        playerDiedCell = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(playerTextureSplit[0][1]));
-        playerWonCell = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(playerTextureSplit[0][2]));
-
         this.players = new ArrayList<>();
 
         for (int i = 0; i < 1; i++) {
-            Player player = new Player();
+            Player player = new Player(new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(playerTextureSplit[0][0])));
             currentPlayer = player;
             players.add(player);
             for (int y = 0; y < board.getHeight(); y++) {
@@ -110,7 +97,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        board.getPlayerLayer().setCell(currentPlayer.getRobot().getPosition().getX(), currentPlayer.getRobot().getPosition().getY(), playerCell);
+        board.getPlayerLayer().setCell(currentPlayer.getRobot().getPosition().getX(), currentPlayer.getRobot().getPosition().getY(), currentPlayer.getPlayerCell());
 
         tiledMapRenderer.render();
         tiledMapRenderer.getBatch().begin();

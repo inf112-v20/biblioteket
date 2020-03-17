@@ -17,12 +17,29 @@ public class ElementTest {
     @BeforeAll
     static void setup() {
         Application _application = new HeadlessApplication(new ApplicationListener() {
-            @Override public void create() {}
-            @Override public void resize(int width, int height) {}
-            @Override public void render() {}
-            @Override public void pause() {}
-            @Override public void resume() {}
-            @Override public void dispose() {}
+            @Override
+            public void create() {
+            }
+
+            @Override
+            public void resize(int width, int height) {
+            }
+
+            @Override
+            public void render() {
+            }
+
+            @Override
+            public void pause() {
+            }
+
+            @Override
+            public void resume() {
+            }
+
+            @Override
+            public void dispose() {
+            }
         });
 
         Gdx.gl20 = Mockito.mock(GL20.class);
@@ -33,9 +50,9 @@ public class ElementTest {
 
     @Test
     void repairPositionTest() {
-        assertEquals(Element.SINGLE_REPAIR.getValue(), board.getGroundLayer().getCell(0,15).getTile().getId());
-        assertEquals(Element.SINGLE_REPAIR.getValue(), board.getGroundLayer().getCell(11,4).getTile().getId());
-        assertEquals(Element.DOUBLE_REPAIR.getValue(), board.getGroundLayer().getCell(7,8).getTile().getId());
+        assertEquals(Element.SINGLE_REPAIR.getValue(), board.getGroundLayer().getCell(0, 15).getTile().getId());
+        assertEquals(Element.SINGLE_REPAIR.getValue(), board.getGroundLayer().getCell(11, 4).getTile().getId());
+        assertEquals(Element.DOUBLE_REPAIR.getValue(), board.getGroundLayer().getCell(7, 8).getTile().getId());
     }
 
     @Test

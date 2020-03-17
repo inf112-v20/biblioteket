@@ -55,7 +55,7 @@ public enum Element {
     SPAWN_8(132),
     ;
 
-    private final static Map<Integer, Element> map = new HashMap<>();
+    private static final Map<Integer, Element> map = new HashMap<>();
 
     static {
         for (Element pageType : Element.values()) {
@@ -110,8 +110,8 @@ public enum Element {
         }
     }
 
-    public static IElement factory(int ID) {
-        switch (map.get(ID)) {
+    public static IElement factory(int id) {
+        switch (map.get(id)) {
             case HOLE:
                 return new HoleElement();
 
