@@ -138,11 +138,11 @@ public class Board implements IBoard {
      * @param y position
      * @return true if index is out of bounds, false otherwise
      */
-    private boolean outOfBounds(int x, int y) {
+    public boolean outOfBounds(int x, int y) {
         return x < 0 || x >= getWidth() || y < 0 || y >= getHeight();
     }
 
-    private boolean outOfBounds(DirVector dir) {
+    public boolean outOfBounds(DirVector dir) {
         return dir.getX() < 0 || dir.getX() >= getWidth() || dir.getY() < 0 || dir.getY() >= getHeight();
     }
 
@@ -177,10 +177,9 @@ public class Board implements IBoard {
     }
 
     @Override
-    public boolean canMove(DirVector from, Direction direction) {
-        DirVector to = positionInDirection(from, direction);
-        if (outOfBounds(to)) return false;
-        return !moveBlocked(from, to, direction);
+    public boolean canMove(IRobot robot, Direction direction) {
+        DirVector to = positionInDirection(robot.getPosition(), direction);
+        return !moveBlocked(robot.getPosition(), to, direction);
     }
 
     private boolean moveBlocked(DirVector from, DirVector to, Direction direction) {
@@ -201,6 +200,7 @@ public class Board implements IBoard {
                 return Element.factory(toId).blocking(direction, false);
             }
         } catch (Exception ignored) {
+            // See above.
         }
         return false;
     }
@@ -209,16 +209,16 @@ public class Board implements IBoard {
         return from.dirVectorInDirection(direction);
     }
 
-    @Override
-    public boolean canMove(int x, int y, Direction direction) {
-        return canMove(new DirVector(x, y, direction), direction);
-    }
 
     @Override
     public DirVector interact(IRobot robot) {
         IElement element = getInteractingElement(robot.getPosition(), robot.getDirection());
         if (element instanceof InteractingElement) {
             ((InteractingElement) element).interact(robot);
+            if (outOfBounds(robot.getPosition())) {
+                robot.addDamageTokens(1);
+                robot.setPosition(robot.getArchiveMarker());
+            }
             return robot.getPosition();
         }
         return null;

@@ -1,5 +1,6 @@
 package biblioteket.roborally.actors;
 
+import biblioteket.roborally.board.Board;
 import biblioteket.roborally.board.DirVector;
 import biblioteket.roborally.board.Direction;
 
@@ -106,13 +107,49 @@ public interface IRobot {
      */
     boolean canMoveInDirection(Direction direction);
 
+    /**
+     * Gets the robots current position.
+     *
+     * @return current position of robot
+     */
     DirVector getPosition();
 
+    /**
+     * Updates the robots current position.
+     *
+     * @param location new position of robot
+     */
     void setPosition(DirVector location);
 
+    /**
+     * Updates the robots current position using a (x,y) coordinate pair.
+     *
+     * @param x x position on board
+     * @param y y position on board
+     */
     void setPosition(int x, int y);
 
+    /**
+     * Gets the robots direction.
+     *
+     * @return robot direction
+     */
     Direction getDirection();
 
+    /**
+     * Changes the robots current direction.
+     *
+     * @param direction direction to face.
+     */
     void setDirection(Direction direction);
+
+    /**
+     * Moves the robot in a given direction, if it falls of the map we add a
+     * single damage token and move it back to its archive marker.
+     *
+     * @param direction direction to move in
+     * @param board     current gameboard
+     * @return true if can move, false otherwise
+     */
+    boolean move(Direction direction, Board board);
 }

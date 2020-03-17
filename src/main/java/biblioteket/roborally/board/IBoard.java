@@ -92,15 +92,7 @@ public interface IBoard {
      * @param direction robot is moving
      * @return true is move is legal
      */
-    boolean canMove(DirVector from, Direction direction);
-
-    /**
-     * @param x         position
-     * @param y         position
-     * @param direction robot is moving
-     * @return true if move is legal
-     */
-    boolean canMove(int x, int y, Direction direction);
+    boolean canMove(IRobot robot, Direction direction);
 
     DirVector interact(IRobot robot);
 }

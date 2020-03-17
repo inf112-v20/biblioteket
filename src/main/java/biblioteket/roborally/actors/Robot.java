@@ -15,7 +15,7 @@ public class Robot implements IRobot {
 
     public Robot(DirVector location) {
         this.location = location;
-        this.archiveMarker = location;
+        this.archiveMarker = new DirVector(location.getX(), location.getY(), Direction.NORTH);
     }
 
     @Override
@@ -115,16 +115,21 @@ public class Robot implements IRobot {
     }
 
     public boolean moveForward(Board board) {
-        if (board.canMove(getPosition(), getDirection())) {
+        if (board.canMove(this, getDirection())) {
             this.location = this.location.dirVectorInDirection(getDirection());
             return true;
         }
         return false;
     }
 
+    @Override
     public boolean move(Direction direction, Board board) {
-        if (board.canMove(getPosition(), direction)) {
-            this.location = this.location.dirVectorInDirection(getDirection());
+        if (board.canMove(this, direction)) {
+            this.location = this.location.dirVectorInDirection(direction);
+            if (board.outOfBounds(this.location)) {
+                this.addDamageTokens(1);
+                this.location = this.getArchiveMarker();
+            }
             return true;
         }
         return false;

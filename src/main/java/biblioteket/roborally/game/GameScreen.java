@@ -86,37 +86,13 @@ public class GameScreen implements Screen {
             public boolean keyUp(int keycode) {
                 switch (keycode) {
                     case Input.Keys.A:
-                        if (board.canMove(currentPlayer.getRobot().getPosition().getX(), currentPlayer.getRobot().getPosition().getY(), Direction.WEST)) {
-                            currentPlayer.getRobot().setDirection(Direction.WEST);
-                            currentPlayer.getRobot().moveForward();
-                            return true;
-                        } else {
-                            return false;
-                        }
+                        return currentPlayer.getRobot().move(Direction.WEST, board);
                     case Input.Keys.D:
-                        if (board.canMove(currentPlayer.getRobot().getPosition().getX(), currentPlayer.getRobot().getPosition().getY(), Direction.EAST)) {
-                            currentPlayer.getRobot().setDirection(Direction.EAST);
-                            currentPlayer.getRobot().moveForward();
-                            return true;
-                        } else {
-                            return false;
-                        }
+                        return currentPlayer.getRobot().move(Direction.EAST, board);
                     case Input.Keys.W:
-                        if (board.canMove(currentPlayer.getRobot().getPosition().getX(), currentPlayer.getRobot().getPosition().getY(), Direction.NORTH)) {
-                            currentPlayer.getRobot().setDirection(Direction.NORTH);
-                            currentPlayer.getRobot().moveForward();
-                            return true;
-                        } else {
-                            return false;
-                        }
+                        return currentPlayer.getRobot().move(Direction.NORTH, board);
                     case Input.Keys.S:
-                        if (board.canMove(currentPlayer.getRobot().getPosition().getX(), currentPlayer.getRobot().getPosition().getY(), Direction.SOUTH)) {
-                            currentPlayer.getRobot().setDirection(Direction.SOUTH);
-                            currentPlayer.getRobot().moveForward();
-                            return true;
-                        } else {
-                            return false;
-                        }
+                        return currentPlayer.getRobot().move(Direction.SOUTH, board);
                     case Input.Keys.SPACE:
                         DirVector newPosition = board.interact(currentPlayer.getRobot());
                         return newPosition != null;
