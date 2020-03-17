@@ -190,6 +190,9 @@ public class Board implements IBoard {
                 if (Element.factory(fromId).blocking(direction, true)) return true;
             }
         } catch (Exception ignored) {
+            // Ignored because getCell() can return null if the layer contains nothing in
+            // the given (x, y)-coordinates, we don't care about this as we just want to
+            // see if there are elements here.
         }
 
         try {

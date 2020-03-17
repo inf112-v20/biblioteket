@@ -1,10 +1,12 @@
 package biblioteket.roborally.game;
 
 import biblioteket.roborally.actors.IRobot;
+import biblioteket.roborally.actors.Player;
 import biblioteket.roborally.actors.Robot;
 import biblioteket.roborally.board.Board;
 import biblioteket.roborally.board.DirVector;
 import biblioteket.roborally.board.Direction;
+import biblioteket.roborally.board.Element;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
@@ -17,6 +19,9 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Vector2;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * The viewport for the game, allows us to implement the UI separately from
  * the game logic itself. Currently only renders a very simple board with a
@@ -25,6 +30,9 @@ import com.badlogic.gdx.math.Vector2;
 public class GameScreen implements Screen {
     private final RoboRally game;
     private final Board board;
+
+    List<Player> players;
+    Player currentPlayer;
 
     private OrthogonalTiledMapRenderer tiledMapRenderer;
 
@@ -46,8 +54,22 @@ public class GameScreen implements Screen {
         playerDiedCell = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(playerTextureSplit[0][1]));
         playerWonCell = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(playerTextureSplit[0][2]));
 
-        playerPosition = new Vector2(0, 0);
-        robot = new Robot(new DirVector(0, 0, Direction.NORTH));
+        this.players = new ArrayList<>();
+
+        for (int i = 0; i < 1; i++) {
+            Player player = new Player();
+            currentPlayer = player;
+            players.add(player);
+            for (int y = 0; y < board.getHeight(); y++) {
+                for (int x = 0; x < board.getWidth(); x++) {
+                    if (Element.valueOf(board.getGroundLayer().getCell(x, y).getTile().getId()) == Element.SPAWN_1) {
+                        Robot robot = new Robot(new DirVector(x, y, Direction.NORTH));
+                        player.setRobot(robot);
+                        board.getPlayerLayer().setCell(player.getRobot().getPosition().getX(), player.getRobot().getPosition().getY(), null);
+                    }
+                }
+            }
+        }
 
         OrthographicCamera camera = new OrthographicCamera();
         camera.setToOrtho(false, board.getWidth(), board.getHeight());
@@ -62,56 +84,43 @@ public class GameScreen implements Screen {
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
             public boolean keyUp(int keycode) {
-
-                board.getPlayerLayer().setCell((int) playerPosition.x, (int) playerPosition.y, null);
-
-                float playerPosX = playerPosition.x;
-                float playerPosY = playerPosition.y;
-
                 switch (keycode) {
                     case Input.Keys.A:
-                        if (board.canMove(robot.getPosition().getX(), robot.getPosition().getY(), Direction.WEST)) {
-                            playerPosition.set(new Vector2(playerPosX - 1, playerPosY));
-                            robot.setDirection(Direction.WEST);
-                            robot.moveForward();
+                        if (board.canMove(currentPlayer.getRobot().getPosition().getX(), currentPlayer.getRobot().getPosition().getY(), Direction.WEST)) {
+                            currentPlayer.getRobot().setDirection(Direction.WEST);
+                            currentPlayer.getRobot().moveForward();
                             return true;
                         } else {
                             return false;
                         }
                     case Input.Keys.D:
-                        if (board.canMove(robot.getPosition().getX(), robot.getPosition().getY(), Direction.EAST)) {
-                            playerPosition.set(new Vector2(playerPosX + 1, playerPosY));
-                            robot.setDirection(Direction.EAST);
-                            robot.moveForward();
+                        if (board.canMove(currentPlayer.getRobot().getPosition().getX(), currentPlayer.getRobot().getPosition().getY(), Direction.EAST)) {
+                            currentPlayer.getRobot().setDirection(Direction.EAST);
+                            currentPlayer.getRobot().moveForward();
                             return true;
                         } else {
                             return false;
                         }
                     case Input.Keys.W:
-                        if (board.canMove(robot.getPosition().getX(), robot.getPosition().getY(), Direction.NORTH)) {
-                            playerPosition.set(new Vector2(playerPosX, playerPosY + 1));
-                            robot.setDirection(Direction.NORTH);
-                            robot.moveForward();
+                        if (board.canMove(currentPlayer.getRobot().getPosition().getX(), currentPlayer.getRobot().getPosition().getY(), Direction.NORTH)) {
+                            currentPlayer.getRobot().setDirection(Direction.NORTH);
+                            currentPlayer.getRobot().moveForward();
                             return true;
                         } else {
                             return false;
                         }
                     case Input.Keys.S:
-                        if (board.canMove(robot.getPosition().getX(), robot.getPosition().getY(), Direction.SOUTH)) {
-                            playerPosition.set(new Vector2(playerPosX, playerPosY - 1));
-                            robot.setDirection(Direction.SOUTH);
-                            robot.moveForward();
+                        if (board.canMove(currentPlayer.getRobot().getPosition().getX(), currentPlayer.getRobot().getPosition().getY(), Direction.SOUTH)) {
+                            currentPlayer.getRobot().setDirection(Direction.SOUTH);
+                            currentPlayer.getRobot().moveForward();
                             return true;
                         } else {
                             return false;
                         }
                     case Input.Keys.SPACE:
-                        DirVector newPosition = board.interact(robot);
-                        if (newPosition == null) return false;
-                        playerPosition.set(new Vector2(newPosition.getX(), newPosition.getY()));
-                        return true;
+                        DirVector newPosition = board.interact(currentPlayer.getRobot());
+                        return newPosition != null;
                     default:
-                        playerPosition.set(new Vector2(playerPosX, playerPosY));
                         return true;
                 }
             }
@@ -125,19 +134,14 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        board.getPlayerLayer().setCell((int) playerPosition.x, (int) playerPosition.y, playerCell);
-
-        if (board.getGroundLayer().getCell((int) playerPosition.x, (int) playerPosition.y) != null)
-            board.getPlayerLayer().setCell((int) playerPosition.x, (int) playerPosition.y, playerDiedCell);
-        else if (board.getFlagLayer().getCell((int) playerPosition.x, (int) playerPosition.y) != null)
-            board.getPlayerLayer().setCell((int) playerPosition.x, (int) playerPosition.y, playerWonCell);
-        else
-            board.getPlayerLayer().setCell((int) playerPosition.x, (int) playerPosition.y, playerCell);
+        board.getPlayerLayer().setCell(currentPlayer.getRobot().getPosition().getX(), currentPlayer.getRobot().getPosition().getY(), playerCell);
 
         tiledMapRenderer.render();
         tiledMapRenderer.getBatch().begin();
         tiledMapRenderer.renderTileLayer(board.getPlayerLayer());
         tiledMapRenderer.getBatch().end();
+
+        board.getPlayerLayer().setCell(currentPlayer.getRobot().getPosition().getX(), currentPlayer.getRobot().getPosition().getY(), null);
     }
 
     @Override

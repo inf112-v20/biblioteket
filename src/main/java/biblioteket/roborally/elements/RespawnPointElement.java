@@ -16,7 +16,6 @@ public class RespawnPointElement implements IElement {
         return "Respawn";
     }
 
-
     @Override
     public boolean blocking(Direction direction, boolean exit) {
         return false;

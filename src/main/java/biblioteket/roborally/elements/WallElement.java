@@ -13,7 +13,6 @@ public class WallElement implements IElement {
         this.yDirection = yDirection;
     }
 
-
     @Override
     public boolean blocking(Direction direction, boolean exit) {
         if (exit) {
@@ -22,25 +21,6 @@ public class WallElement implements IElement {
         Direction from = direction.opposite();
         return from == this.xDirection || from == this.yDirection;
     }
-
-    // /**
-    //  * @param direction actor wants to exit position of wall
-    //  * @return true if wall is blocking the exit in that direction
-    //  */
-    // @Override
-    // public boolean blockingExit(Direction direction){
-    //     return direction == this.xDirection || direction == this.yDirection;
-    // }
-    //
-    // /**
-    //  * @param direction the actor wants to enter the position of the wall
-    //  * @return true if wall is blocking entry in that direction
-    //  */
-    // @Override
-    // public boolean blockingEntry(Direction direction){
-    //     Direction from = direction.opposite();
-    //     return from == this.xDirection || from == this.yDirection;
-    // }
 
     @Override
     public String toString() {

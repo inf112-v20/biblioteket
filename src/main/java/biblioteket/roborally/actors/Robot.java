@@ -15,6 +15,7 @@ public class Robot implements IRobot {
 
     public Robot(DirVector location) {
         this.location = location;
+        this.archiveMarker = location;
     }
 
     @Override
@@ -44,7 +45,7 @@ public class Robot implements IRobot {
 
     @Override
     public boolean isDestroyed() {
-        return this.damageTokens > 0;
+        return this.damageTokens > 9;
     }
 
     @Override
