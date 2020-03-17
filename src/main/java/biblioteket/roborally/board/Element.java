@@ -152,21 +152,14 @@ public enum Element {
                 return new ExpressConveyorBeltElement(Direction.WEST);
 
             case SPAWN_1:
-                return new RespawnPointElement(1);
             case SPAWN_2:
-                return new RespawnPointElement(2);
             case SPAWN_3:
-                return new RespawnPointElement(3);
             case SPAWN_4:
-                return new RespawnPointElement(4);
             case SPAWN_5:
-                return new RespawnPointElement(5);
             case SPAWN_6:
-                return new RespawnPointElement(6);
             case SPAWN_7:
-                return new RespawnPointElement(7);
             case SPAWN_8:
-                return new RespawnPointElement(8);
+                return null;
 
             // Flag
             case FLAG_1:
