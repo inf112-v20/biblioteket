@@ -71,4 +71,12 @@ public interface IBoard {
      * @return new position of robot after having been interacted with.
      */
     DirVector interact(IPlayer player);
+
+    /**
+     * If players robot is standing on a flag that can be picked up, registers flag to player
+     *
+     * @param player with robot registering flag
+     * @return true if registering flag was successfull
+     */
+    boolean registerFlag(IPlayer player);
 }

@@ -47,7 +47,7 @@ public class Board implements IBoard {
 
         numFlags = 0;
         archiveMarkers = new ArrayList<>();
-        readMap(map);
+        readMap();
     }
 
     @Override
@@ -133,23 +133,28 @@ public class Board implements IBoard {
      * @return {@link InteractingElement}
      */
     public InteractingElement getInteractingElement(DirVector location) {
-
-        // Check flag layer
         try {
-            int fromId = this.getFlagLayer().getCell(location.getX(), location.getY()).getTile().getId();
+            int fromId = this.getGroundLayer().getCell(location.getX(), location.getY()).getTile().getId();
             return Element.getInteractiveElement(fromId);
         } catch (Exception ignored) {
             // Ignored because getCell() can return null if the layer contains nothing in
             // the given (x, y)-coordinates, we don't care about this as we just want to
             // see if there are elements here.
         }
+        return null;
+    }
 
-        // Check ground layer
+    /**
+     * Gets a {@link FlagElement} from the location of a robot
+     *
+     * @param location location to check for flags
+     * @return {@link FlagElement}
+     */
+    private FlagElement getFlagElement(DirVector location){
         try {
-            int fromId = this.getGroundLayer().getCell(location.getX(), location.getY()).getTile().getId();
-            return Element.getInteractiveElement(fromId);
+            int fromId = this.getFlagLayer().getCell(location.getX(), location.getY()).getTile().getId();
+            return (FlagElement) Element.getInteractiveElement(fromId);
         } catch (Exception ignored) {}
-
         return null;
     }
 
@@ -221,6 +226,16 @@ public class Board implements IBoard {
         return null;
     }
 
+    @Override
+    public boolean registerFlag(IPlayer player){
+        IRobot robot = player.getRobot();
+        FlagElement flag = getFlagElement(robot.getPosition());
+        if(flag != null){
+            flag.interact(player);
+        }
+        return false;
+    }
+
     /**
      * @return number of flags on map
      */
@@ -242,10 +257,8 @@ public class Board implements IBoard {
     /**
      * Iterates through each cell of ground and flag layer
      * Counts number of flags and registers all archive markers
-     *
-     * @param map TiledMap for current board
      */
-    private void readMap(TiledMap map) {
+    private void readMap() {
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
 

@@ -1,5 +1,6 @@
 package biblioteket.roborally.game;
 
+import biblioteket.roborally.actors.IPlayer;
 import biblioteket.roborally.actors.IRobot;
 import biblioteket.roborally.actors.Player;
 import biblioteket.roborally.actors.Robot;
@@ -27,8 +28,9 @@ import java.util.List;
 public class GameScreen implements Screen {
     private final RoboRally game;
     private final Board board;
+    private final GameLoop gameLoop;
 
-    private List<Player> players;
+    private List<IPlayer> players;
     private Player currentPlayer;
 
     private OrthogonalTiledMapRenderer tiledMapRenderer;
@@ -52,6 +54,8 @@ public class GameScreen implements Screen {
             player.setRobot(robot);
             board.getPlayerLayer().setCell(player.getRobot().getPosition().getX(), player.getRobot().getPosition().getY(), null);
         }
+
+        this.gameLoop = new GameLoop(board, players);
 
         OrthographicCamera camera = new OrthographicCamera();
         camera.setToOrtho(false, board.getWidth(), board.getHeight());
@@ -78,7 +82,16 @@ public class GameScreen implements Screen {
                     case Input.Keys.SPACE:
                         DirVector newPosition = board.interact(currentPlayer);
                         return newPosition != null;
+                    case Input.Keys.P:
+                        return board.registerFlag(currentPlayer);
+                    case Input.Keys.ENTER:
+                        gameLoop.doTurn();
+                        return false;
                     default:
+                        if(gameLoop.checkWinCondition()){
+                            Gdx.app.exit();
+                            System.exit(0);
+                        }
                         return true;
                 }
             }
