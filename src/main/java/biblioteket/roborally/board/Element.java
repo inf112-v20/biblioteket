@@ -1,8 +1,12 @@
 package biblioteket.roborally.board;
 
 import biblioteket.roborally.elements.*;
+import biblioteket.roborally.elements.cogs.LeftRotatingCogElement;
+import biblioteket.roborally.elements.cogs.RightRotatingCogElement;
 import biblioteket.roborally.elements.conveyorbelts.ConveyorBeltElement;
 import biblioteket.roborally.elements.conveyorbelts.ExpressConveyorBeltElement;
+import biblioteket.roborally.elements.conveyorbelts.TurningConveyorBeltElement;
+import biblioteket.roborally.elements.conveyorbelts.TurningExpressConveyorBeltElement;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -41,6 +45,24 @@ public enum Element {
     EXPRESS_CONVEYOR_BELT_RIGHT(14),
     EXPRESS_CONVEYOR_BELT_DOWN(21),
     EXPRESS_CONVEYOR_BELT_LEFT(22),
+
+    TURNING_CONVEYOR_BELT_RIGHT_DOWN(33),
+    TURNING_CONVEYOR_BELT_DOWN_LEFT(34),
+    TURNING_CONVEYOR_BELT_DOWN_RIGHT(35),
+    TURNING_CONVEYOR_BELT_LEFT_DOWN(36),
+    TURNING_CONVEYOR_BELT_UP_RIGHT(41),
+    TURNING_CONVEYOR_BELT_LEFT_UP(42),
+    TURNING_CONVEYOR_BELT_RIGHT_UP(43),
+    TURNING_CONVEYOR_BELT_UP_LEFT(44),
+
+    TURNING_EXPRESS_CONVEYOR_BELT_RIGHT_DOWN(17),
+    TURNING_EXPRESS_CONVEYOR_BELT_DOWN_LEFT(18),
+    TURNING_EXPRESS_CONVEYOR_BELT_DOWN_RIGHT(19),
+    TURNING_EXPRESS_CONVEYOR_BELT_LEFT_DOWN(20),
+    TURNING_EXPRESS_CONVEYOR_BELT_UP_RIGHT(25),
+    TURNING_EXPRESS_CONVEYOR_BELT_LEFT_UP(26),
+    TURNING_EXPRESS_CONVEYOR_BELT_RIGHT_UP(27),
+    TURNING_EXPRESS_CONVEYOR_BELT_UP_LEFT(28),
 
     FLAG_1(55),
     FLAG_2(63),
@@ -92,24 +114,8 @@ public enum Element {
     }
 
     public static boolean isInteractive(int id) {
-        switch (map.get(id)) {
-            case HOLE:
-            case CONVEYOR_BELT_UP:
-            case CONVEYOR_BELT_DOWN:
-            case CONVEYOR_BELT_LEFT:
-            case CONVEYOR_BELT_RIGHT:
-            case EXPRESS_CONVEYOR_BELT_UP:
-            case EXPRESS_CONVEYOR_BELT_DOWN:
-            case EXPRESS_CONVEYOR_BELT_RIGHT:
-            case EXPRESS_CONVEYOR_BELT_LEFT:
-            case FLAG_1:
-            case FLAG_2:
-            case FLAG_3:
-            case FLAG_4:
-                return true;
-            default:
-                return false;
-        }
+        IElement element = factory(id);
+        return element instanceof InteractingElement;
     }
 
     public static IElement factory(int id) {
@@ -135,6 +141,11 @@ public enum Element {
             case TOP_WALL:
                 return new WallElement(null, Direction.NORTH);
 
+            case ROTATOR_RIGHT:
+                return new RightRotatingCogElement();
+            case ROTATOR_LEFT:
+                return new LeftRotatingCogElement();
+
             case CONVEYOR_BELT_UP:
                 return new ConveyorBeltElement(Direction.NORTH);
             case CONVEYOR_BELT_DOWN:
@@ -152,6 +163,40 @@ public enum Element {
                 return new ExpressConveyorBeltElement(Direction.SOUTH);
             case EXPRESS_CONVEYOR_BELT_LEFT:
                 return new ExpressConveyorBeltElement(Direction.WEST);
+
+            case TURNING_CONVEYOR_BELT_RIGHT_DOWN:
+                return new TurningConveyorBeltElement(Direction.SOUTH);
+            case TURNING_CONVEYOR_BELT_DOWN_LEFT:
+                return new TurningConveyorBeltElement(Direction.WEST);
+            case TURNING_CONVEYOR_BELT_DOWN_RIGHT:
+                return new TurningConveyorBeltElement(Direction.EAST);
+            case TURNING_CONVEYOR_BELT_LEFT_DOWN:
+                return new TurningConveyorBeltElement(Direction.SOUTH);
+            case TURNING_CONVEYOR_BELT_UP_RIGHT:
+                return new TurningConveyorBeltElement(Direction.EAST);
+            case TURNING_CONVEYOR_BELT_LEFT_UP:
+                return new TurningConveyorBeltElement(Direction.NORTH);
+            case TURNING_CONVEYOR_BELT_RIGHT_UP:
+                return new TurningConveyorBeltElement(Direction.NORTH);
+            case TURNING_CONVEYOR_BELT_UP_LEFT:
+                return new TurningConveyorBeltElement(Direction.WEST);
+
+            case TURNING_EXPRESS_CONVEYOR_BELT_RIGHT_DOWN:
+                return new TurningExpressConveyorBeltElement(Direction.SOUTH);
+            case TURNING_EXPRESS_CONVEYOR_BELT_DOWN_LEFT:
+                return new TurningExpressConveyorBeltElement(Direction.WEST);
+            case TURNING_EXPRESS_CONVEYOR_BELT_DOWN_RIGHT:
+                return new TurningExpressConveyorBeltElement(Direction.EAST);
+            case TURNING_EXPRESS_CONVEYOR_BELT_LEFT_DOWN:
+                return new TurningExpressConveyorBeltElement(Direction.SOUTH);
+            case TURNING_EXPRESS_CONVEYOR_BELT_UP_RIGHT:
+                return new TurningExpressConveyorBeltElement(Direction.EAST);
+            case TURNING_EXPRESS_CONVEYOR_BELT_LEFT_UP:
+                return new TurningExpressConveyorBeltElement(Direction.NORTH);
+            case TURNING_EXPRESS_CONVEYOR_BELT_RIGHT_UP:
+                return new TurningExpressConveyorBeltElement(Direction.NORTH);
+            case TURNING_EXPRESS_CONVEYOR_BELT_UP_LEFT:
+                return new TurningExpressConveyorBeltElement(Direction.WEST);
 
             case SPAWN_1:
             case SPAWN_2:
