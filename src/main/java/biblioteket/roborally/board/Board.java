@@ -2,10 +2,7 @@ package biblioteket.roborally.board;
 
 import biblioteket.roborally.actors.IPlayer;
 import biblioteket.roborally.actors.IRobot;
-import biblioteket.roborally.elements.ArchiveMarkerElement;
-import biblioteket.roborally.elements.IElement;
-import biblioteket.roborally.elements.InteractingElement;
-import biblioteket.roborally.elements.WallElement;
+import biblioteket.roborally.elements.*;
 import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -42,15 +39,15 @@ public class Board implements IBoard {
         this.width = properties.get("width", Integer.class);
         this.height = properties.get("height", Integer.class);
 
-        numFlags = 0;
-        archiveMarkers = new ArrayList<>();
-        readMap(map);
-
         this.groundLayer = (TiledMapTileLayer) map.getLayers().get("Ground Layer");
         this.playerLayer = (TiledMapTileLayer) map.getLayers().get("Player Layer");
         this.flagLayer = (TiledMapTileLayer) map.getLayers().get("Flag Layer");
         this.laserLayer = (TiledMapTileLayer) map.getLayers().get("Laser Layer");
         this.wallLayer = (TiledMapTileLayer) map.getLayers().get("Wall Layer");
+
+        numFlags = 0;
+        archiveMarkers = new ArrayList<>();
+        readMap(map);
     }
 
     @Override
@@ -136,21 +133,23 @@ public class Board implements IBoard {
      * @return {@link InteractingElement}
      */
     public InteractingElement getInteractingElement(DirVector location) {
+
+        // Check flag layer
         try {
-            // Check for flags
             int fromId = this.getFlagLayer().getCell(location.getX(), location.getY()).getTile().getId();
-            IElement element = Element.getInteractiveElement(fromId);
-            if(element != null) return (InteractingElement) element;
-
-            // Check ground layer
-            fromId = this.getGroundLayer().getCell(location.getX(), location.getY()).getTile().getId();
             return Element.getInteractiveElement(fromId);
-
         } catch (Exception ignored) {
             // Ignored because getCell() can return null if the layer contains nothing in
             // the given (x, y)-coordinates, we don't care about this as we just want to
             // see if there are elements here.
         }
+
+        // Check ground layer
+        try {
+            int fromId = this.getGroundLayer().getCell(location.getX(), location.getY()).getTile().getId();
+            return Element.getInteractiveElement(fromId);
+        } catch (Exception ignored) {}
+
         return null;
     }
 
@@ -241,29 +240,27 @@ public class Board implements IBoard {
     }
 
     /**
-     * Iterates through each cell of each layer
+     * Iterates through each cell of ground and flag layer
      * Counts number of flags and registers all archive markers
      *
      * @param map TiledMap for current board
      */
     private void readMap(TiledMap map) {
-        MapLayers layers = map.getLayers();
-        for (int layer = 0; layer < layers.size(); layer++) {
-            for (int x = 0; x < width; x++) {
-                for (int y = 0; y < height; y++) {
-                    TiledMapTileLayer mapLayer = (TiledMapTileLayer) layers.get(layer);
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
 
-                    if (mapLayer != null && mapLayer.getCell(x, y) != null) {
-                        int id = mapLayer.getCell(x, y).getTile().getId();
-                        if(Element.isFlag(id))
-                            this.numFlags++;
-                        else {
-                            ArchiveMarkerElement archiveMarker = Element.getArchiveMarker(id,x,y);
-                            if(archiveMarker != null)
-                                this.archiveMarkers.add(archiveMarker);
+                // Check for archive marker
+                if (groundLayer.getCell(x, y) != null) {
+                    int id = groundLayer.getCell(x, y).getTile().getId();
+                    ArchiveMarkerElement archiveMarker = Element.getArchiveMarker(id,x,y);
+                    if(archiveMarker != null)
+                        this.archiveMarkers.add(archiveMarker);
+                }
 
-                        }
-                    }
+                // Check for flag
+                if (flagLayer.getCell(x,y) != null){
+                    int id = flagLayer.getCell(x,y).getTile().getId();
+                    if(Element.isFlag(id)) numFlags++;
                 }
             }
         }

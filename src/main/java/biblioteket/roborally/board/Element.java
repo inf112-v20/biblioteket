@@ -14,6 +14,10 @@ import java.util.Map;
 public enum Element {
     GROUND(5),
     HOLE(6),
+    HOLE_BIG_1(105),
+    HOLE_BIG_2(107),
+    HOLE_BIG_3(113),
+    HOLE_BIG_4(115),
 
     DOUBLE_REPAIR(7),
     SINGLE_REPAIR(15),
@@ -138,6 +142,10 @@ public enum Element {
     private static IElement factory(int id) {
         switch (map.get(id)) {
             case HOLE:
+            case HOLE_BIG_1:
+            case HOLE_BIG_2:
+            case HOLE_BIG_3:
+            case HOLE_BIG_4:
                 return new HoleElement();
 
             case WALL_LEFT_UP:
