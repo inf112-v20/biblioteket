@@ -135,7 +135,7 @@ public class Board implements IBoard {
      * @param location location to check for elements
      * @return {@link InteractingElement}
      */
-    InteractingElement getInteractingElement(DirVector location) {
+    public InteractingElement getInteractingElement(DirVector location) {
         try {
             // Check for flags
             int fromId = this.getFlagLayer().getCell(location.getX(), location.getY()).getTile().getId();
