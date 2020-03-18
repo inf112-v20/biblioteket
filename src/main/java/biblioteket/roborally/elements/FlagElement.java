@@ -20,11 +20,6 @@ public class FlagElement implements InteractingElement {
         // Sjekk om riktig flag, tell at flag er tatt
     }
 
-    @Override
-    public boolean blocking(Direction direction, boolean exit) {
-        return false;
-    }
-
     public int getFlagNumber() {
         return this.flagNumber;
     }

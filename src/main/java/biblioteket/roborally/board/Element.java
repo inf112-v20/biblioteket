@@ -1,6 +1,8 @@
 package biblioteket.roborally.board;
 
 import biblioteket.roborally.elements.*;
+import biblioteket.roborally.elements.conveyorbelts.ConveyorBeltElement;
+import biblioteket.roborally.elements.conveyorbelts.ExpressConveyorBeltElement;
 
 import java.util.HashMap;
 import java.util.Map;

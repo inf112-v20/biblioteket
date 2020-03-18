@@ -1,10 +1,11 @@
-package biblioteket.roborally.elements;
+package biblioteket.roborally.elements.conveyorbelts;
 
 import biblioteket.roborally.actors.IRobot;
 import biblioteket.roborally.board.Direction;
+import biblioteket.roborally.elements.InteractingElement;
 
 public class ConveyorBeltElement implements InteractingElement {
-    private final Direction direction;
+    protected final Direction direction;
 
     public ConveyorBeltElement(Direction direction) {
         this.direction = direction;
@@ -25,8 +26,4 @@ public class ConveyorBeltElement implements InteractingElement {
         return "Conveyor Belt";
     }
 
-    @Override
-    public boolean blocking(Direction direction, boolean exit) {
-        return false;
-    }
 }

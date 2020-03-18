@@ -10,5 +10,7 @@ public interface IElement {
      * @param exit      whether the robot is exiting the current tile
      * @return true if robot can move, false otherwise
      */
-    boolean blocking(Direction direction, boolean exit);
+    default boolean blocking(Direction direction, boolean exit){
+        return false;
+    }
 }
