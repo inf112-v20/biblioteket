@@ -1,17 +1,25 @@
 package biblioteket.roborally.board;
 
+import biblioteket.roborally.actors.IPlayer;
 import biblioteket.roborally.actors.IRobot;
+import biblioteket.roborally.elements.ArchiveMarkerElement;
+import biblioteket.roborally.elements.IElement;
 import biblioteket.roborally.elements.InteractingElement;
 import biblioteket.roborally.elements.WallElement;
+import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class Board implements IBoard {
     private final TiledMap map;
+
+    private int numFlags;
+    private ArrayList<ArchiveMarkerElement> archiveMarkers;
 
     private final TiledMapTileLayer groundLayer;
     private final TiledMapTileLayer playerLayer;
@@ -27,11 +35,16 @@ public class Board implements IBoard {
     public Board(String board) {
         this.map = new TmxMapLoader().load(board);
 
+
         MapProperties properties = map.getProperties();
         this.tileWidth = properties.get("tilewidth", Integer.class);
         this.tileHeight = properties.get("tileheight", Integer.class);
         this.width = properties.get("width", Integer.class);
         this.height = properties.get("height", Integer.class);
+
+        numFlags = 0;
+        archiveMarkers = new ArrayList<>();
+        readMap(map);
 
         this.groundLayer = (TiledMapTileLayer) map.getLayers().get("Ground Layer");
         this.playerLayer = (TiledMapTileLayer) map.getLayers().get("Player Layer");
@@ -124,16 +137,20 @@ public class Board implements IBoard {
      */
     InteractingElement getInteractingElement(DirVector location) {
         try {
-            int fromId = this.getGroundLayer().getCell(location.getX(), location.getY()).getTile().getId();
+            // Check for flags
+            int fromId = this.getFlagLayer().getCell(location.getX(), location.getY()).getTile().getId();
+            IElement element = Element.getInteractiveElement(fromId);
+            if(element != null) return (InteractingElement) element;
 
-            // Returns null if there is no interactive element in current cell
+            // Check ground layer
+            fromId = this.getGroundLayer().getCell(location.getX(), location.getY()).getTile().getId();
             return Element.getInteractiveElement(fromId);
+
         } catch (Exception ignored) {
             // Ignored because getCell() can return null if the layer contains nothing in
             // the given (x, y)-coordinates, we don't care about this as we just want to
             // see if there are elements here.
         }
-
         return null;
     }
 
@@ -191,10 +208,11 @@ public class Board implements IBoard {
 
 
     @Override
-    public DirVector interact(IRobot robot) {
+    public DirVector interact(IPlayer player) {
+        IRobot robot = player.getRobot();
         InteractingElement element = getInteractingElement(robot.getPosition());
         if (element != null) {
-            element.interact(robot);
+            element.interact(player);
             if (outOfBounds(robot.getPosition())) {
                 robot.addDamageTokens(1);
                 robot.setPosition(robot.getArchiveMarker());
@@ -203,4 +221,52 @@ public class Board implements IBoard {
         }
         return null;
     }
+
+    /**
+     * @return number of flags on map
+     */
+    public int getNumFlags(){
+        return numFlags;
+    }
+
+
+    /**
+     * @return an arraylist containing all archive markers
+     */
+    public ArchiveMarkerElement getArchiveMarker(int i){
+        for(ArchiveMarkerElement archiveMarker : archiveMarkers){
+            if(archiveMarker.getArchiveNum() == i) return archiveMarker;
+        }
+        return null;
+    }
+
+    /**
+     * Iterates through each cell of each layer
+     * Counts number of flags and registers all archive markers
+     *
+     * @param map TiledMap for current board
+     */
+    private void readMap(TiledMap map) {
+        MapLayers layers = map.getLayers();
+        for (int layer = 0; layer < layers.size(); layer++) {
+            for (int x = 0; x < width; x++) {
+                for (int y = 0; y < height; y++) {
+                    TiledMapTileLayer mapLayer = (TiledMapTileLayer) layers.get(layer);
+
+                    if (mapLayer != null && mapLayer.getCell(x, y) != null) {
+                        int id = mapLayer.getCell(x, y).getTile().getId();
+                        if(Element.isFlag(id))
+                            this.numFlags++;
+                        else {
+                            ArchiveMarkerElement archiveMarker = Element.getArchiveMarker(id,x,y);
+                            if(archiveMarker != null)
+                                this.archiveMarkers.add(archiveMarker);
+
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 }

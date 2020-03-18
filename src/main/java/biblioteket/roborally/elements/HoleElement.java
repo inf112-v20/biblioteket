@@ -1,11 +1,13 @@
 package biblioteket.roborally.elements;
 
+import biblioteket.roborally.actors.IPlayer;
 import biblioteket.roborally.actors.IRobot;
 import biblioteket.roborally.board.Direction;
 
 public class HoleElement implements InteractingElement {
     @Override
-    public void interact(IRobot robot) {
+    public void interact(IPlayer player) {
+        IRobot robot = player.getRobot();
         robot.addDamageTokens(1);
         robot.setPosition(robot.getArchiveMarker());
     }

@@ -1,11 +1,10 @@
 package biblioteket.roborally.game;
 
+import biblioteket.roborally.actors.IRobot;
 import biblioteket.roborally.actors.Player;
 import biblioteket.roborally.actors.Robot;
-import biblioteket.roborally.board.Board;
-import biblioteket.roborally.board.DirVector;
-import biblioteket.roborally.board.Direction;
-import biblioteket.roborally.board.Element;
+import biblioteket.roborally.board.*;
+import biblioteket.roborally.elements.ArchiveMarkerElement;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
@@ -41,21 +40,17 @@ public class GameScreen implements Screen {
         Texture playerTexture = new Texture("assets/player.png");
         TextureRegion[][] playerTextureSplit = TextureRegion.split(playerTexture, board.getTileWidth(), board.getTileHeight());
 
+
         this.players = new ArrayList<>();
 
         for (int i = 0; i < 1; i++) {
             Player player = new Player(new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(playerTextureSplit[0][0])));
             currentPlayer = player;
             players.add(player);
-            for (int y = 0; y < board.getHeight(); y++) {
-                for (int x = 0; x < board.getWidth(); x++) {
-                    if (Element.valueOf(board.getGroundLayer().getCell(x, y).getTile().getId()) == Element.SPAWN_1) {
-                        Robot robot = new Robot(new DirVector(x, y, Direction.NORTH));
-                        player.setRobot(robot);
-                        board.getPlayerLayer().setCell(player.getRobot().getPosition().getX(), player.getRobot().getPosition().getY(), null);
-                    }
-                }
-            }
+            ArchiveMarkerElement archiveMarker = board.getArchiveMarker(i+1);   // Archive markers start at 1
+            IRobot robot = new Robot(new DirVector(archiveMarker.getX(), archiveMarker.getY(), Direction.NORTH));
+            player.setRobot(robot);
+            board.getPlayerLayer().setCell(player.getRobot().getPosition().getX(), player.getRobot().getPosition().getY(), null);
         }
 
         OrthographicCamera camera = new OrthographicCamera();
@@ -81,7 +76,7 @@ public class GameScreen implements Screen {
                     case Input.Keys.S:
                         return currentPlayer.getRobot().move(Direction.SOUTH, board);
                     case Input.Keys.SPACE:
-                        DirVector newPosition = board.interact(currentPlayer.getRobot());
+                        DirVector newPosition = board.interact(currentPlayer);
                         return newPosition != null;
                     default:
                         return true;

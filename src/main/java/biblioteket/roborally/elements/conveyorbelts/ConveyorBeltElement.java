@@ -1,6 +1,8 @@
 package biblioteket.roborally.elements.conveyorbelts;
 
+import biblioteket.roborally.actors.IPlayer;
 import biblioteket.roborally.actors.IRobot;
+import biblioteket.roborally.actors.Robot;
 import biblioteket.roborally.board.Direction;
 import biblioteket.roborally.elements.InteractingElement;
 
@@ -14,10 +16,11 @@ public class ConveyorBeltElement implements InteractingElement {
     /**
      * Moves robot in the direction conveyor belt is facing
      *
-     * @param robot to be moved
+     * @param player with robot to be moved
      */
     @Override
-    public void interact(IRobot robot) {
+    public void interact(IPlayer player) {
+        IRobot robot = player.getRobot();
         robot.pushRobotInDirection(direction);
     }
 

@@ -97,27 +97,11 @@ public enum Element {
         return map.get(pageType);
     }
 
-    public static boolean isWall(int id) {
-        switch (map.get(id)) {
-            case WALL_LEFT_UP:
-            case TOP_WALL:
-            case LEFT_WALL:
-            case BOTTOM_WALL:
-            case RIGHT_WALL:
-            case WALL_DOWN_RIGHT:
-            case WALL_UP_RIGHT:
-            case WALL_RIGHT_DOWN:
-                return true;
-            default:
-                return false;
-        }
-    }
 
     public static InteractingElement getInteractiveElement(int id){
         IElement element = factory(id);
-        if (element instanceof InteractingElement){
+        if (element instanceof InteractingElement)
             return (InteractingElement) element;
-        }
         return null;
     }
 
@@ -127,6 +111,28 @@ public enum Element {
             return (WallElement) element;
         }
         return null;
+    }
+
+    public static boolean isFlag(int id){
+        try{
+            IElement element = factory(id);
+            return element instanceof FlagElement;
+        } catch (UnsupportedOperationException e){
+            return false;
+        }
+    }
+
+    public static ArchiveMarkerElement getArchiveMarker(int id, int x, int y){
+        try{
+            IElement element = factory(id);
+            if(element instanceof ArchiveMarkerElement){
+                ArchiveMarkerElement archiveMarker = (ArchiveMarkerElement) element;
+                archiveMarker.setX(x);
+                archiveMarker.setY(y);
+                return archiveMarker;
+            }
+        } catch (UnsupportedOperationException e){} // Ignored
+            return null;
     }
 
     private static IElement factory(int id) {
@@ -210,14 +216,21 @@ public enum Element {
                 return new TurningExpressConveyorBeltElement(Direction.WEST);
 
             case SPAWN_1:
+                return new ArchiveMarkerElement(1);
             case SPAWN_2:
+                return new ArchiveMarkerElement(2);
             case SPAWN_3:
+                return new ArchiveMarkerElement(3);
             case SPAWN_4:
+                return new ArchiveMarkerElement(4);
             case SPAWN_5:
+                return new ArchiveMarkerElement(5);
             case SPAWN_6:
+                return new ArchiveMarkerElement(6);
             case SPAWN_7:
+                return new ArchiveMarkerElement(7);
             case SPAWN_8:
-                return null;
+                return new ArchiveMarkerElement(8);
 
             // Flag
             case FLAG_1:
