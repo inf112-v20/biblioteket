@@ -2,6 +2,7 @@ package biblioteket.roborally.board;
 
 import biblioteket.roborally.actors.IRobot;
 import biblioteket.roborally.elements.InteractingElement;
+import biblioteket.roborally.elements.WallElement;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -124,9 +125,9 @@ public class Board implements IBoard {
     InteractingElement getInteractingElement(DirVector location) {
         try {
             int fromId = this.getGroundLayer().getCell(location.getX(), location.getY()).getTile().getId();
-            if (Element.isInteractive(fromId)) {
-                return (InteractingElement) Element.factory(fromId);
-            }
+
+            // Returns null if there is no interactive element in current cell
+            return Element.getInteractiveElement(fromId);
         } catch (Exception ignored) {
             // Ignored because getCell() can return null if the layer contains nothing in
             // the given (x, y)-coordinates, we don't care about this as we just want to
@@ -159,8 +160,8 @@ public class Board implements IBoard {
     private boolean moveBlocked(DirVector from, DirVector to, Direction direction) {
         try {
             int fromId = this.getWallLayer().getCell(from.getX(), from.getY()).getTile().getId();
-            if (Element.isWall(fromId) && Objects.requireNonNull(Element.factory(fromId)).blocking(direction, true))
-                return true;
+            WallElement wall = Element.getWallElement(fromId);
+            if (Objects.requireNonNull(wall).blocking(direction, true)) return true;
         } catch (Exception ignored) {
             // Ignored because getCell() can return null if the layer contains nothing in
             // the given (x, y)-coordinates, we don't care about this as we just want to
@@ -169,8 +170,8 @@ public class Board implements IBoard {
 
         try {
             int toId = this.getWallLayer().getCell(to.getX(), to.getY()).getTile().getId();
-            if (Element.isWall(toId) && Objects.requireNonNull(Element.factory(toId)).blocking(direction, false))
-                return true;
+            WallElement wall = Element.getWallElement(toId);
+            if (Objects.requireNonNull(wall).blocking(direction, false)) return true;
         } catch (Exception ignored) {
             // See above.
         }

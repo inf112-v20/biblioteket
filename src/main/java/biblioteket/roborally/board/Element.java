@@ -113,12 +113,23 @@ public enum Element {
         }
     }
 
-    public static boolean isInteractive(int id) {
+    public static InteractingElement getInteractiveElement(int id){
         IElement element = factory(id);
-        return element instanceof InteractingElement;
+        if (element instanceof InteractingElement){
+            return (InteractingElement) element;
+        }
+        return null;
     }
 
-    public static IElement factory(int id) {
+    public static WallElement getWallElement(int id){
+        IElement element = factory(id);
+        if (element instanceof WallElement){
+            return (WallElement) element;
+        }
+        return null;
+    }
+
+    private static IElement factory(int id) {
         switch (map.get(id)) {
             case HOLE:
                 return new HoleElement();
