@@ -141,3 +141,7 @@ hs_err_pid*
 
 .envrc
 .direnv/
+docs/
+.classpath
+.project
+.settings/

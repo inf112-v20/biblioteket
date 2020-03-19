@@ -1,23 +1,20 @@
 package biblioteket.roborally.actors;
 
-import biblioteket.roborally.Direction;
-import biblioteket.roborally.grid.IPosition;
-import biblioteket.roborally.grid.Position;
+import biblioteket.roborally.board.DirVector;
+import biblioteket.roborally.board.Direction;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class RobotTest {
-    Robot<Integer> robot;
+    Robot robot;
 
     @BeforeEach
     void setUp() {
-        IPosition<Integer> pos = new Position<>(0, 0);
-        Direction direction = Direction.NORTH;
-        robot = new Robot<>(pos, pos, direction);
+        DirVector position = new DirVector(0, 0, Direction.NORTH);
+        robot = new Robot(position);
     }
 
     @Test
@@ -40,7 +37,7 @@ class RobotTest {
 
     @Test
     void removeAllDamageTokens() {
-        robot.removeAllDamageTokens();
+        robot.removeDamageTokens(robot.getNumberOfDamageTokens());
         assertEquals(0, robot.getNumberOfDamageTokens());
     }
 
@@ -73,7 +70,6 @@ class RobotTest {
 
     @Test
     void turnLeftFromWest() {
-
         robot.setDirection(Direction.WEST);
         robot.turnLeft();
         assertEquals(Direction.SOUTH, robot.getDirection());
@@ -107,83 +103,59 @@ class RobotTest {
         assertEquals(Direction.NORTH, robot.getDirection());
     }
 
-    @Disabled
     @Test
     void moveForwardWhenFacingNorth() {
         robot.setDirection(Direction.NORTH);
-        IPosition<Integer> position = robot.getPosition();
-        // IPosition<Integer> positionInNorth = position.positionInDirection(Direction.NORTH);
         robot.moveForward();
-        // assertEquals(positionInNorth, robot.getPosition());
+        assertEquals(robot.getPosition(), new DirVector(0, 1, Direction.NORTH));
     }
 
-    @Disabled
     @Test
     void moveForwardWhenFacingSouth() {
         robot.setDirection(Direction.SOUTH);
-        IPosition<Integer> position = robot.getPosition();
-        // IPosition<Integer> positionInSouth = position.positionInDirection(Direction.SOUTH);
         robot.moveForward();
-        // assertEquals(positionInSouth, robot.getPosition());
+        assertEquals(robot.getPosition(), new DirVector(0, -1, Direction.SOUTH));
     }
 
-    @Disabled
     @Test
     void moveForwardWhenFacingEast() {
         robot.setDirection(Direction.EAST);
-        IPosition<Integer> position = robot.getPosition();
-        // IPosition<Integer> positionInEast = position.positionInDirection(Direction.EAST);
         robot.moveForward();
-        // assertEquals(positionInEast, robot.getPosition());
+        assertEquals(robot.getPosition(), new DirVector(1, 0, Direction.EAST));
     }
 
-    @Disabled
     @Test
     void moveForwardWest() {
         robot.setDirection(Direction.WEST);
-        IPosition<Integer> position = robot.getPosition();
-        // IPosition<Integer> positionInWest = position.positionInDirection(Direction.WEST);
         robot.moveForward();
-        // assertEquals(positionInWest, robot.getPosition());
+        assertEquals(robot.getPosition(), new DirVector(-1, 0, Direction.WEST));
     }
 
-    @Disabled
     @Test
     void moveBackwardWhenFacingNorth() {
         robot.setDirection(Direction.NORTH);
-        IPosition<Integer> position = robot.getPosition();
-        // IPosition<Integer> positionOppositeOfNorth = position.positionInDirection(Direction.NORTH.oppositeDirection());
         robot.moveBackward();
-        // assertEquals(positionOppositeOfNorth, robot.getPosition());
+        assertEquals(robot.getPosition(), new DirVector(0, -1, Direction.NORTH));
     }
 
-    @Disabled
     @Test
     void moveBackwardWhenFacingSouth() {
         robot.setDirection(Direction.SOUTH);
-        IPosition<Integer> position = robot.getPosition();
-        // IPosition<Integer> positionOppositeOfSouth = position.positionInDirection(Direction.SOUTH.oppositeDirection());
         robot.moveBackward();
-        // assertEquals(positionOppositeOfSouth, robot.getPosition());
+        assertEquals(robot.getPosition(), new DirVector(0, 1, Direction.SOUTH));
     }
 
-    @Disabled
     @Test
     void moveBackwardWhenFacingEast() {
-        robot.setDirection(Direction.SOUTH);
-        IPosition<Integer> position = robot.getPosition();
-        // IPosition<Integer> positionOppositeOfEast = position.positionInDirection(Direction.SOUTH.oppositeDirection());
+        robot.setDirection(Direction.EAST);
         robot.moveBackward();
-        // assertEquals(positionOppositeOfEast, robot.getPosition());
+        assertEquals(robot.getPosition(), new DirVector(-1, 0, Direction.EAST));
     }
 
-    @Disabled
     @Test
     void moveBackwardWhenFacingWest() {
         robot.setDirection(Direction.WEST);
-        IPosition<Integer> position = robot.getPosition();
-        // IPosition<Integer> positionOppositeOfWest = position.positionInDirection(Direction.WEST.oppositeDirection());
         robot.moveBackward();
-        // assertEquals(positionOppositeOfWest, robot.getPosition());
+        assertEquals(robot.getPosition(), new DirVector(1, 0, Direction.WEST));
     }
 }

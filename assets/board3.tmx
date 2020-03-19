@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.2" orientation="orthogonal" renderorder="right-down" compressionlevel="-1" width="12" height="12" tilewidth="300" tileheight="300" infinite="0" nextlayerid="14" nextobjectid="1">
+<map version="1.2" tiledversion="1.3.2" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="12" height="12" tilewidth="300" tileheight="300" infinite="0" nextlayerid="14" nextobjectid="1">
  <tileset firstgid="1" source="tiles.tsx"/>
  <layer id="10" name="Board" width="12" height="12">
   <data encoding="csv">
@@ -69,16 +69,16 @@
   <data encoding="csv">
 0,0,31,0,31,0,0,31,0,31,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,
-3221225495,0,0,0,0,0,0,0,0,0,0,23,
+30,0,0,0,0,0,0,0,0,0,0,23,
 0,0,0,45,0,38,46,0,0,0,0,0,
-3221225495,0,0,0,0,0,0,0,0,0,0,23,
-0,0,0,0,0,0,0,0,3221225509,0,0,0,
+30,0,0,0,0,0,0,0,0,0,0,23,
+0,0,0,0,0,0,0,0,45,0,0,0,
 0,0,0,37,0,0,0,0,0,0,0,0,
-3221225495,0,0,0,0,0,0,0,0,0,0,23,
+30,0,0,0,0,0,0,0,0,0,0,23,
 0,0,0,0,0,38,46,0,37,0,0,0,
-3221225495,0,0,0,0,0,0,0,0,0,0,23,
+30,0,0,0,0,0,0,0,0,0,0,23,
 0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,2684354583,0,2684354583,0,0,2684354583,0,2684354583,0,0
+0,0,29,0,29,0,0,29,0,29,0,0
 </data>
  </layer>
  <layer id="4" name="Player" width="12" height="12">
