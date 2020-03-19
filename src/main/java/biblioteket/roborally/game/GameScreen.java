@@ -37,7 +37,7 @@ public class GameScreen implements Screen {
 
     public GameScreen(final RoboRally gam) {
         this.game = gam;
-        this.board = new Board("assets/risky_exchange.tmx");
+        this.board = new Board("assets/DizzyDash.tmx");
 
         Texture playerTexture = new Texture("assets/player.png");
         TextureRegion[][] playerTextureSplit = TextureRegion.split(playerTexture, board.getTileWidth(), board.getTileHeight());

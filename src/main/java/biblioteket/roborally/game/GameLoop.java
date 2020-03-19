@@ -19,14 +19,15 @@ import java.util.List;
 public class GameLoop {
     private final Board board;
     private List<IPlayer> players;
-    private ArrayList<Class<? extends InteractingElement>> interactingElementInstances;
     private final int amountOfFlags;
+    private final List<LaserWallElement> laserWalls;
+    private ArrayList<Class<? extends InteractingElement>> interactingElementInstances;
 
     public GameLoop(Board board, List<IPlayer> players){
         this.board = board;
         this.players = players;
         this.amountOfFlags = board.getNumFlags();
-
+        this.laserWalls = board.getLaserWalls();
         interactingElementInstances = new ArrayList<>();
         interactingElementInstances.add(ExpressConveyorBeltElement.class);
         interactingElementInstances.add(ConveyorBeltElement.class);
@@ -55,7 +56,12 @@ public class GameLoop {
             board.registerFlag(player);
         }
 
+//        Thread.sleep(1000);
         // Lasers shoot
+        for (LaserWallElement laserWall : laserWalls) {
+            laserWall.interact(board,players);
+        }
+//        Render lasers for a few seconds
     }
 
     public boolean checkWinCondition(){

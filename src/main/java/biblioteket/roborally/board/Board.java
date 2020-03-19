@@ -10,6 +10,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Board implements IBoard {
@@ -17,6 +18,7 @@ public class Board implements IBoard {
 
     private int numFlags;
     private ArrayList<ArchiveMarkerElement> archiveMarkers;
+    private ArrayList<LaserWallElement> laserWalls;
 
     private final TiledMapTileLayer groundLayer;
     private final TiledMapTileLayer playerLayer;
@@ -47,6 +49,7 @@ public class Board implements IBoard {
 
         numFlags = 0;
         archiveMarkers = new ArrayList<>();
+        laserWalls = new ArrayList<>();
         readMap();
     }
 
@@ -164,9 +167,9 @@ public class Board implements IBoard {
     }
 
     @Override
-    public boolean canMove(IRobot robot, Direction direction) {
-        DirVector to = positionInDirection(robot.getPosition(), direction);
-        return !moveBlocked(robot.getPosition(), to, direction);
+    public boolean canMove(DirVector position, Direction direction) {
+        DirVector to = positionInDirection(position, direction);
+        return !moveBlocked(position, to, direction);
     }
 
     /**
@@ -254,16 +257,20 @@ public class Board implements IBoard {
         return null;
     }
 
+    public List<LaserWallElement> getLaserWalls(){
+        return laserWalls;
+    }
+
     /**
      * Iterates through each cell of ground and flag layer
-     * Counts number of flags and registers all archive markers
+     * Counts number of flags and registers all archive markers and laser walls
      */
     private void readMap() {
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
 
                 // Check for archive marker
-                if (groundLayer.getCell(x, y) != null) {
+                if (groundLayer.getCell(x,y) != null) {
                     int id = groundLayer.getCell(x, y).getTile().getId();
                     ArchiveMarkerElement archiveMarker = Element.getArchiveMarker(id,x,y);
                     if(archiveMarker != null)
@@ -274,6 +281,18 @@ public class Board implements IBoard {
                 if (flagLayer.getCell(x,y) != null){
                     int id = flagLayer.getCell(x,y).getTile().getId();
                     if(Element.isFlag(id)) numFlags++;
+                }
+
+                // Check for laser
+                if(wallLayer.getCell(x,y) != null){
+                    int id = wallLayer.getCell(x,y).getTile().getId();
+                    WallElement wall = Element.getWallElement(id);
+                    if(wall instanceof LaserWallElement){
+                        LaserWallElement laserWall = (LaserWallElement) wall;
+                        laserWall.setPosition(x,y);
+                        laserWalls.add(laserWall);
+                    }
+
                 }
             }
         }

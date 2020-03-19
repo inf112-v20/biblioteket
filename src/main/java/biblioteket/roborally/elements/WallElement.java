@@ -5,8 +5,8 @@ import biblioteket.roborally.board.Direction;
 public class WallElement implements IElement {
     // x,y direction the wall is facing (East/West, North/South)
     // One direction can be null if wall is only facing one side
-    private final Direction xDirection;
-    private final Direction yDirection;
+    protected final Direction xDirection;
+    protected final Direction yDirection;
 
     public WallElement(Direction xDirection, Direction yDirection) {
         this.xDirection = xDirection;

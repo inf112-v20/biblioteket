@@ -27,15 +27,15 @@ public enum Element {
     LEFT_WALL(30),
     TOP_WALL(31),
 
+    RIGHT_LASER_WALL(46),
+    BOTTOM_LASER_WALL(37),
+    LEFT_LASER_WALL(38),
+    TOP_LASER_WALL(45),
+
     WALL_LEFT_UP(8),
     WALL_RIGHT_DOWN(16),
     WALL_UP_RIGHT(24),
     WALL_DOWN_RIGHT(32),
-
-    BOTTOM_LASER(37),
-    RIGHT_LASER(38),
-    TOP_LASER(44),
-    LEFT_LASER(46),
 
     ROTATOR_RIGHT(53),
     ROTATOR_LEFT(54),
@@ -165,6 +165,15 @@ public enum Element {
                 return new WallElement(Direction.WEST, null);
             case TOP_WALL:
                 return new WallElement(null, Direction.NORTH);
+
+            case RIGHT_LASER_WALL:
+                return new LaserWallElement(Direction.EAST, null);
+            case BOTTOM_LASER_WALL:
+                return new LaserWallElement(null, Direction.SOUTH);
+            case LEFT_LASER_WALL:
+                return new LaserWallElement(Direction.WEST, null);
+            case TOP_LASER_WALL:
+                return new LaserWallElement(null, Direction.NORTH);
 
             case ROTATOR_RIGHT:
                 return new RightRotatingCogElement();

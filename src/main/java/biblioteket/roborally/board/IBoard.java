@@ -58,10 +58,11 @@ public interface IBoard {
      * Checks if the position robot is moving to contains immovable object or a wall is blocking the way,
      * or if move puts robot out of bounds
      *
+     * @param position of robot
      * @param direction robot is moving
      * @return true is move is legal
      */
-    boolean canMove(IRobot robot, Direction direction);
+    boolean canMove(DirVector position, Direction direction);
 
     /**
      * Interactions between a robot and the environment, i.e. between
