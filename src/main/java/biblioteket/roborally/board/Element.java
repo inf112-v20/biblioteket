@@ -148,6 +148,11 @@ public enum Element {
             case HOLE_BIG_4:
                 return new HoleElement();
 
+            case SINGLE_REPAIR:
+                return new SingleWrenchRepairElement();
+            case DOUBLE_REPAIR:
+                return new DoubleWrenchRepairElement();
+
             case WALL_LEFT_UP:
                 return new WallElement(Direction.EAST, Direction.SOUTH);
             case WALL_RIGHT_DOWN:

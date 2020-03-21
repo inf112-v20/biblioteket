@@ -51,17 +51,21 @@ public class GameLoop {
             }
         }
 
-        // Register flags
-        for (IPlayer player : players) {
-            board.registerFlag(player);
-        }
-
 //        Thread.sleep(1000);
         // Lasers shoot
         for (LaserWallElement laserWall : laserWalls) {
             laserWall.interact(board,players);
         }
 //        Render lasers for a few seconds
+
+        // Register flags
+        for (IPlayer player : players) {
+            board.registerFlag(player);
+        }
+
+        // Repair
+        // TODO
+        //Element priority
     }
 
     public boolean checkWinCondition(){
