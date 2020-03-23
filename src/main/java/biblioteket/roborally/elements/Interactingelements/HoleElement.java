@@ -1,8 +1,7 @@
-package biblioteket.roborally.elements.InteractingElements;
+package biblioteket.roborally.elements.Interactingelements;
 
 import biblioteket.roborally.actors.IPlayer;
 import biblioteket.roborally.actors.IRobot;
-import biblioteket.roborally.board.Direction;
 
 public class HoleElement implements InteractingElement {
     private final int priority = 2;

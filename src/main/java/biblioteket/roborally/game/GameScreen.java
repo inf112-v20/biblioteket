@@ -4,7 +4,9 @@ import biblioteket.roborally.actors.IPlayer;
 import biblioteket.roborally.actors.IRobot;
 import biblioteket.roborally.actors.Player;
 import biblioteket.roborally.actors.Robot;
-import biblioteket.roborally.board.*;
+import biblioteket.roborally.board.Board;
+import biblioteket.roborally.board.DirVector;
+import biblioteket.roborally.board.Direction;
 import biblioteket.roborally.elements.ArchiveMarkerElement;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -88,10 +90,6 @@ public class GameScreen implements Screen {
                         gameLoop.doTurn();
                         return false;
                     default:
-                        if(gameLoop.checkWinCondition()){
-                            Gdx.app.exit();
-                            System.exit(0);
-                        }
                         return true;
                 }
             }

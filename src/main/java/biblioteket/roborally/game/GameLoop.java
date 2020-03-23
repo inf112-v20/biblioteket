@@ -3,11 +3,11 @@ package biblioteket.roborally.game;
 import biblioteket.roborally.actors.IPlayer;
 import biblioteket.roborally.board.Board;
 import biblioteket.roborally.board.DirVector;
-import biblioteket.roborally.elements.*;
-import biblioteket.roborally.elements.InteractingElements.InteractingElement;
-import biblioteket.roborally.elements.InteractingElements.cogs.CogElement;
-import biblioteket.roborally.elements.InteractingElements.conveyorbelts.ConveyorBeltElement;
-import biblioteket.roborally.elements.InteractingElements.conveyorbelts.ExpressConveyorBeltElement;
+import biblioteket.roborally.elements.IElement;
+import biblioteket.roborally.elements.Interactingelements.InteractingElement;
+import biblioteket.roborally.elements.Interactingelements.cogs.CogElement;
+import biblioteket.roborally.elements.Interactingelements.conveyorbelts.ConveyorBeltElement;
+import biblioteket.roborally.elements.Interactingelements.conveyorbelts.ExpressConveyorBeltElement;
 import biblioteket.roborally.elements.Walls.LaserWallElement;
 
 import java.util.List;

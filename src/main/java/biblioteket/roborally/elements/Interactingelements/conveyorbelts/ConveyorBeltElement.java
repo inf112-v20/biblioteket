@@ -1,9 +1,9 @@
-package biblioteket.roborally.elements.InteractingElements.conveyorbelts;
+package biblioteket.roborally.elements.Interactingelements.conveyorbelts;
 
 import biblioteket.roborally.actors.IPlayer;
 import biblioteket.roborally.actors.IRobot;
 import biblioteket.roborally.board.Direction;
-import biblioteket.roborally.elements.InteractingElements.InteractingElement;
+import biblioteket.roborally.elements.Interactingelements.InteractingElement;
 
 public class ConveyorBeltElement implements InteractingElement {
     protected final Direction direction;

@@ -2,9 +2,9 @@ package biblioteket.roborally.board;
 
 import biblioteket.roborally.actors.IPlayer;
 import biblioteket.roborally.actors.IRobot;
-import biblioteket.roborally.elements.*;
-import biblioteket.roborally.elements.InteractingElements.FlagElement;
-import biblioteket.roborally.elements.InteractingElements.InteractingElement;
+import biblioteket.roborally.elements.ArchiveMarkerElement;
+import biblioteket.roborally.elements.Interactingelements.FlagElement;
+import biblioteket.roborally.elements.Interactingelements.InteractingElement;
 import biblioteket.roborally.elements.Walls.LaserWallElement;
 import biblioteket.roborally.elements.Walls.WallElement;
 import com.badlogic.gdx.maps.MapProperties;

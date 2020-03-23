@@ -1,4 +1,4 @@
-package biblioteket.roborally.elements.InteractingElements.cogs;
+package biblioteket.roborally.elements.Interactingelements.cogs;
 
 import biblioteket.roborally.actors.IPlayer;
 import biblioteket.roborally.actors.IRobot;
