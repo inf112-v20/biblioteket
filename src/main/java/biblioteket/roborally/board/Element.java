@@ -1,12 +1,15 @@
 package biblioteket.roborally.board;
 
 import biblioteket.roborally.elements.*;
-import biblioteket.roborally.elements.cogs.LeftRotatingCogElement;
-import biblioteket.roborally.elements.cogs.RightRotatingCogElement;
-import biblioteket.roborally.elements.conveyorbelts.ConveyorBeltElement;
-import biblioteket.roborally.elements.conveyorbelts.ExpressConveyorBeltElement;
-import biblioteket.roborally.elements.conveyorbelts.TurningConveyorBeltElement;
-import biblioteket.roborally.elements.conveyorbelts.TurningExpressConveyorBeltElement;
+import biblioteket.roborally.elements.InteractingElements.*;
+import biblioteket.roborally.elements.InteractingElements.cogs.LeftRotatingCogElement;
+import biblioteket.roborally.elements.InteractingElements.cogs.RightRotatingCogElement;
+import biblioteket.roborally.elements.InteractingElements.conveyorbelts.ConveyorBeltElement;
+import biblioteket.roborally.elements.InteractingElements.conveyorbelts.ExpressConveyorBeltElement;
+import biblioteket.roborally.elements.InteractingElements.conveyorbelts.TurningConveyorBeltElement;
+import biblioteket.roborally.elements.InteractingElements.conveyorbelts.TurningExpressConveyorBeltElement;
+import biblioteket.roborally.elements.Walls.LaserWallElement;
+import biblioteket.roborally.elements.Walls.WallElement;
 
 import java.util.HashMap;
 import java.util.Map;

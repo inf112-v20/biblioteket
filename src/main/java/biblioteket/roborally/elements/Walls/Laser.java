@@ -1,11 +1,10 @@
-package biblioteket.roborally.elements;
+package biblioteket.roborally.elements.Walls;
 
 import biblioteket.roborally.actors.IPlayer;
 import biblioteket.roborally.actors.IRobot;
 import biblioteket.roborally.board.DirVector;
 import biblioteket.roborally.board.IBoard;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Laser {
@@ -23,6 +22,7 @@ public class Laser {
             IRobot robot = player.getRobot();
             DirVector robotPosition = robot.getPosition();
             if (compareDirVectorPosition(vector, robotPosition)) {
+                board.getLayer("Laser Layer").setVisible(true);
                 robot.addDamageTokens(1);
                 System.out.println("robot at " + robotPosition.getX() + "," + robotPosition.getY() + " was hit by a laser");
                 return;

@@ -1,7 +1,7 @@
-package biblioteket.roborally.elements;
+package biblioteket.roborally.elements.InteractingElements;
 
 import biblioteket.roborally.actors.IPlayer;
-import biblioteket.roborally.actors.IRobot;
+import biblioteket.roborally.elements.IElement;
 
 public interface InteractingElement extends IElement {
     /**
@@ -12,4 +12,8 @@ public interface InteractingElement extends IElement {
      * @param player the player with the robot on current cell
      */
     void interact(IPlayer player);
+
+    default int getPriority(){
+        return 1;
+    }
 }

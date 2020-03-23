@@ -1,4 +1,4 @@
-package biblioteket.roborally.elements.conveyorbelts;
+package biblioteket.roborally.elements.InteractingElements.conveyorbelts;
 
 import biblioteket.roborally.board.Direction;
 

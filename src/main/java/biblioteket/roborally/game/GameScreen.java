@@ -34,6 +34,7 @@ public class GameScreen implements Screen {
     private Player currentPlayer;
 
     private OrthogonalTiledMapRenderer tiledMapRenderer;
+    private RenderLoop renderLoop;
 
     public GameScreen(final RoboRally gam) {
         this.game = gam;
@@ -63,6 +64,8 @@ public class GameScreen implements Screen {
 
         tiledMapRenderer = new OrthogonalTiledMapRenderer(board.getMap(), (float) 1 / board.getTileWidth());
         tiledMapRenderer.setView(camera);
+
+        renderLoop = new RenderLoop(tiledMapRenderer, board, players);
 
         // For ease of use and iterating we define the input processor inline
         // in the code here, in the future this will be moved to a separate
@@ -105,14 +108,8 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        board.getPlayerLayer().setCell(currentPlayer.getRobot().getPosition().getX(), currentPlayer.getRobot().getPosition().getY(), currentPlayer.getPlayerCell());
+        renderLoop.render();
 
-        tiledMapRenderer.render();
-        tiledMapRenderer.getBatch().begin();
-        tiledMapRenderer.renderTileLayer(board.getPlayerLayer());
-        tiledMapRenderer.getBatch().end();
-
-        board.getPlayerLayer().setCell(currentPlayer.getRobot().getPosition().getX(), currentPlayer.getRobot().getPosition().getY(), null);
     }
 
     @Override

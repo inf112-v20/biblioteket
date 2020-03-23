@@ -1,6 +1,7 @@
-package biblioteket.roborally.elements;
+package biblioteket.roborally.elements.Walls;
 
 import biblioteket.roborally.board.Direction;
+import biblioteket.roborally.elements.IElement;
 
 public class WallElement implements IElement {
     // x,y direction the wall is facing (East/West, North/South)

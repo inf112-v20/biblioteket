@@ -1,10 +1,12 @@
-package biblioteket.roborally.elements;
+package biblioteket.roborally.elements.InteractingElements;
 
 import biblioteket.roborally.actors.IPlayer;
 import biblioteket.roborally.actors.IRobot;
 import biblioteket.roborally.board.Direction;
 
 public class HoleElement implements InteractingElement {
+    private final int priority = 2;
+
     @Override
     public void interact(IPlayer player) {
         IRobot robot = player.getRobot();
@@ -18,7 +20,8 @@ public class HoleElement implements InteractingElement {
     }
 
     @Override
-    public boolean blocking(Direction direction, boolean exit) {
-        return false;
+    public int getPriority(){
+        return priority;
     }
+
 }

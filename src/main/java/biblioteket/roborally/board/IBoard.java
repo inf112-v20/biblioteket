@@ -1,7 +1,7 @@
 package biblioteket.roborally.board;
 
 import biblioteket.roborally.actors.IPlayer;
-import biblioteket.roborally.actors.IRobot;
+import biblioteket.roborally.elements.InteractingElements.InteractingElement;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
@@ -66,7 +66,7 @@ public interface IBoard {
 
     /**
      * Interactions between a robot and the environment, i.e. between
-     * {@link biblioteket.roborally.elements.InteractingElement} and a {@link biblioteket.roborally.actors.Robot}.
+     * {@link InteractingElement} and a {@link biblioteket.roborally.actors.Robot}.
      *
      * @param player with current robot moving on the board.
      * @return new position of robot after having been interacted with.

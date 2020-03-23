@@ -1,10 +1,9 @@
-package biblioteket.roborally.elements;
+package biblioteket.roborally.elements.InteractingElements;
 
 import biblioteket.roborally.actors.IPlayer;
-import biblioteket.roborally.actors.IRobot;
-import biblioteket.roborally.board.Direction;
 
 public class FlagElement implements InteractingElement {
+    private final int priority = 2;
     private final int flagNumber;
 
     public FlagElement(int flagNumber) {
@@ -25,13 +24,14 @@ public class FlagElement implements InteractingElement {
         }
     }
 
-    public int getFlagNumber() {
-        return this.flagNumber;
-    }
-
     @Override
     public String toString() {
         return "Flag";
+    }
+
+    @Override
+    public int getPriority(){
+        return priority;
     }
 
 }

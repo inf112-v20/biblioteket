@@ -1,16 +1,15 @@
 package biblioteket.roborally.game;
 
 import biblioteket.roborally.actors.IPlayer;
-import biblioteket.roborally.actors.IRobot;
-import biblioteket.roborally.actors.Robot;
 import biblioteket.roborally.board.Board;
 import biblioteket.roborally.board.DirVector;
 import biblioteket.roborally.elements.*;
-import biblioteket.roborally.elements.cogs.CogElement;
-import biblioteket.roborally.elements.conveyorbelts.ConveyorBeltElement;
-import biblioteket.roborally.elements.conveyorbelts.ExpressConveyorBeltElement;
+import biblioteket.roborally.elements.InteractingElements.InteractingElement;
+import biblioteket.roborally.elements.InteractingElements.cogs.CogElement;
+import biblioteket.roborally.elements.InteractingElements.conveyorbelts.ConveyorBeltElement;
+import biblioteket.roborally.elements.InteractingElements.conveyorbelts.ExpressConveyorBeltElement;
+import biblioteket.roborally.elements.Walls.LaserWallElement;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,51 +20,48 @@ public class GameLoop {
     private List<IPlayer> players;
     private final int amountOfFlags;
     private final List<LaserWallElement> laserWalls;
-    private ArrayList<Class<? extends InteractingElement>> interactingElementInstances;
 
     public GameLoop(Board board, List<IPlayer> players){
         this.board = board;
         this.players = players;
         this.amountOfFlags = board.getNumFlags();
         this.laserWalls = board.getLaserWalls();
-        interactingElementInstances = new ArrayList<>();
-        interactingElementInstances.add(ExpressConveyorBeltElement.class);
-        interactingElementInstances.add(ConveyorBeltElement.class);
-        interactingElementInstances.add(CogElement.class);
     }
 
-    /**
-     *
-     * @return true if one player has collected all flags
-     */
     public void doTurn(){
-        // Conveyor belts and cogs interact
-        for(Class instance : interactingElementInstances){
-            for(IPlayer player : players){
-                DirVector position = player.getRobot().getPosition();
-                IElement element = board.getInteractingElement(position);
 
-                if(instance.isInstance(element)){
-                    board.interact(player);
-                }
-            }
-        }
+        // Express conveyor belts move first
+        interactWithBoardElement(ExpressConveyorBeltElement.class);
 
-//        Thread.sleep(1000);
+        // All conveyor belts move second
+        interactWithBoardElement(ConveyorBeltElement.class);
+
+        // Gears rotate
+        interactWithBoardElement(CogElement.class);
+
         // Lasers shoot
         for (LaserWallElement laserWall : laserWalls) {
             laserWall.interact(board,players);
         }
-//        Render lasers for a few seconds
+
+        // Interact with priority 2 elements
+        for (IPlayer player : players) {
+            InteractingElement element = board.getInteractingElement(player.getRobot().getPosition());
+            if (element != null && element.getPriority() == 2){
+                element.interact(player);
+            }
+        }
+
 
         // Register flags
-        for (IPlayer player : players) {
-            board.registerFlag(player);
-        }
+//        for (IPlayer player : players) {
+//            board.registerFlag(player);
+//        }
 
         // Repair
         // TODO
         //Element priority
+        //Holes
     }
 
     public boolean checkWinCondition(){
@@ -73,6 +69,16 @@ public class GameLoop {
             if(player.getNumberOfVisitedFlags() == amountOfFlags) return true;
         }
         return false;
+    }
+
+    private void interactWithBoardElement(Class<? extends InteractingElement> instance){
+        for (IPlayer player : players) {
+            DirVector position = player.getRobot().getPosition();
+            IElement element = board.getInteractingElement(position);
+            if(instance.isInstance(element)){
+                board.interact(player);
+            }
+        }
     }
 
 }

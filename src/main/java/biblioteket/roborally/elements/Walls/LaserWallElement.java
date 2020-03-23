@@ -1,4 +1,4 @@
-package biblioteket.roborally.elements;
+package biblioteket.roborally.elements.Walls;
 
 import biblioteket.roborally.actors.IPlayer;
 import biblioteket.roborally.board.Board;
@@ -32,11 +32,12 @@ public class LaserWallElement extends WallElement {
      * Fire lasers
      * Laser moves until it hits a robot, a wall or moves off the board
      */
-    public void interact(Board board, List<IPlayer> players){
+    public void interact(Board board, List<IPlayer> players)  {
         DirVector vector = new DirVector(position.getX(), position.getY(), position.getDirection());
-
         Laser laser = new Laser();
         laser.fireLaser(board,players, vector);
+
+
     }
 
     @Override
