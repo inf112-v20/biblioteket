@@ -11,15 +11,11 @@ import java.util.logging.Logger;
 public class CardDeck implements ICardDeck {
     private final ArrayList<ICard> gameCardDeck;
     private int topOfDrawPile = 0; //Will change as cards are drawn
-    Logger logger = Logger.getLogger(CardDeck.class.getName());
 
     public CardDeck() throws IOException {
         gameCardDeck = new ArrayList<>();
         String line;
-        BufferedReader bufferedReader;
-
-        try {
-            bufferedReader = new BufferedReader(new FileReader("assets/ProgramCards.csv"));
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader("assets/ProgramCards.csv"))) {
             while ((line = bufferedReader.readLine()) != null) {
                 line = line.replace("\uFEFF", ""); //Have to take away an invisible space.
                 String[] cardInfo = line.split(",");
@@ -30,6 +26,7 @@ public class CardDeck implements ICardDeck {
             }
         } catch (IOException e) {
             String message = "Something went wrong.";
+            Logger logger = Logger.getLogger(CardDeck.class.getName());
             logger.log(Level.SEVERE, message, e);
 
             throw new IOException(message, e);

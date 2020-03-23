@@ -17,7 +17,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class RobotTest {
-    private IPlayer player;
     private IRobot robot;
     private IBoard board;
 
@@ -56,7 +55,7 @@ class RobotTest {
 
         DirVector position = new DirVector(1, 1, Direction.NORTH);
         robot = new Robot(position);
-        player = new Player(null);
+        IPlayer player = new Player(null);
         player.setRobot(robot);
         robot.setPlayer(player);
 

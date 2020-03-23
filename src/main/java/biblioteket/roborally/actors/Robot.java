@@ -10,8 +10,6 @@ public class Robot implements IRobot {
     private DirVector archiveMarker;
 
     private IPlayer player;
-
-    private boolean destroyed = false;
     private int damageTokens = 0;
 
     public Robot(DirVector location) {

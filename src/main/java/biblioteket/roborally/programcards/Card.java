@@ -4,8 +4,8 @@ import biblioteket.roborally.actors.IRobot;
 import biblioteket.roborally.board.IBoard;
 
 public class Card implements ICard {
-    private CardType type;
-    private int priorityNumber;
+    private final CardType type;
+    private final int priorityNumber;
 
     public Card(CardType type, int priorityNumber) {
         this.type = type;
@@ -54,7 +54,7 @@ public class Card implements ICard {
                 robot.moveBackward(board);
                 break;
             default:
-                System.out.println("Card not supported");
+                break;
         }
     }
 

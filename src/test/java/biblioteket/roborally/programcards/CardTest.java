@@ -17,10 +17,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class CardTest {
-    private IPlayer player;
     private IRobot robot;
     private IBoard board;
     private ICard forwardOne;
@@ -66,7 +65,7 @@ class CardTest {
 
         DirVector position = new DirVector(1, 1, Direction.NORTH);
         robot = new Robot(position);
-        player = new Player(null);
+        IPlayer player = new Player(null);
         player.setRobot(robot);
         robot.setPlayer(player);
 
