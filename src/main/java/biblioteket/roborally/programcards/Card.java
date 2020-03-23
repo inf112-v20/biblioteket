@@ -36,19 +36,12 @@ public class Card implements ICard {
                 robot.turnLeft();
                 break;
             case MOVE_1:
-                robot.moveForward();
                 break;
             case MOVE_2:
-                robot.moveForward();
-                robot.moveForward();
                 break;
             case MOVE_3:
-                robot.moveForward();
-                robot.moveForward();
-                robot.moveForward();
                 break;
             case BACK_UP:
-                robot.moveBackward();
                 break;
         }
     }

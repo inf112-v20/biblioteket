@@ -3,6 +3,7 @@ package biblioteket.roborally.actors;
 import biblioteket.roborally.board.Board;
 import biblioteket.roborally.board.DirVector;
 import biblioteket.roborally.board.Direction;
+import biblioteket.roborally.board.IBoard;
 
 public class Robot implements IRobot {
     private DirVector location;
@@ -69,24 +70,21 @@ public class Robot implements IRobot {
     }
 
     @Override
-    public void moveForward() {
-        this.location.forward(1);
+    public void moveForward(IBoard board) {
+        moveRobot(getDirection(), board);
     }
 
     @Override
-    public void moveBackward() {
-        this.location.backward(1);
+    public void moveBackward(IBoard board) {
+        Direction startDirection = getDirection();
+        moveRobot(getDirection().opposite(), board);
+        setDirection(startDirection);
     }
 
     @Override
     public void pushRobotInDirection(Direction direction) {
         this.location.setDirection(direction);
         this.location.forward(1);
-    }
-
-    @Override
-    public boolean canMoveInDirection(Direction direction) {
-        return false;
     }
 
     @Override
@@ -134,5 +132,52 @@ public class Robot implements IRobot {
             return true;
         }
         return false;
+    }
+
+    /**
+     * //TODO
+     * Each robot that was destroyed this turn
+     * reenters play in the space containing its
+     * Archive marker. The player chooses which
+     * direction the robot faces.
+     * <p>
+     * If two or more robots would reenter play
+     * on the same space, they’re placed back on
+     * the board in the order they were destroyed.
+     * The first robot that was destroyed gets the archive
+     * space, facing any direction that player chooses.
+     * The player whose robot was destroyed next then
+     * chooses an empty adjacent space (looking
+     * orthogonally OR diagonally) and puts the robot on
+     * that space. That robot can face any direction that
+     * player chooses, except that there can’t be another
+     * robot in its line of sight 3 spaces away or closer.
+     * Ignore all board elements except for pits when
+     * placing your robot in an adjacent space.
+     * You can’t start a turn with your robot in a pit.
+     * They suffer enough as it is.
+     */
+    public void placeRobotOnArchiveMarker() {
+        setPosition(getArchiveMarker());
+    }
+
+    //TODO need to add pit and push other robot.
+    @Override
+    public void moveRobot(Direction direction, IBoard board) {
+        DirVector locationInDirection = this.location.dirVectorInDirection(direction);
+        if (board.canMove(this, direction)) { //Check if blocked by immovable object. Should not include robots or out of bounds.
+            if (board.outOfBounds(locationInDirection)) { //Check if robot moves off board
+                player.removeOneLife();
+                if (player.hasLivesLeft()) {
+                    //TODO do something about damagetokens
+                    placeRobotOnArchiveMarker();
+                } else {// TODO If player is dead
+                    this.location = null;
+                }
+            } else {// Moves the robot in direction
+                setPosition(locationInDirection);
+            }
+        }
+
     }
 }
