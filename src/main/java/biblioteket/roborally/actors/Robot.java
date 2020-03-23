@@ -161,7 +161,7 @@ public class Robot implements IRobot {
         setPosition(getArchiveMarker());
     }
 
-    //TODO need to add pit and push other robot.
+    //TODO need to add pit and push other robot. Do something about direction, robots respawn in direction the archive marker has stored.
     @Override
     public void moveRobot(Direction direction, IBoard board) {
         DirVector locationInDirection = this.location.dirVectorInDirection(direction);
@@ -169,8 +169,9 @@ public class Robot implements IRobot {
             if (board.outOfBounds(locationInDirection)) { //Check if robot moves off board
                 player.removeOneLife();
                 if (player.hasLivesLeft()) {
-                    //TODO do something about damagetokens
+                    //TODO do something about damage tokens and direction
                     placeRobotOnArchiveMarker();
+                    //TODO add else if first for pit then for pushing other robots.
                 } else {// TODO If player is dead
                     this.location = null;
                 }
