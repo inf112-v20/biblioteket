@@ -21,6 +21,7 @@ public class FlagElement implements InteractingElement {
         if(flagNumber - 1 == visited) { // Check if player has picked up all previous flags
             System.out.println("Picked up flag " + flagNumber);
             player.addToFlagsVisited();
+            player.getRobot().setArchiveMarker(player.getRobot().getPosition());
         }
     }
 

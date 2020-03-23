@@ -48,20 +48,16 @@ public class GameLoop {
         for (IPlayer player : players) {
             InteractingElement element = board.getInteractingElement(player.getRobot().getPosition());
             if (element != null && element.getPriority() == 2){
-                element.interact(player);
+                board.interact(player);
             }
         }
 
 
-        // Register flags
-//        for (IPlayer player : players) {
-//            board.registerFlag(player);
-//        }
+//         Register flags
+        for (IPlayer player : players) {
+            board.registerFlag(player);
+        }
 
-        // Repair
-        // TODO
-        //Element priority
-        //Holes
     }
 
     public boolean checkWinCondition(){

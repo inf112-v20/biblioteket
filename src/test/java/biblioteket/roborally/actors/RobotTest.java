@@ -2,6 +2,7 @@ package biblioteket.roborally.actors;
 
 import biblioteket.roborally.board.DirVector;
 import biblioteket.roborally.board.Direction;
+import biblioteket.roborally.elements.ArchiveMarkerElement;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,7 +15,7 @@ class RobotTest {
     @BeforeEach
     void setUp() {
         DirVector position = new DirVector(0, 0, Direction.NORTH);
-        robot = new Robot(position);
+        robot = new Robot(new ArchiveMarkerElement(1));
     }
 
     @Test

@@ -225,7 +225,7 @@ public class Board implements IBoard {
             element.interact(player);
             if (outOfBounds(robot.getPosition())) {
                 robot.addDamageTokens(1);
-                robot.setPosition(robot.getArchiveMarker());
+                robot.moveToArchiveMarker();
             }
             return robot.getPosition();
         }

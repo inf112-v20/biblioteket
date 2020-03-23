@@ -1,6 +1,7 @@
 package biblioteket.roborally.elements.InteractingElements;
 
 import biblioteket.roborally.actors.IPlayer;
+import biblioteket.roborally.actors.IRobot;
 
 public class SingleWrenchRepairElement implements InteractingElement {
     private final int priority = 2;
@@ -11,11 +12,13 @@ public class SingleWrenchRepairElement implements InteractingElement {
      */
     @Override
     public void interact(IPlayer player) {
-        player.getRobot().removeDamageTokens(1);
+        IRobot robot = player.getRobot();
+        robot.removeDamageTokens(1);
+        robot.setArchiveMarker(robot.getPosition());
 
         System.out.println(
                 "Robot at " + player.getRobot().getPosition().getX() + ","
-                + player.getRobot().getPosition().getY() + "Discards one damage token");
+                + player.getRobot().getPosition().getY() + " discards one damage token");
     }
 
     @Override

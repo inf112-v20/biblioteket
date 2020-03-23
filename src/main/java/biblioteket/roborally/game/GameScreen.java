@@ -34,7 +34,6 @@ public class GameScreen implements Screen {
     private Player currentPlayer;
 
     private OrthogonalTiledMapRenderer tiledMapRenderer;
-    private RenderLoop renderLoop;
 
     public GameScreen(final RoboRally gam) {
         this.game = gam;
@@ -46,12 +45,12 @@ public class GameScreen implements Screen {
 
         this.players = new ArrayList<>();
 
-        for (int i = 0; i < 1; i++) {
+        for (int i = 1; i <= 1; i++) {
             Player player = new Player(new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(playerTextureSplit[0][0])));
             currentPlayer = player;
             players.add(player);
             ArchiveMarkerElement archiveMarker = board.getArchiveMarker(i+1);   // Archive markers start at 1
-            IRobot robot = new Robot(new DirVector(archiveMarker.getX(), archiveMarker.getY(), Direction.NORTH));
+            IRobot robot = new Robot(archiveMarker);
             player.setRobot(robot);
             board.getPlayerLayer().setCell(player.getRobot().getPosition().getX(), player.getRobot().getPosition().getY(), null);
         }
@@ -64,8 +63,6 @@ public class GameScreen implements Screen {
 
         tiledMapRenderer = new OrthogonalTiledMapRenderer(board.getMap(), (float) 1 / board.getTileWidth());
         tiledMapRenderer.setView(camera);
-
-        renderLoop = new RenderLoop(tiledMapRenderer, board, players);
 
         // For ease of use and iterating we define the input processor inline
         // in the code here, in the future this will be moved to a separate
@@ -108,8 +105,18 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        renderLoop.render();
+        for (IPlayer player : players) {
+            board.getPlayerLayer().setCell(player.getRobot().getPosition().getX(),player.getRobot().getPosition().getY(), player.getPlayerCell());
+        }
 
+        tiledMapRenderer.render();
+        tiledMapRenderer.getBatch().begin();
+        tiledMapRenderer.renderTileLayer(board.getPlayerLayer());
+        tiledMapRenderer.getBatch().end();
+
+        for (IPlayer player : players) {
+            board.getPlayerLayer().setCell(player.getRobot().getPosition().getX(), player.getRobot().getPosition().getY(), null);
+        }
     }
 
     @Override
