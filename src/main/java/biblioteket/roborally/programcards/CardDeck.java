@@ -1,23 +1,22 @@
 package biblioteket.roborally.programcards;
 
-import org.lwjgl.Sys;
-
-import javax.swing.*;
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class CardDeck implements ICardDeck {
-    private ArrayList<ICard> cardDeck;
+    private final ArrayList<ICard> gameCardDeck;
     private int topOfDrawPile = 0; //Will change as cards are drawn
+    Logger logger = Logger.getLogger(CardDeck.class.getName());
 
-    public CardDeck() {
-        cardDeck = new ArrayList<>();
-        String line = "";
-        BufferedReader bufferedReader = null;
+    public CardDeck() throws IOException {
+        gameCardDeck = new ArrayList<>();
+        String line;
+        BufferedReader bufferedReader;
 
         try {
             bufferedReader = new BufferedReader(new FileReader("assets/ProgramCards.csv"));
@@ -27,33 +26,27 @@ public class CardDeck implements ICardDeck {
                 CardType type = CardType.valueOf(cardInfo[0]);
                 int priorityNum = Integer.parseInt(cardInfo[1]);
                 ICard card = new Card(type, priorityNum);
-                cardDeck.add(card);
+                gameCardDeck.add(card);
             }
         } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (bufferedReader != null) {
-                try {
-                    bufferedReader.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+            String message = "Something went wrong.";
+            logger.log(Level.SEVERE, message, e);
+
+            throw new IOException(message, e);
         }
-        Collections.shuffle(cardDeck);
+        Collections.shuffle(gameCardDeck);
     }
 
-    //TODO
     @Override
     public ArrayList<ICard> drawCards(int number) {
-        if (topOfDrawPile > cardDeck.size() - 1) {
+        if (topOfDrawPile > gameCardDeck.size() - 1) {
             topOfDrawPile = 0;
-            Collections.shuffle(cardDeck);
+            Collections.shuffle(gameCardDeck);
         }
 
         ArrayList<ICard> drawnCards = new ArrayList<>();
         for (int i = 0; i < number; i++) {
-            drawnCards.add(cardDeck.get(topOfDrawPile++));
+            drawnCards.add(gameCardDeck.get(topOfDrawPile++));
         }
         return drawnCards;
 

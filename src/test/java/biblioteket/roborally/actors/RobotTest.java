@@ -17,9 +17,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class RobotTest {
-    IPlayer player;
-    IRobot robot;
-    IBoard board;
+    private IPlayer player;
+    private IRobot robot;
+    private IBoard board;
 
     @BeforeEach
     void setUp() {

@@ -20,16 +20,16 @@ import org.mockito.Mockito;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CardTest {
-    IPlayer player;
-    IRobot robot;
-    IBoard board;
-    ICard forwardOne;
-    ICard forwardTwo;
-    ICard forwardThree;
-    ICard backUp;
-    ICard uTurn;
-    ICard left;
-    ICard right;
+    private IPlayer player;
+    private IRobot robot;
+    private IBoard board;
+    private ICard forwardOne;
+    private ICard forwardTwo;
+    private ICard forwardThree;
+    private ICard backUp;
+    private ICard uTurn;
+    private ICard left;
+    private ICard right;
 
     @BeforeEach
     void setUp() {

@@ -3,16 +3,17 @@ package biblioteket.roborally.programcards;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class CardDeckTest {
-    CardDeck cardDeck;
-    int maxNumberOfCards = 84;
+    private CardDeck cardDeck;
+    private int maxNumberOfCards = 84;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws IOException {
         cardDeck = new CardDeck();
     }
 

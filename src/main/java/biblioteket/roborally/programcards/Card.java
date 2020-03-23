@@ -22,7 +22,6 @@ public class Card implements ICard {
         return priorityNumber;
     }
 
-    //TODO have made an test-class but not started to implement.
     @Override
     public void doCardAction(IRobot robot, IBoard board) {
         switch (type) {
@@ -41,19 +40,21 @@ public class Card implements ICard {
                 break;
             case MOVE_2:
                 robot.moveForward(board);
-                if(robot.getPlayer().hasLivesLeft())
+                if (robot.getPlayer().hasLivesLeft())
                     robot.moveForward(board);
                 break;
             case MOVE_3:
                 robot.moveForward(board);
-                if(robot.getPlayer().hasLivesLeft())
+                if (robot.getPlayer().hasLivesLeft())
                     robot.moveForward(board);
-                if(robot.getPlayer().hasLivesLeft())
+                if (robot.getPlayer().hasLivesLeft())
                     robot.moveForward(board);
                 break;
             case BACK_UP:
                 robot.moveBackward(board);
                 break;
+            default:
+                System.out.println("Card not supported");
         }
     }
 
