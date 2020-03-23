@@ -1,6 +1,7 @@
 package biblioteket.roborally.programcards;
 
 import biblioteket.roborally.actors.IRobot;
+import biblioteket.roborally.board.IBoard;
 
 public class Card implements ICard {
     private CardType type;
@@ -23,7 +24,7 @@ public class Card implements ICard {
 
     //TODO have made an test-class but not started to implement.
     @Override
-    public void doCardAction(IRobot robot) {
+    public void doCardAction(IRobot robot, IBoard board) {
         switch (type) {
             case ROTATE_LEFT:
                 robot.turnLeft();
@@ -36,12 +37,22 @@ public class Card implements ICard {
                 robot.turnLeft();
                 break;
             case MOVE_1:
+                robot.moveForward(board);
                 break;
             case MOVE_2:
+                robot.moveForward(board);
+                if(robot.getPlayer().hasLivesLeft())
+                    robot.moveForward(board);
                 break;
             case MOVE_3:
+                robot.moveForward(board);
+                if(robot.getPlayer().hasLivesLeft())
+                    robot.moveForward(board);
+                if(robot.getPlayer().hasLivesLeft())
+                    robot.moveForward(board);
                 break;
             case BACK_UP:
+                robot.moveBackward(board);
                 break;
         }
     }
