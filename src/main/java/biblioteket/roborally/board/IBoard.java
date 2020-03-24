@@ -1,6 +1,7 @@
 package biblioteket.roborally.board;
 
-import biblioteket.roborally.actors.IRobot;
+import biblioteket.roborally.actors.IPlayer;
+import biblioteket.roborally.elements.interactingelements.InteractingElement;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
@@ -57,17 +58,26 @@ public interface IBoard {
      * Checks if the position robot is moving to contains immovable object or a wall is blocking the way,
      * or if move puts robot out of bounds
      *
+     * @param position of robot
      * @param direction robot is moving
      * @return true is move is legal
      */
-    boolean canMove(IRobot robot, Direction direction);
+    boolean canMove(DirVector position, Direction direction);
 
     /**
      * Interactions between a robot and the environment, i.e. between
-     * {@link biblioteket.roborally.elements.InteractingElement} and a {@link biblioteket.roborally.actors.Robot}.
+     * {@link InteractingElement} and a {@link biblioteket.roborally.actors.Robot}.
      *
-     * @param robot current robot moving on the board.
+     * @param player with current robot moving on the board.
      * @return new position of robot after having been interacted with.
      */
-    DirVector interact(IRobot robot);
+    DirVector interact(IPlayer player);
+
+    /**
+     * If players robot is standing on a flag that can be picked up, registers flag to player
+     *
+     * @param player with robot registering flag
+     * @return true if registering flag was successfull
+     */
+    boolean registerFlag(IPlayer player);
 }

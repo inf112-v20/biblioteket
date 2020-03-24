@@ -3,6 +3,7 @@ package biblioteket.roborally.actors;
 import biblioteket.roborally.board.Board;
 import biblioteket.roborally.board.DirVector;
 import biblioteket.roborally.board.Direction;
+import biblioteket.roborally.elements.ArchiveMarkerElement;
 
 public interface IRobot {
 
@@ -54,7 +55,7 @@ public interface IRobot {
      *
      * @return location of archive marker.
      */
-    DirVector getArchiveMarker();
+    ArchiveMarkerElement getArchiveMarker();
 
     /**
      * Set the robots archive marker, which is where it will be revived.
@@ -129,6 +130,7 @@ public interface IRobot {
      */
     void setPosition(int x, int y);
 
+
     /**
      * Gets the robots direction.
      *
@@ -160,4 +162,9 @@ public interface IRobot {
      * @return true if moved, false otherwise
      */
     boolean move(Direction direction, Board board);
+
+    /**
+     * Moves robot to archive marker
+     */
+    void moveToArchiveMarker();
 }
