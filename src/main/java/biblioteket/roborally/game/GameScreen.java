@@ -13,6 +13,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -36,19 +37,33 @@ public class GameScreen implements Screen {
 
     private Texture background;
     private Texture cards;
-    private Texture logo;
+    private Texture playerOverview;
+    private Texture flag;
+    private Texture hp;
     private SpriteBatch batch;
+    OrthographicCamera camera;
+    private BitmapFont font;
+
+
 
     private OrthogonalTiledMapRenderer tiledMapRenderer;
 
     public GameScreen(final RoboRally gam) {
         this.game = gam;
         this.board = new Board("assets/risky_exchange.tmx");
+        this.camera = new OrthographicCamera();
+        camera.setToOrtho(false, board.getWidth() + 14, board.getHeight() + (int) 1);
+        camera.update();
 
         batch = new SpriteBatch();
         background = new Texture("assets/background2.jpg");
         cards = new Texture("assets/cards.png");
-        logo = new Texture("assets/roborally.jpg");
+        playerOverview = new Texture("assets/playerOverview.jpg");
+        hp = new Texture("assets/hp.png");
+        flag = new Texture("assets/flag.png");
+        font = new BitmapFont();
+
+
 
         Texture playerTexture = new Texture("assets/player.png");
         TextureRegion[][] playerTextureSplit = TextureRegion.split(playerTexture, board.getTileWidth(), board.getTileHeight());
@@ -69,10 +84,6 @@ public class GameScreen implements Screen {
                 }
             }
         }
-
-        OrthographicCamera camera = new OrthographicCamera();
-        camera.setToOrtho(false, board.getWidth() + 14, board.getHeight());
-        camera.update();
 
         tiledMapRenderer = new OrthogonalTiledMapRenderer(board.getMap(), (float) 1 / board.getTileWidth());
         tiledMapRenderer.setView(camera);
@@ -115,13 +126,19 @@ public class GameScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // Clears main menu screen
         batch.begin();
-        batch.draw(background, 0, 0, 700, 700);
+        batch.draw(playerOverview,0,Gdx.graphics.getHeight()-90,Gdx.graphics.getWidth(),90);
+        batch.draw(background, board.getTileWidth() , 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        batch.draw(flag, 290, Gdx.graphics.getHeight()-180,40,40);
+        batch.draw(hp,330,Gdx.graphics.getHeight()-180,40,40);
+        font.draw(batch, "Player 1", 300,Gdx.graphics.getHeight()-120);
+        font.draw(batch, "1", 310,Gdx.graphics.getHeight()-165);
+        font.draw(batch, "3", 360,Gdx.graphics.getHeight()-165);
+
         batch.draw(cards, 350, 0, 100, 90);
         batch.draw(cards, 400, 0, 100, 90);
         batch.draw(cards, 450, 0, 100, 90);
         batch.draw(cards, 500, 0, 100, 90);
         batch.draw(cards, 550, 0, 100, 90);
-        //batch.draw(logo, 350, 300,290,90);
         batch.end();
         tiledMapRenderer.render();
         tiledMapRenderer.getBatch().begin();
@@ -133,7 +150,6 @@ public class GameScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-
     }
 
     @Override
