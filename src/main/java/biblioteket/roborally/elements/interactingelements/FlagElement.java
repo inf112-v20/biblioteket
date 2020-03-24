@@ -3,7 +3,7 @@ package biblioteket.roborally.elements.interactingelements;
 import biblioteket.roborally.actors.IPlayer;
 
 public class FlagElement implements InteractingElement {
-    private final int priority = 2;
+    private int priority = 2;
     private final int flagNumber;
 
     public FlagElement(int flagNumber) {

@@ -152,6 +152,7 @@ public class Board implements IBoard {
 
     /**
      * Gets a {@link FlagElement} from the location of a robot
+     * Used instead of getInteractingElement because flags are on a separate layer
      *
      * @param location location to check for flags
      * @return {@link FlagElement}
@@ -160,7 +161,9 @@ public class Board implements IBoard {
         try {
             int fromId = this.getFlagLayer().getCell(location.getX(), location.getY()).getTile().getId();
             return (FlagElement) Element.getInteractiveElement(fromId);
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+            // Ignored because getCell() can return null if the layer contains nothing in
+        }
         return null;
     }
 
@@ -271,33 +274,58 @@ public class Board implements IBoard {
     private void readMap() {
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-
-                // Check for archive marker
-                if (groundLayer.getCell(x,y) != null) {
-                    int id = groundLayer.getCell(x, y).getTile().getId();
-                    ArchiveMarkerElement archiveMarker = Element.getArchiveMarker(id,x,y);
-                    if(archiveMarker != null)
-                        this.archiveMarkers.add(archiveMarker);
-                }
-
-                // Check for flag
-                if (flagLayer.getCell(x,y) != null){
-                    int id = flagLayer.getCell(x,y).getTile().getId();
-                    if(Element.isFlag(id)) numFlags++;
-                }
-
-                // Check for laser
-                if(wallLayer.getCell(x,y) != null){
-                    int id = wallLayer.getCell(x,y).getTile().getId();
-                    WallElement wall = Element.getWallElement(id);
-                    if(wall instanceof LaserWallElement){
-                        LaserWallElement laserWall = (LaserWallElement) wall;
-                        laserWall.setPosition(x,y);
-                        laserWalls.add(laserWall);
-                    }
-
-                }
+                checkForArchiveMarker(x,y);
+                countFlag(x,y);
+                checkForLaserWall(x,y);
             }
+        }
+    }
+
+    /**
+     * If there is an archive marker in this position, add it to the archiveMarkers list
+     *
+     * @param x position
+     * @param y position
+     */
+    private void checkForArchiveMarker(int x, int y){
+        if (groundLayer.getCell(x,y) != null) {
+            int id = groundLayer.getCell(x, y).getTile().getId();
+            ArchiveMarkerElement archiveMarker = Element.getArchiveMarker(id,x,y);
+            if(archiveMarker != null)
+                this.archiveMarkers.add(archiveMarker);
+        }
+    }
+
+    /**
+     * If there is a flag in this position, increase the flag count
+     *
+     * @param x position
+     * @param y position
+     */
+    private void countFlag(int x, int y){
+        if (flagLayer.getCell(x,y) != null){
+            int id = flagLayer.getCell(x,y).getTile().getId();
+            if(Element.isFlag(id)) numFlags++;
+        }
+    }
+
+    /**
+     * If there is a laserwall in this position, initialize it, set its position and add it
+     * to the laserwalls list
+     *
+     * @param x position
+     * @param y position
+     */
+    private void checkForLaserWall(int x, int y){
+        if(wallLayer.getCell(x,y) != null){
+            int id = wallLayer.getCell(x,y).getTile().getId();
+            WallElement wall = Element.getWallElement(id);
+            if(wall instanceof LaserWallElement){
+                LaserWallElement laserWall = (LaserWallElement) wall;
+                laserWall.setPosition(x,y);
+                laserWalls.add(laserWall);
+            }
+
         }
     }
 

@@ -137,7 +137,9 @@ public enum Element {
                 archiveMarker.setY(y);
                 return archiveMarker;
             }
-        } catch (UnsupportedOperationException e){} // Ignored
+        } catch (UnsupportedOperationException e){
+            // Ignored
+        }
             return null;
     }
 

@@ -4,7 +4,7 @@ import biblioteket.roborally.actors.IPlayer;
 import biblioteket.roborally.actors.IRobot;
 
 public class SingleWrenchRepairElement implements InteractingElement {
-    private final int priority = 2;
+    private int priority = 2;
 
     /**
      * Robot that ends turn on a repair station discards one damage token

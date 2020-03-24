@@ -26,13 +26,16 @@ public class LaserWallElement extends WallElement {
         this.position = position;
     }
 
-
-
     /**
      * Fire lasers
      * Laser moves until it hits a robot, a wall or moves off the board
      */
     public void interact(Board board, List<IPlayer> players)  {
+        // If a position is not set for the laserwall, it can not call the interact method
+        if(position == null){
+            throw new NullPointerException();
+        }
+
         DirVector vector = new DirVector(position.getX(), position.getY(), position.getDirection());
         Laser laser = new Laser();
         laser.fireLaser(board,players, vector);
