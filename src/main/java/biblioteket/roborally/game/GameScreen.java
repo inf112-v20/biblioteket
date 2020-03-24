@@ -1,11 +1,13 @@
 package biblioteket.roborally.game;
 
+import biblioteket.roborally.actors.IPlayer;
+import biblioteket.roborally.actors.IRobot;
 import biblioteket.roborally.actors.Player;
 import biblioteket.roborally.actors.Robot;
 import biblioteket.roborally.board.Board;
 import biblioteket.roborally.board.DirVector;
 import biblioteket.roborally.board.Direction;
-import biblioteket.roborally.board.Element;
+import biblioteket.roborally.elements.ArchiveMarkerElement;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
@@ -31,19 +33,17 @@ import java.util.List;
 public class GameScreen implements Screen {
     private final RoboRally game;
     private final Board board;
-
-    private List<Player> players;
+    private final GameLoop gameLoop;
+    OrthographicCamera camera;
+    private List<IPlayer> players;
     private Player currentPlayer;
-
     private Texture background;
     private Texture cards;
     private Texture playerOverview;
     private Texture flag;
     private Texture hp;
     private SpriteBatch batch;
-    OrthographicCamera camera;
     private BitmapFont font;
-
 
 
     private OrthogonalTiledMapRenderer tiledMapRenderer;
@@ -52,7 +52,7 @@ public class GameScreen implements Screen {
         this.game = gam;
         this.board = new Board("assets/risky_exchange.tmx");
         this.camera = new OrthographicCamera();
-        camera.setToOrtho(false, board.getWidth() + 14, board.getHeight() + (int) 1);
+        camera.setToOrtho(false, board.getWidth() + 14, board.getHeight() + 1);
         camera.update();
 
         batch = new SpriteBatch();
@@ -64,26 +64,22 @@ public class GameScreen implements Screen {
         font = new BitmapFont();
 
 
-
         Texture playerTexture = new Texture("assets/player.png");
         TextureRegion[][] playerTextureSplit = TextureRegion.split(playerTexture, board.getTileWidth(), board.getTileHeight());
 
         this.players = new ArrayList<>();
 
-        for (int i = 0; i < 1; i++) {
+        for (int i = 1; i <= 1; i++) {
             Player player = new Player(new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(playerTextureSplit[0][0])));
             currentPlayer = player;
             players.add(player);
-            for (int y = 0; y < board.getHeight(); y++) {
-                for (int x = 0; x < board.getWidth(); x++) {
-                    if (Element.valueOf(board.getGroundLayer().getCell(x, y).getTile().getId()) == Element.SPAWN_1) {
-                        Robot robot = new Robot(new DirVector(x, y, Direction.NORTH));
-                        player.setRobot(robot);
-                        board.getPlayerLayer().setCell(player.getRobot().getPosition().getX(), player.getRobot().getPosition().getY(), null);
-                    }
-                }
-            }
+            ArchiveMarkerElement archiveMarker = board.getArchiveMarker(i + 1);   // Archive markers start at 1
+            IRobot robot = new Robot(archiveMarker);
+            player.setRobot(robot);
+            board.getPlayerLayer().setCell(player.getRobot().getPosition().getX(), player.getRobot().getPosition().getY(), null);
         }
+
+        this.gameLoop = new GameLoop(board, players);
 
         tiledMapRenderer = new OrthogonalTiledMapRenderer(board.getMap(), (float) 1 / board.getTileWidth());
         tiledMapRenderer.setView(camera);
@@ -104,8 +100,13 @@ public class GameScreen implements Screen {
                     case Input.Keys.S:
                         return currentPlayer.getRobot().move(Direction.SOUTH, board);
                     case Input.Keys.SPACE:
-                        DirVector newPosition = board.interact(currentPlayer.getRobot());
+                        DirVector newPosition = board.interact(currentPlayer);
                         return newPosition != null;
+                    case Input.Keys.P:
+                        return board.registerFlag(currentPlayer);
+                    case Input.Keys.ENTER:
+                        gameLoop.doTurn();
+                        return false;
                     default:
                         return true;
                 }
@@ -120,19 +121,21 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        board.getPlayerLayer().setCell(currentPlayer.getRobot().getPosition().getX(), currentPlayer.getRobot().getPosition().getY(), currentPlayer.getPlayerCell());
+        for (IPlayer player : players) {
+            board.getPlayerLayer().setCell(player.getRobot().getPosition().getX(), player.getRobot().getPosition().getY(), player.getPlayerCell());
+        }
 
         //Left of board x = 350, top y = 550, width = 290
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // Clears main menu screen
         batch.begin();
-        batch.draw(playerOverview,0,Gdx.graphics.getHeight()-90,Gdx.graphics.getWidth(),90);
-        batch.draw(background, board.getTileWidth() , 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        batch.draw(flag, 290, Gdx.graphics.getHeight()-180,40,40);
-        batch.draw(hp,330,Gdx.graphics.getHeight()-180,40,40);
-        font.draw(batch, "Player 1", 300,Gdx.graphics.getHeight()-120);
-        font.draw(batch, "1", 310,Gdx.graphics.getHeight()-165);
-        font.draw(batch, "3", 360,Gdx.graphics.getHeight()-165);
+        batch.draw(playerOverview, 0, Gdx.graphics.getHeight() - 90, Gdx.graphics.getWidth(), 90);
+        batch.draw(background, board.getTileWidth(), 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        batch.draw(flag, 290, Gdx.graphics.getHeight() - 180, 40, 40);
+        batch.draw(hp, 330, Gdx.graphics.getHeight() - 180, 40, 40);
+        font.draw(batch, "Player 1", 300, Gdx.graphics.getHeight() - 120);
+        font.draw(batch, "1", 310, Gdx.graphics.getHeight() - 165);
+        font.draw(batch, "3", 360, Gdx.graphics.getHeight() - 165);
 
         batch.draw(cards, 350, 0, 100, 90);
         batch.draw(cards, 400, 0, 100, 90);
@@ -145,7 +148,9 @@ public class GameScreen implements Screen {
         tiledMapRenderer.renderTileLayer(board.getPlayerLayer());
         tiledMapRenderer.getBatch().end();
 
-        board.getPlayerLayer().setCell(currentPlayer.getRobot().getPosition().getX(), currentPlayer.getRobot().getPosition().getY(), null);
+        for (IPlayer player : players) {
+            board.getPlayerLayer().setCell(player.getRobot().getPosition().getX(), player.getRobot().getPosition().getY(), null);
+        }
     }
 
     @Override
