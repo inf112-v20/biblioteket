@@ -28,17 +28,15 @@ import java.util.List;
  * flag and hole that they player can move around on.
  */
 public class GameScreen implements Screen {
-    private final RoboRally game;
     private final Board board;
     private final GameLoop gameLoop;
 
-    private List<IPlayer> players;
+    private final List<IPlayer> players;
     private Player currentPlayer;
 
-    private OrthogonalTiledMapRenderer tiledMapRenderer;
+    private final OrthogonalTiledMapRenderer tiledMapRenderer;
 
     public GameScreen(final RoboRally gam) {
-        this.game = gam;
         this.board = new Board("assets/DizzyDash.tmx");
 
         Texture playerTexture = new Texture("assets/player.png");

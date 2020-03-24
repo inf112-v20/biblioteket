@@ -32,11 +32,6 @@ public class RoboRally extends Game {
     }
 
     @Override
-    public void render() {
-        super.render();
-    }
-
-    @Override
     public void resize(int width, int height) {
     }
 

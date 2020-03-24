@@ -13,7 +13,7 @@ import org.mockito.Mockito;
  */
 public class TestRunner implements BeforeAllCallback {
     @Override
-    public void beforeAll(ExtensionContext extensionContext) throws Exception {
+    public void beforeAll(ExtensionContext extensionContext) {
         new HeadlessApplication(new ApplicationListener() {
             @Override
             public void create() {
