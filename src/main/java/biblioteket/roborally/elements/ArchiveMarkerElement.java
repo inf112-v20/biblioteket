@@ -27,6 +27,10 @@ public class ArchiveMarkerElement implements IElement {
         position.setY(y);
     }
 
+    public DirVector getPosition() {
+        return this.position;
+    }
+
     public int getArchiveNum() {
         return archiveNum;
     }

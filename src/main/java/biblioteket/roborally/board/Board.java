@@ -250,9 +250,7 @@ public class Board implements IBoard {
     }
 
 
-    /**
-     * @return an arraylist containing all archive markers
-     */
+    @Override
     public ArchiveMarkerElement getArchiveMarker(int i) {
         for (ArchiveMarkerElement archiveMarker : archiveMarkers) {
             if (archiveMarker.getArchiveNum() == i) return archiveMarker;
@@ -260,6 +258,7 @@ public class Board implements IBoard {
         return null;
     }
 
+    @Override
     public List<LaserWallElement> getLaserWalls() {
         return laserWalls;
     }

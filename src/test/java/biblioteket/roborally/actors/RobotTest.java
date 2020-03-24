@@ -1,21 +1,63 @@
 package biblioteket.roborally.actors;
 
+import biblioteket.roborally.board.Board;
 import biblioteket.roborally.board.DirVector;
 import biblioteket.roborally.board.Direction;
+import biblioteket.roborally.board.IBoard;
+import com.badlogic.gdx.Application;
+import com.badlogic.gdx.ApplicationListener;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.backends.headless.HeadlessApplication;
+import com.badlogic.gdx.graphics.GL20;
 import biblioteket.roborally.elements.ArchiveMarkerElement;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class RobotTest {
-    Robot robot;
+    private IRobot robot;
+    private IBoard board;
 
     @BeforeEach
     void setUp() {
-        DirVector position = new DirVector(0, 0, Direction.NORTH);
-        robot = new Robot(new ArchiveMarkerElement(1));
+        Application _application = new HeadlessApplication(new ApplicationListener() {
+            @Override
+            public void create() {
+            }
+
+            @Override
+            public void resize(int width, int height) {
+            }
+
+            @Override
+            public void render() {
+            }
+
+            @Override
+            public void pause() {
+            }
+
+            @Override
+            public void resume() {
+            }
+
+            @Override
+            public void dispose() {
+            }
+        });
+
+        Gdx.gl20 = Mockito.mock(GL20.class);
+        Gdx.gl = Gdx.gl20;
+
+        board = new Board("assets/TestingMap.tmx");
+
+        robot = new Robot(board.getArchiveMarker(1));
+        IPlayer player = new Player(null);
+        player.setRobot(robot);
+        robot.setPlayer(player);
     }
 
     @Test
@@ -105,58 +147,156 @@ class RobotTest {
     }
 
     @Test
-    void moveForwardWhenFacingNorth() {
-        robot.setDirection(Direction.NORTH);
-        robot.moveForward();
-        assertEquals(robot.getPosition(), new DirVector(0, 1, Direction.NORTH));
+    void moveForwardNorth() {
+        Direction direction = Direction.NORTH;
+        robot.setDirection(direction);
+        DirVector newLocation = robot.getPosition().dirVectorInDirection(direction);
+
+        robot.moveForward(board);
+
+        assertEquals(robot.getPosition(), newLocation);
+        assertEquals(direction, robot.getDirection());
     }
 
     @Test
-    void moveForwardWhenFacingSouth() {
-        robot.setDirection(Direction.SOUTH);
-        robot.moveForward();
-        assertEquals(robot.getPosition(), new DirVector(0, -1, Direction.SOUTH));
+    void moveForwardSouth() {
+        Direction direction = Direction.SOUTH;
+        robot.setDirection(direction);
+        DirVector newLocation = robot.getPosition().dirVectorInDirection(direction);
+
+        robot.moveForward(board);
+
+        assertEquals(robot.getPosition(), newLocation);
+        assertEquals(direction, robot.getDirection());
     }
 
     @Test
-    void moveForwardWhenFacingEast() {
-        robot.setDirection(Direction.EAST);
-        robot.moveForward();
-        assertEquals(robot.getPosition(), new DirVector(1, 0, Direction.EAST));
+    void moveForwardEast() {
+        Direction direction = Direction.EAST;
+        robot.setDirection(direction);
+        DirVector newLocation = robot.getPosition().dirVectorInDirection(direction);
+
+        robot.moveForward(board);
+
+        assertEquals(robot.getPosition(), newLocation);
+        assertEquals(direction, robot.getDirection());
     }
 
     @Test
     void moveForwardWest() {
-        robot.setDirection(Direction.WEST);
-        robot.moveForward();
-        assertEquals(robot.getPosition(), new DirVector(-1, 0, Direction.WEST));
+        Direction direction = Direction.WEST;
+        robot.setDirection(direction);
+        DirVector newLocation = robot.getPosition().dirVectorInDirection(direction);
+
+        robot.moveForward(board);
+
+        assertEquals(robot.getPosition(), newLocation);
+        assertEquals(direction, robot.getDirection());
     }
 
     @Test
     void moveBackwardWhenFacingNorth() {
-        robot.setDirection(Direction.NORTH);
-        robot.moveBackward();
-        assertEquals(robot.getPosition(), new DirVector(0, -1, Direction.NORTH));
+        Direction direction = Direction.NORTH;
+        robot.setDirection(direction);
+        DirVector newLocation = robot.getPosition().dirVectorInDirection(direction.opposite());
+        newLocation.setDirection(direction);
+
+        robot.moveBackward(board);
+
+        assertEquals(robot.getPosition(), newLocation);
+        assertEquals(direction, robot.getDirection());
     }
 
     @Test
     void moveBackwardWhenFacingSouth() {
-        robot.setDirection(Direction.SOUTH);
-        robot.moveBackward();
-        assertEquals(robot.getPosition(), new DirVector(0, 1, Direction.SOUTH));
+        Direction direction = Direction.SOUTH;
+        robot.setDirection(direction);
+        DirVector newLocation = robot.getPosition().dirVectorInDirection(direction.opposite());
+        newLocation.setDirection(direction);
+
+        robot.moveBackward(board);
+
+        assertEquals(robot.getPosition(), newLocation);
+        assertEquals(direction, robot.getDirection());
     }
 
     @Test
     void moveBackwardWhenFacingEast() {
-        robot.setDirection(Direction.EAST);
-        robot.moveBackward();
-        assertEquals(robot.getPosition(), new DirVector(-1, 0, Direction.EAST));
+        Direction direction = Direction.EAST;
+        robot.setDirection(direction);
+        DirVector newLocation = robot.getPosition().dirVectorInDirection(direction.opposite());
+        newLocation.setDirection(direction);
+
+        robot.moveBackward(board);
+
+        assertEquals(robot.getPosition(), newLocation);
+        assertEquals(direction, robot.getDirection());
     }
 
     @Test
     void moveBackwardWhenFacingWest() {
-        robot.setDirection(Direction.WEST);
-        robot.moveBackward();
-        assertEquals(robot.getPosition(), new DirVector(1, 0, Direction.WEST));
+        Direction direction = Direction.WEST;
+        robot.setDirection(direction);
+        DirVector newLocation = robot.getPosition().dirVectorInDirection(direction.opposite());
+        newLocation.setDirection(direction);
+
+        robot.moveBackward(board);
+
+        assertEquals(robot.getPosition(), newLocation);
+        assertEquals(direction, robot.getDirection());
     }
+
+    @Test
+    void moveForwardTowardsSouthWhenItIsOutOfBoundaries() {
+        int fullLife = 3;
+        Direction direction = Direction.SOUTH;
+        robot.setDirection(direction);
+        robot.setPosition(5, 0);
+
+        DirVector newLocation = robot.getPosition().dirVectorInDirection(direction);
+        assertTrue(board.outOfBounds(newLocation));
+
+        assertEquals(fullLife, robot.getPlayer().getLives()); // maybe remove this and the next.
+
+        robot.moveRobot(robot.getDirection(), board);
+        assertTrue(board.outOfBounds(newLocation));
+
+        assertEquals(fullLife - 1, robot.getPlayer().getLives());
+        assertEquals(robot.getArchiveMarker().getPosition(), new DirVector(robot.getPosition().getX(), robot.getPosition().getY(), null));
+    }
+
+    // @Test
+    // void moveForwardTowardSouthWhenARobotWhoCanBePushedIsInTheWay() {
+    //     secondRobot = new Robot(pos1x2y, secondArchiveMarker, Direction.NORTH, board);
+    //     secondRobot.setPlayer(secondPlayer);
+
+    // robot.setDirection(Direction.SOUTH);
+    // secondRobot.setDirection(Direction.NORTH);
+    // IPosition firstRobotNewPosition = grid.positionInDirection(robot.getPosition(), robot.getDirection());
+    // assertEquals(firstRobotNewPosition, secondRobot.getPosition()); //makes sure we check for right event
+    // IPosition secondRobotNewPosition = grid.positionInDirection(secondRobot.getPosition(), robot.getDirection());
+
+    // robot.moveForward();
+
+    // assertEquals(Direction.NORTH, secondRobot.getDirection()); //Makes sure nothing weird happens, might be removed.
+    // assertEquals(firstRobotNewPosition, robot.getPosition());
+    // assertEquals(secondRobotNewPosition, secondRobot.getPosition());
+
+    // //Makes sure there is one robot at each position
+    // int numberOfRobotsOnPosition1 = 0;
+    // List<IElement> elementsInPos = firstRobotNewPosition.getContents();
+    // for (IElement element : elementsInPos)
+    //     if (element instanceof IRobot)
+    //         numberOfRobotsOnPosition1++;
+    // assertEquals(1, numberOfRobotsOnPosition1);
+
+
+    // int numberOfRobotsOnPosition2 = 0;
+    // List<IElement> elementsInPos2 = secondRobotNewPosition.getContents();
+    // for (IElement element : elementsInPos2)
+        //     if (element instanceof IRobot)
+        //         numberOfRobotsOnPosition2++;
+        // assertEquals(1, numberOfRobotsOnPosition2);
+
+    // }
 }

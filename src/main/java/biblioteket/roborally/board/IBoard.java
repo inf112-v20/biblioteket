@@ -1,9 +1,13 @@
 package biblioteket.roborally.board;
 
 import biblioteket.roborally.actors.IPlayer;
+import biblioteket.roborally.elements.ArchiveMarkerElement;
 import biblioteket.roborally.elements.interactingelements.InteractingElement;
+import biblioteket.roborally.elements.walls.LaserWallElement;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+
+import java.util.List;
 
 public interface IBoard {
     /**
@@ -80,4 +84,17 @@ public interface IBoard {
      * @return true if registering flag was successfull
      */
     boolean registerFlag(IPlayer player);
+
+    /**
+     * Finds a players archive marker.
+     *
+     * @return an archive marker for a players ID
+     */
+    ArchiveMarkerElement getArchiveMarker(int i);
+
+
+    /**
+     * @return a list of all laser walls
+     */
+    List<LaserWallElement> getLaserWalls();
 }
