@@ -1,28 +1,30 @@
 package biblioteket.roborally.elements;
 
+import biblioteket.roborally.board.DirVector;
+
 public class ArchiveMarkerElement implements IElement {
     private int archiveNum;
-    private int x;
-    private int y;
+    private DirVector position;
 
     public ArchiveMarkerElement(int archiveNum) {
         this.archiveNum = archiveNum;
+        position = new DirVector(0,0,null);
     }
 
     public int getX() {
-        return x;
+        return position.getX();
     }
 
     public int getY() {
-        return y;
+        return position.getY();
     }
 
     public void setX(int x) {
-        this.x = x;
+        position.setX(x);
     }
 
     public void setY(int y) {
-        this.y = y;
+        position.setY(y);
     }
 
     public int getArchiveNum() {
