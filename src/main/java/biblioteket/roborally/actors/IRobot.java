@@ -4,6 +4,7 @@ import biblioteket.roborally.board.Board;
 import biblioteket.roborally.board.DirVector;
 import biblioteket.roborally.board.Direction;
 import biblioteket.roborally.board.IBoard;
+import biblioteket.roborally.elements.ArchiveMarkerElement;
 
 public interface IRobot {
 
@@ -55,7 +56,7 @@ public interface IRobot {
      *
      * @return location of archive marker.
      */
-    DirVector getArchiveMarker();
+    ArchiveMarkerElement getArchiveMarker();
 
     /**
      * Set the robots archive marker, which is where it will be revived.
@@ -125,6 +126,7 @@ public interface IRobot {
      */
     void setPosition(int x, int y);
 
+
     /**
      * Gets the robots direction.
      *
@@ -166,4 +168,28 @@ public interface IRobot {
      * @param board     current game board
      */
     void moveRobot(Direction direction, IBoard board);
+
+     /**
+     * Each robot that was destroyed this turn
+     * reenters play in the space containing its
+     * Archive marker. The player chooses which
+     * direction the robot faces.
+     * <p>
+     * If two or more robots would reenter play
+     * on the same space, they’re placed back on
+     * the board in the order they were destroyed.
+     * The first robot that was destroyed gets the archive
+     * space, facing any direction that player chooses.
+     * The player whose robot was destroyed next then
+     * chooses an empty adjacent space (looking
+     * orthogonally OR diagonally) and puts the robot on
+     * that space. That robot can face any direction that
+     * player chooses, except that there can’t be another
+     * robot in its line of sight 3 spaces away or closer.
+     * Ignore all board elements except for pits when
+     * placing your robot in an adjacent space.
+     * You can’t start a turn with your robot in a pit.
+     * They suffer enough as it is.
+     */
+    void moveToArchiveMarker();
 }

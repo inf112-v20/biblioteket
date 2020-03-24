@@ -4,17 +4,18 @@ import biblioteket.roborally.board.Board;
 import biblioteket.roborally.board.DirVector;
 import biblioteket.roborally.board.Direction;
 import biblioteket.roborally.board.IBoard;
+import biblioteket.roborally.elements.ArchiveMarkerElement;
 
 public class Robot implements IRobot {
     private DirVector location;
-    private DirVector archiveMarker;
+    private ArchiveMarkerElement archiveMarker;
 
     private IPlayer player;
     private int damageTokens = 0;
 
-    public Robot(DirVector location) {
-        this.location = location;
-        this.archiveMarker = new DirVector(location.getX(), location.getY(), Direction.NORTH);
+    public Robot(ArchiveMarkerElement archiveMarker) {
+        this.archiveMarker = archiveMarker;
+        this.location = new DirVector(archiveMarker.getX(), archiveMarker.getY(), Direction.NORTH);
     }
 
     @Override
@@ -48,13 +49,14 @@ public class Robot implements IRobot {
     }
 
     @Override
-    public DirVector getArchiveMarker() {
+    public ArchiveMarkerElement getArchiveMarker() {
         return this.archiveMarker;
     }
 
     @Override
     public void setArchiveMarker(DirVector location) {
-        this.archiveMarker = location;
+        archiveMarker.setX(location.getX());
+        archiveMarker.setY(location.getY());
     }
 
     @Override
@@ -112,7 +114,7 @@ public class Robot implements IRobot {
 
     @Override
     public boolean moveForward(Board board) {
-        if (board.canMove(this, getDirection())) {
+        if (board.canMove(getPosition(), getDirection())) {
             this.location = this.location.dirVectorInDirection(getDirection());
             return true;
         }
@@ -121,41 +123,15 @@ public class Robot implements IRobot {
 
     @Override
     public boolean move(Direction direction, Board board) {
-        if (board.canMove(this, direction)) {
+        if (board.canMove(getPosition(), direction)) {
             this.location = this.location.dirVectorInDirection(direction);
             if (board.outOfBounds(this.location)) {
                 this.addDamageTokens(1);
-                this.location = this.getArchiveMarker();
+                moveToArchiveMarker();
             }
             return true;
         }
         return false;
-    }
-
-    /**
-     * Each robot that was destroyed this turn
-     * reenters play in the space containing its
-     * Archive marker. The player chooses which
-     * direction the robot faces.
-     * <p>
-     * If two or more robots would reenter play
-     * on the same space, they’re placed back on
-     * the board in the order they were destroyed.
-     * The first robot that was destroyed gets the archive
-     * space, facing any direction that player chooses.
-     * The player whose robot was destroyed next then
-     * chooses an empty adjacent space (looking
-     * orthogonally OR diagonally) and puts the robot on
-     * that space. That robot can face any direction that
-     * player chooses, except that there can’t be another
-     * robot in its line of sight 3 spaces away or closer.
-     * Ignore all board elements except for pits when
-     * placing your robot in an adjacent space.
-     * You can’t start a turn with your robot in a pit.
-     * They suffer enough as it is.
-     */
-    public void placeRobotOnArchiveMarker() {
-        setPosition(getArchiveMarker());
     }
 
     // Need to add support for pit and pushing other robots.
@@ -166,12 +142,12 @@ public class Robot implements IRobot {
     @Override
     public void moveRobot(Direction direction, IBoard board) {
         DirVector locationInDirection = this.location.dirVectorInDirection(direction);
-        if (board.canMove(this, direction)) { //Check if blocked by immovable object. Should not include robots or out of bounds.
+        if (board.canMove(this.location, direction)) { //Check if blocked by immovable object. Should not include robots or out of bounds.
             if (board.outOfBounds(locationInDirection)) { //Check if robot moves off board
                 player.removeOneLife();
                 if (player.hasLivesLeft()) {
                     //do something about damage tokens and direction
-                    placeRobotOnArchiveMarker();
+                    moveToArchiveMarker();
                     //add else if first for pit then for pushing other robots.
                 } else {//Not sure to handle what to do when player is dead.
                     this.location = null;
@@ -180,6 +156,10 @@ public class Robot implements IRobot {
                 setPosition(locationInDirection);
             }
         }
+    }
 
+    @Override
+    public void moveToArchiveMarker() {
+        setPosition(archiveMarker.getX(), archiveMarker.getY());
     }
 }

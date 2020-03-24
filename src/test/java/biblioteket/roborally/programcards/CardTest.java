@@ -8,6 +8,7 @@ import biblioteket.roborally.board.Board;
 import biblioteket.roborally.board.DirVector;
 import biblioteket.roborally.board.Direction;
 import biblioteket.roborally.board.IBoard;
+import biblioteket.roborally.elements.ArchiveMarkerElement;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
@@ -61,10 +62,9 @@ class CardTest {
         Gdx.gl20 = Mockito.mock(GL20.class);
         Gdx.gl = Gdx.gl20;
 
-        board = new Board("assets/board.tmx");
+        board = new Board("assets/TestingMap.tmx");
 
-        DirVector position = new DirVector(1, 1, Direction.NORTH);
-        robot = new Robot(position);
+        robot = new Robot(board.getArchiveMarker(1));
         IPlayer player = new Player(null);
         player.setRobot(robot);
         robot.setPlayer(player);
@@ -207,7 +207,6 @@ class CardTest {
         DirVector newLocationTwoForward = newLocationOneForward.dirVectorInDirection(direction);
 
         forwardTwo.doCardAction(robot, board);
-
 
         assertEquals(newLocationTwoForward, robot.getPosition());
         assertEquals(direction, robot.getDirection());

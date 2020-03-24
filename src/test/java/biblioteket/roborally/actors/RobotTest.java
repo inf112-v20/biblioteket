@@ -9,6 +9,7 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.headless.HeadlessApplication;
 import com.badlogic.gdx.graphics.GL20;
+import biblioteket.roborally.elements.ArchiveMarkerElement;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -51,14 +52,12 @@ class RobotTest {
         Gdx.gl20 = Mockito.mock(GL20.class);
         Gdx.gl = Gdx.gl20;
 
-        board = new Board("assets/board.tmx");
+        board = new Board("assets/TestingMap.tmx");
 
-        DirVector position = new DirVector(1, 1, Direction.NORTH);
-        robot = new Robot(position);
+        robot = new Robot(board.getArchiveMarker(1));
         IPlayer player = new Player(null);
         player.setRobot(robot);
         robot.setPlayer(player);
-
     }
 
     @Test
@@ -252,7 +251,7 @@ class RobotTest {
         int fullLife = 3;
         Direction direction = Direction.SOUTH;
         robot.setDirection(direction);
-        robot.setPosition(0, 0);
+        robot.setPosition(5, 0);
 
         DirVector newLocation = robot.getPosition().dirVectorInDirection(direction);
         assertTrue(board.outOfBounds(newLocation));
@@ -260,9 +259,10 @@ class RobotTest {
         assertEquals(fullLife, robot.getPlayer().getLives()); // maybe remove this and the next.
 
         robot.moveRobot(robot.getDirection(), board);
+        assertTrue(board.outOfBounds(newLocation));
 
         assertEquals(fullLife - 1, robot.getPlayer().getLives());
-        assertEquals(robot.getArchiveMarker(), robot.getPosition());
+        assertEquals(robot.getArchiveMarker().getPosition(), new DirVector(robot.getPosition().getX(), robot.getPosition().getY(), null));
     }
 
     // @Test

@@ -29,7 +29,7 @@ public class Player implements IPlayer {
 
     @Override
     public void removeOneLife() {
-        lives--;
+        this.lives -= 1;
     }
 
     @Override
