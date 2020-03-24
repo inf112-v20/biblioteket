@@ -5,7 +5,7 @@ import biblioteket.roborally.actors.IRobot;
 import biblioteket.roborally.actors.Player;
 import biblioteket.roborally.actors.Robot;
 import biblioteket.roborally.elements.ArchiveMarkerElement;
-import biblioteket.roborally.elements.Interactingelements.HoleElement;
+import biblioteket.roborally.elements.interactingelements.HoleElement;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

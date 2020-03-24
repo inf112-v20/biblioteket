@@ -4,11 +4,11 @@ import biblioteket.roborally.actors.IPlayer;
 import biblioteket.roborally.board.Board;
 import biblioteket.roborally.board.DirVector;
 import biblioteket.roborally.elements.IElement;
-import biblioteket.roborally.elements.Interactingelements.InteractingElement;
-import biblioteket.roborally.elements.Interactingelements.cogs.CogElement;
-import biblioteket.roborally.elements.Interactingelements.conveyorbelts.ConveyorBeltElement;
-import biblioteket.roborally.elements.Interactingelements.conveyorbelts.ExpressConveyorBeltElement;
-import biblioteket.roborally.elements.Walls.LaserWallElement;
+import biblioteket.roborally.elements.interactingelements.InteractingElement;
+import biblioteket.roborally.elements.interactingelements.cogs.CogElement;
+import biblioteket.roborally.elements.interactingelements.conveyorbelts.ConveyorBeltElement;
+import biblioteket.roborally.elements.interactingelements.conveyorbelts.ExpressConveyorBeltElement;
+import biblioteket.roborally.elements.walls.LaserWallElement;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package biblioteket.roborally.elements.Walls;
+package biblioteket.roborally.elements.walls;
 
 import biblioteket.roborally.board.Direction;
 import biblioteket.roborally.elements.IElement;

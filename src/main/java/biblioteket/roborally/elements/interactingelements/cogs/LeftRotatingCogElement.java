@@ -1,18 +1,18 @@
-package biblioteket.roborally.elements.Interactingelements.cogs;
+package biblioteket.roborally.elements.interactingelements.cogs;
 
 import biblioteket.roborally.actors.IPlayer;
 import biblioteket.roborally.actors.IRobot;
 
-public class RightRotatingCogElement extends CogElement{
+public class LeftRotatingCogElement extends CogElement{
 
     @Override
     public void interact(IPlayer player) {
         IRobot robot = player.getRobot();
-        robot.turnRight();
+        robot.turnLeft();
     }
 
     @Override
     public String toString(){
-        return "Right rotating cog";
+        return "Left rotating cog";
     }
 }

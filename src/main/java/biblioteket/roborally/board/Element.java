@@ -2,13 +2,13 @@ package biblioteket.roborally.board;
 
 import biblioteket.roborally.elements.ArchiveMarkerElement;
 import biblioteket.roborally.elements.IElement;
-import biblioteket.roborally.elements.Interactingelements.*;
-import biblioteket.roborally.elements.Interactingelements.cogs.LeftRotatingCogElement;
-import biblioteket.roborally.elements.Interactingelements.cogs.RightRotatingCogElement;
-import biblioteket.roborally.elements.Interactingelements.conveyorbelts.ConveyorBeltElement;
-import biblioteket.roborally.elements.Interactingelements.conveyorbelts.ExpressConveyorBeltElement;
-import biblioteket.roborally.elements.Walls.LaserWallElement;
-import biblioteket.roborally.elements.Walls.WallElement;
+import biblioteket.roborally.elements.interactingelements.*;
+import biblioteket.roborally.elements.interactingelements.cogs.LeftRotatingCogElement;
+import biblioteket.roborally.elements.interactingelements.cogs.RightRotatingCogElement;
+import biblioteket.roborally.elements.interactingelements.conveyorbelts.ConveyorBeltElement;
+import biblioteket.roborally.elements.interactingelements.conveyorbelts.ExpressConveyorBeltElement;
+import biblioteket.roborally.elements.walls.LaserWallElement;
+import biblioteket.roborally.elements.walls.WallElement;
 
 import java.util.HashMap;
 import java.util.Map;

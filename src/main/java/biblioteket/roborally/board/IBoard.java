@@ -1,7 +1,7 @@
 package biblioteket.roborally.board;
 
 import biblioteket.roborally.actors.IPlayer;
-import biblioteket.roborally.elements.Interactingelements.InteractingElement;
+import biblioteket.roborally.elements.interactingelements.InteractingElement;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 

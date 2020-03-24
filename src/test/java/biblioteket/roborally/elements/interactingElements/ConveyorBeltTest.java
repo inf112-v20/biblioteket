@@ -6,7 +6,7 @@ import biblioteket.roborally.actors.Robot;
 import biblioteket.roborally.board.DirVector;
 import biblioteket.roborally.board.Direction;
 import biblioteket.roborally.elements.ArchiveMarkerElement;
-import biblioteket.roborally.elements.Interactingelements.conveyorbelts.ConveyorBeltElement;
+import biblioteket.roborally.elements.interactingelements.conveyorbelts.ConveyorBeltElement;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ConveyorBeltTest {
     private IPlayer player;
-    DirVector position;
+    private DirVector position;
 
     @BeforeEach
     void setUp(){

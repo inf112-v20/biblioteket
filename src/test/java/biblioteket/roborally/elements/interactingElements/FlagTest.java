@@ -7,7 +7,7 @@ import biblioteket.roborally.actors.Robot;
 import biblioteket.roborally.board.DirVector;
 import biblioteket.roborally.board.Direction;
 import biblioteket.roborally.elements.ArchiveMarkerElement;
-import biblioteket.roborally.elements.Interactingelements.FlagElement;
+import biblioteket.roborally.elements.interactingelements.FlagElement;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
