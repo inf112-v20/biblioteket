@@ -104,43 +104,43 @@ public enum Element {
     }
 
 
-    public static InteractingElement getInteractiveElement(int id){
+    public static InteractingElement getInteractiveElement(int id) {
         IElement element = factory(id);
         if (element instanceof InteractingElement)
             return (InteractingElement) element;
         return null;
     }
 
-    public static WallElement getWallElement(int id){
+    public static WallElement getWallElement(int id) {
         IElement element = factory(id);
-        if (element instanceof WallElement){
+        if (element instanceof WallElement) {
             return (WallElement) element;
         }
         return null;
     }
 
-    public static boolean isFlag(int id){
-        try{
+    public static boolean isFlag(int id) {
+        try {
             IElement element = factory(id);
             return element instanceof FlagElement;
-        } catch (UnsupportedOperationException e){
+        } catch (UnsupportedOperationException e) {
             return false;
         }
     }
 
-    public static ArchiveMarkerElement getArchiveMarker(int id, int x, int y){
-        try{
+    public static ArchiveMarkerElement getArchiveMarker(int id, int x, int y) {
+        try {
             IElement element = factory(id);
-            if(element instanceof ArchiveMarkerElement){
+            if (element instanceof ArchiveMarkerElement) {
                 ArchiveMarkerElement archiveMarker = (ArchiveMarkerElement) element;
                 archiveMarker.setX(x);
                 archiveMarker.setY(y);
                 return archiveMarker;
             }
-        } catch (UnsupportedOperationException e){
+        } catch (UnsupportedOperationException e) {
             // Ignored
         }
-            return null;
+        return null;
     }
 
     private static IElement factory(int id) {

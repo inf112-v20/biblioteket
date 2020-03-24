@@ -3,8 +3,8 @@ package biblioteket.roborally.elements.interactingelements;
 import biblioteket.roborally.actors.IPlayer;
 
 public class FlagElement implements InteractingElement {
-    private int priority = 2;
     private final int flagNumber;
+    private int priority = 2;
 
     public FlagElement(int flagNumber) {
         this.flagNumber = flagNumber;
@@ -18,7 +18,7 @@ public class FlagElement implements InteractingElement {
     @Override
     public void interact(IPlayer player) {
         int visited = player.getNumberOfVisitedFlags();
-        if(flagNumber - 1 == visited) { // Check if player has picked up all previous flags
+        if (flagNumber - 1 == visited) { // Check if player has picked up all previous flags
             System.out.println("Picked up flag " + flagNumber);
             player.addToFlagsVisited();
             player.getRobot().setArchiveMarker(player.getRobot().getPosition());
@@ -31,7 +31,7 @@ public class FlagElement implements InteractingElement {
     }
 
     @Override
-    public int getPriority(){
+    public int getPriority() {
         return priority;
     }
 

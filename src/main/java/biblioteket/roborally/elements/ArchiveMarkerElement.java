@@ -8,19 +8,19 @@ public class ArchiveMarkerElement implements IElement {
 
     public ArchiveMarkerElement(int archiveNum) {
         this.archiveNum = archiveNum;
-        position = new DirVector(0,0,null);
+        position = new DirVector(0, 0, null);
     }
 
     public int getX() {
         return position.getX();
     }
 
-    public int getY() {
-        return position.getY();
-    }
-
     public void setX(int x) {
         position.setX(x);
+    }
+
+    public int getY() {
+        return position.getY();
     }
 
     public void setY(int y) {

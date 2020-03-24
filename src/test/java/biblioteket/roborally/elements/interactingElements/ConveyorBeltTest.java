@@ -10,6 +10,7 @@ import biblioteket.roborally.elements.interactingelements.conveyorbelts.Conveyor
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ConveyorBeltTest {
@@ -17,23 +18,23 @@ public class ConveyorBeltTest {
     private DirVector position;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         player = new Player(new TiledMapTileLayer.Cell());
         player.setRobot(new Robot(new ArchiveMarkerElement(1)));
         position = player.getRobot().getPosition();
     }
 
     @Test
-    void conveyorBeltPushesRobotInCorrectDirectionTest(){
-        Direction[] directions = new Direction[] {Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST};
+    void conveyorBeltPushesRobotInCorrectDirectionTest() {
+        Direction[] directions = new Direction[]{Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST};
         for (Direction direction : directions) {
             ConveyorBeltElement conveyorBelt = new ConveyorBeltElement(direction);
-            DirVector initVector = new DirVector(position.getX(),position.getY(), position.getDirection());
+            DirVector initVector = new DirVector(position.getX(), position.getY(), position.getDirection());
 
             conveyorBelt.interact(player);
             DirVector postInteractionPosition = player.getRobot().getPosition();
 
-            assertEquals(initVector.dirVectorInDirection(direction),postInteractionPosition);
+            assertEquals(initVector.dirVectorInDirection(direction), postInteractionPosition);
 
 
         }

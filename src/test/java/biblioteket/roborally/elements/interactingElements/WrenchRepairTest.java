@@ -11,38 +11,39 @@ import biblioteket.roborally.elements.interactingelements.SingleWrenchRepairElem
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class WrenchRepairTest {
     private IPlayer player;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         player = new Player(new TiledMapTileLayer.Cell());
         player.setRobot(new Robot(new ArchiveMarkerElement(1)));
     }
 
     @Test
-    void singleWrenchRepairElementRemovesOneDamageTokenTest(){
+    void singleWrenchRepairElementRemovesOneDamageTokenTest() {
         SingleWrenchRepairElement repair = new SingleWrenchRepairElement();
         // Add 5 damage tokens to robot
         player.getRobot().addDamageTokens(5);
 
         repair.interact(player);
 
-        assertEquals(4,player.getRobot().getNumberOfDamageTokens());
+        assertEquals(4, player.getRobot().getNumberOfDamageTokens());
     }
 
     @Test
-    void wrenchElementUpdatesArchiveMarkerTest(){
+    void wrenchElementUpdatesArchiveMarkerTest() {
         SingleWrenchRepairElement repair = new SingleWrenchRepairElement();
         IRobot robot = player.getRobot();
-        DirVector newPosition = new DirVector(5,5,Direction.NORTH);
+        DirVector newPosition = new DirVector(5, 5, Direction.NORTH);
 
         robot.setPosition(newPosition);
         repair.interact(player);
 
-        assertEquals(newPosition.getX(),robot.getArchiveMarker().getX());
-        assertEquals(newPosition.getY(),robot.getArchiveMarker().getY());
+        assertEquals(newPosition.getX(), robot.getArchiveMarker().getX());
+        assertEquals(newPosition.getY(), robot.getArchiveMarker().getY());
     }
 }

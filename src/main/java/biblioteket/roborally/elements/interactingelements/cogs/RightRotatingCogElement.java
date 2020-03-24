@@ -3,7 +3,7 @@ package biblioteket.roborally.elements.interactingelements.cogs;
 import biblioteket.roborally.actors.IPlayer;
 import biblioteket.roborally.actors.IRobot;
 
-public class RightRotatingCogElement extends CogElement{
+public class RightRotatingCogElement extends CogElement {
 
     @Override
     public void interact(IPlayer player) {
@@ -12,7 +12,7 @@ public class RightRotatingCogElement extends CogElement{
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return "Right rotating cog";
     }
 }

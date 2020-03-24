@@ -17,18 +17,18 @@ import java.util.List;
  */
 public class GameLoop {
     private final Board board;
-    private List<IPlayer> players;
     private final int amountOfFlags;
     private final List<LaserWallElement> laserWalls;
+    private List<IPlayer> players;
 
-    public GameLoop(Board board, List<IPlayer> players){
+    public GameLoop(Board board, List<IPlayer> players) {
         this.board = board;
         this.players = players;
         this.amountOfFlags = board.getNumFlags();
         this.laserWalls = board.getLaserWalls();
     }
 
-    public void doTurn(){
+    public void doTurn() {
 
         // Express conveyor belts move first
         interactWithBoardElement(ExpressConveyorBeltElement.class);
@@ -41,13 +41,13 @@ public class GameLoop {
 
         // Lasers shoot
         for (LaserWallElement laserWall : laserWalls) {
-            laserWall.interact(board,players);
+            laserWall.interact(board, players);
         }
 
         // Interact with priority 2 elements
         for (IPlayer player : players) {
             InteractingElement element = board.getInteractingElement(player.getRobot().getPosition());
-            if (element != null && element.getPriority() == 2){
+            if (element != null && element.getPriority() == 2) {
                 board.interact(player);
             }
         }
@@ -60,18 +60,18 @@ public class GameLoop {
 
     }
 
-    public boolean checkWinCondition(){
-        for (IPlayer player : players){
-            if(player.getNumberOfVisitedFlags() == amountOfFlags) return true;
+    public boolean checkWinCondition() {
+        for (IPlayer player : players) {
+            if (player.getNumberOfVisitedFlags() == amountOfFlags) return true;
         }
         return false;
     }
 
-    private void interactWithBoardElement(Class<? extends InteractingElement> instance){
+    private void interactWithBoardElement(Class<? extends InteractingElement> instance) {
         for (IPlayer player : players) {
             DirVector position = player.getRobot().getPosition();
             IElement element = board.getInteractingElement(position);
-            if(instance.isInstance(element)){
+            if (instance.isInstance(element)) {
                 board.interact(player);
             }
         }

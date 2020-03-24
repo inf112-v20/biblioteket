@@ -19,7 +19,7 @@ public class HoleElement implements InteractingElement {
     }
 
     @Override
-    public int getPriority(){
+    public int getPriority() {
         return priority;
     }
 

@@ -13,7 +13,7 @@ public interface InteractingElement extends IElement {
      */
     void interact(IPlayer player);
 
-    default int getPriority(){
+    default int getPriority() {
         return 1;
     }
 }

@@ -11,36 +11,37 @@ import biblioteket.roborally.elements.interactingelements.cogs.RightRotatingCogE
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CogTest {
     private IPlayer player;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         player = new Player(new TiledMapTileLayer.Cell());
         player.setRobot(new Robot(new ArchiveMarkerElement(1)));
     }
 
     @Test
-    void leftRotatingCogElementRotatesRobotToTheLeftTest(){
+    void leftRotatingCogElementRotatesRobotToTheLeftTest() {
         CogElement cog = new LeftRotatingCogElement();
         Direction initialDirection = player.getRobot().getDirection();
 
         cog.interact(player);
         Direction postInteractionDirection = player.getRobot().getDirection();
 
-        assertEquals(initialDirection.left(),postInteractionDirection);
+        assertEquals(initialDirection.left(), postInteractionDirection);
     }
 
     @Test
-    void rightRotatingCogElementRotatesRobotToTheRightTest(){
+    void rightRotatingCogElementRotatesRobotToTheRightTest() {
         CogElement cog = new RightRotatingCogElement();
         Direction initialDirection = player.getRobot().getDirection();
 
         cog.interact(player);
         Direction postInteractionDirection = player.getRobot().getDirection();
 
-        assertEquals(initialDirection.right(),postInteractionDirection);
+        assertEquals(initialDirection.right(), postInteractionDirection);
     }
 }

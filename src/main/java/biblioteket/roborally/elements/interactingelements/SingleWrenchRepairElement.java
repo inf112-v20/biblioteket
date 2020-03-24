@@ -8,6 +8,7 @@ public class SingleWrenchRepairElement implements InteractingElement {
 
     /**
      * Robot that ends turn on a repair station discards one damage token
+     *
      * @param player the player with the robot on current cell
      */
     @Override
@@ -18,11 +19,11 @@ public class SingleWrenchRepairElement implements InteractingElement {
 
         System.out.println(
                 "Robot at " + player.getRobot().getPosition().getX() + ","
-                + player.getRobot().getPosition().getY() + " discards one damage token");
+                        + player.getRobot().getPosition().getY() + " discards one damage token");
     }
 
     @Override
-    public int getPriority(){
+    public int getPriority() {
         return priority;
     }
 

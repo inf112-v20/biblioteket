@@ -51,7 +51,7 @@ public class GameScreen implements Screen {
             Player player = new Player(new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(playerTextureSplit[0][0])));
             currentPlayer = player;
             players.add(player);
-            ArchiveMarkerElement archiveMarker = board.getArchiveMarker(i+1);   // Archive markers start at 1
+            ArchiveMarkerElement archiveMarker = board.getArchiveMarker(i + 1);   // Archive markers start at 1
             IRobot robot = new Robot(archiveMarker);
             player.setRobot(robot);
             board.getPlayerLayer().setCell(player.getRobot().getPosition().getX(), player.getRobot().getPosition().getY(), null);
@@ -104,7 +104,7 @@ public class GameScreen implements Screen {
     @Override
     public void render(float delta) {
         for (IPlayer player : players) {
-            board.getPlayerLayer().setCell(player.getRobot().getPosition().getX(),player.getRobot().getPosition().getY(), player.getPlayerCell());
+            board.getPlayerLayer().setCell(player.getRobot().getPosition().getX(), player.getRobot().getPosition().getY(), player.getPlayerCell());
         }
 
         tiledMapRenderer.render();

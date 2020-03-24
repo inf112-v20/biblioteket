@@ -18,21 +18,18 @@ import java.util.Objects;
 
 public class Board implements IBoard {
     private final TiledMap map;
-
-    private int numFlags;
-    private ArrayList<ArchiveMarkerElement> archiveMarkers;
-    private ArrayList<LaserWallElement> laserWalls;
-
     private final TiledMapTileLayer groundLayer;
     private final TiledMapTileLayer playerLayer;
     private final TiledMapTileLayer flagLayer;
     private final TiledMapTileLayer laserLayer;
     private final TiledMapTileLayer wallLayer;
-
     private final int width;
     private final int height;
     private final int tileWidth;
     private final int tileHeight;
+    private int numFlags;
+    private ArrayList<ArchiveMarkerElement> archiveMarkers;
+    private ArrayList<LaserWallElement> laserWalls;
 
     public Board(String board) {
         this.map = new TmxMapLoader().load(board);
@@ -157,7 +154,7 @@ public class Board implements IBoard {
      * @param location location to check for flags
      * @return {@link FlagElement}
      */
-    private FlagElement getFlagElement(DirVector location){
+    private FlagElement getFlagElement(DirVector location) {
         try {
             int fromId = this.getFlagLayer().getCell(location.getX(), location.getY()).getTile().getId();
             return (FlagElement) Element.getInteractiveElement(fromId);
@@ -236,10 +233,10 @@ public class Board implements IBoard {
     }
 
     @Override
-    public boolean registerFlag(IPlayer player){
+    public boolean registerFlag(IPlayer player) {
         IRobot robot = player.getRobot();
         FlagElement flag = getFlagElement(robot.getPosition());
-        if(flag != null){
+        if (flag != null) {
             flag.interact(player);
         }
         return false;
@@ -248,7 +245,7 @@ public class Board implements IBoard {
     /**
      * @return number of flags on map
      */
-    public int getNumFlags(){
+    public int getNumFlags() {
         return numFlags;
     }
 
@@ -256,14 +253,14 @@ public class Board implements IBoard {
     /**
      * @return an arraylist containing all archive markers
      */
-    public ArchiveMarkerElement getArchiveMarker(int i){
-        for(ArchiveMarkerElement archiveMarker : archiveMarkers){
-            if(archiveMarker.getArchiveNum() == i) return archiveMarker;
+    public ArchiveMarkerElement getArchiveMarker(int i) {
+        for (ArchiveMarkerElement archiveMarker : archiveMarkers) {
+            if (archiveMarker.getArchiveNum() == i) return archiveMarker;
         }
         return null;
     }
 
-    public List<LaserWallElement> getLaserWalls(){
+    public List<LaserWallElement> getLaserWalls() {
         return laserWalls;
     }
 
@@ -274,9 +271,9 @@ public class Board implements IBoard {
     private void readMap() {
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                checkForArchiveMarker(x,y);
-                countFlag(x,y);
-                checkForLaserWall(x,y);
+                checkForArchiveMarker(x, y);
+                countFlag(x, y);
+                checkForLaserWall(x, y);
             }
         }
     }
@@ -287,11 +284,11 @@ public class Board implements IBoard {
      * @param x position
      * @param y position
      */
-    private void checkForArchiveMarker(int x, int y){
-        if (groundLayer.getCell(x,y) != null) {
+    private void checkForArchiveMarker(int x, int y) {
+        if (groundLayer.getCell(x, y) != null) {
             int id = groundLayer.getCell(x, y).getTile().getId();
-            ArchiveMarkerElement archiveMarker = Element.getArchiveMarker(id,x,y);
-            if(archiveMarker != null)
+            ArchiveMarkerElement archiveMarker = Element.getArchiveMarker(id, x, y);
+            if (archiveMarker != null)
                 this.archiveMarkers.add(archiveMarker);
         }
     }
@@ -302,10 +299,10 @@ public class Board implements IBoard {
      * @param x position
      * @param y position
      */
-    private void countFlag(int x, int y){
-        if (flagLayer.getCell(x,y) != null){
-            int id = flagLayer.getCell(x,y).getTile().getId();
-            if(Element.isFlag(id)) numFlags++;
+    private void countFlag(int x, int y) {
+        if (flagLayer.getCell(x, y) != null) {
+            int id = flagLayer.getCell(x, y).getTile().getId();
+            if (Element.isFlag(id)) numFlags++;
         }
     }
 
@@ -316,13 +313,13 @@ public class Board implements IBoard {
      * @param x position
      * @param y position
      */
-    private void checkForLaserWall(int x, int y){
-        if(wallLayer.getCell(x,y) != null){
-            int id = wallLayer.getCell(x,y).getTile().getId();
+    private void checkForLaserWall(int x, int y) {
+        if (wallLayer.getCell(x, y) != null) {
+            int id = wallLayer.getCell(x, y).getTile().getId();
             WallElement wall = Element.getWallElement(id);
-            if(wall instanceof LaserWallElement){
+            if (wall instanceof LaserWallElement) {
                 LaserWallElement laserWall = (LaserWallElement) wall;
-                laserWall.setPosition(x,y);
+                laserWall.setPosition(x, y);
                 laserWalls.add(laserWall);
             }
 

@@ -17,27 +17,27 @@ public class LaserWallElement extends WallElement {
     /**
      * @return the direction of the laser
      */
-    private Direction getLaserDirection(){
+    private Direction getLaserDirection() {
         return xDirection == null ? yDirection.opposite() : xDirection.opposite();
     }
 
-    public void setPosition(int x, int y){
-        position = new DirVector(x,y,getLaserDirection());
+    public void setPosition(int x, int y) {
+        position = new DirVector(x, y, getLaserDirection());
     }
 
     /**
      * Fire lasers
      * Laser moves until it hits a robot, a wall or moves off the board
      */
-    public void interact(Board board, List<IPlayer> players)  {
+    public void interact(Board board, List<IPlayer> players) {
         // If a position is not set for the laserwall, it can not call the interact method
-        if(position == null){
+        if (position == null) {
             throw new NullPointerException();
         }
 
         DirVector vector = new DirVector(position.getX(), position.getY(), position.getDirection());
         Laser laser = new Laser();
-        laser.fireLaser(board,players, vector);
+        laser.fireLaser(board, players, vector);
 
 
     }
