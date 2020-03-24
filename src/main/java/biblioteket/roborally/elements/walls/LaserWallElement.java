@@ -22,8 +22,7 @@ public class LaserWallElement extends WallElement {
     }
 
     public void setPosition(int x, int y){
-        DirVector position = new DirVector(x,y,getLaserDirection());
-        this.position = position;
+        position = new DirVector(x,y,getLaserDirection());
     }
 
     /**
