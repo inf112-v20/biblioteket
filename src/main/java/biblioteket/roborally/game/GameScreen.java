@@ -44,15 +44,17 @@ public class GameScreen implements Screen {
     private Texture hp;
     private SpriteBatch batch;
     private BitmapFont font;
+    public static String map;
 
 
     private OrthogonalTiledMapRenderer tiledMapRenderer;
 
     public GameScreen(final RoboRally gam) {
+
         this.game = gam;
-        this.board = new Board("assets/risky_exchange.tmx");
+        this.board = new Board(map);
         this.camera = new OrthographicCamera();
-        camera.setToOrtho(false, board.getWidth() + 14, board.getHeight() + 1);
+        camera.setToOrtho(false, board.getWidth() + 14, board.getHeight());
         camera.update();
 
         batch = new SpriteBatch();
@@ -134,8 +136,8 @@ public class GameScreen implements Screen {
         batch.draw(flag, 290, Gdx.graphics.getHeight() - 180, 40, 40);
         batch.draw(hp, 330, Gdx.graphics.getHeight() - 180, 40, 40);
         font.draw(batch, "Player 1", 300, Gdx.graphics.getHeight() - 120);
-        font.draw(batch, "1", 310, Gdx.graphics.getHeight() - 165);
-        font.draw(batch, "3", 360, Gdx.graphics.getHeight() - 165);
+        font.draw(batch, Integer.toString(currentPlayer.getNumberOfVisitedFlags()), 310, Gdx.graphics.getHeight() - 165);
+        font.draw(batch, Integer.toString(currentPlayer.getLives()), 360, Gdx.graphics.getHeight() - 165);
 
         batch.draw(cards, 350, 0, 100, 90);
         batch.draw(cards, 400, 0, 100, 90);
