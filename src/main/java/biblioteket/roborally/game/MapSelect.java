@@ -46,7 +46,7 @@ public class MapSelect implements Screen {
 
         game.getBatch().setProjectionMatrix(camera.combined);
         game.getBatch().begin();
-        game.getBatch().draw(background, 0, 0, 700, 700);
+        game.getBatch().draw(background, 0, 0, camera.viewportWidth, camera.viewportHeight);
         //game.getBatch().draw(logo, 70, 340);
         game.getBatch().draw(dizzyPre, camera.viewportWidth / 7, camera.viewportHeight / 3, 200, 265);
         game.getBatch().draw(riskyPre, camera.viewportWidth - (camera.viewportWidth / 7) * 3, camera.viewportHeight / 3, 200, 265);

@@ -137,9 +137,17 @@ public class GameScreen implements Screen {
         batch.draw(background, board.getWidth(), 0, camera.viewportWidth, camera.viewportHeight);
         batch.draw(flag, leftOfBoardX, camera.viewportHeight-(camera.viewportHeight/16)*140/100 , healthFlagSize, healthFlagSize);
         batch.draw(hp, leftOfBoardX + healthFlagSize/4*3, camera.viewportHeight-(camera.viewportHeight/16)*140/100, 40, 40);
-        font.draw(batch, "Player 1", camera.viewportWidth/2, camera.viewportHeight-(camera.viewportHeight/16)*1/10);
-        font.draw(batch, Integer.toString(currentPlayer.getNumberOfVisitedFlags()), camera.viewportWidth/(200/100), camera.viewportHeight-(camera.viewportHeight/16));
-        font.draw(batch, Integer.toString(currentPlayer.getLives()), camera.viewportWidth/(299/100), camera.viewportHeight-(camera.viewportHeight/16));
+
+
+
+        for(int i = 0; i < 5; i++) {
+            //batch.draw(cards, (leftOfBoardX + leftOfBoardX/5/4) + leftOfBoardX/5*i, 0, 100, 90);
+            font.draw(batch, "Player" + Integer.toString(i+1), camera.viewportWidth / ((float) 200 / 100), camera.viewportHeight - (camera.viewportHeight / 16) * 1 / 10);
+        }
+
+        //font.draw(batch, "Player 1", camera.viewportWidth/((float)200/100), camera.viewportHeight-(camera.viewportHeight/16)*1/10);
+        font.draw(batch, Integer.toString(currentPlayer.getNumberOfVisitedFlags()), camera.viewportWidth/((float)195/100), camera.viewportHeight-(camera.viewportHeight/16));
+        font.draw(batch, Integer.toString(currentPlayer.getLives()), camera.viewportWidth/((float)175/100), camera.viewportHeight-(camera.viewportHeight/16));
 
         for(int i = 0; i < 5; i++) {
             batch.draw(cards, (leftOfBoardX + leftOfBoardX/5/4) + leftOfBoardX/5*i, 0, 100, 90);
