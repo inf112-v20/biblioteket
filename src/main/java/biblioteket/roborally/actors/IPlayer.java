@@ -1,5 +1,7 @@
 package biblioteket.roborally.actors;
 
+import biblioteket.roborally.programcards.ICard;
+import biblioteket.roborally.programcards.ICardDeck;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
 public interface IPlayer {
@@ -60,4 +62,17 @@ public interface IPlayer {
      * @return players cell.
      */
     TiledMapTileLayer.Cell getPlayerCell();
+
+    /**
+     * Draw a number of cards according to how many damage tokens robot has
+     *
+     * @param cardDeck to draw cards from
+     */
+    void drawCards(ICardDeck cardDeck);
+
+    /**
+     * @param num which of the players cards to get
+     * @return card in spot num, or null if player doesnt have card in that spot
+     */
+    ICard getCard(int num);
 }

@@ -9,7 +9,11 @@ import biblioteket.roborally.elements.interactingelements.cogs.CogElement;
 import biblioteket.roborally.elements.interactingelements.conveyorbelts.ConveyorBeltElement;
 import biblioteket.roborally.elements.interactingelements.conveyorbelts.ExpressConveyorBeltElement;
 import biblioteket.roborally.elements.walls.LaserWallElement;
+import biblioteket.roborally.programcards.CardDeck;
+import biblioteket.roborally.programcards.ICardDeck;
+import com.badlogic.gdx.Gdx;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -20,15 +24,31 @@ public class GameLoop {
     private final int amountOfFlags;
     private final List<LaserWallElement> laserWalls;
     private List<IPlayer> players;
+    ICardDeck cardDeck;
 
     public GameLoop(Board board, List<IPlayer> players) {
         this.board = board;
         this.players = players;
         this.amountOfFlags = board.getNumFlags();
         this.laserWalls = board.getLaserWalls();
+
+        try {
+            cardDeck = new CardDeck();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void doTurn() {
+    public void doTurn(){
+        for (IPlayer player : players) {
+            player.drawCards(cardDeck);
+        }
+
+
+        interactWithEnvironment();
+    }
+
+    private void interactWithEnvironment() {
 
         // Express conveyor belts move first
         interactWithBoardElement(ExpressConveyorBeltElement.class);

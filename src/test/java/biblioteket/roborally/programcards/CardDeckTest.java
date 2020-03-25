@@ -38,5 +38,4 @@ class CardDeckTest {
         assertEquals(1, drawnCards2.size());
     }
 
-
 }

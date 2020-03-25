@@ -15,8 +15,6 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -47,7 +45,6 @@ public class GameScreen implements Screen {
         this.game = gam;
         this.board = new Board("assets/DizzyDash.tmx");
         this.camera = new OrthographicCamera();
-        this.interfaceRenderer = new InterfaceRenderer(board);
 
         camera.setToOrtho(false, board.getWidth() + 14, board.getHeight() + 1);
         camera.update();
@@ -72,6 +69,7 @@ public class GameScreen implements Screen {
         }
 
         this.gameLoop = new GameLoop(board, players);
+        this.interfaceRenderer = new InterfaceRenderer(board, players.get(0));
 
         // For ease of use and iterating we define the input processor inline
         // in the code here, in the future this will be moved to a separate
@@ -114,7 +112,7 @@ public class GameScreen implements Screen {
             board.getPlayerLayer().setCell(player.getRobot().getPosition().getX(), player.getRobot().getPosition().getY(), player.getPlayerCell());
         }
 
-        //Left of board x = 350, top y = 550, width = 290
+
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // Clears main menu screen
 
