@@ -7,6 +7,7 @@ public class Player implements IPlayer {
     private int visitedFlags = 0;
     private IRobot robot;
     private TiledMapTileLayer.Cell playerCell;
+    private String playerName;
 
     public Player(TiledMapTileLayer.Cell playerCell) {
         this.playerCell = playerCell;
@@ -56,4 +57,7 @@ public class Player implements IPlayer {
     public TiledMapTileLayer.Cell getPlayerCell() {
         return playerCell;
     }
+
+    @Override
+    public String getPlayerName() { return playerName; }
 }

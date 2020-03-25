@@ -51,14 +51,14 @@ public class MapSelect implements Screen {
         game.getBatch().draw(dizzyPre, camera.viewportWidth / 7, camera.viewportHeight / 3, 200, 265);
         game.getBatch().draw(riskyPre, camera.viewportWidth - (camera.viewportWidth / 7) * 3, camera.viewportHeight / 3, 200, 265);
         game.getBatch().draw(selectMap, camera.viewportWidth/2 - selectMap.getWidth()/2, camera.viewportHeight/2);
-        font.draw(game.getBatch(), "Dizzy Dash", camera.viewportWidth / 5 + 10, camera.viewportHeight / 3 - 10);
-        font.draw(game.getBatch(), "Risky Exchange", camera.viewportWidth - (camera.viewportWidth / 7) * 3 + 40, camera.viewportHeight / 3 - 10);
+        font.draw(game.getBatch(), "Dizzy Dash", camera.viewportWidth / 4 , camera.viewportHeight / (390/100) );
+        font.draw(game.getBatch(), "Risky Exchange", camera.viewportWidth - (camera.viewportWidth / 3), camera.viewportHeight / (390/100) );
 
 
         if (Gdx.input.getX() < camera.viewportWidth / 7 + 200 && Gdx.input.getX() > camera.viewportWidth / 7 && camera.viewportHeight - Gdx.input.getY() < camera.viewportHeight / 3 + 265 && camera.viewportHeight - Gdx.input.getY() > camera.viewportHeight / 3 ) {
             game.getBatch().draw(dizzyPost, camera.viewportWidth / 7, camera.viewportHeight / 3, 200, 265);
             if (Gdx.input.isTouched()) {
-                GameScreen.map = "assets/risky_exchange.tmx";
+                GameScreen.map = "assets/DizzyDash.tmx";
                 game.setScreen(new GameScreen(game));
                 dispose();
 
@@ -67,7 +67,7 @@ public class MapSelect implements Screen {
         else if (Gdx.input.getX() < camera.viewportWidth - (camera.viewportWidth / 7) * 3 + 200 && Gdx.input.getX() > camera.viewportWidth - (camera.viewportWidth / 7) * 3 && camera.viewportHeight - Gdx.input.getY() < camera.viewportHeight / 3 + 265 && camera.viewportHeight - Gdx.input.getY() > camera.viewportHeight / 3 ) {
             game.getBatch().draw(riskyPost, camera.viewportWidth - (camera.viewportWidth / 7) * 3, camera.viewportHeight / 3, 200, 265);
             if (Gdx.input.isTouched()) {
-                GameScreen.map = "assets/DizzyDash.tmx";
+                GameScreen.map = "assets/risky_exchange.tmx";
                 game.setScreen(new GameScreen(game));
                 dispose();
             }

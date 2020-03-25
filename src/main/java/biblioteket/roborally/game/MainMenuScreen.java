@@ -1,5 +1,6 @@
 package biblioteket.roborally.game;
 
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -52,11 +53,11 @@ public class MainMenuScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         camera.update();
-
         game.getBatch().setProjectionMatrix(camera.combined);
+
         game.getBatch().begin();
-        game.getBatch().draw(background, 0, 0, 700, 700);
-        game.getBatch().draw(logo, 70, 340);
+        game.getBatch().draw(background, 0, 0, camera.viewportWidth, camera.viewportHeight);
+        game.getBatch().draw(logo, camera.viewportWidth/2 - logo.getWidth()/2, camera.viewportHeight/2);
         game.getBatch().draw(playPre, center, camera.viewportHeight / 4, buttonWidth, buttonHeight);
         game.getBatch().draw(quitPre, center, camera.viewportHeight / 10, buttonWidth, buttonHeight);
 
@@ -70,6 +71,7 @@ public class MainMenuScreen implements Screen {
             game.getBatch().draw(playPost, center, camera.viewportHeight / 4, buttonWidth, buttonHeight);
             if (Gdx.input.isTouched()) {
                 Gdx.app.exit();
+
             }
         } else {
             game.getBatch().draw(playPost, center, camera.viewportHeight / 4, buttonWidth, buttonHeight);
@@ -82,6 +84,11 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
+        camera.viewportWidth = width;
+        camera.viewportHeight = height;
+        camera.update();
+
+
 
     }
 
@@ -104,4 +111,5 @@ public class MainMenuScreen implements Screen {
     public void dispose() {
 
     }
+
 }

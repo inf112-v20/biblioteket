@@ -32,14 +32,14 @@ import java.util.List;
  */
 public class GameScreen implements Screen {
     private final RoboRally game;
-    private final Board board;
+    public final Board board;
     private final GameLoop gameLoop;
     OrthographicCamera camera;
     private List<IPlayer> players;
     private Player currentPlayer;
     private Texture background;
     private Texture cards;
-    private Texture playerOverview;
+    //private Texture playerOverview;
     private Texture flag;
     private Texture hp;
     private SpriteBatch batch;
@@ -54,13 +54,13 @@ public class GameScreen implements Screen {
         this.game = gam;
         this.board = new Board(map);
         this.camera = new OrthographicCamera();
-        camera.setToOrtho(false, board.getWidth() + 14, board.getHeight());
+        camera.setToOrtho(false, board.getWidth() *2, board.getHeight());
         camera.update();
 
         batch = new SpriteBatch();
         background = new Texture("assets/background2.jpg");
         cards = new Texture("assets/cards.png");
-        playerOverview = new Texture("assets/playerOverview.jpg");
+        //playerOverview = new Texture("assets/playerOverview.jpg");
         hp = new Texture("assets/hp.png");
         flag = new Texture("assets/flag.png");
         font = new BitmapFont();
@@ -118,7 +118,6 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
-
     }
 
     @Override
@@ -127,24 +126,26 @@ public class GameScreen implements Screen {
             board.getPlayerLayer().setCell(player.getRobot().getPosition().getX(), player.getRobot().getPosition().getY(), player.getPlayerCell());
         }
 
+        float leftOfBoardX = camera.viewportWidth/(2) - camera.viewportWidth/654*11;
+        float healthFlagSize = 40;
+
+
         //Left of board x = 350, top y = 550, width = 290
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // Clears main menu screen
         batch.begin();
-        batch.draw(playerOverview, 0, Gdx.graphics.getHeight() - 90, Gdx.graphics.getWidth(), 90);
-        batch.draw(background, board.getTileWidth(), 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        batch.draw(flag, 290, Gdx.graphics.getHeight() - 180, 40, 40);
-        batch.draw(hp, 330, Gdx.graphics.getHeight() - 180, 40, 40);
-        font.draw(batch, "Player 1", 300, Gdx.graphics.getHeight() - 120);
-        font.draw(batch, Integer.toString(currentPlayer.getNumberOfVisitedFlags()), 310, Gdx.graphics.getHeight() - 165);
-        font.draw(batch, Integer.toString(currentPlayer.getLives()), 360, Gdx.graphics.getHeight() - 165);
+        batch.draw(background, board.getWidth(), 0, camera.viewportWidth, camera.viewportHeight);
+        batch.draw(flag, leftOfBoardX, camera.viewportHeight-(camera.viewportHeight/16)*140/100 , healthFlagSize, healthFlagSize);
+        batch.draw(hp, leftOfBoardX + healthFlagSize/4*3, camera.viewportHeight-(camera.viewportHeight/16)*140/100, 40, 40);
+        font.draw(batch, "Player 1", camera.viewportWidth/2, camera.viewportHeight-(camera.viewportHeight/16)*1/10);
+        font.draw(batch, Integer.toString(currentPlayer.getNumberOfVisitedFlags()), camera.viewportWidth/(200/100), camera.viewportHeight-(camera.viewportHeight/16));
+        font.draw(batch, Integer.toString(currentPlayer.getLives()), camera.viewportWidth/(299/100), camera.viewportHeight-(camera.viewportHeight/16));
 
-        batch.draw(cards, 350, 0, 100, 90);
-        batch.draw(cards, 400, 0, 100, 90);
-        batch.draw(cards, 450, 0, 100, 90);
-        batch.draw(cards, 500, 0, 100, 90);
-        batch.draw(cards, 550, 0, 100, 90);
+        for(int i = 0; i < 5; i++) {
+            batch.draw(cards, (leftOfBoardX + leftOfBoardX/5/4) + leftOfBoardX/5*i, 0, 100, 90);
+        }
         batch.end();
+
         tiledMapRenderer.render();
         tiledMapRenderer.getBatch().begin();
         tiledMapRenderer.renderTileLayer(board.getPlayerLayer());
@@ -157,6 +158,11 @@ public class GameScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
+
+        this.camera = new OrthographicCamera();
+        camera.setToOrtho(false, width + 14, height);
+        camera.update();
+
     }
 
     @Override

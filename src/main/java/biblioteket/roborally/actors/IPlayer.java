@@ -60,4 +60,11 @@ public interface IPlayer {
      * @return players cell.
      */
     TiledMapTileLayer.Cell getPlayerCell();
+
+    /**
+     * Return the name of the player
+     *
+     * @return player name.
+     */
+    String getPlayerName();
 }
