@@ -1,4 +1,4 @@
-package biblioteket.roborally.elements.interactingElements;
+package biblioteket.roborally.elements.interactingelements;
 
 import biblioteket.roborally.actors.IPlayer;
 import biblioteket.roborally.actors.IRobot;
@@ -7,14 +7,13 @@ import biblioteket.roborally.actors.Robot;
 import biblioteket.roborally.board.DirVector;
 import biblioteket.roborally.board.Direction;
 import biblioteket.roborally.elements.ArchiveMarkerElement;
-import biblioteket.roborally.elements.interactingelements.FlagElement;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class FlagTest {
+public class WrenchRepairTest {
     private IPlayer player;
 
     @BeforeEach
@@ -24,37 +23,24 @@ public class FlagTest {
     }
 
     @Test
-    void interactingWithCorrectFlagRegistersFlagTest() {
-        FlagElement flag = new FlagElement(1);
-        flag.interact(player);
+    void singleWrenchRepairElementRemovesOneDamageTokenTest() {
+        SingleWrenchRepairElement repair = new SingleWrenchRepairElement();
+        // Add 5 damage tokens to robot
+        player.getRobot().addDamageTokens(5);
 
-        assertEquals(1, player.getNumberOfVisitedFlags());
+        repair.interact(player);
+
+        assertEquals(4, player.getRobot().getNumberOfDamageTokens());
     }
 
     @Test
-    void cantPickupFlag2BeforeFlag1Test() {
-        FlagElement flag1 = new FlagElement(1);
-        FlagElement flag2 = new FlagElement(2);
-
-        flag2.interact(player);
-        assertEquals(0, player.getNumberOfVisitedFlags());
-
-        flag1.interact(player);
-        assertEquals(1, player.getNumberOfVisitedFlags());
-
-        flag2.interact(player);
-        assertEquals(2, player.getNumberOfVisitedFlags());
-
-    }
-
-    @Test
-    void touchingFlagUpdatesArchiveMarkerTest() {
-        FlagElement flag = new FlagElement(1);
+    void wrenchElementUpdatesArchiveMarkerTest() {
+        SingleWrenchRepairElement repair = new SingleWrenchRepairElement();
         IRobot robot = player.getRobot();
         DirVector newPosition = new DirVector(5, 5, Direction.NORTH);
 
         robot.setPosition(newPosition);
-        flag.interact(player);
+        repair.interact(player);
 
         assertEquals(newPosition.getX(), robot.getArchiveMarker().getX());
         assertEquals(newPosition.getY(), robot.getArchiveMarker().getY());

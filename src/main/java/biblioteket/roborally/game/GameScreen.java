@@ -35,33 +35,25 @@ public class GameScreen implements Screen {
     private final Board board;
     private final GameLoop gameLoop;
     OrthographicCamera camera;
+
     private List<IPlayer> players;
     private Player currentPlayer;
-    private Texture background;
-    private Texture cards;
-    private Texture playerOverview;
-    private Texture flag;
-    private Texture hp;
-    private SpriteBatch batch;
-    private BitmapFont font;
 
+    private InterfaceRenderer interfaceRenderer;
 
     private OrthogonalTiledMapRenderer tiledMapRenderer;
 
     public GameScreen(final RoboRally gam) {
         this.game = gam;
-        this.board = new Board("assets/risky_exchange.tmx");
+        this.board = new Board("assets/DizzyDash.tmx");
         this.camera = new OrthographicCamera();
+        this.interfaceRenderer = new InterfaceRenderer(board);
+
         camera.setToOrtho(false, board.getWidth() + 14, board.getHeight() + 1);
         camera.update();
 
-        batch = new SpriteBatch();
-        background = new Texture("assets/background2.jpg");
-        cards = new Texture("assets/cards.png");
-        playerOverview = new Texture("assets/playerOverview.jpg");
-        hp = new Texture("assets/hp.png");
-        flag = new Texture("assets/flag.png");
-        font = new BitmapFont();
+        tiledMapRenderer = new OrthogonalTiledMapRenderer(board.getMap(), (float) 1 / board.getTileWidth());
+        tiledMapRenderer.setView(camera);
 
 
         Texture playerTexture = new Texture("assets/player.png");
@@ -73,16 +65,13 @@ public class GameScreen implements Screen {
             Player player = new Player(new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(playerTextureSplit[0][0])));
             currentPlayer = player;
             players.add(player);
-            ArchiveMarkerElement archiveMarker = board.getArchiveMarker(i + 1);   // Archive markers start at 1
+            ArchiveMarkerElement archiveMarker = board.getArchiveMarker(i);
             IRobot robot = new Robot(archiveMarker);
             player.setRobot(robot);
             board.getPlayerLayer().setCell(player.getRobot().getPosition().getX(), player.getRobot().getPosition().getY(), null);
         }
 
         this.gameLoop = new GameLoop(board, players);
-
-        tiledMapRenderer = new OrthogonalTiledMapRenderer(board.getMap(), (float) 1 / board.getTileWidth());
-        tiledMapRenderer.setView(camera);
 
         // For ease of use and iterating we define the input processor inline
         // in the code here, in the future this will be moved to a separate
@@ -128,21 +117,9 @@ public class GameScreen implements Screen {
         //Left of board x = 350, top y = 550, width = 290
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // Clears main menu screen
-        batch.begin();
-        batch.draw(playerOverview, 0, Gdx.graphics.getHeight() - 90, Gdx.graphics.getWidth(), 90);
-        batch.draw(background, board.getTileWidth(), 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        batch.draw(flag, 290, Gdx.graphics.getHeight() - 180, 40, 40);
-        batch.draw(hp, 330, Gdx.graphics.getHeight() - 180, 40, 40);
-        font.draw(batch, "Player 1", 300, Gdx.graphics.getHeight() - 120);
-        font.draw(batch, "1", 310, Gdx.graphics.getHeight() - 165);
-        font.draw(batch, "3", 360, Gdx.graphics.getHeight() - 165);
 
-        batch.draw(cards, 350, 0, 100, 90);
-        batch.draw(cards, 400, 0, 100, 90);
-        batch.draw(cards, 450, 0, 100, 90);
-        batch.draw(cards, 500, 0, 100, 90);
-        batch.draw(cards, 550, 0, 100, 90);
-        batch.end();
+        interfaceRenderer.render();
+
         tiledMapRenderer.render();
         tiledMapRenderer.getBatch().begin();
         tiledMapRenderer.renderTileLayer(board.getPlayerLayer());
