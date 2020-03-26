@@ -11,9 +11,16 @@ import biblioteket.roborally.elements.interactingelements.conveyorbelts.ExpressC
 import biblioteket.roborally.elements.walls.LaserWallElement;
 import biblioteket.roborally.programcards.CardDeck;
 import biblioteket.roborally.programcards.ICardDeck;
+import biblioteket.roborally.userinterface.InterfaceRenderer;
+import biblioteket.roborally.userinterface.TouchableCards;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,11 +31,15 @@ public class GameLoop {
     private final int amountOfFlags;
     private final List<LaserWallElement> laserWalls;
     private List<IPlayer> players;
-    ICardDeck cardDeck;
+    private int currentPlayerPtr;
+    private IPlayer currentPlayer;
+    private ICardDeck cardDeck;
 
     public GameLoop(Board board, List<IPlayer> players) {
         this.board = board;
         this.players = players;
+        currentPlayerPtr = 0;
+        currentPlayer = players.get(0);
         this.amountOfFlags = board.getNumFlags();
         this.laserWalls = board.getLaserWalls();
 
@@ -37,15 +48,48 @@ public class GameLoop {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
 
-    public void doTurn(){
         for (IPlayer player : players) {
             player.drawCards(cardDeck);
         }
 
+        Gdx.input.setInputProcessor(new InputAdapter() {
+            @Override
+            public boolean touchDown(int screenX, int screenY, int pointer, int button){
+                int y = Gdx.graphics.getHeight() - 1 - screenY;
+                return registerInput(screenX,y);
+            }
+        });
+    }
+
+    private boolean registerInput(int x, int y) {
+        System.out.println("Touched at " + x + "," + y);
+        InterfaceRenderer interfaceRenderer = currentPlayer.getInterfaceRenderer();
+        ArrayList<TouchableCards> touchableCards = interfaceRenderer.getTouchableCards();
+        for (TouchableCards touchableCard : touchableCards) {
+            if(touchableCard.contains(x,y)){
+                currentPlayer.addCardToProgramRegister(touchableCard.getCard());
+                System.out.println("Card touched " + touchableCard.getCard());
+                System.out.println(touchableCard.getX() + "," + touchableCard.getWidth() + " & " +
+                        touchableCard.getY() + "," + touchableCard.getHeight());
+            }
+        }
+        if(currentPlayer.fullProgramRegister()) doTurn();
+
+        return true;
+    }
+
+    public void doTurn(){
+        System.out.println("do turn");
+        for (IPlayer player : players) {
+            player.drawCards(cardDeck);
+        }
 
         interactWithEnvironment();
+
+        for (IPlayer player : players) {
+            player.updateInterfaceRenderer();
+        }
     }
 
     private void interactWithEnvironment() {
@@ -95,6 +139,11 @@ public class GameLoop {
                 board.interact(player);
             }
         }
+    }
+
+    private IPlayer currentRobotIterator(){
+        currentPlayerPtr = (currentPlayerPtr + 1) % players.size();
+        return players.get(currentPlayerPtr);
     }
 
 }

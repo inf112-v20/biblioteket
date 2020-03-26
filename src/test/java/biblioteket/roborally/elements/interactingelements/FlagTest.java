@@ -18,7 +18,7 @@ public class FlagTest {
 
     @BeforeEach
     void setUp() {
-        player = new Player(new TiledMapTileLayer.Cell());
+        player = new Player(null, null);
         player.setRobot(new Robot(new ArchiveMarkerElement(1)));
     }
 

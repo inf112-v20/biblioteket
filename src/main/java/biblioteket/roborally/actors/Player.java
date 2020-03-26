@@ -1,8 +1,8 @@
 package biblioteket.roborally.actors;
 
-import biblioteket.roborally.game.InterfaceRenderer;
 import biblioteket.roborally.programcards.ICard;
 import biblioteket.roborally.programcards.ICardDeck;
+import biblioteket.roborally.userinterface.InterfaceRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
 import java.util.ArrayList;
@@ -12,10 +12,13 @@ public class Player implements IPlayer {
     private int visitedFlags = 0;
     private IRobot robot;
     private TiledMapTileLayer.Cell playerCell;
-    private ArrayList<ICard> cards;
+    private ArrayList<ICard> cardHand;
 
-    public Player(TiledMapTileLayer.Cell playerCell) {
+    private InterfaceRenderer interfaceRenderer;
+
+    public Player(TiledMapTileLayer.Cell playerCell, InterfaceRenderer interfaceRenderer) {
         this.playerCell = playerCell;
+        this.interfaceRenderer = interfaceRenderer;
     }
 
     @Override
@@ -64,15 +67,37 @@ public class Player implements IPlayer {
     }
 
     @Override
-    public void drawCards(ICardDeck cardDeck) {
-        int damageTokens = getRobot().getNumberOfDamageTokens();
-        cards = cardDeck.drawCards(9 - damageTokens);
+    public InterfaceRenderer getInterfaceRenderer() {
+        return interfaceRenderer;
     }
 
     @Override
-    public ICard getCard(int num) {
-        if(cards == null) return null;
-        return num < cards.size() ? cards.get(num) : null;
+    public void updateInterfaceRenderer() {
+        interfaceRenderer.setFlagsVisited(getNumberOfVisitedFlags());
+        interfaceRenderer.setLives(getLives());
     }
+
+    @Override
+    public void drawCards(ICardDeck cardDeck) {
+        int damageTokens = getRobot().getNumberOfDamageTokens();
+        ArrayList<ICard> cards = cardDeck.drawCards(9 - damageTokens);
+        interfaceRenderer.setCardHand(cards);
+    }
+
+    @Override
+    public ICard getCard(int i) {
+        return cardHand.get(i);
+    }
+
+    @Override
+    public void addCardToProgramRegister(ICard card) {
+
+    }
+
+    @Override
+    public boolean fullProgramRegister() {
+        return false;
+    }
+
 
 }

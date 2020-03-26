@@ -36,7 +36,7 @@ public class CardDeck implements ICardDeck {
 
     @Override
     public ArrayList<ICard> drawCards(int number) {
-        if (topOfDrawPile > gameCardDeck.size() - 1) {
+        if (topOfDrawPile > gameCardDeck.size() - number) {
             topOfDrawPile = 0;
             Collections.shuffle(gameCardDeck);
         }

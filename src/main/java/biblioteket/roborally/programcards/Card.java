@@ -36,22 +36,22 @@ public class Card implements ICard {
                 robot.turnLeft();
                 break;
             case MOVE_1:
-                robot.moveForward(board);
+                robot.move(robot.getDirection(), board);
                 break;
             case MOVE_2:
-                robot.moveForward(board);
-                if (robot.getPlayer().hasLivesLeft())
+                robot.move(robot.getDirection(),board);
+                //if (robot.getPlayer().hasLivesLeft())
                     robot.moveForward(board);
                 break;
             case MOVE_3:
-                robot.moveForward(board);
-                if (robot.getPlayer().hasLivesLeft())
-                    robot.moveForward(board);
-                if (robot.getPlayer().hasLivesLeft())
-                    robot.moveForward(board);
+                robot.move(robot.getDirection(), board);
+                //if (robot.getPlayer().hasLivesLeft())
+                robot.move(robot.getDirection(), board);
+                //if (robot.getPlayer().hasLivesLeft())
+                robot.move(robot.getDirection(), board);
                 break;
             case BACK_UP:
-                robot.moveBackward(board);
+                robot.move(robot.getDirection().opposite(), board);
                 break;
             default:
                 break;

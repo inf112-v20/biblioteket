@@ -1,12 +1,13 @@
-package biblioteket.roborally.game;
+package biblioteket.roborally.userinterface;
 
-import biblioteket.roborally.actors.IPlayer;
 import biblioteket.roborally.board.IBoard;
 import biblioteket.roborally.programcards.ICard;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
+import java.util.ArrayList;
 
 public class InterfaceRenderer {
 
@@ -27,10 +28,12 @@ public class InterfaceRenderer {
     private SpriteBatch batch;
     private BitmapFont font;
 
-    private IBoard board;
-    private IPlayer player;
+    private int flagsVisited;
+    private int lives;
+    private ICard[] cards;
+    private ArrayList<TouchableCards> touchableCards;
 
-    public InterfaceRenderer(IBoard board, IPlayer player){
+    public InterfaceRenderer(){
         background = new Texture("assets/background2.jpg");
         playerOverview = new Texture("assets/playerOverview.jpg");
         hp = new Texture("assets/hp.png");
@@ -48,19 +51,21 @@ public class InterfaceRenderer {
         batch = new SpriteBatch();
         font = new BitmapFont();
 
-        this.board = board;
-        this.player = player;
+        flagsVisited = 0;
+        lives = 3;
+        cards = new ICard[9];
+        touchableCards = new ArrayList<>();
     }
 
-    public void render(){
-        //Left of board x = 350, top y = 550, width = 290
+    public void render(IBoard board){
         batch.begin();
         batch.draw(playerOverview, 0, Gdx.graphics.getHeight() - 90, Gdx.graphics.getWidth(), 90);
         batch.draw(background, board.getTileWidth(), 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.draw(flag, 290, Gdx.graphics.getHeight() - 180, 40, 40);
         batch.draw(hp, 330, Gdx.graphics.getHeight() - 180, 40, 40);
-        font.draw(batch, Integer.toString(player.getNumberOfVisitedFlags()), 310, Gdx.graphics.getHeight() - 165);
-        font.draw(batch, Integer.toString(player.getLives()), 360, Gdx.graphics.getHeight() - 165);
+        font.draw(batch, Integer.toString(flagsVisited), 310, Gdx.graphics.getHeight() - 165);
+        font.draw(batch, Integer.toString(lives), 360, Gdx.graphics.getHeight() - 165);
+
 
         drawCard(0, 375, 100, 100, 90);
         drawCard(1, 425, 100, 100, 90);
@@ -75,10 +80,14 @@ public class InterfaceRenderer {
         batch.end();
     }
 
-    private void drawCard(int num, int x, int y, int width, int height){
-        ICard card = player.getCard(num);
+    private void drawCard(int i, int x, int y, float width, float height){
+        ICard card = cards[i];
         Texture cardTexture = getCardTexture(card);
         batch.draw(cardTexture,x,y,width,height);
+        if(touchableCards.size() < 9 && card != null){
+            TouchableCards touchableCard = new TouchableCards(x,y,width/2,height,card);
+            touchableCards.add(touchableCard);
+        }
     }
 
     private Texture getCardTexture(ICard card){
@@ -93,6 +102,26 @@ public class InterfaceRenderer {
             case U_TURN: return uTurnCard;
             default: return emptyCard;
         }
+    }
+
+    public void setFlagsVisited(int flagsVisited){
+        this.flagsVisited = flagsVisited;
+    }
+
+    public void setLives(int lives){
+        this.lives = lives;
+    }
+
+    public void setCardHand(ArrayList<ICard> cardHand){
+        for (int i = 0; i < cardHand.size(); i++) {
+            ICard card = cardHand.get(i);
+            cards[i] = card;
+        }
+
+    }
+
+    public ArrayList<TouchableCards> getTouchableCards(){
+        return touchableCards;
     }
 
 }

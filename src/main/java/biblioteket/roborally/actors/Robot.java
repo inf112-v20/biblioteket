@@ -122,7 +122,7 @@ public class Robot implements IRobot {
     }
 
     @Override
-    public boolean move(Direction direction, Board board) {
+    public boolean move(Direction direction, IBoard board) {
         if (board.canMove(getPosition(), direction)) {
             this.location = this.location.dirVectorInDirection(direction);
             if (board.outOfBounds(this.location)) {

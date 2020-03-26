@@ -55,7 +55,7 @@ class RobotTest {
         board = new Board("assets/TestingMap.tmx");
 
         robot = new Robot(board.getArchiveMarker(1));
-        IPlayer player = new Player(null);
+        IPlayer player = new Player(null, null);
         player.setRobot(robot);
         robot.setPlayer(player);
     }
