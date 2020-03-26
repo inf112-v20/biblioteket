@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class CardDeckTest {
-    private CardDeck cardDeck;
     private final int maxNumberOfCards = 84;
+    private CardDeck cardDeck;
 
     @BeforeEach
     void setUp() throws IOException {

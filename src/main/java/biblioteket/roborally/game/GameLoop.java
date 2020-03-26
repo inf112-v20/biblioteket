@@ -19,7 +19,7 @@ public class GameLoop {
     private final Board board;
     private final int amountOfFlags;
     private final List<LaserWallElement> laserWalls;
-    private List<IPlayer> players;
+    private final List<IPlayer> players;
 
     public GameLoop(Board board, List<IPlayer> players) {
         this.board = board;

@@ -1,59 +1,25 @@
 package biblioteket.roborally.actors;
 
+import biblioteket.roborally.TestRunner;
 import biblioteket.roborally.board.Board;
 import biblioteket.roborally.board.DirVector;
 import biblioteket.roborally.board.Direction;
 import biblioteket.roborally.board.IBoard;
-import com.badlogic.gdx.Application;
-import com.badlogic.gdx.ApplicationListener;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.backends.headless.HeadlessApplication;
-import com.badlogic.gdx.graphics.GL20;
-import biblioteket.roborally.elements.ArchiveMarkerElement;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@ExtendWith(TestRunner.class)
 class RobotTest {
     private IRobot robot;
     private IBoard board;
 
     @BeforeEach
     void setUp() {
-        Application _application = new HeadlessApplication(new ApplicationListener() {
-            @Override
-            public void create() {
-            }
-
-            @Override
-            public void resize(int width, int height) {
-            }
-
-            @Override
-            public void render() {
-            }
-
-            @Override
-            public void pause() {
-            }
-
-            @Override
-            public void resume() {
-            }
-
-            @Override
-            public void dispose() {
-            }
-        });
-
-        Gdx.gl20 = Mockito.mock(GL20.class);
-        Gdx.gl = Gdx.gl20;
-
         board = new Board("assets/TestingMap.tmx");
-
         robot = new Robot(board.getArchiveMarker(1));
         IPlayer player = new Player(null);
         player.setRobot(robot);
@@ -294,9 +260,9 @@ class RobotTest {
     // int numberOfRobotsOnPosition2 = 0;
     // List<IElement> elementsInPos2 = secondRobotNewPosition.getContents();
     // for (IElement element : elementsInPos2)
-        //     if (element instanceof IRobot)
-        //         numberOfRobotsOnPosition2++;
-        // assertEquals(1, numberOfRobotsOnPosition2);
+    //     if (element instanceof IRobot)
+    //         numberOfRobotsOnPosition2++;
+    // assertEquals(1, numberOfRobotsOnPosition2);
 
     // }
 }

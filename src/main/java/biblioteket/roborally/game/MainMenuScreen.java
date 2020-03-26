@@ -12,7 +12,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
  */
 public class MainMenuScreen implements Screen {
     private final RoboRally game;
-    OrthographicCamera camera;
+    final OrthographicCamera camera;
 
     public MainMenuScreen(final RoboRally game) {
         this.game = game;

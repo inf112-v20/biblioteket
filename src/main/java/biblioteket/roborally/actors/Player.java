@@ -6,7 +6,7 @@ public class Player implements IPlayer {
     private int lives = 3;
     private int visitedFlags = 0;
     private IRobot robot;
-    private TiledMapTileLayer.Cell playerCell;
+    private final TiledMapTileLayer.Cell playerCell;
 
     public Player(TiledMapTileLayer.Cell playerCell) {
         this.playerCell = playerCell;
