@@ -53,7 +53,6 @@ public class GameLoop {
 
         for (IPlayer player : players) {
             player.drawCards(cardDeck);
-            //!!Temporary retard!!
             player.getRobot().setPlayer(player);
         }
 
@@ -68,20 +67,16 @@ public class GameLoop {
 
     private boolean registerInput(int x, int y) {
         InterfaceRenderer interfaceRenderer = currentPlayer.getInterfaceRenderer();
-        ArrayList<TouchableCards> touchableCards = interfaceRenderer.getTouchableCards();
-        for (TouchableCards touchableCard : touchableCards) {
-            if(touchableCard.contains(x,y)){
-                currentPlayer.addCardToProgramRegister(touchableCard.getCard());
-            }
-        }
+        ICard card = interfaceRenderer.contains(x,y);
+        if(card != null)
+            currentPlayer.addCardToProgramRegister(card);
+
         if(currentPlayer.fullProgramRegister()) doTurn();
 
         return true;
     }
 
     public void doTurn(){
-        System.out.println("do turn");
-
         Map<ICard, IPlayer> cardMapping = new TreeMap<>(new CardComparator());
         for (IPlayer player : players) {
             List<ICard> programRegister = player.getProgramRegister();
@@ -102,6 +97,8 @@ public class GameLoop {
             player.drawCards(cardDeck);
             player.updateInterfaceRenderer();
         }
+
+        if(checkWinCondition()) Gdx.app.exit();
     }
 
     private void interactWithEnvironment() {

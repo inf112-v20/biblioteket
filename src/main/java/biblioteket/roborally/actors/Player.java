@@ -15,6 +15,7 @@ public class Player implements IPlayer {
     private int visitedFlags = 0;
     private IRobot robot;
     private TiledMapTileLayer.Cell playerCell;
+    private ArrayList<ICard> cardHand;
     private ArrayList<ICard> programRegister;
 
     private InterfaceRenderer interfaceRenderer;
@@ -79,6 +80,7 @@ public class Player implements IPlayer {
     public void updateInterfaceRenderer() {
         interfaceRenderer.setFlagsVisited(getNumberOfVisitedFlags());
         interfaceRenderer.setLives(getLives());
+        interfaceRenderer.clearProgramRegister();
     }
 
     @Override
@@ -91,6 +93,7 @@ public class Player implements IPlayer {
     @Override
     public void addCardToProgramRegister(ICard card) {
         programRegister.add(card);
+        interfaceRenderer.addCardToProgramRegister(card);
     }
 
     @Override

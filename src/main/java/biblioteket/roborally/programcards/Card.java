@@ -62,6 +62,12 @@ public class Card implements ICard {
     }
 
     @Override
+    public ICard clone() {
+        ICard clone = new Card(getType(), getPriorityNumber());
+        return clone;
+    }
+
+    @Override
     public String toString() {
         return "Type= " + type +
                 " Priority number= " + priorityNumber;

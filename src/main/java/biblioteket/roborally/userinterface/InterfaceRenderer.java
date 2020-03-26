@@ -1,6 +1,7 @@
 package biblioteket.roborally.userinterface;
 
 import biblioteket.roborally.board.IBoard;
+import biblioteket.roborally.programcards.CardComparator;
 import biblioteket.roborally.programcards.ICard;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -8,6 +9,9 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class InterfaceRenderer {
 
@@ -30,8 +34,10 @@ public class InterfaceRenderer {
 
     private int flagsVisited;
     private int lives;
-    private ICard[] cards;
-    private ArrayList<TouchableCards> touchableCards;
+    private ICard[] cardHand;
+    private ICard[] programRegister;
+    private TouchableCards touchableCardHand;
+    private TouchableCards touchableProgramRegister;
 
     public InterfaceRenderer(){
         background = new Texture("assets/background2.jpg");
@@ -53,8 +59,30 @@ public class InterfaceRenderer {
 
         flagsVisited = 0;
         lives = 3;
-        cards = new ICard[9];
-        touchableCards = new ArrayList<>();
+        cardHand = new ICard[9];
+        programRegister = new ICard[5];
+
+        // Card hand
+        touchableCardHand = new TouchableCards(9);
+        touchableCardHand.initializeCard(0, 375, 100, 40, 90);
+        touchableCardHand.initializeCard(1, 425, 100, 40, 90);
+        touchableCardHand.initializeCard(2, 475, 100, 40, 90);
+        touchableCardHand.initializeCard(3, 525, 100, 40, 90);
+        touchableCardHand.initializeCard(4, 350, 0, 40, 90);
+        touchableCardHand.initializeCard(5, 400, 0, 40, 90);
+        touchableCardHand.initializeCard(6, 450, 0, 40, 90);
+        touchableCardHand.initializeCard(7, 500, 0, 40, 90);
+        touchableCardHand.initializeCard(8, 550, 0, 40, 90);
+
+        // Progamregister
+        touchableProgramRegister = new TouchableCards(5);
+        touchableProgramRegister.initializeCard(0,350,250,40,90);
+        touchableProgramRegister.initializeCard(1,400,250,40,90);
+        touchableProgramRegister.initializeCard(2,450,250,40,90);
+        touchableProgramRegister.initializeCard(3,500,250,40,90);
+        touchableProgramRegister.initializeCard(4,550,250,40,90);
+
+
     }
 
     public void render(IBoard board){
@@ -67,27 +95,28 @@ public class InterfaceRenderer {
         font.draw(batch, Integer.toString(lives), 360, Gdx.graphics.getHeight() - 165);
 
 
-        drawCard(0, 375, 100, 100, 90);
-        drawCard(1, 425, 100, 100, 90);
-        drawCard(2, 475, 100, 100, 90);
-        drawCard(3, 525, 100, 100, 90);
-        drawCard(4, 400, 0, 100, 90);
-        drawCard(5, 450, 0, 100, 90);
-        drawCard(6, 350, 0, 100, 90);
-        drawCard(7, 500, 0, 100, 90);
-        drawCard(8, 550, 0, 100, 90);
+        drawCard(cardHand[0], 375, 100, 100, 90);
+        drawCard(cardHand[1], 425, 100, 100, 90);
+        drawCard(cardHand[2], 475, 100, 100, 90);
+        drawCard(cardHand[3], 525, 100, 100, 90);
+        drawCard(cardHand[4], 350, 0, 100, 90);
+        drawCard(cardHand[5], 400, 0, 100, 90);
+        drawCard(cardHand[6], 450, 0, 100, 90);
+        drawCard(cardHand[7], 500, 0, 100, 90);
+        drawCard(cardHand[8], 550, 0, 100, 90);
+
+        drawCard(programRegister[0],350,250,100,90);
+        drawCard(programRegister[1],400,250,100,90);
+        drawCard(programRegister[2],450,250,100,90);
+        drawCard(programRegister[3],500,250,100,90);
+        drawCard(programRegister[4],550,250,100,90);
 
         batch.end();
     }
 
-    private void drawCard(int i, int x, int y, float width, float height){
-        ICard card = cards[i];
+    private void drawCard(ICard card, int x, int y, float width, float height){
         Texture cardTexture = getCardTexture(card);
         batch.draw(cardTexture,x,y,width,height);
-        if(touchableCards.size() < 9 && card != null){
-            TouchableCards touchableCard = new TouchableCards(x,y,width * 0.4,height,card);
-            touchableCards.add(touchableCard);
-        }
     }
 
     private Texture getCardTexture(ICard card){
@@ -115,13 +144,38 @@ public class InterfaceRenderer {
     public void setCardHand(ArrayList<ICard> cardHand){
         for (int i = 0; i < cardHand.size(); i++) {
             ICard card = cardHand.get(i);
-            cards[i] = card;
+            this.cardHand[i] = card;
+            touchableCardHand.setCard(i, card);
         }
 
     }
 
-    public ArrayList<TouchableCards> getTouchableCards(){
-        return touchableCards;
+    public void addCardToProgramRegister(ICard card){
+
+        for (int i = 0; i < cardHand.length; i++) {
+            if(cardHand[i] == card){
+                cardHand[i] = null;
+                break;
+            }
+        }
+        ICard clone = card.clone();
+        for (int i = 0; i < programRegister.length; i++) {
+            if(programRegister[i] == null){
+                programRegister[i] = clone;
+                break;
+            }
+        }
+        Arrays.sort(programRegister, new CardComparator());
+    }
+
+    public void clearProgramRegister(){
+        for (int i = 0; i < programRegister.length; i++) {
+            programRegister[i] = null;
+        }
+    }
+
+    public ICard contains(int x, int y){
+        return touchableCardHand.contains(x,y);
     }
 
 }

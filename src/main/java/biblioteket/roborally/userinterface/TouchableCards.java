@@ -4,14 +4,46 @@ import biblioteket.roborally.programcards.ICard;
 import com.badlogic.gdx.math.Rectangle;
 
 public class TouchableCards extends Rectangle {
-    private final ICard card;
+    TouchableCard[] cards;
 
-    public TouchableCards(int x, int y, double width, double height, ICard card){
-        super(x,y,(float)width,(float)height);
-        this.card = card;
+    public TouchableCards(int size){
+        cards = new TouchableCard[size];
     }
 
-    public ICard getCard(){
-        return card;
+    public void initializeCard(int pos, float x, float y, float width, float height){
+        cards[pos] = new TouchableCard(x,y,width,height);
+    }
+
+    public void setCard(int pos, ICard card){
+        cards[pos].setCard(card);
+    }
+
+    public ICard getCard(int pos){
+        return cards[pos].getCard();
+    }
+
+    public ICard contains(int x, int y){
+        for (TouchableCard card : cards) {
+            if (card.contains(x, y))
+                return card.getCard();
+
+        }
+        return null;
+    }
+
+
+    private class TouchableCard extends Rectangle{
+        private  ICard card;
+
+        TouchableCard(float x, float y, float width, float height){
+            super(x,y,width,height);
+        }
+        public void setCard(ICard card){
+            this.card = card;
+        }
+
+        public ICard getCard(){
+            return card;
+        }
     }
 }

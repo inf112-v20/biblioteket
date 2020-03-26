@@ -101,4 +101,5 @@ public interface IPlayer {
      * @return true if the player is done registering cards for this turn
      */
     boolean fullProgramRegister();
+
 }
