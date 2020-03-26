@@ -155,11 +155,6 @@ public class GameLoop {
         }
     }
 
-    private IPlayer currentRobotIterator(){
-        currentPlayerPtr = (currentPlayerPtr + 1) % players.size();
-        return players.get(currentPlayerPtr);
-    }
-
     public void render(){
         for (IPlayer player : players) {
             DirVector position = player.getRobot().getPosition();

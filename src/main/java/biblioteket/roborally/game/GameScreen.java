@@ -32,7 +32,6 @@ public class GameScreen implements Screen {
     private OrthographicCamera camera;
 
     private List<IPlayer> players;
-    private Player currentPlayer;
 
     private OrthogonalTiledMapRenderer tiledMapRenderer;
 
@@ -55,7 +54,6 @@ public class GameScreen implements Screen {
 
         for (int i = 1; i <= 1; i++) {
             Player player = new Player(new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(playerTextureSplit[0][0])), new InterfaceRenderer());
-            currentPlayer = player;
             players.add(player);
             ArchiveMarkerElement archiveMarker = board.getArchiveMarker(i);
             IRobot robot = new Robot(archiveMarker);

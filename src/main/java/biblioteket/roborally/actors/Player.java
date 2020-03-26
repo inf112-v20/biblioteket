@@ -13,7 +13,6 @@ public class Player implements IPlayer {
     private int visitedFlags = 0;
     private IRobot robot;
     private TiledMapTileLayer.Cell playerCell;
-    private ArrayList<ICard> cardHand;
     private ArrayList<ICard> programRegister;
 
     private InterfaceRenderer interfaceRenderer;
@@ -83,7 +82,6 @@ public class Player implements IPlayer {
 
     @Override
     public void drawCards(ICardDeck cardDeck) {
-        int damageTokens = getRobot().getNumberOfDamageTokens();
         ArrayList<ICard> cards = cardDeck.drawCards(9);
         interfaceRenderer.setCardHand(cards);
     }
