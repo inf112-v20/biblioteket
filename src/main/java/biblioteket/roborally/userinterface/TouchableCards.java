@@ -6,8 +6,8 @@ import com.badlogic.gdx.math.Rectangle;
 public class TouchableCards extends Rectangle {
     private final ICard card;
 
-    public TouchableCards(int x, int y, float width, float height, ICard card){
-        super(x,y,width,height);
+    public TouchableCards(int x, int y, double width, double height, ICard card){
+        super(x,y,(float)width,(float)height);
         this.card = card;
     }
 

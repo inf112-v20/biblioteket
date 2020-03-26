@@ -6,6 +6,7 @@ import biblioteket.roborally.programcards.ICardDeck;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface IPlayer {
 
@@ -85,15 +86,16 @@ public interface IPlayer {
     void drawCards(ICardDeck cardDeck);
 
     /**
-     * @param i index of players hand of cards
-     * @return players card in the ith index of hand
-     */
-    ICard getCard(int i);
-
-    /**
      * @param card added
      */
     void addCardToProgramRegister(ICard card);
+
+    /**
+     * returns a list of the players program register and clears the program register
+     *
+     * @return a list of the players program register
+     */
+    List<ICard> getProgramRegister();
 
     /**
      * @return true if the player is done registering cards for this turn

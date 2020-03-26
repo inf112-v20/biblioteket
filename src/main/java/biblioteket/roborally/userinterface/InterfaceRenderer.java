@@ -85,7 +85,7 @@ public class InterfaceRenderer {
         Texture cardTexture = getCardTexture(card);
         batch.draw(cardTexture,x,y,width,height);
         if(touchableCards.size() < 9 && card != null){
-            TouchableCards touchableCard = new TouchableCards(x,y,width/2,height,card);
+            TouchableCards touchableCard = new TouchableCards(x,y,width * 0.4,height,card);
             touchableCards.add(touchableCard);
         }
     }

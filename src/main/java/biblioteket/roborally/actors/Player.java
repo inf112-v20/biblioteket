@@ -1,24 +1,28 @@
 package biblioteket.roborally.actors;
 
+import biblioteket.roborally.programcards.CardComparator;
 import biblioteket.roborally.programcards.ICard;
 import biblioteket.roborally.programcards.ICardDeck;
 import biblioteket.roborally.userinterface.InterfaceRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class Player implements IPlayer {
     private int lives = 3;
     private int visitedFlags = 0;
     private IRobot robot;
     private TiledMapTileLayer.Cell playerCell;
-    private ArrayList<ICard> cardHand;
+    private ArrayList<ICard> programRegister;
 
     private InterfaceRenderer interfaceRenderer;
 
     public Player(TiledMapTileLayer.Cell playerCell, InterfaceRenderer interfaceRenderer) {
         this.playerCell = playerCell;
         this.interfaceRenderer = interfaceRenderer;
+        programRegister = new ArrayList<>();
     }
 
     @Override
@@ -85,18 +89,21 @@ public class Player implements IPlayer {
     }
 
     @Override
-    public ICard getCard(int i) {
-        return cardHand.get(i);
+    public void addCardToProgramRegister(ICard card) {
+        programRegister.add(card);
     }
 
     @Override
-    public void addCardToProgramRegister(ICard card) {
-
+    public List<ICard> getProgramRegister() {
+        ArrayList<ICard> programCards = (ArrayList<ICard>) programRegister.clone();
+        programRegister.clear();
+        return programCards;
     }
+
 
     @Override
     public boolean fullProgramRegister() {
-        return false;
+        return programRegister.size() == 5;
     }
 
 

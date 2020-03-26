@@ -1,6 +1,7 @@
 package biblioteket.roborally.game;
 
 import biblioteket.roborally.actors.IPlayer;
+import biblioteket.roborally.actors.IRobot;
 import biblioteket.roborally.board.Board;
 import biblioteket.roborally.board.DirVector;
 import biblioteket.roborally.elements.IElement;
@@ -9,7 +10,9 @@ import biblioteket.roborally.elements.interactingelements.cogs.CogElement;
 import biblioteket.roborally.elements.interactingelements.conveyorbelts.ConveyorBeltElement;
 import biblioteket.roborally.elements.interactingelements.conveyorbelts.ExpressConveyorBeltElement;
 import biblioteket.roborally.elements.walls.LaserWallElement;
+import biblioteket.roborally.programcards.CardComparator;
 import biblioteket.roborally.programcards.CardDeck;
+import biblioteket.roborally.programcards.ICard;
 import biblioteket.roborally.programcards.ICardDeck;
 import biblioteket.roborally.userinterface.InterfaceRenderer;
 import biblioteket.roborally.userinterface.TouchableCards;
@@ -20,8 +23,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Executes board interactions with robot
@@ -51,6 +53,8 @@ public class GameLoop {
 
         for (IPlayer player : players) {
             player.drawCards(cardDeck);
+            //!!Temporary retard!!
+            player.getRobot().setPlayer(player);
         }
 
         Gdx.input.setInputProcessor(new InputAdapter() {
@@ -63,15 +67,11 @@ public class GameLoop {
     }
 
     private boolean registerInput(int x, int y) {
-        System.out.println("Touched at " + x + "," + y);
         InterfaceRenderer interfaceRenderer = currentPlayer.getInterfaceRenderer();
         ArrayList<TouchableCards> touchableCards = interfaceRenderer.getTouchableCards();
         for (TouchableCards touchableCard : touchableCards) {
             if(touchableCard.contains(x,y)){
                 currentPlayer.addCardToProgramRegister(touchableCard.getCard());
-                System.out.println("Card touched " + touchableCard.getCard());
-                System.out.println(touchableCard.getX() + "," + touchableCard.getWidth() + " & " +
-                        touchableCard.getY() + "," + touchableCard.getHeight());
             }
         }
         if(currentPlayer.fullProgramRegister()) doTurn();
@@ -81,13 +81,25 @@ public class GameLoop {
 
     public void doTurn(){
         System.out.println("do turn");
+
+        Map<ICard, IPlayer> cardMapping = new TreeMap<>(new CardComparator());
         for (IPlayer player : players) {
-            player.drawCards(cardDeck);
+            List<ICard> programRegister = player.getProgramRegister();
+            for (ICard card : programRegister) {
+                cardMapping.put(card,player);
+            }
+        }
+
+        for (ICard card : cardMapping.keySet()) {
+            IPlayer player = cardMapping.get(card);
+            card.doCardAction(player.getRobot(),board);
+
         }
 
         interactWithEnvironment();
 
         for (IPlayer player : players) {
+            player.drawCards(cardDeck);
             player.updateInterfaceRenderer();
         }
     }
@@ -144,6 +156,13 @@ public class GameLoop {
     private IPlayer currentRobotIterator(){
         currentPlayerPtr = (currentPlayerPtr + 1) % players.size();
         return players.get(currentPlayerPtr);
+    }
+
+    public void render(){
+        for (IPlayer player : players) {
+            DirVector position = player.getRobot().getPosition();
+            board.getPlayerLayer().setCell(position.getX(), position.getY(), player.getPlayerCell());
+        }
     }
 
 }

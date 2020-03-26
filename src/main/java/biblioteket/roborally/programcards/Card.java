@@ -3,6 +3,9 @@ package biblioteket.roborally.programcards;
 import biblioteket.roborally.actors.IRobot;
 import biblioteket.roborally.board.IBoard;
 
+import java.util.Comparator;
+import java.util.Objects;
+
 public class Card implements ICard {
     private final CardType type;
     private final int priorityNumber;
@@ -63,4 +66,5 @@ public class Card implements ICard {
         return "Type= " + type +
                 " Priority number= " + priorityNumber;
     }
+
 }

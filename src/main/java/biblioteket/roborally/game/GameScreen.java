@@ -36,7 +36,6 @@ public class GameScreen implements Screen {
     private final Board board;
     private final GameLoop gameLoop;
     OrthographicCamera camera;
-    private Viewport viewport;
 
     private List<IPlayer> players;
     private Player currentPlayer;
@@ -47,7 +46,6 @@ public class GameScreen implements Screen {
         this.game = gam;
         this.board = new Board("assets/DizzyDash.tmx");
         this.camera = new OrthographicCamera();
-        viewport = new FitViewport(640, 480, camera);
 
         camera.setToOrtho(false, board.getWidth() + 14, board.getHeight() + 1);
         camera.update();
@@ -86,10 +84,11 @@ public class GameScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // Clears main menu screen
 
         for (IPlayer player : players) {
-            board.getPlayerLayer().setCell(player.getRobot().getPosition().getX(), player.getRobot().getPosition().getY(), player.getPlayerCell());
+//            board.getPlayerLayer().setCell(player.getRobot().getPosition().getX(), player.getRobot().getPosition().getY(), player.getPlayerCell());
             InterfaceRenderer interfaceRenderer = player.getInterfaceRenderer();
             interfaceRenderer.render(board);
         }
+        gameLoop.render();
 
         tiledMapRenderer.render();
         tiledMapRenderer.getBatch().begin();
@@ -103,7 +102,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        viewport.setScreenSize(width, height);
+
     }
 
     @Override
