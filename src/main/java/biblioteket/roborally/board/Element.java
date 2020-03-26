@@ -73,7 +73,7 @@ public enum Element {
     FLAG_1(55),
     FLAG_2(63),
     FLAG_3(71),
-    FLAG_4(78),
+    FLAG_4(79),
 
     SPAWN_1(121),
     SPAWN_2(122),
