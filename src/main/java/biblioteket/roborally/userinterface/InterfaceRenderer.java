@@ -1,6 +1,7 @@
 package biblioteket.roborally.userinterface;
 
 import biblioteket.roborally.board.IBoard;
+import biblioteket.roborally.programcards.Card;
 import biblioteket.roborally.programcards.CardComparator;
 import biblioteket.roborally.programcards.ICard;
 import com.badlogic.gdx.Gdx;
@@ -10,8 +11,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 public class InterfaceRenderer {
 
@@ -63,7 +62,7 @@ public class InterfaceRenderer {
         programRegister = new ICard[5];
 
         // Card hand
-        touchableCardHand = new TouchableCards(9);
+        touchableCardHand = new TouchableCards(cardHand.length);
         touchableCardHand.initializeCard(0, 375, 100, 40, 90);
         touchableCardHand.initializeCard(1, 425, 100, 40, 90);
         touchableCardHand.initializeCard(2, 475, 100, 40, 90);
@@ -75,7 +74,7 @@ public class InterfaceRenderer {
         touchableCardHand.initializeCard(8, 550, 0, 40, 90);
 
         // Progamregister
-        touchableProgramRegister = new TouchableCards(5);
+        touchableProgramRegister = new TouchableCards(programRegister.length);
         touchableProgramRegister.initializeCard(0,350,250,40,90);
         touchableProgramRegister.initializeCard(1,400,250,40,90);
         touchableProgramRegister.initializeCard(2,450,250,40,90);
@@ -151,17 +150,17 @@ public class InterfaceRenderer {
     }
 
     public void addCardToProgramRegister(ICard card){
-
         for (int i = 0; i < cardHand.length; i++) {
             if(cardHand[i] == card){
                 cardHand[i] = null;
+                touchableCardHand.removeCard(i);
                 break;
             }
         }
-        ICard clone = card.clone();
+        ICard copy = card.copy();
         for (int i = 0; i < programRegister.length; i++) {
             if(programRegister[i] == null){
-                programRegister[i] = clone;
+                programRegister[i] = copy;
                 break;
             }
         }
@@ -171,6 +170,7 @@ public class InterfaceRenderer {
     public void clearProgramRegister(){
         for (int i = 0; i < programRegister.length; i++) {
             programRegister[i] = null;
+            touchableProgramRegister.setCard(i,null);
         }
     }
 

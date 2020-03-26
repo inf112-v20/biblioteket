@@ -1,4 +1,4 @@
-package biblioteket.roborally.elements.interactingelements;
+package biblioteket.roborally.elements.interacting;
 
 public class DoubleWrenchRepairElement extends SingleWrenchRepairElement {
 }

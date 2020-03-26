@@ -4,7 +4,7 @@ import biblioteket.roborally.programcards.ICard;
 import com.badlogic.gdx.math.Rectangle;
 
 public class TouchableCards extends Rectangle {
-    TouchableCard[] cards;
+    private TouchableCard[] cards;
 
     public TouchableCards(int size){
         cards = new TouchableCard[size];
@@ -18,10 +18,6 @@ public class TouchableCards extends Rectangle {
         cards[pos].setCard(card);
     }
 
-    public ICard getCard(int pos){
-        return cards[pos].getCard();
-    }
-
     public ICard contains(int x, int y){
         for (TouchableCard card : cards) {
             if (card.contains(x, y))
@@ -31,6 +27,9 @@ public class TouchableCards extends Rectangle {
         return null;
     }
 
+    public void removeCard(int pos) {
+        cards[pos].setCard(null);
+    }
 
     private class TouchableCard extends Rectangle{
         private  ICard card;

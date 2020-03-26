@@ -2,7 +2,7 @@ package biblioteket.roborally.board;
 
 import biblioteket.roborally.actors.IPlayer;
 import biblioteket.roborally.elements.ArchiveMarkerElement;
-import biblioteket.roborally.elements.interactingelements.InteractingElement;
+import biblioteket.roborally.elements.interacting.InteractingElement;
 import biblioteket.roborally.elements.walls.LaserWallElement;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;

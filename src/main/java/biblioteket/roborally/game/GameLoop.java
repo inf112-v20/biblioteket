@@ -1,29 +1,26 @@
 package biblioteket.roborally.game;
 
 import biblioteket.roborally.actors.IPlayer;
-import biblioteket.roborally.actors.IRobot;
 import biblioteket.roborally.board.Board;
 import biblioteket.roborally.board.DirVector;
 import biblioteket.roborally.elements.IElement;
-import biblioteket.roborally.elements.interactingelements.InteractingElement;
-import biblioteket.roborally.elements.interactingelements.cogs.CogElement;
-import biblioteket.roborally.elements.interactingelements.conveyorbelts.ConveyorBeltElement;
-import biblioteket.roborally.elements.interactingelements.conveyorbelts.ExpressConveyorBeltElement;
+import biblioteket.roborally.elements.interacting.InteractingElement;
+import biblioteket.roborally.elements.interacting.cogs.CogElement;
+import biblioteket.roborally.elements.interacting.conveyorbelts.ConveyorBeltElement;
+import biblioteket.roborally.elements.interacting.conveyorbelts.ExpressConveyorBeltElement;
 import biblioteket.roborally.elements.walls.LaserWallElement;
 import biblioteket.roborally.programcards.CardComparator;
 import biblioteket.roborally.programcards.CardDeck;
 import biblioteket.roborally.programcards.ICard;
 import biblioteket.roborally.programcards.ICardDeck;
 import biblioteket.roborally.userinterface.InterfaceRenderer;
-import biblioteket.roborally.userinterface.TouchableCards;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Executes board interactions with robot
@@ -52,8 +49,8 @@ public class GameLoop {
         }
 
         for (IPlayer player : players) {
-            player.drawCards(cardDeck);
             player.getRobot().setPlayer(player);
+            player.drawCards(cardDeck);
         }
 
         Gdx.input.setInputProcessor(new InputAdapter() {
@@ -98,7 +95,7 @@ public class GameLoop {
             player.updateInterfaceRenderer();
         }
 
-        if(checkWinCondition()) Gdx.app.exit();
+        if(checkWinCondition() || everyPlayerDead()) Gdx.app.exit();
     }
 
     private void interactWithEnvironment() {
@@ -133,11 +130,19 @@ public class GameLoop {
 
     }
 
-    public boolean checkWinCondition() {
+    private boolean checkWinCondition() {
         for (IPlayer player : players) {
             if (player.getNumberOfVisitedFlags() == amountOfFlags) return true;
         }
         return false;
+    }
+
+    private boolean everyPlayerDead(){
+        for (IPlayer player : players) {
+            if(!player.isPermanentDead())
+                return false;
+        }
+        return true;
     }
 
     private void interactWithBoardElement(Class<? extends InteractingElement> instance) {

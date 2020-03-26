@@ -1,11 +1,10 @@
-package biblioteket.roborally.elements.interactingelements;
+package biblioteket.roborally.elements.interacting;
 
 import biblioteket.roborally.actors.IPlayer;
 import biblioteket.roborally.actors.IRobot;
 import biblioteket.roborally.actors.Player;
 import biblioteket.roborally.actors.Robot;
 import biblioteket.roborally.elements.ArchiveMarkerElement;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

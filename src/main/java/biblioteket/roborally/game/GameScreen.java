@@ -1,17 +1,13 @@
 package biblioteket.roborally.game;
 
-import biblioteket.roborally.userinterface.InterfaceRenderer;
 import biblioteket.roborally.actors.IPlayer;
 import biblioteket.roborally.actors.IRobot;
 import biblioteket.roborally.actors.Player;
 import biblioteket.roborally.actors.Robot;
 import biblioteket.roborally.board.Board;
-import biblioteket.roborally.board.DirVector;
-import biblioteket.roborally.board.Direction;
 import biblioteket.roborally.elements.ArchiveMarkerElement;
+import biblioteket.roborally.userinterface.InterfaceRenderer;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -20,8 +16,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +29,7 @@ public class GameScreen implements Screen {
     private final RoboRally game;
     private final Board board;
     private final GameLoop gameLoop;
-    OrthographicCamera camera;
+    private OrthographicCamera camera;
 
     private List<IPlayer> players;
     private Player currentPlayer;
@@ -84,7 +78,6 @@ public class GameScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // Clears main menu screen
 
         for (IPlayer player : players) {
-//            board.getPlayerLayer().setCell(player.getRobot().getPosition().getX(), player.getRobot().getPosition().getY(), player.getPlayerCell());
             InterfaceRenderer interfaceRenderer = player.getInterfaceRenderer();
             interfaceRenderer.render(board);
         }

@@ -1,13 +1,11 @@
 package biblioteket.roborally.actors;
 
-import biblioteket.roborally.programcards.CardComparator;
 import biblioteket.roborally.programcards.ICard;
 import biblioteket.roborally.programcards.ICardDeck;
 import biblioteket.roborally.userinterface.InterfaceRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class Player implements IPlayer {
@@ -86,7 +84,7 @@ public class Player implements IPlayer {
     @Override
     public void drawCards(ICardDeck cardDeck) {
         int damageTokens = getRobot().getNumberOfDamageTokens();
-        ArrayList<ICard> cards = cardDeck.drawCards(9 - damageTokens);
+        ArrayList<ICard> cards = cardDeck.drawCards(9);
         interfaceRenderer.setCardHand(cards);
     }
 

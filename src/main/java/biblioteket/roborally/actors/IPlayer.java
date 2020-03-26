@@ -1,11 +1,10 @@
 package biblioteket.roborally.actors;
 
-import biblioteket.roborally.userinterface.InterfaceRenderer;
 import biblioteket.roborally.programcards.ICard;
 import biblioteket.roborally.programcards.ICardDeck;
+import biblioteket.roborally.userinterface.InterfaceRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public interface IPlayer {

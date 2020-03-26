@@ -2,11 +2,11 @@ package biblioteket.roborally.board;
 
 import biblioteket.roborally.elements.ArchiveMarkerElement;
 import biblioteket.roborally.elements.IElement;
-import biblioteket.roborally.elements.interactingelements.*;
-import biblioteket.roborally.elements.interactingelements.cogs.LeftRotatingCogElement;
-import biblioteket.roborally.elements.interactingelements.cogs.RightRotatingCogElement;
-import biblioteket.roborally.elements.interactingelements.conveyorbelts.ConveyorBeltElement;
-import biblioteket.roborally.elements.interactingelements.conveyorbelts.ExpressConveyorBeltElement;
+import biblioteket.roborally.elements.interacting.*;
+import biblioteket.roborally.elements.interacting.cogs.LeftRotatingCogElement;
+import biblioteket.roborally.elements.interacting.cogs.RightRotatingCogElement;
+import biblioteket.roborally.elements.interacting.conveyorbelts.ConveyorBeltElement;
+import biblioteket.roborally.elements.interacting.conveyorbelts.ExpressConveyorBeltElement;
 import biblioteket.roborally.elements.walls.LaserWallElement;
 import biblioteket.roborally.elements.walls.WallElement;
 

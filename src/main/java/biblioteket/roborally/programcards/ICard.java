@@ -29,5 +29,5 @@ public interface ICard {
     /**
      * @return a copy of this card
      */
-    ICard clone();
+    ICard copy();
 }
