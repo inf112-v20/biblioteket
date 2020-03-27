@@ -25,4 +25,9 @@ public interface ICard {
      * @param robot which robot that should do the action.
      */
     void doCardAction(IRobot robot, IBoard board);
+
+    /**
+     * @return a copy of this card
+     */
+    ICard copy();
 }

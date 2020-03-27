@@ -32,7 +32,7 @@ class CardTest {
         board = new Board("assets/TestingMap.tmx");
 
         robot = new Robot(board.getArchiveMarker(1));
-        IPlayer player = new Player(null);
+        IPlayer player = new Player(null, null);
         player.setRobot(robot);
         robot.setPlayer(player);
 
@@ -204,8 +204,8 @@ class CardTest {
 
         backUp.doCardAction(robot, board);
 
-        assertEquals(robot.getPosition(), newLocation);
-        assertEquals(direction, robot.getDirection());
+        assertEquals(robot.getPosition().getX(), newLocation.getX());
+        assertEquals(robot.getPosition().getY(), newLocation.getY());
     }
 
 }

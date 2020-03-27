@@ -157,7 +157,7 @@ public interface IRobot {
      * @param board     current game board
      * @return true if moved, false otherwise
      */
-    boolean move(Direction direction, Board board);
+    boolean move(Direction direction, IBoard board);
 
     /**
      * Tries to move robot in given direction.

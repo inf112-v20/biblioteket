@@ -38,8 +38,6 @@ public class LaserWallElement extends WallElement {
         DirVector vector = new DirVector(position.getX(), position.getY(), position.getDirection());
         Laser laser = new Laser();
         laser.fireLaser(board, players, vector);
-
-
     }
 
     @Override

@@ -1,6 +1,11 @@
 package biblioteket.roborally.actors;
 
+import biblioteket.roborally.programcards.ICard;
+import biblioteket.roborally.programcards.ICardDeck;
+import biblioteket.roborally.userinterface.InterfaceRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+
+import java.util.List;
 
 public interface IPlayer {
 
@@ -60,4 +65,40 @@ public interface IPlayer {
      * @return players cell.
      */
     TiledMapTileLayer.Cell getPlayerCell();
+
+    /**
+     * @return players interface renderer
+     */
+    InterfaceRenderer getInterfaceRenderer();
+
+    /**
+     * Sets number of lives and flags in the interface renderer
+     */
+    void updateInterfaceRenderer();
+
+
+    /**
+     * Draw a number of cards according to how many damage tokens robot has
+     *
+     * @param cardDeck to draw cards from
+     */
+    void drawCards(ICardDeck cardDeck);
+
+    /**
+     * @param card added
+     */
+    void addCardToProgramRegister(ICard card);
+
+    /**
+     * returns a list of the players program register and clears the program register
+     *
+     * @return a list of the players program register
+     */
+    List<ICard> getProgramRegister();
+
+    /**
+     * @return true if the player is done registering cards for this turn
+     */
+    boolean fullProgramRegister();
+
 }

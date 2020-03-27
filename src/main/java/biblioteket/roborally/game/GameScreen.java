@@ -5,13 +5,11 @@ import biblioteket.roborally.actors.IRobot;
 import biblioteket.roborally.actors.Player;
 import biblioteket.roborally.actors.Robot;
 import biblioteket.roborally.board.Board;
-import biblioteket.roborally.board.DirVector;
-import biblioteket.roborally.board.Direction;
 import biblioteket.roborally.elements.ArchiveMarkerElement;
+import biblioteket.roborally.userinterface.InterfaceRenderer;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -30,25 +28,32 @@ import java.util.List;
 public class GameScreen implements Screen {
     private final Board board;
     private final GameLoop gameLoop;
+    private OrthographicCamera camera;
 
-    private final List<IPlayer> players;
-    private Player currentPlayer;
-    private final OrthogonalTiledMapRenderer tiledMapRenderer;
+    private List<IPlayer> players;
+
+    private OrthogonalTiledMapRenderer tiledMapRenderer;
 
     public GameScreen(final RoboRally gam) {
         this.board = new Board("assets/DizzyDash.tmx");
+        this.camera = new OrthographicCamera();
+
+        camera.setToOrtho(false, board.getWidth() + 14, board.getHeight() + 1);
+        camera.update();
+
+        tiledMapRenderer = new OrthogonalTiledMapRenderer(board.getMap(), (float) 1 / board.getTileWidth());
+        tiledMapRenderer.setView(camera);
+
 
         Texture playerTexture = new Texture("assets/player.png");
         TextureRegion[][] playerTextureSplit = TextureRegion.split(playerTexture, board.getTileWidth(), board.getTileHeight());
 
-
         this.players = new ArrayList<>();
 
         for (int i = 0; i < 1; i++) {
-            Player player = new Player(new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(playerTextureSplit[0][0])));
-            currentPlayer = player;
+            Player player = new Player(new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(playerTextureSplit[0][0])), new InterfaceRenderer());
             players.add(player);
-            ArchiveMarkerElement archiveMarker = board.getArchiveMarker(i + 1);   // Archive markers start at 1
+            ArchiveMarkerElement archiveMarker = board.getArchiveMarker(i + 1);
             IRobot robot = new Robot(archiveMarker);
             player.setRobot(robot);
             board.getPlayerLayer().setCell(player.getRobot().getPosition().getX(), player.getRobot().getPosition().getY(), null);
@@ -56,41 +61,6 @@ public class GameScreen implements Screen {
 
         this.gameLoop = new GameLoop(board, players);
 
-        OrthographicCamera camera = new OrthographicCamera();
-        camera.setToOrtho(false, board.getWidth(), board.getHeight());
-        camera.update();
-
-        tiledMapRenderer = new OrthogonalTiledMapRenderer(board.getMap(), (float) 1 / board.getTileWidth());
-        tiledMapRenderer.setView(camera);
-
-        // For ease of use and iterating we define the input processor inline
-        // in the code here, in the future this will be moved to a separate
-        // InputMultiplexer.
-        Gdx.input.setInputProcessor(new InputAdapter() {
-            @Override
-            public boolean keyUp(int keycode) {
-                switch (keycode) {
-                    case Input.Keys.A:
-                        return currentPlayer.getRobot().move(Direction.WEST, board);
-                    case Input.Keys.D:
-                        return currentPlayer.getRobot().move(Direction.EAST, board);
-                    case Input.Keys.W:
-                        return currentPlayer.getRobot().move(Direction.NORTH, board);
-                    case Input.Keys.S:
-                        return currentPlayer.getRobot().move(Direction.SOUTH, board);
-                    case Input.Keys.SPACE:
-                        DirVector newPosition = board.interact(currentPlayer);
-                        return newPosition != null;
-                    case Input.Keys.P:
-                        return board.registerFlag(currentPlayer);
-                    case Input.Keys.ENTER:
-                        gameLoop.doTurn();
-                        return false;
-                    default:
-                        return true;
-                }
-            }
-        });
     }
 
     @Override
@@ -100,9 +70,14 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // Clears main menu screen
+
         for (IPlayer player : players) {
-            board.getPlayerLayer().setCell(player.getRobot().getPosition().getX(), player.getRobot().getPosition().getY(), player.getPlayerCell());
+            InterfaceRenderer interfaceRenderer = player.getInterfaceRenderer();
+            interfaceRenderer.renderInterface(board);
         }
+        gameLoop.renderPlayers();
 
         tiledMapRenderer.render();
         tiledMapRenderer.getBatch().begin();
