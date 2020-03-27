@@ -32,9 +32,9 @@ public class GameLoop {
     private final Board board;
     private final int amountOfFlags;
     private final List<LaserWallElement> laserWalls;
-    private List<IPlayer> players;
-    private int currentPlayerPtr;
-    private IPlayer currentPlayer;
+    private final List<IPlayer> players;
+    private final int currentPlayerPtr;
+    private final IPlayer currentPlayer;
     private ICardDeck cardDeck;
 
     public GameLoop(Board board, List<IPlayer> players) {
