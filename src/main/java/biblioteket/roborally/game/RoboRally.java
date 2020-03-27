@@ -1,6 +1,7 @@
 package biblioteket.roborally.game;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -15,6 +16,11 @@ public class RoboRally extends Game {
 
     @Override
     public void create() {
+        // https://github.com/libgdx/libgdx/wiki/Continuous-%26-non-continuous-rendering
+        // This should be a performance increase for our game
+        Gdx.graphics.setContinuousRendering(false);
+        Gdx.graphics.requestRendering();
+
         this.setBatch(new SpriteBatch());
         this.setFont(new BitmapFont());
         this.setScreen(new MainMenuScreen(this));
@@ -24,11 +30,6 @@ public class RoboRally extends Game {
     public void dispose() {
         getBatch().dispose();
         getFont().dispose();
-    }
-
-    @Override
-    public void render() {
-        super.render();
     }
 
     @Override

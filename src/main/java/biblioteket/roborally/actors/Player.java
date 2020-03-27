@@ -1,10 +1,16 @@
 package biblioteket.roborally.actors;
 
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+
 public class Player implements IPlayer {
     private int lives = 3;
     private int visitedFlags = 0;
-
     private IRobot robot;
+    private final TiledMapTileLayer.Cell playerCell;
+
+    public Player(TiledMapTileLayer.Cell playerCell) {
+        this.playerCell = playerCell;
+    }
 
     @Override
     public int getLives() {
@@ -23,7 +29,7 @@ public class Player implements IPlayer {
 
     @Override
     public void removeOneLife() {
-        lives--;
+        this.lives -= 1;
     }
 
     @Override
@@ -44,5 +50,10 @@ public class Player implements IPlayer {
     @Override
     public void addToFlagsVisited() {
         visitedFlags++;
+    }
+
+    @Override
+    public TiledMapTileLayer.Cell getPlayerCell() {
+        return playerCell;
     }
 }

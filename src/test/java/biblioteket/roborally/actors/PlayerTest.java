@@ -7,11 +7,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class PlayerTest {
-    IPlayer player;
+    private IPlayer player;
 
     @BeforeEach
     void setUp() {
-        player = new Player();
+        player = new Player(null);
     }
 
     @Test

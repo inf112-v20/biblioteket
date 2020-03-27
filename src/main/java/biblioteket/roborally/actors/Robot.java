@@ -1,29 +1,25 @@
 package biblioteket.roborally.actors;
 
-import biblioteket.roborally.Direction;
-import biblioteket.roborally.grid.IPosition;
+import biblioteket.roborally.board.Board;
+import biblioteket.roborally.board.DirVector;
+import biblioteket.roborally.board.Direction;
+import biblioteket.roborally.board.IBoard;
+import biblioteket.roborally.elements.ArchiveMarkerElement;
 
-import java.util.UUID;
-
-public class Robot<T> implements IRobot<T> {
-    private IPosition<T> position;
-    private IPosition<T> archiveMarker;
-    private Direction direction;
-
+public class Robot implements IRobot {
+    private DirVector location;
+    private final ArchiveMarkerElement archiveMarker;
     private IPlayer player;
-
-    private boolean destroyed = false;
     private int damageTokens = 0;
 
-    public Robot(IPosition<T> position, IPosition<T> archiveMarker, Direction direction) {
-        this.position = position;
+    public Robot(ArchiveMarkerElement archiveMarker) {
         this.archiveMarker = archiveMarker;
-        this.direction = direction;
+        this.location = new DirVector(archiveMarker.getX(), archiveMarker.getY(), Direction.NORTH);
     }
 
     @Override
     public IPlayer getPlayer() {
-        return player;
+        return this.player;
     }
 
     @Override
@@ -33,120 +29,136 @@ public class Robot<T> implements IRobot<T> {
 
     @Override
     public int getNumberOfDamageTokens() {
-        return damageTokens;
+        return this.damageTokens;
     }
 
     @Override
     public void removeDamageTokens(int damageTokens) {
-
-        this.damageTokens = this.damageTokens - damageTokens;
+        this.damageTokens -= damageTokens;
     }
 
     @Override
     public void addDamageTokens(int damageTokens) {
-
-        this.damageTokens = this.damageTokens + damageTokens;
-    }
-
-    @Override
-    public void removeAllDamageTokens() {
-
-        this.damageTokens = 0;
+        this.damageTokens += damageTokens;
     }
 
     @Override
     public boolean isDestroyed() {
-
-        return damageTokens > 9;
+        return this.damageTokens > 9;
     }
 
     @Override
-    public IPosition<T> getArchiveMarker() {
-        return archiveMarker;
+    public ArchiveMarkerElement getArchiveMarker() {
+        return this.archiveMarker;
     }
 
     @Override
-    public void setArchiveMarker(IPosition<T> location) {
-        this.archiveMarker = location;
-    }
-
-    @Override
-    public IPosition<T> getPosition() {
-        return position;
-    }
-
-    @Override
-    public void setPosition(IPosition<T> location) {
-        this.position = location;
-    }
-
-    @Override
-    public IPosition getPos() {
-        return null;
-    }
-
-    @Override
-    public void setPos(IPosition pos) {
-
-    }
-
-
-    public void setPos(int x, int y) {
-
-    }
-
-    @Override
-    public boolean immovable() {
-        return false;
-    }
-
-
-    public UUID getID() {
-        return null;
-    }
-
-    @Override
-    public Direction getDirection() {
-        return direction;
-    }
-
-    @Override
-    public void setDirection(Direction direction) {
-        this.direction = direction;
+    public void setArchiveMarker(DirVector location) {
+        archiveMarker.setX(location.getX());
+        archiveMarker.setY(location.getY());
     }
 
     @Override
     public void turnLeft() {
-        this.direction = this.direction.direction90DegreesToTheLeft();
+        this.location.left();
     }
 
     @Override
     public void turnRight() {
-        this.direction = this.direction.direction90DegreesToTheRight();
+        this.location.right();
     }
 
-    // TODO
     @Override
-    public void moveForward() {
-        // this.setPosition(position.locationInDirection(direction));
+    public void moveForward(IBoard board) {
+        moveRobot(getDirection(), board);
     }
 
-    // TODO
     @Override
-    public void moveBackward() {
-        // this.setPosition(position.locationInDirection(direction.oppositeDirection()));
+    public void moveBackward(IBoard board) {
+        Direction startDirection = getDirection();
+        moveRobot(getDirection().opposite(), board);
+        setDirection(startDirection);
     }
 
-    //TODO
     @Override
     public void pushRobotInDirection(Direction direction) {
-
+        this.location.setDirection(direction);
+        this.location.forward(1);
     }
 
-    //TODO
     @Override
-    public boolean canMoveInDirection(Direction direction) {
+    public DirVector getPosition() {
+        return this.location;
+    }
+
+    @Override
+    public void setPosition(DirVector location) {
+        this.location = location;
+    }
+
+    @Override
+    public void setPosition(int x, int y) {
+        this.location = new DirVector(x, y, this.location.getDirection());
+    }
+
+    @Override
+    public Direction getDirection() {
+        return this.location.getDirection();
+    }
+
+    @Override
+    public void setDirection(Direction direction) {
+        this.location.setDirection(direction);
+    }
+
+    @Override
+    public boolean moveForward(Board board) {
+        if (board.canMove(getPosition(), getDirection())) {
+            this.location = this.location.dirVectorInDirection(getDirection());
+            return true;
+        }
         return false;
     }
 
+    @Override
+    public boolean move(Direction direction, Board board) {
+        if (board.canMove(getPosition(), direction)) {
+            this.location = this.location.dirVectorInDirection(direction);
+            if (board.outOfBounds(this.location)) {
+                this.addDamageTokens(1);
+                moveToArchiveMarker();
+            }
+            return true;
+        }
+        return false;
+    }
+
+    // Need to add support for pit and pushing other robots.
+    // Do something about direction, robots respawn in the direction which the archive marker has stored.
+    // Not sure what do do about damage tokens.
+    // Not sure what do do if player is dead.
+    // Need working placeRobotOnArchiveMarker
+    @Override
+    public void moveRobot(Direction direction, IBoard board) {
+        DirVector locationInDirection = this.location.dirVectorInDirection(direction);
+        if (board.canMove(this.location, direction)) { //Check if blocked by immovable object. Should not include robots or out of bounds.
+            if (board.outOfBounds(locationInDirection)) { //Check if robot moves off board
+                player.removeOneLife();
+                if (player.hasLivesLeft()) {
+                    //do something about damage tokens and direction
+                    moveToArchiveMarker();
+                    //add else if first for pit then for pushing other robots.
+                } else {//Not sure to handle what to do when player is dead.
+                    this.location = null;
+                }
+            } else {// Moves the robot in direction
+                setPosition(locationInDirection);
+            }
+        }
+    }
+
+    @Override
+    public void moveToArchiveMarker() {
+        setPosition(archiveMarker.getX(), archiveMarker.getY());
+    }
 }

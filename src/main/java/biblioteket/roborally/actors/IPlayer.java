@@ -1,5 +1,7 @@
 package biblioteket.roborally.actors;
 
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+
 public interface IPlayer {
 
     /**
@@ -28,14 +30,14 @@ public interface IPlayer {
     void removeOneLife();
 
     /**
-     * @return
+     * @return the players robot.
      */
     IRobot getRobot();
 
     /**
      * Set the players robot.
      *
-     * @param robot
+     * @param robot robot that player will control.
      */
     void setRobot(IRobot robot);
 
@@ -51,4 +53,11 @@ public interface IPlayer {
      */
     void addToFlagsVisited();
 
+    /**
+     * A cell representation of the current player. This is for example an image
+     * that is used to identify each player at a glance on the board.
+     *
+     * @return players cell.
+     */
+    TiledMapTileLayer.Cell getPlayerCell();
 }
