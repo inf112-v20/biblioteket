@@ -3,6 +3,7 @@ package biblioteket.roborally.game;
 import biblioteket.roborally.actors.IPlayer;
 import biblioteket.roborally.board.Board;
 import biblioteket.roborally.board.DirVector;
+import biblioteket.roborally.board.Direction;
 import biblioteket.roborally.elements.IElement;
 import biblioteket.roborally.elements.interacting.InteractingElement;
 import biblioteket.roborally.elements.interacting.cogs.CogElement;
@@ -15,6 +16,7 @@ import biblioteket.roborally.programcards.ICard;
 import biblioteket.roborally.programcards.ICardDeck;
 import biblioteket.roborally.userinterface.InterfaceRenderer;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 
 import java.io.IOException;
@@ -59,6 +61,31 @@ public class GameLoop {
             public boolean touchDown(int screenX, int screenY, int pointer, int button){
                 int y = Gdx.graphics.getHeight() - 1 - screenY; // Translate from y-down to y-up
                 return registerInput(screenX,y);
+            }
+
+            // Keyboard movement for testing
+            @Override
+            public boolean keyUp(int keycode) {
+                switch (keycode) {
+                    case Input.Keys.A:
+                        return currentPlayer.getRobot().move(Direction.WEST, board);
+                    case Input.Keys.D:
+                        return currentPlayer.getRobot().move(Direction.EAST, board);
+                    case Input.Keys.W:
+                        return currentPlayer.getRobot().move(Direction.NORTH, board);
+                    case Input.Keys.S:
+                        return currentPlayer.getRobot().move(Direction.SOUTH, board);
+                    case Input.Keys.SPACE:
+                        DirVector newPosition = board.interact(currentPlayer);
+                        return newPosition != null;
+                    case Input.Keys.P:
+                        return board.registerFlag(currentPlayer);
+                    case Input.Keys.ENTER:
+                        interactWithBoardElements();
+                        return false;
+                    default:
+                        return true;
+                }
             }
         });
     }
