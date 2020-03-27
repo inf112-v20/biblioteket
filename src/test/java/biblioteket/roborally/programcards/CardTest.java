@@ -237,8 +237,8 @@ class CardTest {
 
         backUp.doCardAction(robot, board);
 
-        assertEquals(robot.getPosition(), newLocation);
-        assertEquals(direction, robot.getDirection());
+        assertEquals(robot.getPosition().getX(), newLocation.getX());
+        assertEquals(robot.getPosition().getY(), newLocation.getY());
     }
 
 }

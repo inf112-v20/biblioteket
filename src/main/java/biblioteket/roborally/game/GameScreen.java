@@ -77,9 +77,9 @@ public class GameScreen implements Screen {
 
         for (IPlayer player : players) {
             InterfaceRenderer interfaceRenderer = player.getInterfaceRenderer();
-            interfaceRenderer.render(board);
+            interfaceRenderer.renderInterface(board);
         }
-        gameLoop.render();
+        gameLoop.renderPlayers();
 
         tiledMapRenderer.render();
         tiledMapRenderer.getBatch().begin();

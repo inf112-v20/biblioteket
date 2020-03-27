@@ -58,6 +58,9 @@ public class Card implements ICard {
         }
     }
 
+    /**
+     * @return a copy of current card
+     */
     @Override
     public ICard copy() {
         ICard copy = new Card(getType(), getPriorityNumber());

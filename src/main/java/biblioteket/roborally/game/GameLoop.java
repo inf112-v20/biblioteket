@@ -9,7 +9,7 @@ import biblioteket.roborally.elements.interacting.cogs.CogElement;
 import biblioteket.roborally.elements.interacting.conveyorbelts.ConveyorBeltElement;
 import biblioteket.roborally.elements.interacting.conveyorbelts.ExpressConveyorBeltElement;
 import biblioteket.roborally.elements.walls.LaserWallElement;
-import biblioteket.roborally.programcards.CardComparator;
+import biblioteket.roborally.programcards.ReverseCardComparator;
 import biblioteket.roborally.programcards.CardDeck;
 import biblioteket.roborally.programcards.ICard;
 import biblioteket.roborally.programcards.ICardDeck;
@@ -23,7 +23,8 @@ import java.util.Map;
 import java.util.TreeMap;
 
 /**
- * Executes board interactions with robot
+ * Once every player has finished programming their robot,
+ * plays a turn of RoboRally
  */
 public class GameLoop {
     private final Board board;
@@ -39,8 +40,8 @@ public class GameLoop {
         this.players = players;
         currentPlayerPtr = 0;
         currentPlayer = players.get(0);
-        this.amountOfFlags = board.getNumFlags();
-        this.laserWalls = board.getLaserWalls();
+        amountOfFlags = board.getNumFlags();
+        laserWalls = board.getLaserWalls();
 
         try {
             cardDeck = new CardDeck();
@@ -49,19 +50,27 @@ public class GameLoop {
         }
 
         for (IPlayer player : players) {
-            player.getRobot().setPlayer(player);
             player.drawCards(cardDeck);
+            player.getRobot().setPlayer(player);
         }
 
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
             public boolean touchDown(int screenX, int screenY, int pointer, int button){
-                int y = Gdx.graphics.getHeight() - 1 - screenY;
+                int y = Gdx.graphics.getHeight() - 1 - screenY; // Translate from y-down to y-up
                 return registerInput(screenX,y);
             }
         });
     }
 
+    /**
+     * Lets player choose program cards for robot, once player is done programming
+     * robot, signals to game that player is ready to start turn
+     *
+     * @param x coordinate from user input
+     * @param y coordinate from user input
+     * @return true if input was handled correctly
+     */
     private boolean registerInput(int x, int y) {
         InterfaceRenderer interfaceRenderer = currentPlayer.getInterfaceRenderer();
         ICard card = interfaceRenderer.contains(x,y);
@@ -73,8 +82,13 @@ public class GameLoop {
         return true;
     }
 
+    /**
+     *
+     */
     public void doTurn(){
-        Map<ICard, IPlayer> cardMapping = new TreeMap<>(new CardComparator());
+        // Use red-black tree to sort every programming card according to their priority,
+        // mapped to correct robot
+        Map<ICard, IPlayer> cardMapping = new TreeMap<>(new ReverseCardComparator());
         for (IPlayer player : players) {
             List<ICard> programRegister = player.getProgramRegister();
             for (ICard card : programRegister) {
@@ -82,23 +96,31 @@ public class GameLoop {
             }
         }
 
+        // Execute program cards in order from highest to lowest priority
         for (ICard card : cardMapping.keySet()) {
             IPlayer player = cardMapping.get(card);
             card.doCardAction(player.getRobot(),board);
-
         }
 
-        interactWithEnvironment();
+        // Robots interact with board elements
+        interactWithBoardElements();
 
-        for (IPlayer player : players) {
-            player.drawCards(cardDeck);
-            player.updateInterfaceRenderer();
+        // End turn
+        if(checkWinCondition() || everyPlayerDead())
+            Gdx.app.exit();
+        else {
+            for (IPlayer player : players) {
+                player.drawCards(cardDeck);
+                player.updateInterfaceRenderer();
+            }
         }
 
-        if(checkWinCondition() || everyPlayerDead()) Gdx.app.exit();
     }
 
-    private void interactWithEnvironment() {
+    /**
+     * Robots interact with board elements
+     */
+    private void interactWithBoardElements() {
 
         // Express conveyor belts move first
         interactWithBoardElement(ExpressConveyorBeltElement.class);
@@ -130,6 +152,9 @@ public class GameLoop {
 
     }
 
+    /**
+     * @return true if any player has registered all flags on board
+     */
     private boolean checkWinCondition() {
         for (IPlayer player : players) {
             if (player.getNumberOfVisitedFlags() == amountOfFlags) return true;
@@ -137,6 +162,9 @@ public class GameLoop {
         return false;
     }
 
+    /**
+     * @return true if every player is dead
+     */
     private boolean everyPlayerDead(){
         for (IPlayer player : players) {
             if(!player.isPermanentDead())
@@ -145,6 +173,11 @@ public class GameLoop {
         return true;
     }
 
+    /**
+     * All players robots interact with a certain interacting element
+     *
+     * @param instance robots should interact with
+     */
     private void interactWithBoardElement(Class<? extends InteractingElement> instance) {
         for (IPlayer player : players) {
             DirVector position = player.getRobot().getPosition();
@@ -155,7 +188,10 @@ public class GameLoop {
         }
     }
 
-    public void render(){
+    /**
+     * Updated the players position in player layer
+     */
+    public void renderPlayers(){
         for (IPlayer player : players) {
             DirVector position = player.getRobot().getPosition();
             board.getPlayerLayer().setCell(position.getX(), position.getY(), player.getPlayerCell());

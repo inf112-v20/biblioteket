@@ -12,7 +12,7 @@ public class Player implements IPlayer {
     private int lives = 3;
     private int visitedFlags = 0;
     private IRobot robot;
-    private TiledMapTileLayer.Cell playerCell;
+    private TiledMapTileLayer.Cell playerCell; 
     private ArrayList<ICard> programRegister;
 
     private InterfaceRenderer interfaceRenderer;
