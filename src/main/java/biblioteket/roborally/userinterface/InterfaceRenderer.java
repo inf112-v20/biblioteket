@@ -17,29 +17,28 @@ import java.util.Arrays;
  */
 public class InterfaceRenderer {
 
-    private Texture background;
-    private Texture playerOverview;
-    private Texture flag;
-    private Texture hp;
+    private final Texture background;
+    private final Texture playerOverview;
+    private final Texture flag;
+    private final Texture hp;
 
-    private Texture emptyCard;
-    private Texture moveOneCard;
-    private Texture moveTwoCard;
-    private Texture moveThreeCard;
-    private Texture backUpCard;
-    private Texture rotateRightCard;
-    private Texture rotateLeftCard;
-    private Texture uTurnCard;
+    private final Texture emptyCard;
+    private final Texture moveOneCard;
+    private final Texture moveTwoCard;
+    private final Texture moveThreeCard;
+    private final Texture backUpCard;
+    private final Texture rotateRightCard;
+    private final Texture rotateLeftCard;
+    private final Texture uTurnCard;
 
-    private SpriteBatch batch;
-    private BitmapFont font;
-
+    private final SpriteBatch batch;
+    private final BitmapFont font;
+    private final ICard[] cardHand;
+    private final ICard[] programRegister;
+    private final TouchableCards touchableCardHand;
+    private final TouchableCards touchableProgramRegister;
     private int flagsVisited;
     private int lives;
-    private ICard[] cardHand;
-    private ICard[] programRegister;
-    private TouchableCards touchableCardHand;
-    private TouchableCards touchableProgramRegister;
 
     public InterfaceRenderer() {
         background = new Texture("assets/background2.jpg");

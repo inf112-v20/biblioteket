@@ -13,11 +13,10 @@ public class BarrelBot extends Robot {
     public static final int IDLE = 0;
     private static final int FRAME_COLS = 5;
     private static final int FRAME_ROWS = 1;
+    private final List<Animation<TextureRegion>> animations;
     private float stateTime = 0;
     private int stepIndex = 0;
     private int currentAnimation;
-
-    private List<Animation<TextureRegion>> animations;
 
     public BarrelBot(TextureRegion textureRegionIdle) {
         super(new ArchiveMarkerElement(0));

@@ -14,14 +14,14 @@ import com.badlogic.gdx.graphics.Texture;
 public class MainMenuScreen implements Screen {
     private final RoboRally game;
     private final OrthographicCamera camera;
-    private Texture logo;
-    private Texture background;
-    private Texture playPre;
-    private Texture playPost;
-    private Texture quitPre;
-    private Texture quitPost;
-    private int buttonHeight = 250;
-    private int buttonWidth = 180;
+    private final Texture logo;
+    private final Texture background;
+    private final Texture playPre;
+    private final Texture playPost;
+    private final Texture quitPre;
+    private final Texture quitPost;
+    private static final int BUTTON_HEIGHT = 250;
+    private static final int BUTTON_WIDTH = 180;
 
 
     public MainMenuScreen(final RoboRally game) {
@@ -46,7 +46,7 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        int center = (int) camera.viewportWidth / 2 - buttonWidth / 2;
+        int center = (int) camera.viewportWidth / 2 - BUTTON_WIDTH / 2;
 
         Gdx.gl.glClearColor(0, 0, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -57,23 +57,23 @@ public class MainMenuScreen implements Screen {
         game.getBatch().begin();
         game.getBatch().draw(background, 0, 0, 700, 700);
         game.getBatch().draw(logo, 70, 340);
-        game.getBatch().draw(playPre, center, camera.viewportHeight / 4, buttonWidth, buttonHeight);
-        game.getBatch().draw(quitPre, center, camera.viewportHeight / 10, buttonWidth, buttonHeight);
+        game.getBatch().draw(playPre, center, camera.viewportHeight / 4, BUTTON_WIDTH, BUTTON_HEIGHT);
+        game.getBatch().draw(quitPre, center, camera.viewportHeight / 10, BUTTON_WIDTH, BUTTON_HEIGHT);
 
-        if (Gdx.input.getX() < center + buttonWidth && Gdx.input.getX() > center && camera.viewportHeight - Gdx.input.getY() < camera.viewportHeight / 4 + buttonWidth && camera.viewportHeight - Gdx.input.getY() > camera.viewportHeight / 4 + buttonWidth / (1.5)) {
-            game.getBatch().draw(quitPost, center, camera.viewportHeight / 10, buttonWidth, buttonHeight);
+        if (Gdx.input.getX() < center + BUTTON_WIDTH && Gdx.input.getX() > center && camera.viewportHeight - Gdx.input.getY() < camera.viewportHeight / 4 + BUTTON_WIDTH && camera.viewportHeight - Gdx.input.getY() > camera.viewportHeight / 4 + BUTTON_WIDTH / (1.5)) {
+            game.getBatch().draw(quitPost, center, camera.viewportHeight / 10, BUTTON_WIDTH, BUTTON_HEIGHT);
             if (Gdx.input.isTouched()) {
                 game.setScreen(new GameScreen(game));
                 dispose();
             }
-        } else if (Gdx.input.getX() < center + buttonWidth && Gdx.input.getX() > center && camera.viewportHeight - Gdx.input.getY() < camera.viewportHeight / 7 + buttonWidth && camera.viewportHeight - Gdx.input.getY() > camera.viewportHeight / 10 + buttonWidth / (1.5)) {
-            game.getBatch().draw(playPost, center, camera.viewportHeight / 4, buttonWidth, buttonHeight);
+        } else if (Gdx.input.getX() < center + BUTTON_WIDTH && Gdx.input.getX() > center && camera.viewportHeight - Gdx.input.getY() < camera.viewportHeight / 7 + BUTTON_WIDTH && camera.viewportHeight - Gdx.input.getY() > camera.viewportHeight / 10 + BUTTON_WIDTH / (1.5)) {
+            game.getBatch().draw(playPost, center, camera.viewportHeight / 4, BUTTON_WIDTH, BUTTON_HEIGHT);
             if (Gdx.input.isTouched()) {
                 Gdx.app.exit();
             }
         } else {
-            game.getBatch().draw(playPost, center, camera.viewportHeight / 4, buttonWidth, buttonHeight);
-            game.getBatch().draw(quitPost, center, camera.viewportHeight / 10, buttonWidth, buttonHeight);
+            game.getBatch().draw(playPost, center, camera.viewportHeight / 4, BUTTON_WIDTH, BUTTON_HEIGHT);
+            game.getBatch().draw(quitPost, center, camera.viewportHeight / 10, BUTTON_WIDTH, BUTTON_HEIGHT);
 
         }
 

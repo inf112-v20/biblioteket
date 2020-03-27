@@ -28,11 +28,11 @@ import java.util.List;
 public class GameScreen implements Screen {
     private final Board board;
     private final GameLoop gameLoop;
-    private OrthographicCamera camera;
+    private final OrthographicCamera camera;
 
-    private List<IPlayer> players;
+    private final List<IPlayer> players;
 
-    private OrthogonalTiledMapRenderer tiledMapRenderer;
+    private final OrthogonalTiledMapRenderer tiledMapRenderer;
 
     public GameScreen(final RoboRally gam) {
         this.board = new Board("assets/DizzyDash.tmx");

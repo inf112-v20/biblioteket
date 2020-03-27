@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Rectangle;
  * return an ICard if they are touched
  */
 public class TouchableCards extends Rectangle {
-    private TouchableCard[] cards;
+    private final TouchableCard[] cards;
 
     public TouchableCards(int size) {
         cards = new TouchableCard[size];
@@ -44,7 +44,7 @@ public class TouchableCards extends Rectangle {
      * Class that extends the rectangle class, which has the contains() method for checking
      * weather any x,y input is within the bounds of the rectangle
      */
-    private class TouchableCard extends Rectangle {
+    private static class TouchableCard extends Rectangle {
         private ICard card;
 
         TouchableCard(float x, float y, float width, float height) {

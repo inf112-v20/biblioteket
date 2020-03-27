@@ -9,12 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Player implements IPlayer {
+    private final TiledMapTileLayer.Cell playerCell;
+    private final ArrayList<ICard> programRegister;
+    private final InterfaceRenderer interfaceRenderer;
     private int lives = 3;
     private int visitedFlags = 0;
     private IRobot robot;
-    private TiledMapTileLayer.Cell playerCell;
-    private ArrayList<ICard> programRegister;
-    private InterfaceRenderer interfaceRenderer;
 
     public Player(TiledMapTileLayer.Cell playerCell, InterfaceRenderer interfaceRenderer) {
         this.playerCell = playerCell;
@@ -93,7 +93,7 @@ public class Player implements IPlayer {
 
     @Override
     public List<ICard> getProgramRegister() {
-        ArrayList<ICard> programCards = (ArrayList<ICard>) programRegister.clone();
+        List<ICard> programCards = new ArrayList<>(programRegister);
         programRegister.clear();
         return programCards;
     }
