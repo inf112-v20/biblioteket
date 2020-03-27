@@ -33,7 +33,6 @@ public class GameScreen implements Screen {
 
     private final List<IPlayer> players;
     private Player currentPlayer;
-
     private final OrthogonalTiledMapRenderer tiledMapRenderer;
 
     public GameScreen(final RoboRally gam) {

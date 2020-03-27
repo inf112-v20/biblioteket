@@ -9,7 +9,6 @@ import biblioteket.roborally.elements.ArchiveMarkerElement;
 public class Robot implements IRobot {
     private DirVector location;
     private final ArchiveMarkerElement archiveMarker;
-
     private IPlayer player;
     private int damageTokens = 0;
 

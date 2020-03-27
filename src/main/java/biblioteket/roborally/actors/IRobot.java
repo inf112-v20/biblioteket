@@ -169,7 +169,7 @@ public interface IRobot {
      */
     void moveRobot(Direction direction, IBoard board);
 
-     /**
+    /**
      * Each robot that was destroyed this turn
      * reenters play in the space containing its
      * Archive marker. The player chooses which

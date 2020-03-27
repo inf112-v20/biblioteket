@@ -13,7 +13,7 @@ public class BoardTest {
 
     @BeforeAll
     static void setup() {
-        board = new Board("assets/risky_exchange.tmx");
+        board = new Board("assets/RiskyExchange.tmx");
     }
 
     @Test
