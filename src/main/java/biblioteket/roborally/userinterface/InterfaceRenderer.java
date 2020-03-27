@@ -1,8 +1,8 @@
 package biblioteket.roborally.userinterface;
 
 import biblioteket.roborally.board.IBoard;
-import biblioteket.roborally.programcards.ReverseCardComparator;
 import biblioteket.roborally.programcards.ICard;
+import biblioteket.roborally.programcards.ReverseCardComparator;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -41,7 +41,7 @@ public class InterfaceRenderer {
     private TouchableCards touchableCardHand;
     private TouchableCards touchableProgramRegister;
 
-    public InterfaceRenderer(){
+    public InterfaceRenderer() {
         background = new Texture("assets/background2.jpg");
         playerOverview = new Texture("assets/playerOverview.jpg");
         hp = new Texture("assets/hp.png");
@@ -78,14 +78,14 @@ public class InterfaceRenderer {
 
         // Progamregister
         touchableProgramRegister = new TouchableCards(programRegister.length);
-        touchableProgramRegister.initializeCard(0,350,250,40,90);
-        touchableProgramRegister.initializeCard(1,400,250,40,90);
-        touchableProgramRegister.initializeCard(2,450,250,40,90);
-        touchableProgramRegister.initializeCard(3,500,250,40,90);
-        touchableProgramRegister.initializeCard(4,550,250,40,90);
+        touchableProgramRegister.initializeCard(0, 350, 250, 40, 90);
+        touchableProgramRegister.initializeCard(1, 400, 250, 40, 90);
+        touchableProgramRegister.initializeCard(2, 450, 250, 40, 90);
+        touchableProgramRegister.initializeCard(3, 500, 250, 40, 90);
+        touchableProgramRegister.initializeCard(4, 550, 250, 40, 90);
     }
 
-    public void renderInterface(IBoard board){
+    public void renderInterface(IBoard board) {
         batch.begin();
         batch.draw(playerOverview, 0, Gdx.graphics.getHeight() - 90, Gdx.graphics.getWidth(), 90);
         batch.draw(background, board.getTileWidth(), 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -105,11 +105,11 @@ public class InterfaceRenderer {
         drawCard(cardHand[7], 500, 0, 100, 90);
         drawCard(cardHand[8], 550, 0, 100, 90);
 
-        drawCard(programRegister[0],350,250,100,90);
-        drawCard(programRegister[1],400,250,100,90);
-        drawCard(programRegister[2],450,250,100,90);
-        drawCard(programRegister[3],500,250,100,90);
-        drawCard(programRegister[4],550,250,100,90);
+        drawCard(programRegister[0], 350, 250, 100, 90);
+        drawCard(programRegister[1], 400, 250, 100, 90);
+        drawCard(programRegister[2], 450, 250, 100, 90);
+        drawCard(programRegister[3], 500, 250, 100, 90);
+        drawCard(programRegister[4], 550, 250, 100, 90);
 
         batch.end();
     }
@@ -117,48 +117,56 @@ public class InterfaceRenderer {
     /**
      * Draws a specific program card to a specific location on the screen
      *
-     * @param card to be drawn
-     * @param x coordinate
-     * @param y coordinate
-     * @param width of the texture
+     * @param card   to be drawn
+     * @param x      coordinate
+     * @param y      coordinate
+     * @param width  of the texture
      * @param height of the texture
      */
-    private void drawCard(ICard card, int x, int y, float width, float height){
+    private void drawCard(ICard card, int x, int y, float width, float height) {
         Texture cardTexture = getCardTexture(card);
-        batch.draw(cardTexture,x,y,width,height);
+        batch.draw(cardTexture, x, y, width, height);
     }
 
     /**
      * @param card to be drawn
      * @return texture for card
      */
-    private Texture getCardTexture(ICard card){
-        if(card == null) return emptyCard;
-        switch(card.getType()){
-            case MOVE_1: return moveOneCard;
-            case MOVE_2: return moveTwoCard;
-            case MOVE_3: return moveThreeCard;
-            case BACK_UP: return backUpCard;
-            case ROTATE_RIGHT: return rotateRightCard;
-            case ROTATE_LEFT: return rotateLeftCard;
-            case U_TURN: return uTurnCard;
-            default: return emptyCard;
+    private Texture getCardTexture(ICard card) {
+        if (card == null) return emptyCard;
+        switch (card.getType()) {
+            case MOVE_1:
+                return moveOneCard;
+            case MOVE_2:
+                return moveTwoCard;
+            case MOVE_3:
+                return moveThreeCard;
+            case BACK_UP:
+                return backUpCard;
+            case ROTATE_RIGHT:
+                return rotateRightCard;
+            case ROTATE_LEFT:
+                return rotateLeftCard;
+            case U_TURN:
+                return uTurnCard;
+            default:
+                return emptyCard;
         }
     }
 
-    public void setFlagsVisited(int flagsVisited){
+    public void setFlagsVisited(int flagsVisited) {
         this.flagsVisited = flagsVisited;
     }
 
-    public void setLives(int lives){
+    public void setLives(int lives) {
         this.lives = lives;
     }
 
     /**
      * @param cardHand to be drawn
      */
-    public void setCardHand(ArrayList<ICard> cardHand){
-        if(cardHand.size() > this.cardHand.length)
+    public void setCardHand(ArrayList<ICard> cardHand) {
+        if (cardHand.size() > this.cardHand.length)
             throw new IndexOutOfBoundsException("Tried to deal too many cards to player");
 
         for (int i = 0; i < cardHand.size(); i++) {
@@ -174,9 +182,9 @@ public class InterfaceRenderer {
      *
      * @param card to be moved to program register
      */
-    public void addCardToProgramRegister(ICard card){
+    public void addCardToProgramRegister(ICard card) {
         for (int i = 0; i < cardHand.length; i++) {
-            if(cardHand[i] == card){
+            if (cardHand[i] == card) {
                 cardHand[i] = null;
                 touchableCardHand.removeCard(i);
                 break;
@@ -184,7 +192,7 @@ public class InterfaceRenderer {
         }
         ICard copy = card.copy();
         for (int i = 0; i < programRegister.length; i++) {
-            if(programRegister[i] == null){
+            if (programRegister[i] == null) {
                 programRegister[i] = copy;
                 break;
             }
@@ -195,10 +203,10 @@ public class InterfaceRenderer {
     /**
      * Clears program register
      */
-    public void clearProgramRegister(){
+    public void clearProgramRegister() {
         for (int i = 0; i < programRegister.length; i++) {
             programRegister[i] = null;
-            touchableProgramRegister.setCard(i,null);
+            touchableProgramRegister.setCard(i, null);
         }
     }
 
@@ -207,8 +215,8 @@ public class InterfaceRenderer {
      * @param y coordinate
      * @return an ICard if the coordinates contain a card, or null otherwise
      */
-    public ICard contains(int x, int y){
-        return touchableCardHand.contains(x,y);
+    public ICard contains(int x, int y) {
+        return touchableCardHand.contains(x, y);
     }
 
 }

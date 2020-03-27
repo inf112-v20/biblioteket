@@ -10,10 +10,10 @@ import biblioteket.roborally.elements.interacting.cogs.CogElement;
 import biblioteket.roborally.elements.interacting.conveyorbelts.ConveyorBeltElement;
 import biblioteket.roborally.elements.interacting.conveyorbelts.ExpressConveyorBeltElement;
 import biblioteket.roborally.elements.walls.LaserWallElement;
-import biblioteket.roborally.programcards.ReverseCardComparator;
 import biblioteket.roborally.programcards.CardDeck;
 import biblioteket.roborally.programcards.ICard;
 import biblioteket.roborally.programcards.ICardDeck;
+import biblioteket.roborally.programcards.ReverseCardComparator;
 import biblioteket.roborally.userinterface.InterfaceRenderer;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -58,9 +58,9 @@ public class GameLoop {
 
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
-            public boolean touchDown(int screenX, int screenY, int pointer, int button){
+            public boolean touchDown(int screenX, int screenY, int pointer, int button) {
                 int y = Gdx.graphics.getHeight() - 1 - screenY; // Translate from y-down to y-up
-                return registerInput(screenX,y);
+                return registerInput(screenX, y);
             }
 
             // Keyboard movement for testing
@@ -100,11 +100,11 @@ public class GameLoop {
      */
     private boolean registerInput(int x, int y) {
         InterfaceRenderer interfaceRenderer = currentPlayer.getInterfaceRenderer();
-        ICard card = interfaceRenderer.contains(x,y);
-        if(card != null)
+        ICard card = interfaceRenderer.contains(x, y);
+        if (card != null)
             currentPlayer.addCardToProgramRegister(card);
 
-        if(currentPlayer.fullProgramRegister()) doTurn();
+        if (currentPlayer.fullProgramRegister()) doTurn();
 
         return true;
     }
@@ -112,28 +112,28 @@ public class GameLoop {
     /**
      *
      */
-    public void doTurn(){
+    public void doTurn() {
         // Use red-black tree to sort every programming card according to their priority,
         // mapped to correct robot
         Map<ICard, IPlayer> cardMapping = new TreeMap<>(new ReverseCardComparator());
         for (IPlayer player : players) {
             List<ICard> programRegister = player.getProgramRegister();
             for (ICard card : programRegister) {
-                cardMapping.put(card,player);
+                cardMapping.put(card, player);
             }
         }
 
         // Execute program cards in order from highest to lowest priority
         for (ICard card : cardMapping.keySet()) {
             IPlayer player = cardMapping.get(card);
-            card.doCardAction(player.getRobot(),board);
+            card.doCardAction(player.getRobot(), board);
         }
 
         // Robots interact with board elements
         interactWithBoardElements();
 
         // End turn
-        if(checkWinCondition() || everyPlayerDead())
+        if (checkWinCondition() || everyPlayerDead())
             Gdx.app.exit();
         else {
             for (IPlayer player : players) {
@@ -192,9 +192,9 @@ public class GameLoop {
     /**
      * @return true if every player is dead
      */
-    private boolean everyPlayerDead(){
+    private boolean everyPlayerDead() {
         for (IPlayer player : players) {
-            if(!player.isPermanentDead())
+            if (!player.isPermanentDead())
                 return false;
         }
         return true;
@@ -218,7 +218,7 @@ public class GameLoop {
     /**
      * Updated the players position in player layer
      */
-    public void renderPlayers(){
+    public void renderPlayers() {
         for (IPlayer player : players) {
             DirVector position = player.getRobot().getPosition();
             board.getPlayerLayer().setCell(position.getX(), position.getY(), player.getPlayerCell());

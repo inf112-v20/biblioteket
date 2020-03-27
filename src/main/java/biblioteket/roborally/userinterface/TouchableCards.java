@@ -10,15 +10,15 @@ import com.badlogic.gdx.math.Rectangle;
 public class TouchableCards extends Rectangle {
     private TouchableCard[] cards;
 
-    public TouchableCards(int size){
+    public TouchableCards(int size) {
         cards = new TouchableCard[size];
     }
 
-    public void initializeCard(int pos, float x, float y, float width, float height){
-        cards[pos] = new TouchableCard(x,y,width,height);
+    public void initializeCard(int pos, float x, float y, float width, float height) {
+        cards[pos] = new TouchableCard(x, y, width, height);
     }
 
-    public void setCard(int pos, ICard card){
+    public void setCard(int pos, ICard card) {
         cards[pos].setCard(card);
     }
 
@@ -27,7 +27,7 @@ public class TouchableCards extends Rectangle {
      * @param y coordinates
      * @return an ICard if any card contains the x,y coordinates, otherwise null
      */
-    public ICard contains(int x, int y){
+    public ICard contains(int x, int y) {
         for (TouchableCard card : cards) {
             if (card.contains(x, y))
                 return card.getCard();
@@ -44,19 +44,19 @@ public class TouchableCards extends Rectangle {
      * Class that extends the rectangle class, which has the contains() method for checking
      * weather any x,y input is within the bounds of the rectangle
      */
-    private class TouchableCard extends Rectangle{
-        private  ICard card;
+    private class TouchableCard extends Rectangle {
+        private ICard card;
 
-        TouchableCard(float x, float y, float width, float height){
-            super(x,y,width,height);
+        TouchableCard(float x, float y, float width, float height) {
+            super(x, y, width, height);
         }
 
-        public void setCard(ICard card){
-            this.card = card;
-        }
-
-        public ICard getCard(){
+        public ICard getCard() {
             return card;
+        }
+
+        public void setCard(ICard card) {
+            this.card = card;
         }
     }
 }

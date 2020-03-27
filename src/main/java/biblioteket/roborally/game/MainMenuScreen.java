@@ -13,7 +13,7 @@ import com.badlogic.gdx.graphics.Texture;
  */
 public class MainMenuScreen implements Screen {
     private final RoboRally game;
-    OrthographicCamera camera;
+    private final OrthographicCamera camera;
     private Texture logo;
     private Texture background;
     private Texture playPre;

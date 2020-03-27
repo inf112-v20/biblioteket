@@ -3,8 +3,8 @@ package biblioteket.roborally.elements;
 import biblioteket.roborally.board.DirVector;
 
 public class ArchiveMarkerElement implements IElement {
-    private int archiveNum;
-    private DirVector position;
+    private final int archiveNum;
+    private final DirVector position;
 
     public ArchiveMarkerElement(int archiveNum) {
         this.archiveNum = archiveNum;

@@ -39,7 +39,7 @@ public class Card implements ICard {
                 robot.move(robot.getDirection(), board);
                 break;
             case MOVE_2:
-                robot.move(robot.getDirection(),board);
+                robot.move(robot.getDirection(), board);
                 if (robot.getPlayer().hasLivesLeft())
                     robot.moveForward(board);
                 break;

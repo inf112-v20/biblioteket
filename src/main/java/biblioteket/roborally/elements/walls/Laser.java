@@ -10,9 +10,9 @@ import java.util.List;
 public class Laser {
 
     /**
-     * @param board
-     * @param players
-     * @param vector
+     * @param board   board to interact with
+     * @param players list of players in game
+     * @param vector  direction/vector that laser shoots in
      */
     public void fireLaser(IBoard board, List<IPlayer> players, DirVector vector) {
         if (board.outOfBounds(vector)) return;

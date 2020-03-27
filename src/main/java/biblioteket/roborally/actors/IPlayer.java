@@ -35,14 +35,14 @@ public interface IPlayer {
     void removeOneLife();
 
     /**
-     * @return
+     * @return the players robot.
      */
     IRobot getRobot();
 
     /**
      * Set the players robot.
      *
-     * @param robot
+     * @param robot robot that player will control.
      */
     void setRobot(IRobot robot);
 

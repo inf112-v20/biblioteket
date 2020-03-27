@@ -1,5 +1,6 @@
 package biblioteket.roborally.programcards;
 
+import biblioteket.roborally.TestRunner;
 import biblioteket.roborally.actors.IPlayer;
 import biblioteket.roborally.actors.IRobot;
 import biblioteket.roborally.actors.Player;
@@ -8,18 +9,13 @@ import biblioteket.roborally.board.Board;
 import biblioteket.roborally.board.DirVector;
 import biblioteket.roborally.board.Direction;
 import biblioteket.roborally.board.IBoard;
-import biblioteket.roborally.elements.ArchiveMarkerElement;
-import com.badlogic.gdx.Application;
-import com.badlogic.gdx.ApplicationListener;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.backends.headless.HeadlessApplication;
-import com.badlogic.gdx.graphics.GL20;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@ExtendWith(TestRunner.class)
 class CardTest {
     private IRobot robot;
     private IBoard board;
@@ -33,39 +29,10 @@ class CardTest {
 
     @BeforeEach
     void setUp() {
-        Application _application = new HeadlessApplication(new ApplicationListener() {
-            @Override
-            public void create() {
-            }
-
-            @Override
-            public void resize(int width, int height) {
-            }
-
-            @Override
-            public void render() {
-            }
-
-            @Override
-            public void pause() {
-            }
-
-            @Override
-            public void resume() {
-            }
-
-            @Override
-            public void dispose() {
-            }
-        });
-
-        Gdx.gl20 = Mockito.mock(GL20.class);
-        Gdx.gl = Gdx.gl20;
-
         board = new Board("assets/TestingMap.tmx");
 
         robot = new Robot(board.getArchiveMarker(1));
-        IPlayer player = new Player(null,null);
+        IPlayer player = new Player(null, null);
         player.setRobot(robot);
         robot.setPlayer(player);
 
@@ -152,7 +119,7 @@ class CardTest {
     }
 
     @Test
-    void uTurnFromNorth(){
+    void uTurnFromNorth() {
         Direction startDir = Direction.NORTH;
         Direction endDir = startDir.opposite();
         robot.setDirection(startDir);
@@ -161,7 +128,7 @@ class CardTest {
     }
 
     @Test
-    void uTurnFromSouth(){
+    void uTurnFromSouth() {
         Direction startDir = Direction.SOUTH;
         Direction endDir = startDir.opposite();
         robot.setDirection(startDir);
@@ -170,7 +137,7 @@ class CardTest {
     }
 
     @Test
-    void uTurnFromWest(){
+    void uTurnFromWest() {
         Direction startDir = Direction.WEST;
         Direction endDir = startDir.opposite();
         robot.setDirection(startDir);
@@ -179,7 +146,7 @@ class CardTest {
     }
 
     @Test
-    void uTurnFromEast(){
+    void uTurnFromEast() {
         Direction startDir = Direction.EAST;
         Direction endDir = startDir.opposite();
         robot.setDirection(startDir);

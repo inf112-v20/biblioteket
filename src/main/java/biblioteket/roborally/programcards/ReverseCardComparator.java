@@ -9,9 +9,9 @@ import java.util.Comparator;
 public class ReverseCardComparator implements Comparator<ICard> {
     @Override
     public int compare(ICard o1, ICard o2) {
-        if(o1 == o2) return 0;
-        if(o1 == null) return 1;
-        if(o2 == null) return -1;
+        if (o1 == o2) return 0;
+        if (o1 == null) return 1;
+        if (o2 == null) return -1;
         return o2.getPriorityNumber() - o1.getPriorityNumber();
     }
 }

@@ -26,7 +26,6 @@ import java.util.List;
  * flag and hole that they player can move around on.
  */
 public class GameScreen implements Screen {
-    private final RoboRally game;
     private final Board board;
     private final GameLoop gameLoop;
     private OrthographicCamera camera;
@@ -36,7 +35,6 @@ public class GameScreen implements Screen {
     private OrthogonalTiledMapRenderer tiledMapRenderer;
 
     public GameScreen(final RoboRally gam) {
-        this.game = gam;
         this.board = new Board("assets/DizzyDash.tmx");
         this.camera = new OrthographicCamera();
 
@@ -52,10 +50,10 @@ public class GameScreen implements Screen {
 
         this.players = new ArrayList<>();
 
-        for (int i = 1; i <= 1; i++) {
+        for (int i = 0; i < 1; i++) {
             Player player = new Player(new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(playerTextureSplit[0][0])), new InterfaceRenderer());
             players.add(player);
-            ArchiveMarkerElement archiveMarker = board.getArchiveMarker(i);
+            ArchiveMarkerElement archiveMarker = board.getArchiveMarker(i + 1);
             IRobot robot = new Robot(archiveMarker);
             player.setRobot(robot);
             board.getPlayerLayer().setCell(player.getRobot().getPosition().getX(), player.getRobot().getPosition().getY(), null);

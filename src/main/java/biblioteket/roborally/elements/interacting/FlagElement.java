@@ -4,7 +4,6 @@ import biblioteket.roborally.actors.IPlayer;
 
 public class FlagElement implements InteractingElement {
     private final int flagNumber;
-    private int priority = 2;
 
     public FlagElement(int flagNumber) {
         this.flagNumber = flagNumber;
@@ -32,7 +31,7 @@ public class FlagElement implements InteractingElement {
 
     @Override
     public int getPriority() {
-        return priority;
+        return 2;
     }
 
 }

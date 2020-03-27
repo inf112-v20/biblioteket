@@ -27,9 +27,9 @@ public class Board implements IBoard {
     private final int height;
     private final int tileWidth;
     private final int tileHeight;
+    private final ArrayList<ArchiveMarkerElement> archiveMarkers;
+    private final ArrayList<LaserWallElement> laserWalls;
     private int numFlags;
-    private ArrayList<ArchiveMarkerElement> archiveMarkers;
-    private ArrayList<LaserWallElement> laserWalls;
 
     public Board(String board) {
         this.map = new TmxMapLoader().load(board);

@@ -18,24 +18,24 @@ public class CardComparatorTest {
     }
 
     @Test
-    void correctlyComparesTwoCardsTest(){
+    void correctlyComparesTwoCardsTest() {
         ICard lowerPriorityCard = new Card(null, 1);
         ICard higherPriorityCard = new Card(null, 2);
 
         // comparator should return the card with the lowest priority as largest
-        assertTrue(comparator.compare(lowerPriorityCard,higherPriorityCard) > 0);
+        assertTrue(comparator.compare(lowerPriorityCard, higherPriorityCard) > 0);
     }
 
     @Test
-    void nullValuesLargerThanCardTest(){
+    void nullValuesLargerThanCardTest() {
         ICard card = new Card(null, 1);
         ICard nullCard = null;
 
-        assertTrue(comparator.compare(card,nullCard) < 0);
+        assertTrue(comparator.compare(card, nullCard) < 0);
     }
 
     @Test
-    void correctlySortsCardsTest(){
+    void correctlySortsCardsTest() {
         Random random = new Random();
         int size = 100;
         ICard[] cards = new ICard[size];
@@ -59,13 +59,13 @@ public class CardComparatorTest {
     }
 
     @Test
-    void correctlySortsCardsAndNullValuesTest(){
+    void correctlySortsCardsAndNullValuesTest() {
         Random random = new Random();
         int size = 100;
         ICard[] cards = new ICard[size];
         // Seed array with 90 cards with random priority and 10 null values
         for (int i = 0; i < size; i++) {
-            if(i % 10 != 0){
+            if (i % 10 != 0) {
                 int randomPriority = random.nextInt(100);
                 ICard card = new Card(null, randomPriority);
                 cards[i] = card;
@@ -73,7 +73,7 @@ public class CardComparatorTest {
         }
 
         // Sort array
-        Arrays.sort(cards,comparator);
+        Arrays.sort(cards, comparator);
 
         // Check that every card in position i+1 has lower or equal priority than any card in index i,
         for (int i = 0; i < size - 11; i++) {
