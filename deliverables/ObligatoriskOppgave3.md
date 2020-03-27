@@ -76,7 +76,6 @@ them, rather than to assign them to a specific person.
 
 ## Development
 
-
 Due to the corona virus and the university closing the campus we've changed to
 be a fully remote development team, like the rest of the course. This has of
 course been a fairly dramatic change for the team and has had large
@@ -122,7 +121,16 @@ For the next sprint we will focus on polishing what we're working on, ensuring
 that we get proper testing of the game loop without doing manual testing and
 getting networking to work.
 
+## Class diagram
+
+We've also included a (very) large UML diagram that also shows the dependencies
+between the various classes, the image however is enormous and as such can be
+viewed for your own pleasure in the deliverables folder as `uml3-large.png`.
+
+![UML](./uml3.png)
+
 # Task 2 - Specifications
+
 For an overview of issues from GitHub done/worked on this sprint you can look at
 the [milestone](https://github.com/inf112-v20/biblioteket/milestone/3) we've
 created to track mandatory assignments. To get a complete overview of the
@@ -147,7 +155,7 @@ progress towards the final deliverable.
     select `n` cards into and uses to control the robot. A player can only
     select a certain amount of cards each round, determined by their health.
     Furthmore, robots interact with one another so handling interactions between
-    robots and the environment needs to work.
+    robots and the environment needs to be handled.
 - As a user I expect the cards to be distinct and easy to see at a glance.
   - The game should have graphics that are easy to understand for players.
   - **Criteria:** The game needs visually distinct cards that shows the player
@@ -203,7 +211,7 @@ them or because of deficiencies with current design.
   input multiplexer.
   - The current way of reading input is quite ugly and should have a proper
     separate class doing input multiplexing.
-    
+
 ## Testing
 
 The code base has quite extensive testing, we test movement and interactions and
@@ -214,5 +222,36 @@ manual testing see the `ManualTests.md` file in the test folder.
 
 ## Bugs, issues etc
 
-For an up-to-date list of issues, please see the issue board on GitHub.
+For an up-to-date list of issues, please see the issue board on GitHub. There
+are however a few notable things that happens:
 
+- Once the player loses his last health the game simply exits, we currently
+  don't have a "Game over"-screen and as such the game crashes and exits to
+  desktop on death. This could potentially also be viewed as a feature.
+- The robot simply teleports to the location that it would end up by following
+  the program cards, there is no animation during the game loop and it happens
+  so fast that you can't really see the movement.
+- The current GUI suffers from being forced into a size that makes everything
+  look fuzzy and terrible.
+
+## Commit count
+
+We've assigned Tor Kristian to do development of the main menu and overall
+interface of the game, because of this he has less commits than the rest because
+his work involves lots of graphical editing in Photoshop to ensure the cards and
+buttons and such look great, and he checks in the relevant resources once he has
+developed them instead of checking in individual images one by one.
+
+This is similar for Tobias, he has worked on creating a system for animating the
+robots and such which suffer from the same lack of commits as above. He has done
+a lot of work outside the repository drawing robots and implementing animations
+for them, they are not yet activated because we didn't get them to a point we
+were satisfied with for this release.
+
+## Assorted
+
+A quick glance at our project board and the milestones:
+
+![board](./projectboard3.png)
+
+![milestone](./milestone3.png)
