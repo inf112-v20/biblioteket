@@ -1,7 +1,6 @@
 package biblioteket.roborally.game;
 
 import biblioteket.roborally.actors.IPlayer;
-import biblioteket.roborally.board.Board;
 import biblioteket.roborally.board.DirVector;
 import biblioteket.roborally.board.Direction;
 import biblioteket.roborally.board.IBoard;
@@ -19,7 +18,6 @@ import biblioteket.roborally.userinterface.InterfaceRenderer;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
 import java.io.IOException;
 import java.util.List;
@@ -218,16 +216,6 @@ public class GameLoop {
             if (instance.isInstance(element)) {
                 board.interact(player);
             }
-        }
-    }
-
-    /**
-     * Updated the players position in player layer
-     */
-    public void renderPlayers() {
-        for (IPlayer player : players) {
-            DirVector position = player.getRobot().getPosition();
-            board.getPlayerLayer().setCell(position.getX(), position.getY(), player.getPlayerCell());
         }
     }
 

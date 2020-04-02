@@ -6,37 +6,43 @@ import biblioteket.roborally.board.IBoard;
 import biblioteket.roborally.programcards.ICard;
 import biblioteket.roborally.programcards.ICardDeck;
 import biblioteket.roborally.userinterface.InterfaceRenderer;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Player implements IPlayer {
-    private final TiledMapTileLayer.Cell playerCell;
     private final ArrayList<ICard> programRegister;
-    private final InterfaceRenderer interfaceRenderer;
-    private final RobotRenderer robotRenderer;
+    private final IBoard board;
+    private InterfaceRenderer interfaceRenderer;
+    private RobotRenderer robotRenderer;
     private int lives = 3;
     private int visitedFlags = 0;
     private IRobot robot;
-    private IBoard board;
 
-    public Player(TiledMapTileLayer.Cell playerCell, InterfaceRenderer interfaceRenderer, IBoard board) {
-        this.playerCell = playerCell;
-        this.interfaceRenderer = interfaceRenderer;
+    public Player(IBoard board) {
         this.board = board;
         programRegister = new ArrayList<>();
-        robotRenderer = new RobotRenderer(board.getPlayerLayer(), playerCell);
     }
 
+    @Override
+    public void initializeInterfaceRenderer(){
+        this.interfaceRenderer = new InterfaceRenderer();
+    }
+
+    @Override
+    public void initializeRobotRenderer(TiledMapTileLayer playerLayer, TiledMapTileLayer.Cell playerCell){
+        this.robotRenderer = new RobotRenderer(playerLayer, playerCell);
+    }
+
+    @Override
     public void moveRobot(Direction direction){
         IRobot robot = getRobot();
         if(board.canMove(robot.getPosition(), direction)){
             DirVector oldPosition = robot.getPosition().copy();
             robot.pushRobotInDirection(direction);
             DirVector newPosition = robot.getPosition().copy();
-            robotRenderer.requestRendering(oldPosition,newPosition);
+            robotRenderer.requestRendering(oldPosition, newPosition);
         }
     }
 
@@ -79,11 +85,6 @@ public class Player implements IPlayer {
     @Override
     public void addToFlagsVisited() {
         visitedFlags++;
-    }
-
-    @Override
-    public TiledMapTileLayer.Cell getPlayerCell() {
-        return playerCell;
     }
 
     @Override

@@ -50,12 +50,15 @@ public class GameScreen implements Screen {
         this.players = new ArrayList<>();
 
         for (int i = 1; i <= 1; i++) {
-            Player player = new Player(new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(playerTextureSplit[0][0])), new InterfaceRenderer(), board);
+            Player player = new Player(board);
+            player.initializeInterfaceRenderer();
+            TiledMapTileLayer.Cell playerCell = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(playerTextureSplit[0][0]));
+            player.initializeRobotRenderer(board.getPlayerLayer(), playerCell);
             players.add(player);
             ArchiveMarkerElement archiveMarker = board.getArchiveMarker(i);
             IRobot robot = new Robot(archiveMarker);
             player.setRobot(robot);
-            board.getPlayerLayer().setCell(player.getRobot().getPosition().getX(), player.getRobot().getPosition().getY(), player.getPlayerCell());
+            board.getPlayerLayer().setCell(player.getRobot().getPosition().getX(), player.getRobot().getPosition().getY(), playerCell);
         }
 
         this.gameLoop = new GameLoop(board, players);

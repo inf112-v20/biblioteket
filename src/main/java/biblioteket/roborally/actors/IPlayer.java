@@ -11,8 +11,22 @@ import java.util.List;
 public interface IPlayer {
 
     /**
+     * Initializes players interface renderer
+     */
+    void initializeInterfaceRenderer();
+
+    /**
+     * Initializes players robot renderer
+     *
+     * @param playerLayer of board
+     * @param playerCell of player
+     */
+    void initializeRobotRenderer(TiledMapTileLayer playerLayer, TiledMapTileLayer.Cell playerCell);
+
+    /**
      * Tries to move robot in direction
      * @param direction to move robot
+     *
      */
     void moveRobot(Direction direction);
 
@@ -64,14 +78,6 @@ public interface IPlayer {
      * Adds to how many flags the player has visited
      */
     void addToFlagsVisited();
-
-    /**
-     * A cell representation of the current player. This is for example an image
-     * that is used to identify each player at a glance on the board.
-     *
-     * @return players cell.
-     */
-    TiledMapTileLayer.Cell getPlayerCell();
 
     /**
      * @return players interface renderer

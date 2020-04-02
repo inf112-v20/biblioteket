@@ -17,7 +17,7 @@ public class FlagTest {
 
     @BeforeEach
     void setUp() {
-        player = new Player(null, null, null);
+        player = new Player(null);
         player.setRobot(new Robot(new ArchiveMarkerElement(1)));
     }
 

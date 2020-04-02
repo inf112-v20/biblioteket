@@ -1,7 +1,6 @@
 package biblioteket.roborally.elements.interacting.conveyorbelts;
 
 import biblioteket.roborally.actors.IPlayer;
-import biblioteket.roborally.actors.IRobot;
 import biblioteket.roborally.board.Direction;
 import biblioteket.roborally.elements.interacting.InteractingElement;
 
