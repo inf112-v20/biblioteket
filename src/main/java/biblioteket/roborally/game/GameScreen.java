@@ -1,9 +1,6 @@
 package biblioteket.roborally.game;
 
-import biblioteket.roborally.actors.IPlayer;
-import biblioteket.roborally.actors.IRobot;
-import biblioteket.roborally.actors.Player;
-import biblioteket.roborally.actors.Robot;
+import biblioteket.roborally.actors.*;
 import biblioteket.roborally.board.Board;
 import biblioteket.roborally.elements.ArchiveMarkerElement;
 import biblioteket.roborally.userinterface.InterfaceRenderer;
@@ -34,6 +31,8 @@ public class GameScreen implements Screen {
 
     private final OrthogonalTiledMapRenderer tiledMapRenderer;
 
+    Texture playerTexture;
+
     public GameScreen(final RoboRally gam) {
         this.board = new Board("assets/DizzyDash.tmx");
         this.camera = new OrthographicCamera();
@@ -45,18 +44,18 @@ public class GameScreen implements Screen {
         tiledMapRenderer.setView(camera);
 
 
-        Texture playerTexture = new Texture("assets/player.png");
+        playerTexture = new Texture("assets/player.png");
         TextureRegion[][] playerTextureSplit = TextureRegion.split(playerTexture, board.getTileWidth(), board.getTileHeight());
 
         this.players = new ArrayList<>();
 
-        for (int i = 0; i < 1; i++) {
-            Player player = new Player(new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(playerTextureSplit[0][0])), new InterfaceRenderer());
+        for (int i = 1; i <= 1; i++) {
+            Player player = new Player(new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(playerTextureSplit[0][0])), new InterfaceRenderer(), board);
             players.add(player);
-            ArchiveMarkerElement archiveMarker = board.getArchiveMarker(i + 1);
+            ArchiveMarkerElement archiveMarker = board.getArchiveMarker(i);
             IRobot robot = new Robot(archiveMarker);
             player.setRobot(robot);
-            board.getPlayerLayer().setCell(player.getRobot().getPosition().getX(), player.getRobot().getPosition().getY(), null);
+            board.getPlayerLayer().setCell(player.getRobot().getPosition().getX(), player.getRobot().getPosition().getY(), player.getPlayerCell());
         }
 
         this.gameLoop = new GameLoop(board, players);
@@ -76,17 +75,19 @@ public class GameScreen implements Screen {
         for (IPlayer player : players) {
             InterfaceRenderer interfaceRenderer = player.getInterfaceRenderer();
             interfaceRenderer.renderInterface(board);
+            RobotRenderer robotRenderer = player.getRobotRenderer();
+            if(robotRenderer.IsRequestingRendering()) {
+                robotRenderer.render();
+            }
         }
-        gameLoop.renderPlayers();
 
         tiledMapRenderer.render();
         tiledMapRenderer.getBatch().begin();
         tiledMapRenderer.renderTileLayer(board.getPlayerLayer());
         tiledMapRenderer.getBatch().end();
+        camera.update();
 
-        for (IPlayer player : players) {
-            board.getPlayerLayer().setCell(player.getRobot().getPosition().getX(), player.getRobot().getPosition().getY(), null);
-        }
+
     }
 
     @Override

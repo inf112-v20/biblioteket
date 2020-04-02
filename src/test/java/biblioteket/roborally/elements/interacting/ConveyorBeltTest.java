@@ -18,7 +18,7 @@ public class ConveyorBeltTest {
 
     @BeforeEach
     void setUp() {
-        player = new Player(null, null);
+        player = new Player(null, null, null);
         player.setRobot(new Robot(new ArchiveMarkerElement(1)));
         position = player.getRobot().getPosition();
     }

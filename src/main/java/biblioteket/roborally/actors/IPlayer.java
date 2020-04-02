@@ -1,5 +1,6 @@
 package biblioteket.roborally.actors;
 
+import biblioteket.roborally.board.Direction;
 import biblioteket.roborally.programcards.ICard;
 import biblioteket.roborally.programcards.ICardDeck;
 import biblioteket.roborally.userinterface.InterfaceRenderer;
@@ -8,6 +9,12 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import java.util.List;
 
 public interface IPlayer {
+
+    /**
+     * Tries to move robot in direction
+     * @param direction to move robot
+     */
+    void moveRobot(Direction direction);
 
     /**
      * Get the number of lives the player has left.
@@ -70,6 +77,11 @@ public interface IPlayer {
      * @return players interface renderer
      */
     InterfaceRenderer getInterfaceRenderer();
+
+    /**
+     * @return players robot renderer
+     */
+    RobotRenderer getRobotRenderer();
 
     /**
      * Sets number of lives and flags in the interface renderer

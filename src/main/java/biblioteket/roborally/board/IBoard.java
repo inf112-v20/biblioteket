@@ -50,6 +50,17 @@ public interface IBoard {
      */
     TiledMapTileLayer getLayer(String layerName);
 
+    TiledMapTileLayer getPlayerLayer();
+
+    /**
+     * Gets an {@link InteractingElement} from the location of a robot, this can
+     * be something like a conveyor belt, a rotator or something similar.
+     *
+     * @param location location to check for elements
+     * @return {@link InteractingElement}
+     */
+    InteractingElement getInteractingElement(DirVector location);
+
     /**
      * Checks if you move out of bounds of the board.
      *
@@ -91,6 +102,11 @@ public interface IBoard {
      * @return an archive marker for a players ID
      */
     ArchiveMarkerElement getArchiveMarker(int i);
+
+    /**
+     * @return the number of flags on the map
+     */
+    int getNumberOfFlags();
 
 
     /**

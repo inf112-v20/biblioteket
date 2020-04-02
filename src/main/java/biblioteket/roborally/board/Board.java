@@ -7,6 +7,7 @@ import biblioteket.roborally.elements.interacting.FlagElement;
 import biblioteket.roborally.elements.interacting.InteractingElement;
 import biblioteket.roborally.elements.walls.LaserWallElement;
 import biblioteket.roborally.elements.walls.WallElement;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -33,7 +34,6 @@ public class Board implements IBoard {
 
     public Board(String board) {
         this.map = new TmxMapLoader().load(board);
-
 
         MapProperties properties = map.getProperties();
         this.tileWidth = properties.get("tilewidth", Integer.class);
@@ -92,6 +92,7 @@ public class Board implements IBoard {
      *
      * @return a layer
      */
+    @Override
     public TiledMapTileLayer getPlayerLayer() {
         return this.playerLayer;
     }
@@ -128,13 +129,7 @@ public class Board implements IBoard {
         return (TiledMapTileLayer) this.map.getLayers().get(layerName);
     }
 
-    /**
-     * Gets an {@link InteractingElement} from the location of a robot, this can
-     * be something like a conveyor belt, a rotator or something similar.
-     *
-     * @param location location to check for elements
-     * @return {@link InteractingElement}
-     */
+    @Override
     public InteractingElement getInteractingElement(DirVector location) {
         try {
             int fromId = this.getGroundLayer().getCell(location.getX(), location.getY()).getTile().getId();
@@ -242,10 +237,8 @@ public class Board implements IBoard {
         return false;
     }
 
-    /**
-     * @return number of flags on map
-     */
-    public int getNumFlags() {
+    @Override
+    public int getNumberOfFlags() {
         return numFlags;
     }
 

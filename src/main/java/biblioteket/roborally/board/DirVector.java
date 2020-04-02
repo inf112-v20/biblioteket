@@ -181,6 +181,11 @@ public class DirVector {
         }
     }
 
+    public DirVector copy(){
+        DirVector copy = new DirVector(getX(), getY(), getDirection());
+        return copy;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
