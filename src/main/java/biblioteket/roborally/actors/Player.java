@@ -3,6 +3,7 @@ package biblioteket.roborally.actors;
 import biblioteket.roborally.board.DirVector;
 import biblioteket.roborally.board.Direction;
 import biblioteket.roborally.board.IBoard;
+import biblioteket.roborally.elements.interacting.InteractingElement;
 import biblioteket.roborally.programcards.ICard;
 import biblioteket.roborally.programcards.ICardDeck;
 import biblioteket.roborally.userinterface.InterfaceRenderer;
@@ -24,21 +25,13 @@ public class Player implements IPlayer {
     private int visitedFlags = 0;
     private IRobot robot;
 
-    public Player(IBoard board, TiledMapTileLayer.Cell playerCell) {
+    public Player(IBoard board, TiledMapTileLayer.Cell playerCell, InterfaceRenderer interfaceRenderer, RobotRenderer robotRenderer) {
         this.board = board;
         this.playerCell = playerCell;
+        this.interfaceRenderer = interfaceRenderer;
+        this.robotRenderer = robotRenderer;
 
         programRegister = new ArrayList<>();
-    }
-
-    @Override
-    public void initializeInterfaceRenderer(){
-        this.interfaceRenderer = new InterfaceRenderer();
-    }
-
-    @Override
-    public void initializeRobotRenderer(RobotRenderer robotRenderer){
-        this.robotRenderer = robotRenderer;
     }
 
     @Override
@@ -96,7 +89,6 @@ public class Player implements IPlayer {
     @Override
     public void removeOneLife() {
         lives--;
-        interfaceRenderer.setLives(lives);
     }
 
     @Override
@@ -117,7 +109,6 @@ public class Player implements IPlayer {
     @Override
     public void addToFlagsVisited() {
         visitedFlags++;
-        interfaceRenderer.setFlagsVisited(visitedFlags);
     }
 
     @Override

@@ -9,17 +9,17 @@ import java.util.List;
 
 public interface IPlayer {
 
-    /**
-     * Initializes players interface renderer
-     */
-    void initializeInterfaceRenderer();
-
-    /**
-     * Initializes players robot renderer
-     * @param robotRenderer
-     *
-     */
-    void initializeRobotRenderer(RobotRenderer robotRenderer);
+//    /**
+//     * Initializes players interface renderer
+//     */
+//    void initializeInterfaceRenderer();
+//
+//    /**
+//     * Initializes players robot renderer
+//     * @param robotRenderer
+//     *
+//     */
+//    void initializeRobotRenderer(RobotRenderer robotRenderer);
 
     /**
      * Tries to move robot in direction

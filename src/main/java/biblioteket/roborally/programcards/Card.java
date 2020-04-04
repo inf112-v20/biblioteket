@@ -1,7 +1,7 @@
 package biblioteket.roborally.programcards;
 
+import biblioteket.roborally.actors.IPlayer;
 import biblioteket.roborally.actors.IRobot;
-import biblioteket.roborally.board.IBoard;
 
 public class Card implements ICard {
     private final CardType type;
@@ -23,7 +23,8 @@ public class Card implements ICard {
     }
 
     @Override
-    public void doCardAction(IRobot robot, IBoard board) {
+    public void doCardAction(IPlayer player) {
+        IRobot robot = player.getRobot();
         switch (type) {
             case ROTATE_LEFT:
                 robot.turnLeft();
@@ -36,23 +37,18 @@ public class Card implements ICard {
                 robot.turnLeft();
                 break;
             case MOVE_1:
-                robot.move(robot.getDirection(), board);
+                player.moveRobot(robot.getDirection());
                 break;
             case MOVE_2:
-                robot.move(robot.getDirection(), board);
-                if (robot.getPlayer().hasLivesLeft())
-                    robot.moveForward(board);
+                player.moveRobot(robot.getDirection());
+                player.moveRobot(robot.getDirection());
                 break;
             case MOVE_3:
-                robot.move(robot.getDirection(), board);
-                if (robot.getPlayer().hasLivesLeft())
-                    robot.move(robot.getDirection(), board);
-                if (robot.getPlayer().hasLivesLeft())
-                    robot.move(robot.getDirection(), board);
-                break;
+                player.moveRobot(robot.getDirection());
+                player.moveRobot(robot.getDirection());
+                player.moveRobot(robot.getDirection());
             case BACK_UP:
-                robot.move(robot.getDirection().opposite(), board);
-                break;
+                player.moveRobot(robot.getDirection().opposite());
             default:
                 break;
         }

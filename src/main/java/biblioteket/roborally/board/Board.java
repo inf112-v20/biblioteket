@@ -220,18 +220,11 @@ public class Board implements IBoard {
 
 
     @Override
-    public DirVector interact(IPlayer player) {
-        IRobot robot = player.getRobot();
-        InteractingElement element = getInteractingElement(robot.getPosition());
+    public void interact(IPlayer player) {
+        InteractingElement element = getInteractingElement(player.getRobot().getPosition());
         if (element != null) {
             element.interact(player);
-            if (outOfBounds(robot.getPosition())) {
-                robot.addDamageTokens(1);
-                robot.moveToArchiveMarker();
-            }
-            return robot.getPosition();
         }
-        return null;
     }
 
     @Override

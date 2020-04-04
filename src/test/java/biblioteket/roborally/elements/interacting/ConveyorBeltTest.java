@@ -4,6 +4,7 @@ import biblioteket.roborally.TestRunner;
 import biblioteket.roborally.actors.IPlayer;
 import biblioteket.roborally.actors.Player;
 import biblioteket.roborally.actors.Robot;
+import biblioteket.roborally.actors.RobotRenderer;
 import biblioteket.roborally.board.Board;
 import biblioteket.roborally.board.DirVector;
 import biblioteket.roborally.board.Direction;
@@ -30,8 +31,7 @@ public class ConveyorBeltTest {
 
     @BeforeEach
     void setUp() {
-        player = new Player(board, null);
-        player.initializeRobotRenderer(null);
+        player = new Player(board, null, null, new RobotRenderer(null));
         player.setRobot(new Robot(new ArchiveMarkerElement(1)));
         position = player.getRobot().getPosition();
     }

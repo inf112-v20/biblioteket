@@ -80,8 +80,8 @@ public class GameLoop {
                         currentPlayer.moveRobot(Direction.SOUTH);
                         return true;
                     case Input.Keys.SPACE:
-                        DirVector newPosition = board.interact(currentPlayer);
-                        return newPosition != null;
+                        board.interact(currentPlayer);
+                        return true;
                     case Input.Keys.P:
                         return board.registerFlag(currentPlayer);
                     case Input.Keys.ENTER:
@@ -130,7 +130,7 @@ public class GameLoop {
         // Execute program cards in order from highest to lowest priority
         for (ICard card : cardMapping.keySet()) {
             IPlayer player = cardMapping.get(card);
-            card.doCardAction(player.getRobot(), board);
+            card.doCardAction(player);
         }
 
         // Robots interact with board elements
