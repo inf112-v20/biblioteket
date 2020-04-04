@@ -36,7 +36,7 @@ public class LaserWallElement extends WallElement {
             throw new NullPointerException();
         }
 
-        DirVector vector = new DirVector(position.getX(), position.getY(), position.getDirection());
+        DirVector vector = position.copy();
         Laser laser = new Laser();
         laser.fireLaser(board, players, vector);
     }

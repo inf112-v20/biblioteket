@@ -16,11 +16,6 @@ public class RoboRally extends Game {
 
     @Override
     public void create() {
-        // https://github.com/libgdx/libgdx/wiki/Continuous-%26-non-continuous-rendering
-        // This should be a performance increase for our game
-//        Gdx.graphics.setContinuousRendering(false);
-//        Gdx.graphics.requestRendering();
-
         this.setBatch(new SpriteBatch());
         this.setFont(new BitmapFont());
         this.setScreen(new MainMenuScreen(this));

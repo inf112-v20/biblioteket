@@ -4,7 +4,6 @@ import biblioteket.roborally.board.Direction;
 import biblioteket.roborally.programcards.ICard;
 import biblioteket.roborally.programcards.ICardDeck;
 import biblioteket.roborally.userinterface.InterfaceRenderer;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
 import java.util.List;
 
@@ -17,11 +16,10 @@ public interface IPlayer {
 
     /**
      * Initializes players robot renderer
+     * @param robotRenderer
      *
-     * @param playerLayer of board
-     * @param playerCell of player
      */
-    void initializeRobotRenderer(TiledMapTileLayer playerLayer, TiledMapTileLayer.Cell playerCell);
+    void initializeRobotRenderer(RobotRenderer robotRenderer);
 
     /**
      * Tries to move robot in direction
@@ -83,11 +81,6 @@ public interface IPlayer {
      * @return players interface renderer
      */
     InterfaceRenderer getInterfaceRenderer();
-
-    /**
-     * @return players robot renderer
-     */
-    RobotRenderer getRobotRenderer();
 
     /**
      * Sets number of lives and flags in the interface renderer

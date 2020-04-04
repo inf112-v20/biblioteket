@@ -2,6 +2,7 @@ package biblioteket.roborally.game;
 
 import biblioteket.roborally.actors.*;
 import biblioteket.roborally.board.Board;
+import biblioteket.roborally.board.IBoard;
 import biblioteket.roborally.elements.ArchiveMarkerElement;
 import biblioteket.roborally.userinterface.InterfaceRenderer;
 import com.badlogic.gdx.Gdx;
@@ -23,8 +24,9 @@ import java.util.List;
  * flag and hole that they player can move around on.
  */
 public class GameScreen implements Screen {
-    private final Board board;
+    private final IBoard board;
     private final GameLoop gameLoop;
+    private final RobotRenderer robotRenderer;
     private final OrthographicCamera camera;
 
     private final List<IPlayer> players;
@@ -35,6 +37,7 @@ public class GameScreen implements Screen {
 
     public GameScreen(final RoboRally gam) {
         this.board = new Board("assets/DizzyDash.tmx");
+        this.robotRenderer = new RobotRenderer(board.getPlayerLayer());
         this.camera = new OrthographicCamera();
 
         camera.setToOrtho(false, board.getWidth() + 14, board.getHeight() + 1);
@@ -50,10 +53,10 @@ public class GameScreen implements Screen {
         this.players = new ArrayList<>();
 
         for (int i = 1; i <= 1; i++) {
-            Player player = new Player(board);
-            player.initializeInterfaceRenderer();
             TiledMapTileLayer.Cell playerCell = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(playerTextureSplit[0][0]));
-            player.initializeRobotRenderer(board.getPlayerLayer(), playerCell);
+            Player player = new Player(board, playerCell);
+            player.initializeInterfaceRenderer();
+            player.initializeRobotRenderer(robotRenderer);
             players.add(player);
             ArchiveMarkerElement archiveMarker = board.getArchiveMarker(i);
             IRobot robot = new Robot(archiveMarker);
@@ -78,10 +81,11 @@ public class GameScreen implements Screen {
         for (IPlayer player : players) {
             InterfaceRenderer interfaceRenderer = player.getInterfaceRenderer();
             interfaceRenderer.renderInterface(board);
-            RobotRenderer robotRenderer = player.getRobotRenderer();
-            if(robotRenderer.IsRequestingRendering()) {
-                robotRenderer.render();
-            }
+        }
+
+        // Render robot movement
+        if(robotRenderer.IsRequestingRendering()) {
+            robotRenderer.render();
         }
 
         tiledMapRenderer.render();

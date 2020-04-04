@@ -70,6 +70,12 @@ public interface IBoard {
     boolean outOfBounds(DirVector dir);
 
     /**
+     * @param position current position
+     * @return true if there is a HoleElement in position
+     */
+    boolean isHole(DirVector position);
+
+    /**
      * Checks if the position robot is moving to contains immovable object or a wall is blocking the way,
      * or if move puts robot out of bounds
      *

@@ -12,16 +12,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Player implements IPlayer {
-    private final ArrayList<ICard> programRegister;
     private final IBoard board;
+    private final TiledMapTileLayer.Cell playerCell;
+
+    private ArrayList<ICard> programRegister;
+
     private InterfaceRenderer interfaceRenderer;
     private RobotRenderer robotRenderer;
+
     private int lives = 3;
     private int visitedFlags = 0;
     private IRobot robot;
 
-    public Player(IBoard board) {
+    public Player(IBoard board, TiledMapTileLayer.Cell playerCell) {
         this.board = board;
+        this.playerCell = playerCell;
+
         programRegister = new ArrayList<>();
     }
 
@@ -31,21 +37,46 @@ public class Player implements IPlayer {
     }
 
     @Override
-    public void initializeRobotRenderer(TiledMapTileLayer playerLayer, TiledMapTileLayer.Cell playerCell){
-        this.robotRenderer = new RobotRenderer(playerLayer, playerCell);
+    public void initializeRobotRenderer(RobotRenderer robotRenderer){
+        this.robotRenderer = robotRenderer;
     }
 
     @Override
     public void moveRobot(Direction direction){
-        IRobot robot = getRobot();
         if(board.canMove(robot.getPosition(), direction)){
             DirVector oldPosition = robot.getPosition().copy();
             robot.pushRobotInDirection(direction);
             DirVector newPosition = robot.getPosition().copy();
-            robotRenderer.requestRendering(oldPosition, newPosition);
+            renderMove(oldPosition, newPosition);
         }
+
+        // Check if robot moved in hole or out of bounds
+        handleRobotOutOfBounds();
     }
 
+    /**
+     * Requests robotRenderer to render one move
+     *
+     * @param from position robot is moving from
+     * @param to position robot is moving to
+     */
+    private void renderMove(DirVector from, DirVector to){
+        robotRenderer.requestRendering(from,to, playerCell);
+    }
+
+    /**
+     * If robot is out of bounds, moves robot to archive marker and removes one life.
+     */
+    private void handleRobotOutOfBounds(){
+        DirVector position = robot.getPosition();
+        if(board.outOfBounds(position) || board.isHole(position)){
+            DirVector oldPosition = robot.getPosition().copy();
+            robot.moveToArchiveMarker();
+            DirVector newPosition = robot.getPosition().copy();
+            renderMove(oldPosition,newPosition);
+            removeOneLife();
+        }
+    }
 
     @Override
     public int getLives() {
@@ -64,7 +95,8 @@ public class Player implements IPlayer {
 
     @Override
     public void removeOneLife() {
-        this.lives -= 1;
+        lives--;
+        interfaceRenderer.setLives(lives);
     }
 
     @Override
@@ -85,16 +117,12 @@ public class Player implements IPlayer {
     @Override
     public void addToFlagsVisited() {
         visitedFlags++;
+        interfaceRenderer.setFlagsVisited(visitedFlags);
     }
 
     @Override
     public InterfaceRenderer getInterfaceRenderer() {
         return interfaceRenderer;
-    }
-
-    @Override
-    public RobotRenderer getRobotRenderer() {
-        return robotRenderer;
     }
 
     @Override

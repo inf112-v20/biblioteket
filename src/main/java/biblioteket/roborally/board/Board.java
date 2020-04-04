@@ -4,6 +4,7 @@ import biblioteket.roborally.actors.IPlayer;
 import biblioteket.roborally.actors.IRobot;
 import biblioteket.roborally.elements.ArchiveMarkerElement;
 import biblioteket.roborally.elements.interacting.FlagElement;
+import biblioteket.roborally.elements.interacting.HoleElement;
 import biblioteket.roborally.elements.interacting.InteractingElement;
 import biblioteket.roborally.elements.walls.LaserWallElement;
 import biblioteket.roborally.elements.walls.WallElement;
@@ -162,6 +163,12 @@ public class Board implements IBoard {
     @Override
     public boolean outOfBounds(DirVector dir) {
         return dir.getX() < 0 || dir.getX() >= getWidth() || dir.getY() < 0 || dir.getY() >= getHeight();
+    }
+
+    @Override
+    public boolean isHole(DirVector position){
+        InteractingElement element = getInteractingElement(position);
+        return element instanceof HoleElement;
     }
 
     @Override
