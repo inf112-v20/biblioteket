@@ -50,7 +50,15 @@ public interface IBoard {
      */
     TiledMapTileLayer getLayer(String layerName);
 
+    /**
+     * @return the player layer of the tiled map
+     */
     TiledMapTileLayer getPlayerLayer();
+
+    /**
+     * @return the laser layer of the map
+     */
+    TiledMapTileLayer getLaserLayer();
 
     /**
      * Gets an {@link InteractingElement} from the location of a robot, this can

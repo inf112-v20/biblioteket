@@ -148,5 +148,4 @@ public class Player implements IPlayer {
         return programRegister.size() == 5;
     }
 
-
 }

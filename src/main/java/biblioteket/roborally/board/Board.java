@@ -112,6 +112,7 @@ public class Board implements IBoard {
      *
      * @return a layer
      */
+    @Override
     public TiledMapTileLayer getLaserLayer() {
         return this.laserLayer;
     }
