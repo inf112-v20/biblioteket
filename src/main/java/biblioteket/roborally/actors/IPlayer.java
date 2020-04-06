@@ -71,17 +71,11 @@ public interface IPlayer {
     InterfaceRenderer getInterfaceRenderer();
 
     /**
-     * Sets number of lives and flags in the interface renderer
+     * Player draws new cards, updates interface renderer and sets
+     * canMove flag to true
+     * @param cardDeck
      */
-    void updateInterfaceRenderer();
-
-
-    /**
-     * Draw a number of cards according to how many damage tokens robot has
-     *
-     * @param cardDeck to draw cards from
-     */
-    void drawCards(ICardDeck cardDeck);
+    void newTurn(ICardDeck cardDeck);
 
     /**
      * @param card added

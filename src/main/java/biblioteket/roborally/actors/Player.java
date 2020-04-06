@@ -25,6 +25,8 @@ public class Player implements IPlayer {
     private int visitedFlags = 0;
     private IRobot robot;
 
+    boolean canMove = true;
+
     public Player(IBoard board, TiledMapTileLayer.Cell playerCell, InterfaceRenderer interfaceRenderer, RobotRenderer robotRenderer) {
         this.board = board;
         this.playerCell = playerCell;
@@ -36,7 +38,7 @@ public class Player implements IPlayer {
 
     @Override
     public void moveRobot(Direction direction){
-        if(board.canMove(robot.getPosition(), direction)){
+        if(canMove && board.canMove(robot.getPosition(), direction)){
             DirVector oldPosition = robot.getPosition().copy();
             robot.pushRobotInDirection(direction);
             DirVector newPosition = robot.getPosition().copy();
@@ -45,30 +47,6 @@ public class Player implements IPlayer {
 
         // Check if robot moved in hole or out of bounds
         handleRobotOutOfBounds();
-    }
-
-    /**
-     * Requests robotRenderer to render one move
-     *
-     * @param from position robot is moving from
-     * @param to position robot is moving to
-     */
-    private void renderMove(DirVector from, DirVector to){
-        robotRenderer.requestRendering(from,to, playerCell);
-    }
-
-    /**
-     * If robot is out of bounds, moves robot to archive marker and removes one life.
-     */
-    private void handleRobotOutOfBounds(){
-        DirVector position = robot.getPosition();
-        if(board.outOfBounds(position) || board.isHole(position)){
-            DirVector oldPosition = robot.getPosition().copy();
-            robot.moveToArchiveMarker();
-            DirVector newPosition = robot.getPosition().copy();
-            renderMove(oldPosition,newPosition);
-            removeOneLife();
-        }
     }
 
     @Override
@@ -117,16 +95,10 @@ public class Player implements IPlayer {
     }
 
     @Override
-    public void updateInterfaceRenderer() {
-        interfaceRenderer.setFlagsVisited(getNumberOfVisitedFlags());
-        interfaceRenderer.setLives(getLives());
-        interfaceRenderer.clearProgramRegister();
-    }
-
-    @Override
-    public void drawCards(ICardDeck cardDeck) {
-        ArrayList<ICard> cards = cardDeck.drawCards(9);
-        interfaceRenderer.setCardHand(cards);
+    public void newTurn(ICardDeck cardDeck){
+        drawCards(cardDeck);
+        updateInterfaceRenderer();
+        canMove = true;
     }
 
     @Override
@@ -146,6 +118,51 @@ public class Player implements IPlayer {
     @Override
     public boolean fullProgramRegister() {
         return programRegister.size() == 5;
+    }
+
+    /**
+     * Requests robotRenderer to render one move
+     *
+     * @param from position robot is moving from
+     * @param to position robot is moving to
+     */
+    private void renderMove(DirVector from, DirVector to){
+        robotRenderer.requestRendering(from,to, playerCell);
+    }
+
+    /**
+     * If robot is out of bounds, moves robot to archive marker and removes one life.
+     */
+    private void handleRobotOutOfBounds(){
+        DirVector position = robot.getPosition();
+        if(board.outOfBounds(position) || board.isHole(position)){
+            DirVector oldPosition = robot.getPosition().copy();
+            robot.moveToArchiveMarker();
+            DirVector newPosition = robot.getPosition().copy();
+            renderMove(oldPosition,newPosition);
+            canMove = false;
+            removeOneLife();
+        }
+    }
+
+    /**
+     * Sets number of lives and flags in the interface renderer
+     */
+    private void updateInterfaceRenderer() {
+        interfaceRenderer.setFlagsVisited(getNumberOfVisitedFlags());
+        interfaceRenderer.setLives(getLives());
+        interfaceRenderer.clearProgramRegister();
+    }
+
+    /**
+     * Draw a number of cards according to how many damage tokens robot has
+     *
+     * @param cardDeck to draw cards from
+     */
+
+    private void drawCards(ICardDeck cardDeck) {
+        ArrayList<ICard> cards = cardDeck.drawCards(9);
+        interfaceRenderer.setCardHand(cards);
     }
 
 }

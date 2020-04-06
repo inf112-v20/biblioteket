@@ -53,8 +53,7 @@ public class GameLoop {
         }
 
         for (IPlayer player : players) {
-            player.drawCards(cardDeck);
-            player.getRobot().setPlayer(player);
+            player.newTurn(cardDeck);
         }
 
         Gdx.input.setInputProcessor(new InputAdapter() {
@@ -142,8 +141,7 @@ public class GameLoop {
             Gdx.app.exit();
         else {
             for (IPlayer player : players) {
-                player.drawCards(cardDeck);
-                player.updateInterfaceRenderer();
+                player.newTurn(cardDeck);
             }
         }
 
