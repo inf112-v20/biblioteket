@@ -29,6 +29,7 @@ public class GameScreen implements Screen {
     private final Board board;
     private final GameLoop gameLoop;
     private final OrthographicCamera camera;
+    public static String map;
 
     private final List<IPlayer> players;
 
@@ -38,7 +39,7 @@ public class GameScreen implements Screen {
         this.board = new Board("assets/DizzyDash.tmx");
         this.camera = new OrthographicCamera();
 
-        camera.setToOrtho(false, board.getWidth() + 14, board.getHeight() + 1);
+        camera.setToOrtho(false, board.getWidth()*2, board.getHeight());
         camera.update();
 
         tiledMapRenderer = new OrthogonalTiledMapRenderer(board.getMap(), (float) 1 / board.getTileWidth());
