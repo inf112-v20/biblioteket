@@ -29,9 +29,7 @@ public class Board implements IBoard {
     private final int height;
     private final int tileWidth;
     private final int tileHeight;
-    private final ArrayList<ArchiveMarkerElement> archiveMarkers;
-    private final ArrayList<LaserWallElement> laserWalls;
-    private int numFlags;
+    private MapReader mapReader;
 
     public Board(String board) {
         this.map = new TmxMapLoader().load(board);
@@ -48,10 +46,7 @@ public class Board implements IBoard {
         this.laserLayer = (TiledMapTileLayer) map.getLayers().get("Laser Layer");
         this.wallLayer = (TiledMapTileLayer) map.getLayers().get("Wall Layer");
 
-        numFlags = 0;
-        archiveMarkers = new ArrayList<>();
-        laserWalls = new ArrayList<>();
-        readMap();
+        mapReader = new MapReader(this);
     }
 
     @Override
@@ -240,83 +235,19 @@ public class Board implements IBoard {
 
     @Override
     public int getNumberOfFlags() {
-        return numFlags;
+        return mapReader.getNumberOfFlags();
     }
 
 
     @Override
     public ArchiveMarkerElement getArchiveMarker(int i) {
-        for (ArchiveMarkerElement archiveMarker : archiveMarkers) {
-            if (archiveMarker.getArchiveNum() == i) return archiveMarker;
-        }
-        return null;
+        return mapReader.getArchiveMarker(i);
     }
 
     @Override
     public List<LaserWallElement> getLaserWalls() {
-        return laserWalls;
+        return mapReader.getLaserWalls();
     }
 
-    /**
-     * Iterates through each cell of ground and flag layer
-     * Counts number of flags and registers all archive markers and laser walls
-     */
-    private void readMap() {
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
-                checkForArchiveMarker(x, y);
-                countFlag(x, y);
-                checkForLaserWall(x, y);
-            }
-        }
-    }
-
-    /**
-     * If there is an archive marker in this position, add it to the archiveMarkers list
-     *
-     * @param x position
-     * @param y position
-     */
-    private void checkForArchiveMarker(int x, int y) {
-        if (groundLayer.getCell(x, y) != null) {
-            int id = groundLayer.getCell(x, y).getTile().getId();
-            ArchiveMarkerElement archiveMarker = Element.getArchiveMarker(id, x, y);
-            if (archiveMarker != null)
-                this.archiveMarkers.add(archiveMarker);
-        }
-    }
-
-    /**
-     * If there is a flag in this position, increase the flag count
-     *
-     * @param x position
-     * @param y position
-     */
-    private void countFlag(int x, int y) {
-        if (flagLayer.getCell(x, y) != null) {
-            int id = flagLayer.getCell(x, y).getTile().getId();
-            if (Element.isFlag(id)) numFlags++;
-        }
-    }
-
-    /**
-     * If there is a laserwall in this position, initialize it, set its position and add it
-     * to the laserwalls list
-     *
-     * @param x position
-     * @param y position
-     */
-    private void checkForLaserWall(int x, int y) {
-        if (wallLayer.getCell(x, y) != null) {
-            int id = wallLayer.getCell(x, y).getTile().getId();
-            WallElement wall = Element.getWallElement(id);
-            if (wall instanceof LaserWallElement) {
-                LaserWallElement laserWall = (LaserWallElement) wall;
-                laserWall.setPosition(x, y);
-                laserWalls.add(laserWall);
-            }
-
-        }
-    }
 
 }
