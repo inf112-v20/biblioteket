@@ -36,7 +36,7 @@ public class GameScreen implements Screen {
     private final OrthogonalTiledMapRenderer tiledMapRenderer;
 
     public GameScreen(final RoboRally gam) {
-        this.board = new Board("assets/DizzyDash.tmx");
+        this.board = new Board(map);
         this.camera = new OrthographicCamera();
 
         camera.setToOrtho(false, board.getWidth()*2, board.getHeight());
@@ -98,7 +98,6 @@ public class GameScreen implements Screen {
     public void resize(int width, int height) {
         camera.setToOrtho(false, width, height);
         camera.update();
-        //tiledMapRenderer.getBatch().setProjectionMatrix(camera.combined);
     }
 
 
