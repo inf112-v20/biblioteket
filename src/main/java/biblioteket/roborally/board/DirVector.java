@@ -115,21 +115,21 @@ public class DirVector {
     /**
      * Sets the location n-steps ahead.
      *
-     * @param moves how many spaces to move
+     * @param direction to move
      */
-    public void forward(int moves) {
-        switch (this.direction) {
+    public void forward(Direction direction) {
+        switch (direction) {
             case NORTH:
-                this.setY(this.getY() + moves);
+                this.setY(this.getY() + 1);
                 break;
             case SOUTH:
-                this.setY(this.getY() - moves);
+                this.setY(this.getY() - 1);
                 break;
             case WEST:
-                this.setX(this.getX() - moves);
+                this.setX(this.getX() - 1);
                 break;
             case EAST:
-                this.setX(this.getX() + moves);
+                this.setX(this.getX() + 1);
                 break;
             default:
                 throw new UnsupportedOperationException();

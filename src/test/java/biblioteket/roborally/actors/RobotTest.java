@@ -212,25 +212,6 @@ class RobotTest {
         assertEquals(direction, robot.getDirection());
     }
 
-    @Test
-    void moveForwardTowardsSouthWhenItIsOutOfBoundaries() {
-        int fullLife = 3;
-        Direction direction = Direction.SOUTH;
-        robot.setDirection(direction);
-        robot.setPosition(5, 0);
-
-        DirVector newLocation = robot.getPosition().dirVectorInDirection(direction);
-        assertTrue(board.outOfBounds(newLocation));
-
-        assertEquals(fullLife, robot.getPlayer().getLives()); // maybe remove this and the next.
-
-        robot.pushRobotInDirection(robot.getDirection());
-        assertTrue(board.outOfBounds(newLocation));
-
-        assertEquals(fullLife - 1, robot.getPlayer().getLives());
-        assertEquals(robot.getArchiveMarker().getPosition(), new DirVector(robot.getPosition().getX(), robot.getPosition().getY(), null));
-    }
-
     // @Test
     // void moveForwardTowardSouthWhenARobotWhoCanBePushedIsInTheWay() {
     //     secondRobot = new Robot(pos1x2y, secondArchiveMarker, Direction.NORTH, board);

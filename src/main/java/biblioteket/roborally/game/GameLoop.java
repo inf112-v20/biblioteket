@@ -68,16 +68,16 @@ public class GameLoop {
             public boolean keyUp(int keycode) {
                 switch (keycode) {
                     case Input.Keys.A:
-                        currentPlayer.moveRobot(Direction.WEST);
+                        currentPlayer.moveRobot(Direction.WEST, 0);
                         return true;
                     case Input.Keys.D:
-                        currentPlayer.moveRobot(Direction.EAST);
+                        currentPlayer.moveRobot(Direction.EAST, 0);
                         return true;
                     case Input.Keys.W:
-                        currentPlayer.moveRobot(Direction.NORTH);
+                        currentPlayer.moveRobot(Direction.NORTH, 0);
                         return true;
                     case Input.Keys.S:
-                        currentPlayer.moveRobot(Direction.SOUTH);
+                        currentPlayer.moveRobot(Direction.SOUTH, 0);
                         return true;
                     case Input.Keys.SPACE:
                         board.interact(currentPlayer);
@@ -86,7 +86,16 @@ public class GameLoop {
                         return board.registerFlag(currentPlayer);
                     case Input.Keys.ENTER:
                         interactWithBoardElements();
-                        return false;
+                        return true;
+                    case Input.Keys.UP:
+                        currentPlayer.moveRobot(currentPlayer.getRobot().getDirection(), 0);
+                        return true;
+                    case Input.Keys.LEFT:
+                        currentPlayer.rotateRobot(false, 0);
+                        return true;
+                    case Input.Keys.RIGHT:
+                        currentPlayer.rotateRobot(true, 0);
+                        return true;
                     default:
                         return true;
                 }

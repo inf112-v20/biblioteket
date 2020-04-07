@@ -1,6 +1,7 @@
 package biblioteket.roborally.actors;
 
 import biblioteket.roborally.board.DirVector;
+import biblioteket.roborally.board.Direction;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
 import java.util.LinkedList;
@@ -25,16 +26,20 @@ public class RobotRenderer {
      */
     public void render(){
         RobotStep movement = movements.remove();
+
         DirVector oldPosition = movement.getOldPosition();
         DirVector newPosition = movement.getNewPosition();
+        int rotation = movement.getRotation();
+        int delay = movement.getDelay();
         TiledMapTileLayer.Cell playerCell = movement.getPlayerCell();
 
         // Update the playerlayer with robots new position
         playerLayer.setCell(oldPosition.getX(), oldPosition.getY(), null);
         playerLayer.setCell(newPosition.getX(), newPosition.getY(), playerCell);
+        playerCell.setRotation(rotation);
 
-        // Wait for 500 milliseconds so users can see each movement
-        wait(500);
+        // Add delay so players can see each move
+        wait(delay);
     }
 
     /**
@@ -44,15 +49,15 @@ public class RobotRenderer {
      * @param newPosition position the robot is moving to
      * @param playerCell the playercell of the player moving a robot
      */
-    public void requestRendering(DirVector oldPosition, DirVector newPosition, TiledMapTileLayer.Cell playerCell){
-        RobotStep movement = new RobotStep(oldPosition, newPosition, playerCell);
+    public void requestRendering(DirVector oldPosition, DirVector newPosition, Direction direction, int delay, TiledMapTileLayer.Cell playerCell){
+        RobotStep movement = new RobotStep(oldPosition, newPosition, direction, delay, playerCell);
         movements.add(movement);
     }
 
     /**
      * @return true if there are any movements left in queue to be rendered
      */
-    public boolean IsRequestingRendering(){
+    public boolean isRequestingRendering(){
         return !movements.isEmpty();
     }
 
@@ -76,11 +81,15 @@ public class RobotRenderer {
     private class RobotStep {
         private DirVector oldPosition;
         private DirVector newPosition;
+        private Direction direction;
+        private int delay;
         private TiledMapTileLayer.Cell playerCell;
 
-        public RobotStep(DirVector oldPosition, DirVector newPosition, TiledMapTileLayer.Cell playerCell){
+        public RobotStep(DirVector oldPosition, DirVector newPosition, Direction direction, int delay, TiledMapTileLayer.Cell playerCell){
             this.oldPosition = oldPosition;
             this.newPosition = newPosition;
+            this.direction = direction;
+            this.delay = delay;
             this.playerCell = playerCell;
         }
 
@@ -95,6 +104,20 @@ public class RobotRenderer {
         public TiledMapTileLayer.Cell getPlayerCell() {
             return playerCell;
         }
+
+        public int getRotation() {
+            switch(direction){
+                case WEST: return 1;
+                case SOUTH: return 2;
+                case EAST: return 3;
+                default: return 0;  // Case NORTH
+            }
+        }
+
+        public int getDelay() {
+            return delay;
+        }
     }
+
 
 }

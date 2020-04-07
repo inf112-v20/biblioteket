@@ -3,7 +3,6 @@ package biblioteket.roborally.actors;
 import biblioteket.roborally.board.DirVector;
 import biblioteket.roborally.board.Direction;
 import biblioteket.roborally.board.IBoard;
-import biblioteket.roborally.elements.interacting.InteractingElement;
 import biblioteket.roborally.programcards.ICard;
 import biblioteket.roborally.programcards.ICardDeck;
 import biblioteket.roborally.userinterface.InterfaceRenderer;
@@ -37,16 +36,38 @@ public class Player implements IPlayer {
     }
 
     @Override
-    public void moveRobot(Direction direction){
+    public void moveRobot(int steps, int delay){
+        for (int i = 0; i < steps; i++) {
+            moveRobot(robot.getDirection(), delay);
+        }
+    }
+
+    @Override
+    public void moveRobot(Direction direction, int delay){
         if(canMove && board.canMove(robot.getPosition(), direction)){
             DirVector oldPosition = robot.getPosition().copy();
             robot.pushRobotInDirection(direction);
             DirVector newPosition = robot.getPosition().copy();
-            renderMove(oldPosition, newPosition);
+            renderMove(oldPosition, newPosition, delay);
         }
 
         // Check if robot moved in hole or out of bounds
-        handleRobotOutOfBounds();
+        handleRobotOutOfBounds(delay);
+    }
+
+    @Override
+    public void backUpRobot(int delay){
+        moveRobot(robot.getDirection().opposite(), delay);
+    }
+
+    @Override
+    public void rotateRobot(boolean right, int delay){
+        if (right) {
+            robot.turnRight();
+        } else {
+            robot.turnLeft();
+        }
+        renderMove(robot.getPosition().copy(), robot.getPosition().copy(), delay);
     }
 
     @Override
@@ -97,8 +118,8 @@ public class Player implements IPlayer {
     @Override
     public void newTurn(ICardDeck cardDeck){
         drawCards(cardDeck);
-        updateInterfaceRenderer();
         canMove = true;
+        updateInterfaceRenderer();
     }
 
     @Override
@@ -126,20 +147,20 @@ public class Player implements IPlayer {
      * @param from position robot is moving from
      * @param to position robot is moving to
      */
-    private void renderMove(DirVector from, DirVector to){
-        robotRenderer.requestRendering(from,to, playerCell);
+    private void renderMove(DirVector from, DirVector to, int delay){
+        robotRenderer.requestRendering(from, to, robot.getDirection(), delay, playerCell);
     }
 
     /**
      * If robot is out of bounds, moves robot to archive marker and removes one life.
      */
-    private void handleRobotOutOfBounds(){
+    private void handleRobotOutOfBounds(int delay){
         DirVector position = robot.getPosition();
         if(board.outOfBounds(position) || board.isHole(position)){
             DirVector oldPosition = robot.getPosition().copy();
             robot.moveToArchiveMarker();
             DirVector newPosition = robot.getPosition().copy();
-            renderMove(oldPosition,newPosition);
+            renderMove(oldPosition,newPosition, delay);
             canMove = false;
             removeOneLife();
         }

@@ -7,8 +7,7 @@ public class RightRotatingCogElement extends CogElement {
 
     @Override
     public void interact(IPlayer player) {
-        IRobot robot = player.getRobot();
-        robot.turnRight();
+        player.rotateRobot(true, 500);
     }
 
     @Override

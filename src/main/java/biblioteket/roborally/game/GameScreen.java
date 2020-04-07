@@ -82,7 +82,7 @@ public class GameScreen implements Screen {
         }
 
         // Render robot movement
-        if(robotRenderer.IsRequestingRendering()) {
+        if(robotRenderer.isRequestingRendering()) {
             robotRenderer.render();
         }
 
