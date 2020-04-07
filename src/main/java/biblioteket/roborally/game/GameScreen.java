@@ -26,9 +26,9 @@ import java.util.List;
  * flag and hole that they player can move around on.
  */
 public class GameScreen implements Screen {
+    private static OrthographicCamera camera;
     private final Board board;
     private final GameLoop gameLoop;
-    private final OrthographicCamera camera;
     public static String map;
 
     private final List<IPlayer> players;
@@ -69,6 +69,10 @@ public class GameScreen implements Screen {
 
     }
 
+    public static OrthographicCamera getCamera() {
+        return camera;
+    }
+
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -92,8 +96,11 @@ public class GameScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-
+        camera.setToOrtho(false, width, height);
+        camera.update();
+        //tiledMapRenderer.getBatch().setProjectionMatrix(camera.combined);
     }
+
 
     @Override
     public void pause() {

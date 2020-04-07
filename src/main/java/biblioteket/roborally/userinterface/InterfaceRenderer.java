@@ -1,9 +1,11 @@
 package biblioteket.roborally.userinterface;
 
 import biblioteket.roborally.board.IBoard;
+import biblioteket.roborally.game.GameScreen;
 import biblioteket.roborally.programcards.ICard;
 import biblioteket.roborally.programcards.ReverseCardComparator;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -39,6 +41,10 @@ public class InterfaceRenderer {
     private final TouchableCards touchableProgramRegister;
     private int flagsVisited;
     private int lives;
+    private OrthographicCamera camera = GameScreen.getCamera();
+
+    float cardWidth;
+    float cardHeight;
 
     public InterfaceRenderer() {
         background = new Texture("assets/background2.jpg");
@@ -83,33 +89,51 @@ public class InterfaceRenderer {
         touchableProgramRegister.initializeCard(3, 500, 250, 40, 90);
         touchableProgramRegister.initializeCard(4, 550, 250, 40, 90);
     }
+    public void cardSize() {
+        cardWidth = (camera.viewportHeight/(640f/130f));
+        cardHeight = (camera.viewportHeight/(640f/90f));
+    }
 
     public void renderInterface(IBoard board) {
+        cardSize();
+
+        batch.setProjectionMatrix(camera.combined);
+        camera.update();
+
         batch.begin();
-        batch.draw(playerOverview, 0, Gdx.graphics.getHeight() - 90, Gdx.graphics.getWidth(), 90);
-        batch.draw(background, board.getTileWidth(), 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        batch.draw(background, 0, 0, camera.viewportWidth, camera.viewportHeight);
         batch.draw(flag, 290, Gdx.graphics.getHeight() - 180, 40, 40);
         batch.draw(hp, 330, Gdx.graphics.getHeight() - 180, 40, 40);
         font.draw(batch, Integer.toString(flagsVisited), 310, Gdx.graphics.getHeight() - 165);
         font.draw(batch, Integer.toString(lives), 360, Gdx.graphics.getHeight() - 165);
+        //System.out.println(Gdx.graphics.getWidth());
+        //System.out.println(Gdx.graphics.getHeight());
+        //System.out.print((float)640f/(640f/375f));
 
+        float leftOfBoard = camera.viewportWidth/2;
+        float leftCenter = leftOfBoard / 0.5f;
+        //batch.draw(cards, (leftOfBoardX + leftOfBoardX/4) + 50*i, 0, 100, 90);
+        for(int i = 0; i < 4; i++) {
+            drawCard(cardHand[0 + i], leftOfBoard + leftOfBoard / 2 - cardWidth + cardWidth / 2 * i, cardHeight, cardWidth, cardHeight);
+            //drawCard(cardHand[1], (float) camera.viewportWidth / (640f / 425f), cardHeight, cardWidth, cardHeight);
+            //drawCard(cardHand[2], (float) camera.viewportWidth / (640f / 475f), cardHeight, cardWidth, cardHeight);
+            //drawCard(cardHand[3], (float) camera.viewportWidth / (640f / 525f), cardHeight, cardWidth, cardHeight);
+        }
+        for(int i = 0; i < 5; i++) {
+            drawCard(cardHand[4+i], leftOfBoard + leftOfBoard / 2 - cardWidth*1.25f + cardWidth / 2 * i, 0, cardWidth, cardHeight);
+            //drawCard(cardHand[5], (float) camera.viewportWidth / (640f / 400f), 0, cardWidth, cardHeight);
+            //drawCard(cardHand[6], (float) camera.viewportWidth / (640f / 450f), 0, cardWidth, cardHeight);
+            //drawCard(cardHand[7], (float) camera.viewportWidth / (640f / 500f), 0, cardWidth, cardHeight);
+            //drawCard(cardHand[8], (float) camera.viewportWidth / (640f / 550f), 0, cardWidth, cardHeight);
+        }
 
-        drawCard(cardHand[0], 375, 100, 100, 90);
-        drawCard(cardHand[1], 425, 100, 100, 90);
-        drawCard(cardHand[2], 475, 100, 100, 90);
-        drawCard(cardHand[3], 525, 100, 100, 90);
-        drawCard(cardHand[4], 350, 0, 100, 90);
-        drawCard(cardHand[5], 400, 0, 100, 90);
-        drawCard(cardHand[6], 450, 0, 100, 90);
-        drawCard(cardHand[7], 500, 0, 100, 90);
-        drawCard(cardHand[8], 550, 0, 100, 90);
-
-        drawCard(programRegister[0], 350, 250, 100, 90);
-        drawCard(programRegister[1], 400, 250, 100, 90);
-        drawCard(programRegister[2], 450, 250, 100, 90);
-        drawCard(programRegister[3], 500, 250, 100, 90);
-        drawCard(programRegister[4], 550, 250, 100, 90);
-
+        for(int i = 0; i < 5; i++) {
+            drawCard(programRegister[0+i], leftOfBoard + leftOfBoard / 2 - cardWidth*1.25f + cardWidth / 2 * i, 250, cardWidth, cardHeight);
+            //drawCard(programRegister[1], camera.viewportWidth / (640f / 400f), 250, cardWidth, cardHeight);
+            //drawCard(programRegister[2], camera.viewportWidth / (640f / 450f), 250, cardWidth, cardHeight);
+            //drawCard(programRegister[3], camera.viewportWidth / (640f / 500f), 250, cardWidth, cardHeight);
+            //drawCard(programRegister[4], camera.viewportWidth / (640f / 550f), 250, cardWidth, cardHeight);
+        }
         batch.end();
     }
 
@@ -122,7 +146,7 @@ public class InterfaceRenderer {
      * @param width  of the texture
      * @param height of the texture
      */
-    private void drawCard(ICard card, int x, int y, float width, float height) {
+    private void drawCard(ICard card, float x, float y, float width, float height) {
         Texture cardTexture = getCardTexture(card);
         batch.draw(cardTexture, x, y, width, height);
     }
