@@ -9,11 +9,19 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class CardDeck implements ICardDeck {
-    private final ArrayList<ICard> gameCardDeck;
-    private int topOfDrawPile = 0; //Will change as cards are drawn
 
+    // Cards get drawn then either placed in the register or discarded
+    private ArrayList<ICard> drawPile;
+    private ArrayList<ICard> registerPile;
+    private ArrayList<ICard> discardPile;
+
+    /**
+     * Makes a pile of cards
+     *
+     * @throws IOException Logg will say something went wrong.
+     */
     public CardDeck() throws IOException {
-        gameCardDeck = new ArrayList<>();
+        drawPile = new ArrayList<>();
         String line;
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader("assets/ProgramCards.csv"))) {
             while ((line = bufferedReader.readLine()) != null) {
@@ -22,7 +30,7 @@ public class CardDeck implements ICardDeck {
                 CardType type = CardType.valueOf(cardInfo[0]);
                 int priorityNum = Integer.parseInt(cardInfo[1]);
                 ICard card = new Card(type, priorityNum);
-                gameCardDeck.add(card);
+                drawPile.add(card);
             }
         } catch (IOException e) {
             String message = "Something went wrong.";
@@ -31,21 +39,43 @@ public class CardDeck implements ICardDeck {
 
             throw new IOException(message, e);
         }
-        Collections.shuffle(gameCardDeck);
+        Collections.shuffle(drawPile);
+        registerPile = new ArrayList<>();
+        discardPile = new ArrayList<>();
     }
 
     @Override
     public ArrayList<ICard> drawCards(int number) {
-        if (topOfDrawPile > gameCardDeck.size() - number) {
-            topOfDrawPile = 0;
-            Collections.shuffle(gameCardDeck);
-        }
-
         ArrayList<ICard> drawnCards = new ArrayList<>();
-        for (int i = 0; i < number; i++) {
-            drawnCards.add(gameCardDeck.get(topOfDrawPile++));
-        }
+        for (int i = 0; i < number; i++)
+            drawnCards.add(drawCard());
         return drawnCards;
-
     }
+
+    /**
+     * Get card from top of the draw pile.
+     * If draw pile is empty the discard pile is shuffled and made to new draw pile.
+     *
+     * @return one card
+     */
+    private ICard drawCard() {
+        if (drawPile.isEmpty()) {
+            Collections.shuffle(discardPile);
+            drawPile.addAll(discardPile);
+            discardPile.clear();
+        }
+        return drawPile.remove(0);
+    }
+
+    @Override
+    public void addToDiscardPile(ICard card) {
+        discardPile.add(card);
+    }
+
+    @Override
+    public void addToRegisterPile(ICard card) {
+        registerPile.add(card);
+    }
+
+
 }

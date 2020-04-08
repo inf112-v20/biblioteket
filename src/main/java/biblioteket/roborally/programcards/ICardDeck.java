@@ -13,4 +13,19 @@ public interface ICardDeck {
      */
     ArrayList<ICard> drawCards(int number);
 
+    /**
+     * Discards card, by placing it in a discard cards pile
+     * (Could just put it in the end of the draw pile, but then the order would be predictable.)
+     *
+     * @param card card to be discarded
+     */
+    void addToDiscardPile(ICard card);
+
+    /**
+     * Add card to register pile.
+     *
+     * @param card card in register
+     */
+    void addToRegisterPile(ICard card);
+
 }
