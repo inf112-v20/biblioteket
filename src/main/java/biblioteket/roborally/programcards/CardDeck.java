@@ -59,6 +59,9 @@ public class CardDeck implements ICardDeck {
      * @return one card
      */
     private ICard drawCard() {
+        if (drawPile.isEmpty() && discardPile.isEmpty())
+            throw new IllegalStateException("No cards to draw, it is possible that the drawCards method is not followed by addToDiscardPile or that all the cards are stuck in the register.");
+
         if (drawPile.isEmpty()) {
             Collections.shuffle(discardPile);
             drawPile.addAll(discardPile);
