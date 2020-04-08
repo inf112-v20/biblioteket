@@ -28,4 +28,10 @@ public interface ICardDeck {
      */
     void addToRegisterPile(ICard card);
 
+    /**
+     * Remove card from register pile,
+     * and places it in discard pile.
+     * @param card card to be removed.
+     */
+    void removeFromRegisterPile(ICard card);
 }

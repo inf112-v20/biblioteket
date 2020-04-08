@@ -102,7 +102,7 @@ public class GameLoop {
         InterfaceRenderer interfaceRenderer = currentPlayer.getInterfaceRenderer();
         ICard card = interfaceRenderer.contains(x, y);
         if (card != null)
-            currentPlayer.addCardToProgramRegister(card);
+            currentPlayer.addCardToProgramRegister(card, cardDeck);
 
         if (currentPlayer.fullProgramRegister()) doTurn();
 
@@ -117,7 +117,7 @@ public class GameLoop {
         // mapped to correct robot
         Map<ICard, IPlayer> cardMapping = new TreeMap<>(new ReverseCardComparator());
         for (IPlayer player : players) {
-            List<ICard> programRegister = player.getProgramRegister();
+            List<ICard> programRegister = player.getProgramRegister(cardDeck);
             for (ICard card : programRegister) {
                 cardMapping.put(card, player);
             }

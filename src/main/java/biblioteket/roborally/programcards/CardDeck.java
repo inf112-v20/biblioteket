@@ -1,5 +1,7 @@
 package biblioteket.roborally.programcards;
 
+import org.lwjgl.Sys;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -78,6 +80,19 @@ public class CardDeck implements ICardDeck {
     @Override
     public void addToRegisterPile(ICard card) {
         registerPile.add(card);
+    }
+
+    @Override
+    public void removeFromRegisterPile(ICard card) {
+        if ((drawPile.size() + discardPile.size() + registerPile.size()) != 84) {
+            System.out.println("drawPile: " + drawPile.size());
+            System.out.println("registerPile: " + registerPile.size());
+            System.out.println("discardPile: " + discardPile.size());
+            System.out.println("Cards: " + (drawPile.size() + discardPile.size() + registerPile.size()));
+        }
+        registerPile.remove(card);
+        addToDiscardPile(card);
+
     }
 
 

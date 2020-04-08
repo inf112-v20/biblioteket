@@ -4,6 +4,7 @@ import biblioteket.roborally.programcards.ICard;
 import biblioteket.roborally.programcards.ICardDeck;
 import biblioteket.roborally.userinterface.InterfaceRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import org.lwjgl.Sys;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,7 @@ public class Player implements IPlayer {
         this.playerCell = playerCell;
         this.interfaceRenderer = interfaceRenderer;
         programRegister = new ArrayList<>();
+        drawnCards = new ArrayList<>();
     }
 
     @Override
@@ -77,33 +79,87 @@ public class Player implements IPlayer {
     public void updateInterfaceRenderer() {
         interfaceRenderer.setFlagsVisited(getNumberOfVisitedFlags());
         interfaceRenderer.setLives(getLives());
-        interfaceRenderer.clearProgramRegister();
     }
 
-    //TODO: Quite verbose
+
     @Override
-    public void drawCards(ICardDeck cardDeck) {
+    public void drawCards(ICardDeck cardDeck) { //Signals start of new round, check damage clean register.
         int defaultNumber = 9; //default number of cards to draw
         int damageTokens = robot.getNumberOfDamageTokens();
         int cardsToDraw = defaultNumber - damageTokens;
-        System.out.println("Damage: " + damageTokens);
-        System.out.println("Lives: " + lives);
-        ArrayList<ICard> cards = cardDeck.drawCards(cardsToDraw);
-        drawnCards = cards;
-        interfaceRenderer.setCardHand(cards);
+
+        if (!drawnCards.isEmpty())
+            for (ICard card : drawnCards)
+                cardDeck.addToDiscardPile(card);
+
+        if (!programRegister.isEmpty()) {// Should stop it from breaking first round
+            cleanRegister(damageTokens, cardDeck);
+            updateRegisterRender();
+        }
+
+        drawnCards = cardDeck.drawCards(cardsToDraw);
+        interfaceRenderer.setCardHand(drawnCards);
+    }
+
+    /**
+     * Cleans the register based on damage tokens.
+     *
+     * @param damageTokens how many damage tokens the players robot has accumulated.
+     * @param cardDeck     The cardDeck used in the game.
+     */
+    private void cleanRegister(int damageTokens, ICardDeck cardDeck) {
+        System.out.println("Cards in register:" + programRegister.size());
+        System.out.println("DamageTokens:" + damageTokens);
+        switch (damageTokens) {
+            case 9:
+                break;
+            case 8:
+                cardDeck.removeFromRegisterPile(programRegister.remove(0));
+                break;
+            case 7:
+                cardDeck.removeFromRegisterPile(programRegister.remove(0));
+                cardDeck.removeFromRegisterPile(programRegister.remove(0));
+                break;
+            case 6:
+                cardDeck.removeFromRegisterPile(programRegister.remove(0));
+                cardDeck.removeFromRegisterPile(programRegister.remove(0));
+                cardDeck.removeFromRegisterPile(programRegister.remove(0));
+                break;
+            case 5:
+                cardDeck.removeFromRegisterPile(programRegister.remove(0));
+                cardDeck.removeFromRegisterPile(programRegister.remove(0));
+                cardDeck.removeFromRegisterPile(programRegister.remove(0));
+                cardDeck.removeFromRegisterPile(programRegister.remove(0));
+                break;
+            default:
+                for (ICard card : programRegister)
+                    cardDeck.removeFromRegisterPile(card);
+                programRegister.clear();
+                break;
+        }
+    }
+
+    /**
+     * Should keep cards in register.
+     */
+    private void updateRegisterRender() { //Does not place cards in correct order
+        interfaceRenderer.clearProgramRegister();
+        for (ICard card : programRegister) {
+            interfaceRenderer.addCardToProgramRegister(card);
+        }
     }
 
     @Override
-    public void addCardToProgramRegister(ICard card) {
-        programRegister.add(card);
+    public void addCardToProgramRegister(ICard card, ICardDeck cardDeck) {
+        drawnCards.remove(card);
+        cardDeck.addToRegisterPile(card);
+        programRegister.add(0, card);
         interfaceRenderer.addCardToProgramRegister(card);
     }
 
     @Override
-    public List<ICard> getProgramRegister() { //Used in game loop to execute moves.
-        List<ICard> programCards = new ArrayList<>(programRegister);
-        programRegister.clear();
-        return programCards;
+    public List<ICard> getProgramRegister(ICardDeck cardDeck) { //Used in game loop to execute moves.
+        return new ArrayList<>(programRegister);
     }
 
 

@@ -85,16 +85,20 @@ public interface IPlayer {
     void drawCards(ICardDeck cardDeck);
 
     /**
-     * @param card added
+     * Adds a card to the program register
+     *
+     * @param card     card to be added
+     * @param cardDeck The cardDeck used in the game.
      */
-    void addCardToProgramRegister(ICard card);
+    void addCardToProgramRegister(ICard card, ICardDeck cardDeck);
 
     /**
      * returns a list of the players program register and clears the program register
      *
+     * @param cardDeck The cardDeck used in the game
      * @return a list of the players program register
      */
-    List<ICard> getProgramRegister();
+    List<ICard> getProgramRegister(ICardDeck cardDeck);
 
     /**
      * @return true if the player is done registering cards for this turn
