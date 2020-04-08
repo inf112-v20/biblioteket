@@ -15,6 +15,7 @@ public class Player implements IPlayer {
     private int lives = 3;
     private int visitedFlags = 0;
     private IRobot robot;
+    private ArrayList<ICard> drawnCards;
 
     public Player(TiledMapTileLayer.Cell playerCell, InterfaceRenderer interfaceRenderer) {
         this.playerCell = playerCell;
@@ -79,9 +80,16 @@ public class Player implements IPlayer {
         interfaceRenderer.clearProgramRegister();
     }
 
+    //TODO: Quite verbose
     @Override
     public void drawCards(ICardDeck cardDeck) {
-        ArrayList<ICard> cards = cardDeck.drawCards(9);
+        int defaultNumber = 9; //default number of cards to draw
+        int damageTokens = robot.getNumberOfDamageTokens();
+        int cardsToDraw = defaultNumber - damageTokens;
+        System.out.println("Damage: " + damageTokens);
+        System.out.println("Lives: " + lives);
+        ArrayList<ICard> cards = cardDeck.drawCards(cardsToDraw);
+        drawnCards = cards;
         interfaceRenderer.setCardHand(cards);
     }
 
@@ -92,7 +100,7 @@ public class Player implements IPlayer {
     }
 
     @Override
-    public List<ICard> getProgramRegister() {
+    public List<ICard> getProgramRegister() { //Used in game loop to execute moves.
         List<ICard> programCards = new ArrayList<>(programRegister);
         programRegister.clear();
         return programCards;
