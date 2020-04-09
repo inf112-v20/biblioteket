@@ -34,6 +34,8 @@ public class TouchableCardsTest {
             int yCoordinate = random.nextInt(height - y) + y;
             ICard retrievedCard = touchableCards.contains(xCoordinate, yCoordinate);
             assertEquals(card, retrievedCard);
+            System.out.println(card);
+
         }
     }
 

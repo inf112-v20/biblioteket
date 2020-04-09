@@ -18,6 +18,7 @@ public class TouchableCards extends Rectangle {
         cards[pos] = new TouchableCard(x, y, width, height);
     }
 
+
     public void setCard(int pos, ICard card) {
         cards[pos].setCard(card);
     }
