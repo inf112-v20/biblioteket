@@ -55,14 +55,14 @@ public class GameScreen implements Screen {
             System.out.println(board.getTileWidth());
             System.out.println(board.getTileHeight());
             Player player = new Player(new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(playerTextureSplit[0][0])), new InterfaceRenderer());
-            if(player.getDirection() == Direction.WEST) {
-                System.out.println(player.getDirection());
-                player = new Player(new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(playerTextureSplit[0][1])), new InterfaceRenderer());
-            }
-            if(player.getDirection() == Direction.EAST) {
-                System.out.println(player.getDirection());
-                player = new Player(new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(playerTextureSplit[0][2])), new InterfaceRenderer());
-            }
+            //if(player.getDirection() == Direction.WEST) {
+            //    System.out.println(player.getDirection());
+            //    player = new Player(new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(playerTextureSplit[0][1])), new InterfaceRenderer());
+            //}
+            //if(player.getDirection() == Direction.EAST) {
+            //  System.out.println(player.getDirection());
+            //   player = new Player(new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(playerTextureSplit[0][2])), new InterfaceRenderer());
+            //}
             players.add(player);
             ArchiveMarkerElement archiveMarker = board.getArchiveMarker(i + 1);
             IRobot robot = new Robot(archiveMarker);
@@ -73,6 +73,7 @@ public class GameScreen implements Screen {
         this.gameLoop = new GameLoop(board, players);
 
     }
+
 
     @Override
     public void show() {

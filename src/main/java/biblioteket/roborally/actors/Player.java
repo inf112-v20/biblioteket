@@ -20,7 +20,7 @@ public class Player implements IPlayer {
     private int lives = 3;
     private int visitedFlags = 0;
     private IRobot robot;
-    private Direction playerDirection = Direction.WEST;
+    private Direction playerDirection = Direction.NORTH;
 
     public Player(TiledMapTileLayer.Cell playerCell, InterfaceRenderer interfaceRenderer) {
         this.playerCell = playerCell;

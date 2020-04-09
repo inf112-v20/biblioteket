@@ -107,6 +107,11 @@ public interface IPlayer {
 
     void setDirection(Direction dir);
 
+    /**
+     *	- can be used when handling damage
+     * 	- params, int x, int y
+     * 	- void, no output, but should rotate to the y-1th image in the texture pack
+     */
     void setModelState(int x, int y);
 
     //void Texture getModel();
