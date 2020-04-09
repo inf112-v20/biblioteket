@@ -1,8 +1,13 @@
 package biblioteket.roborally.actors;
 
+import biblioteket.roborally.board.DirVector;
+import biblioteket.roborally.board.Direction;
+import biblioteket.roborally.elements.ArchiveMarkerElement;
+import biblioteket.roborally.game.GameScreen;
 import biblioteket.roborally.programcards.ICard;
 import biblioteket.roborally.programcards.ICardDeck;
 import biblioteket.roborally.userinterface.InterfaceRenderer;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
 import java.util.ArrayList;
@@ -15,6 +20,7 @@ public class Player implements IPlayer {
     private int lives = 3;
     private int visitedFlags = 0;
     private IRobot robot;
+    private Direction playerDirection = Direction.WEST;
 
     public Player(TiledMapTileLayer.Cell playerCell, InterfaceRenderer interfaceRenderer) {
         this.playerCell = playerCell;
@@ -104,5 +110,22 @@ public class Player implements IPlayer {
         return programRegister.size() == 5;
     }
 
+    @Override
+    public Direction getDirection() {
+        return playerDirection;
+    }
+
+    @Override
+    public void setDirection(Direction dir) {
+        playerDirection = dir;
+    }
+    @Override
+    public void setModelState(int x, int y) {
+
+    }
+
+    //public void Texture getModel() {
+        //return ()
+    //}
 
 }

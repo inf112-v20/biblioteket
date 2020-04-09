@@ -1,8 +1,10 @@
 package biblioteket.roborally.actors;
 
+import biblioteket.roborally.board.Direction;
 import biblioteket.roborally.programcards.ICard;
 import biblioteket.roborally.programcards.ICardDeck;
 import biblioteket.roborally.userinterface.InterfaceRenderer;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
 import java.util.List;
@@ -100,5 +102,13 @@ public interface IPlayer {
      * @return true if the player is done registering cards for this turn
      */
     boolean fullProgramRegister();
+
+    Direction getDirection();
+
+    void setDirection(Direction dir);
+
+    void setModelState(int x, int y);
+
+    //void Texture getModel();
 
 }

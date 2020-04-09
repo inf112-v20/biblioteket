@@ -36,6 +36,7 @@ public class GameLoop {
     private final int currentPlayerPtr;
     private final IPlayer currentPlayer;
     private ICardDeck cardDeck;
+    private Direction playerDirection = Direction.WEST;
 
     public GameLoop(Board board, List<IPlayer> players) {
         this.board = board;
@@ -68,12 +69,17 @@ public class GameLoop {
             public boolean keyUp(int keycode) {
                 switch (keycode) {
                     case Input.Keys.A:
+                        currentPlayer.setDirection(Direction.WEST);
                         return currentPlayer.getRobot().move(Direction.WEST, board);
                     case Input.Keys.D:
+                        currentPlayer.setDirection(Direction.EAST);
                         return currentPlayer.getRobot().move(Direction.EAST, board);
                     case Input.Keys.W:
+                        currentPlayer.setDirection(Direction.NORTH);
                         return currentPlayer.getRobot().move(Direction.NORTH, board);
                     case Input.Keys.S:
+                        currentPlayer.setDirection(Direction.SOUTH);
+                        //currentPlayer.changeModel(SouthWardFacing)
                         return currentPlayer.getRobot().move(Direction.SOUTH, board);
                     case Input.Keys.SPACE:
                         DirVector newPosition = board.interact(currentPlayer);

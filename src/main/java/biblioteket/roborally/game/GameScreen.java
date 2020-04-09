@@ -5,6 +5,7 @@ import biblioteket.roborally.actors.IRobot;
 import biblioteket.roborally.actors.Player;
 import biblioteket.roborally.actors.Robot;
 import biblioteket.roborally.board.Board;
+import biblioteket.roborally.board.Direction;
 import biblioteket.roborally.elements.ArchiveMarkerElement;
 import biblioteket.roborally.userinterface.InterfaceRenderer;
 import com.badlogic.gdx.Gdx;
@@ -45,13 +46,23 @@ public class GameScreen implements Screen {
         tiledMapRenderer.setView(camera);
 
 
-        Texture playerTexture = new Texture("assets/player.png");
+        Texture playerTexture = new Texture("assets/pinbot.png");
         TextureRegion[][] playerTextureSplit = TextureRegion.split(playerTexture, board.getTileWidth(), board.getTileHeight());
 
         this.players = new ArrayList<>();
 
         for (int i = 0; i < 1; i++) {
+            System.out.println(board.getTileWidth());
+            System.out.println(board.getTileHeight());
             Player player = new Player(new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(playerTextureSplit[0][0])), new InterfaceRenderer());
+            if(player.getDirection() == Direction.WEST) {
+                System.out.println(player.getDirection());
+                player = new Player(new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(playerTextureSplit[0][1])), new InterfaceRenderer());
+            }
+            if(player.getDirection() == Direction.EAST) {
+                System.out.println(player.getDirection());
+                player = new Player(new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(playerTextureSplit[0][2])), new InterfaceRenderer());
+            }
             players.add(player);
             ArchiveMarkerElement archiveMarker = board.getArchiveMarker(i + 1);
             IRobot robot = new Robot(archiveMarker);
