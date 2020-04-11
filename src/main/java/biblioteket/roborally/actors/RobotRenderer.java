@@ -66,12 +66,11 @@ public class RobotRenderer {
      *
      * @param milliseconds to wait
      */
-    private void wait(int milliseconds){
+    private void wait(int milliseconds) {
         try {
             TimeUnit.MILLISECONDS.sleep(milliseconds);
         } catch (InterruptedException e) {
-            System.err.println("RobotRenderer wait method failed");
-            e.printStackTrace();
+            System.err.println("RobotRenderer timeout failed");
         }
     }
 

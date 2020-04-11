@@ -70,7 +70,6 @@ public class Robot implements IRobot {
 
     @Override
     public void pushRobotInDirection(Direction direction) {
-//        this.location.setDirection(direction);
         this.location.forward(direction);
     }
 

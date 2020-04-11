@@ -182,8 +182,7 @@ public class DirVector {
     }
 
     public DirVector copy(){
-        DirVector copy = new DirVector(getX(), getY(), getDirection());
-        return copy;
+        return new DirVector(getX(), getY(), getDirection());
     }
 
     @Override

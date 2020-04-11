@@ -24,7 +24,7 @@ public class Player implements IPlayer {
     private int visitedFlags = 0;
     private IRobot robot;
 
-    boolean canMove = true;
+    private boolean canMove = true;
 
     public Player(IBoard board, TiledMapTileLayer.Cell playerCell, InterfaceRenderer interfaceRenderer, RobotRenderer robotRenderer) {
         this.board = board;

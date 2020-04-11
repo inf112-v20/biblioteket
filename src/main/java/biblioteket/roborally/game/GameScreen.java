@@ -25,7 +25,6 @@ import java.util.List;
  */
 public class GameScreen implements Screen {
     private final IBoard board;
-    private final GameLoop gameLoop;
     private final RobotRenderer robotRenderer;
     private final OrthographicCamera camera;
 
@@ -33,7 +32,7 @@ public class GameScreen implements Screen {
 
     private final OrthogonalTiledMapRenderer tiledMapRenderer;
 
-    Texture playerTexture;
+    private Texture playerTexture;
 
     public GameScreen(final RoboRally gam) {
         this.board = new Board("assets/DizzyDash.tmx");
@@ -62,7 +61,7 @@ public class GameScreen implements Screen {
             board.getPlayerLayer().setCell(player.getRobot().getPosition().getX(), player.getRobot().getPosition().getY(), playerCell);
         }
 
-        this.gameLoop = new GameLoop(board, players);
+        GameLoop gameLoop = new GameLoop(board, players);
 
     }
 

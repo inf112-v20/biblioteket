@@ -4,9 +4,9 @@ import biblioteket.roborally.actors.IPlayer;
 import biblioteket.roborally.actors.IRobot;
 
 public class Card implements ICard {
+    private final static int RENDERING_DELAY = 500;
     private final CardType type;
     private final int priorityNumber;
-    private final static int RENDERING_DELAY = 500;
 
     public Card(CardType type, int priorityNumber) {
         this.type = type;
@@ -25,7 +25,6 @@ public class Card implements ICard {
 
     @Override
     public void doCardAction(IPlayer player) {
-        IRobot robot = player.getRobot();
         switch (type) {
             case ROTATE_LEFT:
                 player.rotateRobot(false, RENDERING_DELAY);
@@ -42,10 +41,13 @@ public class Card implements ICard {
                 break;
             case MOVE_2:
                 player.moveRobot(2, RENDERING_DELAY);
+                break;
             case MOVE_3:
                 player.moveRobot(3, RENDERING_DELAY);
+                break;
             case BACK_UP:
                 player.backUpRobot(RENDERING_DELAY);
+                break;
             default:
                 break;
         }

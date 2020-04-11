@@ -27,7 +27,7 @@ public class CogTest {
     private IPlayer player;
 
     @BeforeAll
-    static void setup(){
+    private static void setup(){
         board = new Board("assets/RiskyExchange.tmx");
         robotRenderer = new RobotRenderer(null);
     }

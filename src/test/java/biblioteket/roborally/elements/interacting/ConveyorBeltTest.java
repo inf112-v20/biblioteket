@@ -22,7 +22,7 @@ public class ConveyorBeltTest {
     private ArchiveMarkerElement archiveMarker;
 
     @BeforeAll
-    static void setup(){
+    private static void setup(){
         board = new Board("assets/DizzyDash.tmx");
     }
 
@@ -39,21 +39,16 @@ public class ConveyorBeltTest {
     void conveyorBeltPushesRobotInCorrectDirectionTest() {
         Direction[] directions = new Direction[]{Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST};
         for (Direction direction : directions) {
-            System.out.println(direction);
             IRobot robot = new Robot(archiveMarker);
             player.setRobot(robot);
             DirVector position = robot.getPosition();
 
             ConveyorBeltElement conveyorBelt = new ConveyorBeltElement(direction);
             DirVector initVector = new DirVector(position.getX(), position.getY(), position.getDirection());
-            System.out.println("InitVector: " + initVector);
 
             conveyorBelt.interact(player);
             DirVector postInteractionPosition = player.getRobot().getPosition();
             DirVector vectorInDirection = initVector.dirVectorInDirection(direction);
-
-            System.out.println("Post interaction: " + postInteractionPosition);
-            System.out.println("vector in direction: " + vectorInDirection);
 
             assertEquals(vectorInDirection.getX(), postInteractionPosition.getX());
             assertEquals(vectorInDirection.getY(), postInteractionPosition.getY());
