@@ -8,13 +8,11 @@ import biblioteket.roborally.elements.interacting.HoleElement;
 import biblioteket.roborally.elements.interacting.InteractingElement;
 import biblioteket.roborally.elements.walls.LaserWallElement;
 import biblioteket.roborally.elements.walls.WallElement;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 

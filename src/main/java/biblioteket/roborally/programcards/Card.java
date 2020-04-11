@@ -1,7 +1,6 @@
 package biblioteket.roborally.programcards;
 
 import biblioteket.roborally.actors.IPlayer;
-import biblioteket.roborally.actors.IRobot;
 
 public class Card implements ICard {
     private final static int RENDERING_DELAY = 500;

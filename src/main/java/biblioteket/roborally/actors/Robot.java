@@ -1,9 +1,7 @@
 package biblioteket.roborally.actors;
 
-import biblioteket.roborally.board.Board;
 import biblioteket.roborally.board.DirVector;
 import biblioteket.roborally.board.Direction;
-import biblioteket.roborally.board.IBoard;
 import biblioteket.roborally.elements.ArchiveMarkerElement;
 
 public class Robot implements IRobot {
