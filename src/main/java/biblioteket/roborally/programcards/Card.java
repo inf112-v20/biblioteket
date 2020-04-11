@@ -3,7 +3,7 @@ package biblioteket.roborally.programcards;
 import biblioteket.roborally.actors.IPlayer;
 
 public class Card implements ICard {
-    private final static int RENDERING_DELAY = 500;
+    private static final int RENDERING_DELAY = 500;
     private final CardType type;
     private final int priorityNumber;
 

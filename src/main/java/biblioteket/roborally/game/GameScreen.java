@@ -62,6 +62,7 @@ public class GameScreen implements Screen {
         }
 
         GameLoop gameLoop = new GameLoop(board, players);
+        gameLoop.startGame();
 
     }
 
