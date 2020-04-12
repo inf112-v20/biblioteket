@@ -13,7 +13,6 @@ import biblioteket.roborally.elements.walls.LaserWallElement;
 import biblioteket.roborally.programcards.CardDeck;
 import biblioteket.roborally.programcards.ICard;
 import biblioteket.roborally.programcards.ICardDeck;
-import biblioteket.roborally.programcards.ReverseCardComparator;
 import biblioteket.roborally.userinterface.InterfaceRenderer;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -21,8 +20,6 @@ import com.badlogic.gdx.InputAdapter;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
 /**
  * Once every player has finished programming their robot,
@@ -33,14 +30,12 @@ public class GameLoop {
     private final int amountOfFlags;
     private final List<LaserWallElement> laserWalls;
     private final List<IPlayer> players;
-    private final int currentPlayerPtr;
     private final IPlayer currentPlayer;
     private ICardDeck cardDeck;
 
     public GameLoop(Board board, List<IPlayer> players) {
         this.board = board;
         this.players = players;
-        currentPlayerPtr = 0;
         currentPlayer = players.get(0);
         amountOfFlags = board.getNumFlags();
         laserWalls = board.getLaserWalls();
@@ -113,22 +108,26 @@ public class GameLoop {
      *
      */
     public void doTurn() {
-        // Use red-black tree to sort every programming card according to their priority,
-        // mapped to correct robot
-        Map<ICard, IPlayer> cardMapping = new TreeMap<>(new ReverseCardComparator());
+
         for (IPlayer player : players) {
             List<ICard> programRegister = player.getProgramRegister(cardDeck);
-            for (ICard card : programRegister) {
-                cardMapping.put(card, player);
+            System.out.println("Start of Turn");
+            for (int i = programRegister.size() - 1; i >= 0; i--) {
+                ICard card = programRegister.get(i);
+
+                System.out.println("Robot damage: " + player.getRobot().getNumberOfDamageTokens());
+                System.out.println("Player lives: " + player.getLives());
+                System.out.println("Robot dir before   " + player.getRobot().getPosition().getDirection());
+                System.out.println("Robot executes card " + card.toString());
+                card.doCardAction(player.getRobot(), board);
+                System.out.println("Robot dir after    " + player.getRobot().getPosition().getDirection());
+                System.out.println("Robot damage: " + player.getRobot().getNumberOfDamageTokens());
+                System.out.println("Player lives: " + player.getLives());
+
             }
-        }
 
-        // Execute program cards in order from highest to lowest priority
-        for (ICard card : cardMapping.keySet()) {
-            IPlayer player = cardMapping.get(card);
-            card.doCardAction(player.getRobot(), board);
+            System.out.println("End of Turn");
         }
-
         // Robots interact with board elements
         interactWithBoardElements();
 

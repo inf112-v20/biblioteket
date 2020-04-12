@@ -4,7 +4,6 @@ import biblioteket.roborally.programcards.ICard;
 import biblioteket.roborally.programcards.ICardDeck;
 import biblioteket.roborally.userinterface.InterfaceRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import org.lwjgl.Sys;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +16,7 @@ public class Player implements IPlayer {
     private int visitedFlags = 0;
     private IRobot robot;
     private ArrayList<ICard> drawnCards;
+    private int lockedRegisters = 0;
 
     public Player(TiledMapTileLayer.Cell playerCell, InterfaceRenderer interfaceRenderer) {
         this.playerCell = playerCell;
@@ -87,7 +87,6 @@ public class Player implements IPlayer {
         int defaultNumber = 9; //default number of cards to draw
         int damageTokens = robot.getNumberOfDamageTokens();
         int cardsToDraw = defaultNumber - damageTokens;
-
         if (!drawnCards.isEmpty())
             for (ICard card : drawnCards)
                 cardDeck.addToDiscardPile(card);
@@ -108,28 +107,31 @@ public class Player implements IPlayer {
      * @param cardDeck     The cardDeck used in the game.
      */
     private void cleanRegister(int damageTokens, ICardDeck cardDeck) {
-        System.out.println("Cards in register:" + programRegister.size());
-        System.out.println("DamageTokens:" + damageTokens);
         switch (damageTokens) {
             case 9:
+                lockedRegisters = 5;
                 break;
             case 8:
-                cardDeck.removeFromRegisterPile(programRegister.remove(0));
+                lockedRegisters = 4;
+                cardDeck.removeFromRegisterPile(programRegister.remove(programRegister.size() - 1));
                 break;
             case 7:
-                cardDeck.removeFromRegisterPile(programRegister.remove(0));
-                cardDeck.removeFromRegisterPile(programRegister.remove(0));
+                lockedRegisters = 3;
+                cardDeck.removeFromRegisterPile(programRegister.remove(programRegister.size() - 1));
+                cardDeck.removeFromRegisterPile(programRegister.remove(programRegister.size() - 1));
                 break;
             case 6:
-                cardDeck.removeFromRegisterPile(programRegister.remove(0));
-                cardDeck.removeFromRegisterPile(programRegister.remove(0));
-                cardDeck.removeFromRegisterPile(programRegister.remove(0));
+                lockedRegisters = 2;
+                cardDeck.removeFromRegisterPile(programRegister.remove(programRegister.size() - 1));
+                cardDeck.removeFromRegisterPile(programRegister.remove(programRegister.size() - 1));
+                cardDeck.removeFromRegisterPile(programRegister.remove(programRegister.size() - 1));
                 break;
             case 5:
-                cardDeck.removeFromRegisterPile(programRegister.remove(0));
-                cardDeck.removeFromRegisterPile(programRegister.remove(0));
-                cardDeck.removeFromRegisterPile(programRegister.remove(0));
-                cardDeck.removeFromRegisterPile(programRegister.remove(0));
+                lockedRegisters = 1;
+                cardDeck.removeFromRegisterPile(programRegister.remove(programRegister.size() - 1));
+                cardDeck.removeFromRegisterPile(programRegister.remove(programRegister.size() - 1));
+                cardDeck.removeFromRegisterPile(programRegister.remove(programRegister.size() - 1));
+                cardDeck.removeFromRegisterPile(programRegister.remove(programRegister.size() - 1));
                 break;
             default:
                 for (ICard card : programRegister)
@@ -144,8 +146,11 @@ public class Player implements IPlayer {
      */
     private void updateRegisterRender() { //Does not place cards in correct order
         interfaceRenderer.clearProgramRegister();
-        for (ICard card : programRegister) {
-            interfaceRenderer.addCardToProgramRegister(card);
+        if (!programRegister.isEmpty()) {
+            int place = 4;
+            for (ICard card : programRegister) {
+                interfaceRenderer.addCardToLockedRegister(card, place--);
+            }
         }
     }
 
@@ -153,8 +158,8 @@ public class Player implements IPlayer {
     public void addCardToProgramRegister(ICard card, ICardDeck cardDeck) {
         drawnCards.remove(card);
         cardDeck.addToRegisterPile(card);
-        programRegister.add(0, card);
-        interfaceRenderer.addCardToProgramRegister(card);
+        interfaceRenderer.addCardToProgramRegisterIndex(card, programRegister.size() - lockedRegisters);
+        programRegister.add(lockedRegisters, card);
     }
 
     @Override

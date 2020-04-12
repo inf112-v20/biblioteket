@@ -223,10 +223,6 @@ public class Board implements IBoard {
         InteractingElement element = getInteractingElement(robot.getPosition());
         if (element != null) {
             element.interact(player);
-            if (outOfBounds(robot.getPosition())) {
-                robot.addDamageTokens(1);
-                robot.moveToArchiveMarker();
-            }
             return robot.getPosition();
         }
         return null;

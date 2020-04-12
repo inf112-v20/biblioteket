@@ -2,14 +2,12 @@ package biblioteket.roborally.userinterface;
 
 import biblioteket.roborally.board.IBoard;
 import biblioteket.roborally.programcards.ICard;
-import biblioteket.roborally.programcards.ReverseCardComparator;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Handles rendering of player interface, displaying necessary information for playing the game
@@ -168,6 +166,11 @@ public class InterfaceRenderer {
         if (cardHand.size() > this.cardHand.length)
             throw new IndexOutOfBoundsException("Tried to deal too many cards to player");
 
+        for (int i = 0; i < this.cardHand.length; i++) {
+            this.cardHand[i] = null;
+            touchableCardHand.setCard(i, null);
+        }
+
         for (int i = 0; i < cardHand.size(); i++) {
             ICard card = cardHand.get(i);
             this.cardHand[i] = card;
@@ -196,7 +199,24 @@ public class InterfaceRenderer {
                 break;
             }
         }
-        Arrays.sort(programRegister, new ReverseCardComparator());
+    }
+
+    public void addCardToLockedRegister(ICard card, int index) {
+        ICard copy = card.copy(); //not really sure why a copy but ok.
+        programRegister[index] = copy;
+    }
+
+    public void addCardToProgramRegisterIndex(ICard card, int index) {
+        for (int i = 0; i < cardHand.length; i++) {
+            if (cardHand[i] == card) {
+                cardHand[i] = null;
+                touchableCardHand.removeCard(i);
+                break;
+            }
+        }
+
+        ICard copy = card.copy(); //not really sure why a copy but ok.
+        programRegister[index] = copy;
     }
 
     /**

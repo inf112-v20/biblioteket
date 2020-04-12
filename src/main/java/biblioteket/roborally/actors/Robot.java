@@ -5,6 +5,7 @@ import biblioteket.roborally.board.DirVector;
 import biblioteket.roborally.board.Direction;
 import biblioteket.roborally.board.IBoard;
 import biblioteket.roborally.elements.ArchiveMarkerElement;
+import biblioteket.roborally.elements.interacting.HoleElement;
 
 public class Robot implements IRobot {
     private final ArchiveMarkerElement archiveMarker;
@@ -124,8 +125,15 @@ public class Robot implements IRobot {
     public boolean move(Direction direction, IBoard board) {
         if (board.canMove(getPosition(), direction)) {
             this.location = this.location.dirVectorInDirection(direction);
+            Board boardInteract = (Board) board; // Will change when all methods are added to IBoard
+            if (boardInteract.getInteractingElement(this.location) instanceof HoleElement) {
+                System.out.println("Move: robot at " + getPosition().getX() + "," + getPosition().getY() + " fell into pit");
+                player.removeOneLife();
+                moveToArchiveMarker();
+            }
             if (board.outOfBounds(this.location)) {
-                this.addDamageTokens(1);
+                System.out.println("Move: robot at " + getPosition().getX() + "," + getPosition().getY() + " moved out of bounds");
+                player.removeOneLife();
                 moveToArchiveMarker();
             }
             return true;
@@ -140,7 +148,6 @@ public class Robot implements IRobot {
             if (board.outOfBounds(locationInDirection)) { //Check if robot moves off board
                 player.removeOneLife();
                 if (player.hasLivesLeft()) {
-                    addDamageTokens(1);
                     moveToArchiveMarker();
                 }
             } else {// Moves the robot in direction
