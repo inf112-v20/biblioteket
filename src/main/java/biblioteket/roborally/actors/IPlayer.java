@@ -68,6 +68,13 @@ public interface IPlayer {
     IRobot getRobot();
 
     /**
+     * Sets the name of the player to be displayed in the players interface
+     *
+     * @param name
+     */
+    void setName(String name);
+
+    /**
      * Set the players robot.
      *
      * @param robot robot that player will control.

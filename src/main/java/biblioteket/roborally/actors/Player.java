@@ -62,6 +62,7 @@ public class Player implements IPlayer {
 
     @Override
     public void rotateRobot(boolean right, int delay){
+        if(!canMove) return;
         if (right) {
             robot.turnRight();
         } else {
@@ -93,6 +94,11 @@ public class Player implements IPlayer {
     @Override
     public IRobot getRobot() {
         return robot;
+    }
+
+    @Override
+    public void setName(String name){
+        interfaceRenderer.setName(name);
     }
 
     @Override

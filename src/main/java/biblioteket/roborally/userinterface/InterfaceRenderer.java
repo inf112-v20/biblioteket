@@ -37,8 +37,10 @@ public class InterfaceRenderer {
     private final ICard[] programRegister;
     private final TouchableCards touchableCardHand;
     private final TouchableCards touchableProgramRegister;
+    private final ReverseCardComparator cardComparator = new ReverseCardComparator();
     private int flagsVisited;
     private int lives;
+    private String name;
 
     public InterfaceRenderer() {
         background = new Texture("assets/background2.jpg");
@@ -92,6 +94,7 @@ public class InterfaceRenderer {
         batch.draw(hp, 330, Gdx.graphics.getHeight() - 180, 40, 40);
         font.draw(batch, Integer.toString(flagsVisited), 310, Gdx.graphics.getHeight() - 165);
         font.draw(batch, Integer.toString(lives), 360, Gdx.graphics.getHeight() - 165);
+        font.draw(batch, name, 410, Gdx.graphics.getHeight() - 165);
 
 
         drawCard(cardHand[0], 375, 100, 100, 90);
@@ -161,6 +164,10 @@ public class InterfaceRenderer {
         this.lives = lives;
     }
 
+    public void setName(String name){
+        this.name = name;
+    }
+
     /**
      * @param cardHand to be drawn
      */
@@ -196,7 +203,7 @@ public class InterfaceRenderer {
                 break;
             }
         }
-        Arrays.sort(programRegister, new ReverseCardComparator());
+        Arrays.sort(programRegister, cardComparator);
     }
 
     /**

@@ -1,6 +1,8 @@
 package biblioteket.roborally.game;
 
 import biblioteket.roborally.actors.IPlayer;
+import biblioteket.roborally.actors.Player;
+import biblioteket.roborally.actors.RobotRenderer;
 import biblioteket.roborally.board.DirVector;
 import biblioteket.roborally.board.Direction;
 import biblioteket.roborally.board.IBoard;
@@ -33,15 +35,12 @@ public class GameLoop {
     private final int amountOfFlags;
     private final List<LaserWallElement> laserWalls;
     private final List<IPlayer> players;
-    private final int currentPlayerPtr;
-    private final IPlayer currentPlayer;
+    private int currentPlayerPtr = 0;
     private ICardDeck cardDeck;
 
     public GameLoop(IBoard board, List<IPlayer> players) {
         this.board = board;
         this.players = players;
-        currentPlayerPtr = 0;
-        currentPlayer = players.get(0);
         amountOfFlags = board.getNumberOfFlags();
         laserWalls = board.getLaserWalls();
 
@@ -61,12 +60,13 @@ public class GameLoop {
             @Override
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {
                 int y = Gdx.graphics.getHeight() - 1 - screenY; // Translate from y-down to y-up
-                return registerInput(screenX, y);
+                return registerInput(screenX, y, getCurrentPlayer());
             }
 
             // Keyboard movement for testing
             @Override
             public boolean keyUp(int keycode) {
+                IPlayer currentPlayer = getCurrentPlayer();
                 switch (keycode) {
                     case Input.Keys.A:
                         currentPlayer.moveRobot(Direction.WEST, 0);
@@ -112,13 +112,14 @@ public class GameLoop {
      * @param y coordinate from user input
      * @return true if input was handled correctly
      */
-    private boolean registerInput(int x, int y) {
-        InterfaceRenderer interfaceRenderer = currentPlayer.getInterfaceRenderer();
+    private boolean registerInput(int x, int y, IPlayer player) {
+        InterfaceRenderer interfaceRenderer = player.getInterfaceRenderer();
         ICard card = interfaceRenderer.contains(x, y);
         if (card != null)
-            currentPlayer.addCardToProgramRegister(card);
+            player.addCardToProgramRegister(card);
 
-        if (currentPlayer.fullProgramRegister()) doTurn();
+        if (player.fullProgramRegister())
+            nextPlayer();
 
         return true;
     }
@@ -226,6 +227,18 @@ public class GameLoop {
                 board.interact(player);
             }
         }
+    }
+
+    private void nextPlayer(){
+        currentPlayerPtr++;
+        if (currentPlayerPtr == players.size()){
+            currentPlayerPtr = 0;
+            doTurn();
+        }
+    }
+
+    public IPlayer getCurrentPlayer(){
+        return players.get(currentPlayerPtr);
     }
 
 }
