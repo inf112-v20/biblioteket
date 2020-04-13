@@ -51,12 +51,37 @@ public interface IBoard {
     TiledMapTileLayer getLayer(String layerName);
 
     /**
+     * @return the player layer of the tiled map
+     */
+    TiledMapTileLayer getPlayerLayer();
+
+    /**
+     * @return the laser layer of the map
+     */
+    TiledMapTileLayer getLaserLayer();
+
+    /**
+     * Gets an {@link InteractingElement} from the location of a robot, this can
+     * be something like a conveyor belt, a rotator or something similar.
+     *
+     * @param location location to check for elements
+     * @return {@link InteractingElement}
+     */
+    InteractingElement getInteractingElement(DirVector location);
+
+    /**
      * Checks if you move out of bounds of the board.
      *
      * @param dir direction to move
      * @return true if out of board, false otherwise
      */
     boolean outOfBounds(DirVector dir);
+
+    /**
+     * @param position current position
+     * @return true if there is a HoleElement in position
+     */
+    boolean isHole(DirVector position);
 
     /**
      * Checks if the position robot is moving to contains immovable object or a wall is blocking the way,
@@ -73,9 +98,8 @@ public interface IBoard {
      * {@link InteractingElement} and a {@link biblioteket.roborally.actors.Robot}.
      *
      * @param player with current robot moving on the board.
-     * @return new position of robot after having been interacted with.
      */
-    DirVector interact(IPlayer player);
+    void interact(IPlayer player);
 
     /**
      * If players robot is standing on a flag that can be picked up, registers flag to player
@@ -91,6 +115,11 @@ public interface IBoard {
      * @return an archive marker for a players ID
      */
     ArchiveMarkerElement getArchiveMarker(int i);
+
+    /**
+     * @return the number of flags on the map
+     */
+    int getNumberOfFlags();
 
 
     /**

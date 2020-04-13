@@ -3,6 +3,7 @@ package biblioteket.roborally.elements.walls;
 import biblioteket.roborally.actors.IPlayer;
 import biblioteket.roborally.actors.IRobot;
 import biblioteket.roborally.board.DirVector;
+import biblioteket.roborally.board.Direction;
 import biblioteket.roborally.board.IBoard;
 
 import java.util.List;
@@ -27,8 +28,10 @@ public class Laser {
                 return;
             }
         }
-        if (board.canMove(vector, vector.getDirection())) {
-            vector.forward(1);
+
+        Direction direction = vector.getDirection();
+        if (board.canMove(vector, direction)) {
+            vector.forward(direction);
             fireLaser(board, players, vector);
         }
     }

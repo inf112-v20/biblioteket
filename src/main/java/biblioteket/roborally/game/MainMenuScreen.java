@@ -12,6 +12,8 @@ import com.badlogic.gdx.graphics.Texture;
  * canvas is displayed that the user can click and then the game launches.
  */
 public class MainMenuScreen implements Screen {
+    private static final int BUTTON_HEIGHT = 250;
+    private static final int BUTTON_WIDTH = 180;
     private final RoboRally game;
     private final OrthographicCamera camera;
     private final Texture logo;
@@ -20,8 +22,6 @@ public class MainMenuScreen implements Screen {
     private final Texture playPost;
     private final Texture quitPre;
     private final Texture quitPost;
-    private static final int BUTTON_HEIGHT = 250;
-    private static final int BUTTON_WIDTH = 180;
 
 
     public MainMenuScreen(final RoboRally game) {

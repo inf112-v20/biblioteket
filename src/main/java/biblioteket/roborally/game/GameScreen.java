@@ -1,10 +1,8 @@
 package biblioteket.roborally.game;
 
-import biblioteket.roborally.actors.IPlayer;
-import biblioteket.roborally.actors.IRobot;
-import biblioteket.roborally.actors.Player;
-import biblioteket.roborally.actors.Robot;
+import biblioteket.roborally.actors.*;
 import biblioteket.roborally.board.Board;
+import biblioteket.roborally.board.IBoard;
 import biblioteket.roborally.elements.ArchiveMarkerElement;
 import biblioteket.roborally.userinterface.InterfaceRenderer;
 import com.badlogic.gdx.Gdx;
@@ -26,16 +24,19 @@ import java.util.List;
  * flag and hole that they player can move around on.
  */
 public class GameScreen implements Screen {
-    private final Board board;
-    private final GameLoop gameLoop;
+    private final IBoard board;
+    private final RobotRenderer robotRenderer;
     private final OrthographicCamera camera;
 
     private final List<IPlayer> players;
 
     private final OrthogonalTiledMapRenderer tiledMapRenderer;
 
+    private final Texture playerTexture;
+
     public GameScreen(final RoboRally gam) {
         this.board = new Board("assets/DizzyDash.tmx");
+        this.robotRenderer = new RobotRenderer(board.getPlayerLayer());
         this.camera = new OrthographicCamera();
 
         camera.setToOrtho(false, board.getWidth() + 14, board.getHeight() + 1);
@@ -45,21 +46,23 @@ public class GameScreen implements Screen {
         tiledMapRenderer.setView(camera);
 
 
-        Texture playerTexture = new Texture("assets/player.png");
+        playerTexture = new Texture("assets/player.png");
         TextureRegion[][] playerTextureSplit = TextureRegion.split(playerTexture, board.getTileWidth(), board.getTileHeight());
 
         this.players = new ArrayList<>();
 
-        for (int i = 0; i < 1; i++) {
-            Player player = new Player(new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(playerTextureSplit[0][0])), new InterfaceRenderer());
+        for (int i = 1; i <= 1; i++) {
+            TiledMapTileLayer.Cell playerCell = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(playerTextureSplit[0][0]));
+            Player player = new Player(board, playerCell, new InterfaceRenderer(), robotRenderer);
             players.add(player);
-            ArchiveMarkerElement archiveMarker = board.getArchiveMarker(i + 1);
+            ArchiveMarkerElement archiveMarker = board.getArchiveMarker(i);
             IRobot robot = new Robot(archiveMarker);
             player.setRobot(robot);
-            board.getPlayerLayer().setCell(player.getRobot().getPosition().getX(), player.getRobot().getPosition().getY(), null);
+            board.getPlayerLayer().setCell(player.getRobot().getPosition().getX(), player.getRobot().getPosition().getY(), playerCell);
         }
 
-        this.gameLoop = new GameLoop(board, players);
+        GameLoop gameLoop = new GameLoop(board, players);
+        gameLoop.startGame();
 
     }
 
@@ -77,16 +80,19 @@ public class GameScreen implements Screen {
             InterfaceRenderer interfaceRenderer = player.getInterfaceRenderer();
             interfaceRenderer.renderInterface(board);
         }
-        gameLoop.renderPlayers();
+
+        // Render robot movement
+        if (robotRenderer.isRequestingRendering()) {
+            robotRenderer.render();
+        }
 
         tiledMapRenderer.render();
         tiledMapRenderer.getBatch().begin();
         tiledMapRenderer.renderTileLayer(board.getPlayerLayer());
         tiledMapRenderer.getBatch().end();
+        camera.update();
 
-        for (IPlayer player : players) {
-            board.getPlayerLayer().setCell(player.getRobot().getPosition().getX(), player.getRobot().getPosition().getY(), null);
-        }
+
     }
 
     @Override

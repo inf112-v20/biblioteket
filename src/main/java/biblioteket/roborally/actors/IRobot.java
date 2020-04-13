@@ -1,9 +1,7 @@
 package biblioteket.roborally.actors;
 
-import biblioteket.roborally.board.Board;
 import biblioteket.roborally.board.DirVector;
 import biblioteket.roborally.board.Direction;
-import biblioteket.roborally.board.IBoard;
 import biblioteket.roborally.elements.ArchiveMarkerElement;
 
 public interface IRobot {
@@ -77,23 +75,6 @@ public interface IRobot {
      */
     void turnRight();
 
-
-    /**
-     * Changes the position of the robot.
-     * Moves the robot one step in the direction it faces.
-     *
-     * @param board current board
-     */
-    void moveForward(IBoard board);
-
-    /**
-     * Changes the position of the robot.
-     * Moves the robot one step back away from the direction it faces.
-     *
-     * @param board current borad
-     */
-    void moveBackward(IBoard board);
-
     /**
      * Changes position of robot.
      * Pushes the robot in given direction.
@@ -140,34 +121,6 @@ public interface IRobot {
      * @param direction direction to face.
      */
     void setDirection(Direction direction);
-
-    /**
-     * Moves the robot forward a single cell.
-     *
-     * @param board current game board
-     * @return true if moved, false otherwise
-     */
-    boolean moveForward(Board board);
-
-    /**
-     * Moves the robot in a given direction, if it falls of the map we add a
-     * single damage token and move it back to its archive marker.
-     *
-     * @param direction direction to move in
-     * @param board     current game board
-     * @return true if moved, false otherwise
-     */
-    boolean move(Direction direction, IBoard board);
-
-    /**
-     * Tries to move robot in given direction.
-     * If it moves of board or fall into a pit player should lose life.
-     * It should try to push robots it clashes with.
-     *
-     * @param direction direction to move robot in
-     * @param board     current game board
-     */
-    void moveRobot(Direction direction, IBoard board);
 
     /**
      * Each robot that was destroyed this turn

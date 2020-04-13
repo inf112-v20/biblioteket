@@ -1,9 +1,9 @@
 package biblioteket.roborally.programcards;
 
-import biblioteket.roborally.actors.IRobot;
-import biblioteket.roborally.board.IBoard;
+import biblioteket.roborally.actors.IPlayer;
 
 public class Card implements ICard {
+    private static final int RENDERING_DELAY = 500;
     private final CardType type;
     private final int priorityNumber;
 
@@ -23,35 +23,29 @@ public class Card implements ICard {
     }
 
     @Override
-    public void doCardAction(IRobot robot, IBoard board) {
+    public void doCardAction(IPlayer player) {
         switch (type) {
             case ROTATE_LEFT:
-                robot.turnLeft();
+                player.rotateRobot(false, RENDERING_DELAY);
                 break;
             case ROTATE_RIGHT:
-                robot.turnRight();
+                player.rotateRobot(true, RENDERING_DELAY);
                 break;
             case U_TURN:
-                robot.turnLeft();
-                robot.turnLeft();
+                player.rotateRobot(true, RENDERING_DELAY);
+                player.rotateRobot(true, RENDERING_DELAY);
                 break;
             case MOVE_1:
-                robot.move(robot.getDirection(), board);
+                player.moveRobot(1, RENDERING_DELAY);
                 break;
             case MOVE_2:
-                robot.move(robot.getDirection(), board);
-                if (robot.getPlayer().hasLivesLeft())
-                    robot.moveForward(board);
+                player.moveRobot(2, RENDERING_DELAY);
                 break;
             case MOVE_3:
-                robot.move(robot.getDirection(), board);
-                if (robot.getPlayer().hasLivesLeft())
-                    robot.move(robot.getDirection(), board);
-                if (robot.getPlayer().hasLivesLeft())
-                    robot.move(robot.getDirection(), board);
+                player.moveRobot(3, RENDERING_DELAY);
                 break;
             case BACK_UP:
-                robot.move(robot.getDirection().opposite(), board);
+                player.backUpRobot(RENDERING_DELAY);
                 break;
             default:
                 break;

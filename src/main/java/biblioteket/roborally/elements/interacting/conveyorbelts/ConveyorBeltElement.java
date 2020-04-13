@@ -1,7 +1,6 @@
 package biblioteket.roborally.elements.interacting.conveyorbelts;
 
 import biblioteket.roborally.actors.IPlayer;
-import biblioteket.roborally.actors.IRobot;
 import biblioteket.roborally.board.Direction;
 import biblioteket.roborally.elements.interacting.InteractingElement;
 
@@ -19,8 +18,7 @@ public class ConveyorBeltElement implements InteractingElement {
      */
     @Override
     public void interact(IPlayer player) {
-        IRobot robot = player.getRobot();
-        robot.pushRobotInDirection(direction);
+        player.moveRobot(direction, 500);
     }
 
     @Override
