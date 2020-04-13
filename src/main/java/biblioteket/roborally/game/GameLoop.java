@@ -1,6 +1,6 @@
 package biblioteket.roborally.game;
 
-import biblioteket.roborally.actors.IPlayer;
+import biblioteket.roborally.actors.IActor;
 import biblioteket.roborally.board.DirVector;
 import biblioteket.roborally.board.Direction;
 import biblioteket.roborally.board.IBoard;
@@ -32,12 +32,12 @@ public class GameLoop {
     private final IBoard board;
     private final int amountOfFlags;
     private final List<LaserWallElement> laserWalls;
-    private final List<IPlayer> players;
+    private final List<IActor> players;
     private final int currentPlayerPtr;
-    private final IPlayer currentPlayer;
+    private final IActor currentPlayer;
     private ICardDeck cardDeck;
 
-    public GameLoop(IBoard board, List<IPlayer> players) {
+    public GameLoop(IBoard board, List<IActor> players) {
         this.board = board;
         this.players = players;
         currentPlayerPtr = 0;
@@ -51,7 +51,7 @@ public class GameLoop {
             e.printStackTrace();
         }
 
-        for (IPlayer player : players) {
+        for (IActor player : players) {
             player.newTurn(cardDeck);
         }
     }
@@ -129,8 +129,8 @@ public class GameLoop {
     public void doTurn() {
         // Use red-black tree to sort every programming card according to their priority,
         // mapped to correct robot
-        Map<ICard, IPlayer> cardMapping = new TreeMap<>(new ReverseCardComparator());
-        for (IPlayer player : players) {
+        Map<ICard, IActor> cardMapping = new TreeMap<>(new ReverseCardComparator());
+        for (IActor player : players) {
             List<ICard> programRegister = player.getProgramRegister();
             for (ICard card : programRegister) {
                 cardMapping.put(card, player);
@@ -139,7 +139,7 @@ public class GameLoop {
 
         // Execute program cards in order from highest to lowest priority
         for (ICard card : cardMapping.keySet()) {
-            IPlayer player = cardMapping.get(card);
+            IActor player = cardMapping.get(card);
             card.doCardAction(player);
         }
 
@@ -150,7 +150,7 @@ public class GameLoop {
         if (checkWinCondition() || everyPlayerDead())
             Gdx.app.exit();
         else {
-            for (IPlayer player : players) {
+            for (IActor player : players) {
                 player.newTurn(cardDeck);
             }
         }
@@ -161,13 +161,11 @@ public class GameLoop {
      * Robots interact with board elements
      */
     private void interactWithBoardElements() {
-
         // Express conveyor belts move first
         interactWithBoardElement(ExpressConveyorBeltElement.class);
 
         // All conveyor belts move second
         interactWithBoardElement(ConveyorBeltElement.class);
-
 
         // Gears rotate
         interactWithBoardElement(CogElement.class);
@@ -178,25 +176,24 @@ public class GameLoop {
         }
 
         // Interact with priority 2 elements
-        for (IPlayer player : players) {
+        for (IActor player : players) {
             InteractingElement element = board.getInteractingElement(player.getRobot().getPosition());
             if (element != null && element.getPriority() == 2) {
                 board.interact(player);
             }
         }
 
-//         Register flags
-        for (IPlayer player : players) {
+        // Register flags
+        for (IActor player : players) {
             board.registerFlag(player);
         }
-
     }
 
     /**
      * @return true if any player has registered all flags on board
      */
     private boolean checkWinCondition() {
-        for (IPlayer player : players) {
+        for (IActor player : players) {
             if (player.getNumberOfVisitedFlags() == amountOfFlags) return true;
         }
         return false;
@@ -206,7 +203,7 @@ public class GameLoop {
      * @return true if every player is dead
      */
     private boolean everyPlayerDead() {
-        for (IPlayer player : players) {
+        for (IActor player : players) {
             if (!player.isPermanentDead())
                 return false;
         }
@@ -219,7 +216,7 @@ public class GameLoop {
      * @param instance robots should interact with
      */
     private void interactWithBoardElement(Class<? extends InteractingElement> instance) {
-        for (IPlayer player : players) {
+        for (IActor player : players) {
             DirVector position = player.getRobot().getPosition();
             IElement element = board.getInteractingElement(position);
             if (instance.isInstance(element)) {

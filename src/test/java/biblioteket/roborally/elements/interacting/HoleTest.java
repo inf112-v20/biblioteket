@@ -1,6 +1,6 @@
 package biblioteket.roborally.elements.interacting;
 
-import biblioteket.roborally.actors.IPlayer;
+import biblioteket.roborally.actors.IActor;
 import biblioteket.roborally.actors.IRobot;
 import biblioteket.roborally.actors.Player;
 import biblioteket.roborally.actors.Robot;
@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class HoleTest {
-    private IPlayer player;
+    private IActor player;
 
     @BeforeEach
     void setUp() {

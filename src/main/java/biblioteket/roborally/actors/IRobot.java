@@ -11,14 +11,14 @@ public interface IRobot {
      *
      * @return the player who is the owner of the robot.
      */
-    IPlayer getPlayer();
+    IActor getPlayer();
 
     /**
      * Set the player who is the owner of the robot.
      *
      * @param player current player
      */
-    void setPlayer(IPlayer player);
+    void setPlayer(IActor player);
 
     /**
      * Return number of damage tokens a robot has.

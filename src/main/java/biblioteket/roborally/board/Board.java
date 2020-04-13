@@ -1,6 +1,6 @@
 package biblioteket.roborally.board;
 
-import biblioteket.roborally.actors.IPlayer;
+import biblioteket.roborally.actors.IActor;
 import biblioteket.roborally.actors.IRobot;
 import biblioteket.roborally.elements.ArchiveMarkerElement;
 import biblioteket.roborally.elements.interacting.FlagElement;
@@ -72,49 +72,26 @@ public class Board implements IBoard {
         return this.tileHeight;
     }
 
-    /**
-     * Return the layer containing all the ground tiles, i.e. just floor, holes, spawn points etc.
-     *
-     * @return a layer
-     */
     public TiledMapTileLayer getGroundLayer() {
         return this.groundLayer;
     }
 
-    /**
-     * Returns the layer that the player objects are.
-     *
-     * @return a layer
-     */
     @Override
     public TiledMapTileLayer getPlayerLayer() {
         return this.playerLayer;
     }
 
-    /**
-     * Returns the layer that the flags are.
-     *
-     * @return a layer
-     */
+    @Override
     public TiledMapTileLayer getFlagLayer() {
         return this.flagLayer;
     }
 
-    /**
-     * Returns the layer that the lasers are.
-     *
-     * @return a layer
-     */
     @Override
     public TiledMapTileLayer getLaserLayer() {
         return this.laserLayer;
     }
 
-    /**
-     * Returns the layer that the walls are.
-     *
-     * @return a layer
-     */
+    @Override
     public TiledMapTileLayer getWallLayer() {
         return this.wallLayer;
     }
@@ -214,7 +191,7 @@ public class Board implements IBoard {
 
 
     @Override
-    public void interact(IPlayer player) {
+    public void interact(IActor player) {
         InteractingElement element = getInteractingElement(player.getRobot().getPosition());
         if (element != null) {
             element.interact(player);
@@ -222,7 +199,7 @@ public class Board implements IBoard {
     }
 
     @Override
-    public boolean registerFlag(IPlayer player) {
+    public boolean registerFlag(IActor player) {
         IRobot robot = player.getRobot();
         FlagElement flag = getFlagElement(robot.getPosition());
         if (flag != null) {

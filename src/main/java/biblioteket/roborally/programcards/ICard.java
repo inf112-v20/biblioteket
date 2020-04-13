@@ -1,6 +1,6 @@
 package biblioteket.roborally.programcards;
 
-import biblioteket.roborally.actors.IPlayer;
+import biblioteket.roborally.actors.IActor;
 
 public interface ICard {
 
@@ -23,7 +23,7 @@ public interface ICard {
      *
      * @param player
      */
-    void doCardAction(IPlayer player);
+    void doCardAction(IActor player);
 
     /**
      * @return a copy of this card

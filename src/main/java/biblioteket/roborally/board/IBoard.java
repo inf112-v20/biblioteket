@@ -1,6 +1,6 @@
 package biblioteket.roborally.board;
 
-import biblioteket.roborally.actors.IPlayer;
+import biblioteket.roborally.actors.IActor;
 import biblioteket.roborally.elements.ArchiveMarkerElement;
 import biblioteket.roborally.elements.interacting.InteractingElement;
 import biblioteket.roborally.elements.walls.LaserWallElement;
@@ -51,14 +51,35 @@ public interface IBoard {
     TiledMapTileLayer getLayer(String layerName);
 
     /**
+     * Return the layer containing all the ground tiles, i.e. just floor, holes, spawn points etc.
+     *
+     * @return a layer
+     */
+    TiledMapTileLayer getGroundLayer();
+
+    /**
      * @return the player layer of the tiled map
      */
     TiledMapTileLayer getPlayerLayer();
 
     /**
+     * Returns the layer that the flags are.
+     *
+     * @return a layer
+     */
+    TiledMapTileLayer getFlagLayer();
+
+    /**
      * @return the laser layer of the map
      */
     TiledMapTileLayer getLaserLayer();
+
+    /**
+     * Returns the layer that the walls are.
+     *
+     * @return a layer
+     */
+    TiledMapTileLayer getWallLayer();
 
     /**
      * Gets an {@link InteractingElement} from the location of a robot, this can
@@ -99,7 +120,7 @@ public interface IBoard {
      *
      * @param player with current robot moving on the board.
      */
-    void interact(IPlayer player);
+    void interact(IActor player);
 
     /**
      * If players robot is standing on a flag that can be picked up, registers flag to player
@@ -107,7 +128,7 @@ public interface IBoard {
      * @param player with robot registering flag
      * @return true if registering flag was successfull
      */
-    boolean registerFlag(IPlayer player);
+    boolean registerFlag(IActor player);
 
     /**
      * Finds a players archive marker.

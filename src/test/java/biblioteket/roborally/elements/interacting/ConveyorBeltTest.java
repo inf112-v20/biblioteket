@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @ExtendWith(TestRunner.class)
 public class ConveyorBeltTest {
     private static IBoard board;
-    private IPlayer player;
+    private IActor player;
     private ArchiveMarkerElement archiveMarker;
 
     @BeforeAll

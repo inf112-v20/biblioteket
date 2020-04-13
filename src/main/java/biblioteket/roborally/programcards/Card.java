@@ -1,6 +1,6 @@
 package biblioteket.roborally.programcards;
 
-import biblioteket.roborally.actors.IPlayer;
+import biblioteket.roborally.actors.IActor;
 
 public class Card implements ICard {
     private static final int RENDERING_DELAY = 500;
@@ -23,7 +23,7 @@ public class Card implements ICard {
     }
 
     @Override
-    public void doCardAction(IPlayer player) {
+    public void doCardAction(IActor player) {
         switch (type) {
             case ROTATE_LEFT:
                 player.rotateRobot(false, RENDERING_DELAY);

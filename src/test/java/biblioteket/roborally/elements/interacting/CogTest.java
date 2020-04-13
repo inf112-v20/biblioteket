@@ -1,7 +1,7 @@
 package biblioteket.roborally.elements.interacting;
 
 import biblioteket.roborally.TestRunner;
-import biblioteket.roborally.actors.IPlayer;
+import biblioteket.roborally.actors.IActor;
 import biblioteket.roborally.actors.Player;
 import biblioteket.roborally.actors.Robot;
 import biblioteket.roborally.actors.RobotRenderer;
@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class CogTest {
     private static IBoard board;
     private static RobotRenderer robotRenderer;
-    private IPlayer player;
+    private IActor player;
 
     @BeforeAll
     private static void setup() {

@@ -1,6 +1,6 @@
 package biblioteket.roborally.elements.interacting;
 
-import biblioteket.roborally.actors.IPlayer;
+import biblioteket.roborally.actors.IActor;
 
 public class FlagElement implements InteractingElement {
     private final int flagNumber;
@@ -15,7 +15,7 @@ public class FlagElement implements InteractingElement {
      * @param player with robot at flag
      */
     @Override
-    public void interact(IPlayer player) {
+    public void interact(IActor player) {
         int visited = player.getNumberOfVisitedFlags();
         if (flagNumber - 1 == visited) { // Check if player has picked up all previous flags
             System.out.println("Picked up flag " + flagNumber);
