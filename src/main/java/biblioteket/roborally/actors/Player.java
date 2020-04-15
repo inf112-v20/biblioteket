@@ -142,9 +142,9 @@ public class Player implements IPlayer {
     }
 
     /**
-     * Should keep cards in register.
+     * Updated the register, so that locked cards are placed correctly
      */
-    private void updateRegisterRender() { //Does not place cards in correct order
+    private void updateRegisterRender() {
         interfaceRenderer.clearProgramRegister();
         if (!programRegister.isEmpty()) {
             int place = 4;
