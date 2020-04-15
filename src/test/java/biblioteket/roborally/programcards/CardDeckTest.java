@@ -48,6 +48,7 @@ class CardDeckTest {
             cardDeck.addToDiscardPile(card);
         }
         ArrayList<ICard> discardPile2 = cardDeck.drawCards(maxNumberOfCards / 2 + 1);
+        assertEquals(maxNumberOfCards / 2 + 1, discardPile2.size());
     }
 
 }
