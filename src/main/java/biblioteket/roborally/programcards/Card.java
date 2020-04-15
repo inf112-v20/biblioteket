@@ -1,6 +1,7 @@
 package biblioteket.roborally.programcards;
 
 import biblioteket.roborally.actors.IRobot;
+import biblioteket.roborally.board.Direction;
 import biblioteket.roborally.board.IBoard;
 
 public class Card implements ICard {
@@ -51,7 +52,9 @@ public class Card implements ICard {
                     robot.move(robot.getDirection(), board);
                 break;
             case BACK_UP:
+                Direction dir = robot.getDirection();
                 robot.move(robot.getDirection().opposite(), board);
+                robot.setDirection(dir);
                 break;
             default:
                 break;

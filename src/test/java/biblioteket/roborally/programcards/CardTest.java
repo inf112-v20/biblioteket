@@ -206,6 +206,7 @@ class CardTest {
 
         assertEquals(robot.getPosition().getX(), newLocation.getX());
         assertEquals(robot.getPosition().getY(), newLocation.getY());
+        assertEquals(direction, robot.getDirection());
     }
 
 }
