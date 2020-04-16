@@ -10,7 +10,7 @@ public class MapSelect implements Screen {
 
 
     private final RoboRally game;
-    OrthographicCamera camera;
+    private OrthographicCamera camera;
     private Texture background;
     private Texture dizzyPre;
     private Texture dizzyPost;

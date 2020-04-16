@@ -1,5 +1,6 @@
 package biblioteket.roborally.userinterface;
 
+import biblioteket.roborally.actors.IPlayer;
 import biblioteket.roborally.board.IBoard;
 import biblioteket.roborally.game.GameScreen;
 import biblioteket.roborally.programcards.ICard;
@@ -8,10 +9,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.FrameBuffer;
-import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,7 +20,6 @@ import java.util.Arrays;
 public class InterfaceRenderer {
 
     private final Texture background;
-    private final Texture playerOverview;
     private final Texture flag;
     private final Texture hp;
 
@@ -35,6 +31,7 @@ public class InterfaceRenderer {
     private final Texture rotateRightCard;
     private final Texture rotateLeftCard;
     private final Texture uTurnCard;
+    private final Texture damageToken;
 
     private final SpriteBatch batch;
     private final BitmapFont font;
@@ -45,7 +42,8 @@ public class InterfaceRenderer {
     private final TouchableCards touchableProgramRegister;
     private int flagsVisited;
     private int lives;
-    private OrthographicCamera camera;
+    private final OrthographicCamera camera;
+    private IPlayer player;
 
     private float cardWidth;
     private float cardHeight;
@@ -53,12 +51,12 @@ public class InterfaceRenderer {
     private float touchableHeight;
     private float rightOfBoard;
     private float healthFlagSize;
+    private float damageTokenSize;
 
 
     public InterfaceRenderer() {
         camera = GameScreen.getCamera();
         background = new Texture("assets/background2.jpg");
-        playerOverview = new Texture("assets/playerOverview.jpg");
         hp = new Texture("assets/hp.png");
         flag = new Texture("assets/flag.png");
 
@@ -70,6 +68,7 @@ public class InterfaceRenderer {
         rotateRightCard = new Texture("assets/programCards/rotateRight.png");
         rotateLeftCard = new Texture("assets/programCards/rotateLeft.png");
         uTurnCard = new Texture("assets/programCards/uTurn.png");
+        damageToken = new Texture("assets/damageToken.png");
 
 
         batch = new SpriteBatch();
@@ -82,21 +81,17 @@ public class InterfaceRenderer {
         programRegister = new ICard[5];
 
 
+        graphicSize();
         // Card hand
-        cardSize();
         touchableCardHand = new TouchableCards(cardHand.length);
-        for(int i = 0; i < 4; i++) {
-            touchableCardHand.initializeCard(0+i, rightOfBoard + rightOfBoard / 2 - cardWidth + cardWidth / 2 * i, cardHeight, touchableWidth, touchableHeight);
+        for(int i = 0; i < cardHand.length; i++) {
+            if(i < 4) {
+                touchableCardHand.initializeCard(0+i, rightOfBoard + rightOfBoard / 2 - cardWidth + cardWidth / 2 * i, cardHeight, touchableWidth, touchableHeight);
+            }
+            else touchableCardHand.initializeCard(i, rightOfBoard + rightOfBoard / 2 - cardWidth*1.25f + cardWidth / 2 * (i-4), 0, touchableWidth, touchableHeight);
             //touchableCardHand.initializeCard(1, 425, 100, 40, 90);
             //touchableCardHand.initializeCard(2, 475, 100, 40, 90);
             //touchableCardHand.initializeCard(3, 525, 100, 40, 90);
-        }
-        for(int i = 0; i < 5; i++) {
-            touchableCardHand.initializeCard(4+i, rightOfBoard + rightOfBoard / 2 - cardWidth*1.25f + cardWidth / 2 * i, 0, touchableWidth, touchableHeight);
-            //touchableCardHand.initializeCard(5, 400, 0, 40, 90);
-            //touchableCardHand.initializeCard(6, 450, 0, 40, 90);
-            //touchableCardHand.initializeCard(7, 500, 0, 40, 90);
-            //touchableCardHand.initializeCard(8, 550, 0, 40, 90);
         }
 
         // Progamregister
@@ -109,25 +104,30 @@ public class InterfaceRenderer {
             //touchableProgramRegister.initializeCard(4, 550, 250, 40, 90);
         }
 
+
     }
 
-    public void cardSize() {
+    public void graphicSize() {
         cardWidth = (Gdx.graphics.getHeight()/(640f/130f));
         cardHeight = (Gdx.graphics.getHeight()/(640f/90f));
         touchableWidth = (Gdx.graphics.getWidth()/(640f/40f));
         touchableHeight = (Gdx.graphics.getWidth()/(640f/90f));
         rightOfBoard = Gdx.graphics.getWidth()/2;
         healthFlagSize = Gdx.graphics.getHeight()/(640f/40f);
+        damageTokenSize = Gdx.graphics.getHeight()/(640f/35f);
 
     }
 
 
     public void renderInterface(IBoard board) {
-        cardSize();
+        graphicSize();
+        player = GameScreen.getPlayer();
+
 
         camera.update();
         batch.setProjectionMatrix(camera.combined);
         fontBatch.setProjectionMatrix(camera.combined);
+
 
         batch.begin();
         batch.draw(background, 0, 0, camera.viewportWidth, camera.viewportHeight);
@@ -170,7 +170,9 @@ public class InterfaceRenderer {
             font.draw(batch, Integer.toString(lives), rightOfBoard + healthFlagSize*1.2f + rightOfBoard / 4 * i, camera.viewportHeight - camera.viewportHeight/(640f/110f));
             font.draw(batch, Integer.toString(flagsVisited), rightOfBoard + healthFlagSize*0.2f + rightOfBoard / 4 * i, camera.viewportHeight - camera.viewportHeight/(640f/110f));
         }
+
         batch.end();
+
         fontBatch.begin();
         for(int i = 0; i < 4; i++) {
             if(cardHand[i] != null) {

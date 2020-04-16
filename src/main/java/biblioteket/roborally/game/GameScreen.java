@@ -13,7 +13,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
@@ -32,7 +31,7 @@ public class GameScreen implements Screen {
     private final GameLoop gameLoop;
     public static String map;
 
-    private final List<IPlayer> players;
+    private static List<IPlayer> players;
     private final OrthogonalTiledMapRenderer tiledMapRenderer;
 
     public GameScreen(final RoboRally gam) {
@@ -71,6 +70,10 @@ public class GameScreen implements Screen {
 
     public static OrthographicCamera getCamera() {
         return camera;
+    }
+
+    public static IPlayer getPlayer() {
+        return players.get(0);
     }
 
 
