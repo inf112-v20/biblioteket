@@ -1,24 +1,39 @@
 package biblioteket.roborally.elements.interacting;
 
+import biblioteket.roborally.TestRunner;
 import biblioteket.roborally.actors.IPlayer;
 import biblioteket.roborally.actors.Player;
 import biblioteket.roborally.actors.Robot;
+import biblioteket.roborally.actors.RobotRenderer;
+import biblioteket.roborally.board.Board;
 import biblioteket.roborally.board.Direction;
+import biblioteket.roborally.board.IBoard;
 import biblioteket.roborally.elements.ArchiveMarkerElement;
 import biblioteket.roborally.elements.interacting.cogs.CogElement;
 import biblioteket.roborally.elements.interacting.cogs.LeftRotatingCogElement;
 import biblioteket.roborally.elements.interacting.cogs.RightRotatingCogElement;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@ExtendWith(TestRunner.class)
 public class CogTest {
+    private static IBoard board;
+    private static RobotRenderer robotRenderer;
     private IPlayer player;
+
+    @BeforeAll
+    private static void setup() {
+        board = new Board("assets/RiskyExchange.tmx");
+        robotRenderer = new RobotRenderer(null);
+    }
 
     @BeforeEach
     void setUp() {
-        player = new Player(null, null);
+        player = new Player(board, null, null, robotRenderer);
         player.setRobot(new Robot(new ArchiveMarkerElement(1)));
     }
 

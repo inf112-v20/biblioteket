@@ -6,7 +6,8 @@ import biblioteket.roborally.game.GameScreen;
 import biblioteket.roborally.programcards.ICard;
 import biblioteket.roborally.programcards.ReverseCardComparator;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -40,9 +41,9 @@ public class InterfaceRenderer {
     private final ICard[] programRegister;
     private final TouchableCards touchableCardHand;
     private final TouchableCards touchableProgramRegister;
+    private final OrthographicCamera camera;
     private int flagsVisited;
     private int lives;
-    private final OrthographicCamera camera;
     private IPlayer player;
 
     private float cardWidth;
@@ -84,11 +85,11 @@ public class InterfaceRenderer {
         graphicSize();
         // Card hand
         touchableCardHand = new TouchableCards(cardHand.length);
-        for(int i = 0; i < cardHand.length; i++) {
-            if(i < 4) {
-                touchableCardHand.initializeCard(0+i, rightOfBoard + rightOfBoard / 2 - cardWidth + cardWidth / 2 * i, cardHeight, touchableWidth, touchableHeight);
-            }
-            else touchableCardHand.initializeCard(i, rightOfBoard + rightOfBoard / 2 - cardWidth*1.25f + cardWidth / 2 * (i-4), 0, touchableWidth, touchableHeight);
+        for (int i = 0; i < cardHand.length; i++) {
+            if (i < 4) {
+                touchableCardHand.initializeCard(i, rightOfBoard + rightOfBoard / 2 - cardWidth + cardWidth / 2 * i, cardHeight, touchableWidth, touchableHeight);
+            } else
+                touchableCardHand.initializeCard(i, rightOfBoard + rightOfBoard / 2 - cardWidth * 1.25f + cardWidth / 2 * (i - 4), 0, touchableWidth, touchableHeight);
             //touchableCardHand.initializeCard(1, 425, 100, 40, 90);
             //touchableCardHand.initializeCard(2, 475, 100, 40, 90);
             //touchableCardHand.initializeCard(3, 525, 100, 40, 90);
@@ -96,8 +97,8 @@ public class InterfaceRenderer {
 
         // Progamregister
         touchableProgramRegister = new TouchableCards(programRegister.length);
-        for(int i = 0; i < 5; i++) {
-            touchableProgramRegister.initializeCard(0+i, rightOfBoard + rightOfBoard / 2 - cardWidth*1.25f + cardWidth / 2 * i, Gdx.graphics.getHeight()/(640f/250f), touchableWidth, touchableHeight);
+        for (int i = 0; i < 5; i++) {
+            touchableProgramRegister.initializeCard(i, rightOfBoard + rightOfBoard / 2 - cardWidth * 1.25f + cardWidth / 2 * i, Gdx.graphics.getHeight() / (640f / 250f), touchableWidth, touchableHeight);
             //touchableProgramRegister.initializeCard(1, 400, 250, 40, 90);
             //touchableProgramRegister.initializeCard(2, 450, 250, 40, 90);
             //touchableProgramRegister.initializeCard(3, 500, 250, 40, 90);
@@ -108,13 +109,13 @@ public class InterfaceRenderer {
     }
 
     public void graphicSize() {
-        cardWidth = (Gdx.graphics.getHeight()/(640f/130f));
-        cardHeight = (Gdx.graphics.getHeight()/(640f/90f));
-        touchableWidth = (Gdx.graphics.getWidth()/(640f/40f));
-        touchableHeight = (Gdx.graphics.getWidth()/(640f/90f));
-        rightOfBoard = Gdx.graphics.getWidth()/2;
-        healthFlagSize = Gdx.graphics.getHeight()/(640f/40f);
-        damageTokenSize = Gdx.graphics.getHeight()/(640f/35f);
+        cardWidth = (Gdx.graphics.getHeight() / (640f / 130f));
+        cardHeight = (Gdx.graphics.getHeight() / (640f / 90f));
+        touchableWidth = (Gdx.graphics.getWidth() / (640f / 40f));
+        touchableHeight = (Gdx.graphics.getWidth() / (640f / 90f));
+        rightOfBoard = Gdx.graphics.getWidth() / 2;
+        healthFlagSize = Gdx.graphics.getHeight() / (640f / 40f);
+        damageTokenSize = Gdx.graphics.getHeight() / (640f / 35f);
 
     }
 
@@ -157,36 +158,36 @@ public class InterfaceRenderer {
 
         for (int i = 0; i < 4; i++) {
             // Player 1-4
-            batch.draw(flag, (rightOfBoard/((320f/315f))) + rightOfBoard/4*i, camera.viewportHeight-(camera.viewportHeight/16)*140/100, healthFlagSize, healthFlagSize);
-            batch.draw(hp, (rightOfBoard + healthFlagSize/4*2) + rightOfBoard/4*i, camera.viewportHeight-(camera.viewportHeight/16)*140/100, healthFlagSize, healthFlagSize);
-            font.draw(batch, "Player " + Integer.toString(i + 1), rightOfBoard + rightOfBoard / 4 * i, camera.viewportHeight - (camera.viewportHeight / 16f) / 10f);
-            font.draw(batch, Integer.toString(lives), rightOfBoard + healthFlagSize*1.2f + rightOfBoard / 4 * i, camera.viewportHeight - camera.viewportHeight/(640f/40f));
-            font.draw(batch, Integer.toString(flagsVisited), rightOfBoard + healthFlagSize*0.2f + rightOfBoard / 4 * i, camera.viewportHeight - camera.viewportHeight/(640f/40f));
+            batch.draw(flag, (rightOfBoard / ((320f / 315f))) + rightOfBoard / 4 * i, camera.viewportHeight - (camera.viewportHeight / 16) * 140 / 100, healthFlagSize, healthFlagSize);
+            batch.draw(hp, (rightOfBoard + healthFlagSize / 4 * 2) + rightOfBoard / 4 * i, camera.viewportHeight - (camera.viewportHeight / 16) * 140 / 100, healthFlagSize, healthFlagSize);
+            font.draw(batch, "Player " + (i + 1), rightOfBoard + rightOfBoard / 4 * i, camera.viewportHeight - (camera.viewportHeight / 16f) / 10f);
+            font.draw(batch, Integer.toString(lives), rightOfBoard + healthFlagSize * 1.2f + rightOfBoard / 4 * i, camera.viewportHeight - camera.viewportHeight / (640f / 40f));
+            font.draw(batch, Integer.toString(flagsVisited), rightOfBoard + healthFlagSize * 0.2f + rightOfBoard / 4 * i, camera.viewportHeight - camera.viewportHeight / (640f / 40f));
 
             // Player 5-8
-            batch.draw(flag, (rightOfBoard/(320f/315f)) + rightOfBoard/4*i, camera.viewportHeight - ((camera.viewportHeight / 5f)), healthFlagSize, healthFlagSize);
-            batch.draw(hp, (rightOfBoard + healthFlagSize/4*2) + rightOfBoard/4*i, camera.viewportHeight - ((camera.viewportHeight / 5f)), healthFlagSize, healthFlagSize);
-            font.draw(batch, "Player " + Integer.toString(5+i), rightOfBoard + rightOfBoard / 4 * i, camera.viewportHeight - ((camera.viewportHeight / 8f)));
-            font.draw(batch, Integer.toString(lives), rightOfBoard + healthFlagSize*1.2f + rightOfBoard / 4 * i, camera.viewportHeight - camera.viewportHeight/(640f/110f));
-            font.draw(batch, Integer.toString(flagsVisited), rightOfBoard + healthFlagSize*0.2f + rightOfBoard / 4 * i, camera.viewportHeight - camera.viewportHeight/(640f/110f));
+            batch.draw(flag, (rightOfBoard / (320f / 315f)) + rightOfBoard / 4 * i, camera.viewportHeight - ((camera.viewportHeight / 5f)), healthFlagSize, healthFlagSize);
+            batch.draw(hp, (rightOfBoard + healthFlagSize / 4 * 2) + rightOfBoard / 4 * i, camera.viewportHeight - ((camera.viewportHeight / 5f)), healthFlagSize, healthFlagSize);
+            font.draw(batch, "Player " + (5 + i), rightOfBoard + rightOfBoard / 4 * i, camera.viewportHeight - ((camera.viewportHeight / 8f)));
+            font.draw(batch, Integer.toString(lives), rightOfBoard + healthFlagSize * 1.2f + rightOfBoard / 4 * i, camera.viewportHeight - camera.viewportHeight / (640f / 110f));
+            font.draw(batch, Integer.toString(flagsVisited), rightOfBoard + healthFlagSize * 0.2f + rightOfBoard / 4 * i, camera.viewportHeight - camera.viewportHeight / (640f / 110f));
         }
 
         batch.end();
 
         fontBatch.begin();
-        for(int i = 0; i < 4; i++) {
-            if(cardHand[i] != null) {
+        for (int i = 0; i < 4; i++) {
+            if (cardHand[i] != null) {
                 font.draw(fontBatch, Integer.toString(cardHand[i].getPriorityNumber()), rightOfBoard + rightOfBoard / 2 - cardWidth * 0.80f + cardWidth / 2 * i, cardHeight / (54f / 100f));
             }
         }
-        for(int i = 4; i < 9; i++) {
+        for (int i = 4; i < 9; i++) {
             if (cardHand[i] != null) {
-                font.draw(fontBatch, Integer.toString(cardHand[i].getPriorityNumber()), rightOfBoard + rightOfBoard / 2 - cardWidth * 1.06f + cardWidth / 2 * (i-4), cardHeight/(117f/100f));
+                font.draw(fontBatch, Integer.toString(cardHand[i].getPriorityNumber()), rightOfBoard + rightOfBoard / 2 - cardWidth * 1.06f + cardWidth / 2 * (i - 4), cardHeight / (117f / 100f));
             }
         }
-        for(int i = 0; i < 5; i++) {
+        for (int i = 0; i < 5; i++) {
             if (programRegister[i] != null) {
-                font.draw(fontBatch, Integer.toString(programRegister[i].getPriorityNumber()),rightOfBoard + rightOfBoard / 2 - cardWidth*1.06f + cardWidth / 2 * i, cardHeight*(3.63f));
+                font.draw(fontBatch, Integer.toString(programRegister[i].getPriorityNumber()), rightOfBoard + rightOfBoard / 2 - cardWidth * 1.06f + cardWidth / 2 * i, cardHeight * (3.63f));
             }
         }
         fontBatch.end();
@@ -205,7 +206,6 @@ public class InterfaceRenderer {
         Texture cardTexture = getCardTexture(card);
         batch.draw(cardTexture, x, y, width, height);
     }
-
 
 
     /**
@@ -298,7 +298,6 @@ public class InterfaceRenderer {
     public ICard contains(int x, int y) {
         return touchableCardHand.contains(x, y);
     }
-
 
 
 }

@@ -11,13 +11,13 @@ public class MapSelect implements Screen {
 
     private final RoboRally game;
     private OrthographicCamera camera;
-    private Texture background;
-    private Texture dizzyPre;
-    private Texture dizzyPost;
-    private Texture riskyPre;
-    private Texture riskyPost;
-    private BitmapFont font;
-    private Texture selectMap;
+    private final Texture background;
+    private final Texture dizzyPre;
+    private final Texture dizzyPost;
+    private final Texture riskyPre;
+    private final Texture riskyPost;
+    private final BitmapFont font;
+    private final Texture selectMap;
 
     public MapSelect(final RoboRally game) {
         this.game = game;
@@ -42,9 +42,9 @@ public class MapSelect implements Screen {
     @Override
     public void render(float v) {
 
-        float mapWidth = camera.viewportHeight/(3.2f);
-        float mapHeight = camera.viewportHeight/(2.42f);
-        float center = camera.viewportWidth/2;
+        float mapWidth = camera.viewportHeight / (3.2f);
+        float mapHeight = camera.viewportHeight / (2.42f);
+        float center = camera.viewportWidth / 2;
         float dizzyX = center - camera.viewportWidth / 9 - mapWidth;
         float riskyX = center + camera.viewportWidth / 9;
         float mapY = camera.viewportHeight / 3;
@@ -54,14 +54,14 @@ public class MapSelect implements Screen {
         game.getBatch().draw(background, 0, 0, camera.viewportWidth, camera.viewportHeight);
         //game.getBatch().draw(logo, 70, 340);
         game.getBatch().draw(dizzyPre, dizzyX, mapY, mapWidth, mapHeight);
-        game.getBatch().draw(riskyPre, riskyX , mapY, mapWidth, mapHeight);
-        game.getBatch().draw(selectMap, camera.viewportWidth/2 - selectMap.getWidth()/2*camera.viewportHeight/640, camera.viewportHeight/2, selectMap.getWidth()*camera.viewportHeight/640,selectMap.getHeight()*camera.viewportHeight/640);
+        game.getBatch().draw(riskyPre, riskyX, mapY, mapWidth, mapHeight);
+        game.getBatch().draw(selectMap, camera.viewportWidth / 2 - selectMap.getWidth() / 2 * camera.viewportHeight / 640, camera.viewportHeight / 2, selectMap.getWidth() * camera.viewportHeight / 640, selectMap.getHeight() * camera.viewportHeight / 640);
         // game.getBatch().draw(logo, camera.viewportWidth/2 - logo.getWidth()/2*camera.viewportHeight/640, camera.viewportHeight/2,logo.getWidth()*camera.viewportHeight/640,logo.getHeight()*camera.viewportHeight/640);
-        font.draw(game.getBatch(), "Dizzy Dash", camera.viewportWidth / 7 + 70 , camera.viewportHeight / (390/100) );
-        font.draw(game.getBatch(), "Risky Exchange", camera.viewportWidth / 2 + 100, camera.viewportHeight / (390/100) );
+        font.draw(game.getBatch(), "Dizzy Dash", camera.viewportWidth / 7 + 70, camera.viewportHeight / (390 / 100));
+        font.draw(game.getBatch(), "Risky Exchange", camera.viewportWidth / 2 + 100, camera.viewportHeight / (390 / 100));
 
 
-        if (Gdx.input.getX() < dizzyX + mapWidth && Gdx.input.getX() > dizzyX && camera.viewportHeight - Gdx.input.getY() < mapY + mapHeight && camera.viewportHeight - Gdx.input.getY() > mapY ) {
+        if (Gdx.input.getX() < dizzyX + mapWidth && Gdx.input.getX() > dizzyX && camera.viewportHeight - Gdx.input.getY() < mapY + mapHeight && camera.viewportHeight - Gdx.input.getY() > mapY) {
             game.getBatch().draw(dizzyPost, dizzyX, mapY, mapWidth, mapHeight);
             if (Gdx.input.isTouched()) {
                 GameScreen.map = "assets/DizzyDash.tmx";
@@ -69,8 +69,7 @@ public class MapSelect implements Screen {
                 dispose();
 
             }
-        }
-        else if (Gdx.input.getX() < riskyX + mapWidth && Gdx.input.getX() > riskyX && camera.viewportHeight - Gdx.input.getY() < mapY + mapHeight && camera.viewportHeight - Gdx.input.getY() > mapY ) {
+        } else if (Gdx.input.getX() < riskyX + mapWidth && Gdx.input.getX() > riskyX && camera.viewportHeight - Gdx.input.getY() < mapY + mapHeight && camera.viewportHeight - Gdx.input.getY() > mapY) {
             game.getBatch().draw(riskyPost, riskyX, mapY, mapWidth, mapHeight);
             if (Gdx.input.isTouched()) {
                 GameScreen.map = "assets/RiskyExchange.tmx";

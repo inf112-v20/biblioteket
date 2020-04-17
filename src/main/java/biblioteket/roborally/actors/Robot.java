@@ -1,9 +1,7 @@
 package biblioteket.roborally.actors;
 
-import biblioteket.roborally.board.Board;
 import biblioteket.roborally.board.DirVector;
 import biblioteket.roborally.board.Direction;
-import biblioteket.roborally.board.IBoard;
 import biblioteket.roborally.elements.ArchiveMarkerElement;
 
 public class Robot implements IRobot {
@@ -69,21 +67,8 @@ public class Robot implements IRobot {
     }
 
     @Override
-    public void moveForward(IBoard board) {
-        moveRobot(getDirection(), board);
-    }
-
-    @Override
-    public void moveBackward(IBoard board) {
-        Direction startDirection = getDirection();
-        moveRobot(getDirection().opposite(), board);
-        setDirection(startDirection);
-    }
-
-    @Override
     public void pushRobotInDirection(Direction direction) {
-        this.location.setDirection(direction);
-        this.location.forward(1);
+        this.location.forward(direction);
     }
 
     @Override
@@ -109,44 +94,6 @@ public class Robot implements IRobot {
     @Override
     public void setDirection(Direction direction) {
         this.location.setDirection(direction);
-    }
-
-    @Override
-    public boolean moveForward(Board board) {
-        if (board.canMove(getPosition(), getDirection())) {
-            this.location = this.location.dirVectorInDirection(getDirection());
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public boolean move(Direction direction, IBoard board) {
-        if (board.canMove(getPosition(), direction)) {
-            this.location = this.location.dirVectorInDirection(direction);
-            if (board.outOfBounds(this.location)) {
-                this.addDamageTokens(1);
-                moveToArchiveMarker();
-            }
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public void moveRobot(Direction direction, IBoard board) {
-        DirVector locationInDirection = this.location.dirVectorInDirection(direction);
-        if (board.canMove(this.location, direction)) { //Check if blocked by immovable object. Should not include robots or out of bounds.
-            if (board.outOfBounds(locationInDirection)) { //Check if robot moves off board
-                player.removeOneLife();
-                if (player.hasLivesLeft()) {
-                    addDamageTokens(1);
-                    moveToArchiveMarker();
-                }
-            } else {// Moves the robot in direction
-                setPosition(locationInDirection);
-            }
-        }
     }
 
     @Override

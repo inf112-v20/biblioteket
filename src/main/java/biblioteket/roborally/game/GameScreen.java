@@ -1,9 +1,6 @@
 package biblioteket.roborally.game;
 
-import biblioteket.roborally.actors.IPlayer;
-import biblioteket.roborally.actors.IRobot;
-import biblioteket.roborally.actors.Player;
-import biblioteket.roborally.actors.Robot;
+import biblioteket.roborally.actors.*;
 import biblioteket.roborally.board.Board;
 import biblioteket.roborally.elements.ArchiveMarkerElement;
 import biblioteket.roborally.userinterface.InterfaceRenderer;
@@ -26,19 +23,19 @@ import java.util.List;
  * flag and hole that they player can move around on.
  */
 public class GameScreen implements Screen {
-    private static OrthographicCamera camera;
-    private final Board board;
-    private final GameLoop gameLoop;
     public static String map;
-
+    private static OrthographicCamera camera;
     private static List<IPlayer> players;
+    private final Board board;
+    private final RobotRenderer robotRenderer;
     private final OrthogonalTiledMapRenderer tiledMapRenderer;
 
     public GameScreen(final RoboRally gam) {
         this.board = new Board(map);
-        this.camera = new OrthographicCamera();
+        this.robotRenderer = new RobotRenderer(board.getPlayerLayer());
+        camera = new OrthographicCamera();
 
-        camera.setToOrtho(false, board.getWidth()*2, board.getHeight());
+        camera.setToOrtho(false, board.getWidth() * 2, board.getHeight());
         camera.update();
 
         tiledMapRenderer = new OrthogonalTiledMapRenderer(board.getMap(), (float) 1 / board.getTileWidth());
@@ -48,23 +45,20 @@ public class GameScreen implements Screen {
         Texture playerTexture = new Texture("assets/player.png");
         TextureRegion[][] playerTextureSplit = TextureRegion.split(playerTexture, board.getTileWidth(), board.getTileHeight());
 
-        this.players = new ArrayList<>();
+        players = new ArrayList<>();
 
-        for (int i = 0; i < 1; i++) {
-            Player player = new Player(new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(playerTextureSplit[0][0])), new InterfaceRenderer());
+        for (int i = 1; i <= 1; i++) {
+            TiledMapTileLayer.Cell playerCell = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(playerTextureSplit[0][0]));
+            Player player = new Player(board, playerCell, new InterfaceRenderer(), robotRenderer);
             players.add(player);
-            ArchiveMarkerElement archiveMarker = board.getArchiveMarker(i + 1);
+            ArchiveMarkerElement archiveMarker = board.getArchiveMarker(i);
             IRobot robot = new Robot(archiveMarker);
             player.setRobot(robot);
-            board.getPlayerLayer().setCell(player.getRobot().getPosition().getX(), player.getRobot().getPosition().getY(), null);
+            board.getPlayerLayer().setCell(player.getRobot().getPosition().getX(), player.getRobot().getPosition().getY(), playerCell);
         }
 
-        this.gameLoop = new GameLoop(board, players);
-
-    }
-
-    @Override
-    public void show() {
+        GameLoop gameLoop = new GameLoop(board, players);
+        gameLoop.startGame();
 
     }
 
@@ -76,6 +70,10 @@ public class GameScreen implements Screen {
         return players.get(0);
     }
 
+    @Override
+    public void show() {
+
+    }
 
     @Override
     public void render(float delta) {
@@ -86,16 +84,19 @@ public class GameScreen implements Screen {
             InterfaceRenderer interfaceRenderer = player.getInterfaceRenderer();
             interfaceRenderer.renderInterface(board);
         }
-        gameLoop.renderPlayers();
+
+        // Render robot movement
+        if (robotRenderer.isRequestingRendering()) {
+            robotRenderer.render();
+        }
 
         tiledMapRenderer.render();
         tiledMapRenderer.getBatch().begin();
         tiledMapRenderer.renderTileLayer(board.getPlayerLayer());
         tiledMapRenderer.getBatch().end();
+        camera.update();
 
-        for (IPlayer player : players) {
-            board.getPlayerLayer().setCell(player.getRobot().getPosition().getX(), player.getRobot().getPosition().getY(), null);
-        }
+
     }
 
     @Override
