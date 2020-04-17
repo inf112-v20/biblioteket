@@ -1,13 +1,44 @@
 package biblioteket.roborally.actors;
 
+import biblioteket.roborally.board.Direction;
 import biblioteket.roborally.programcards.ICard;
 import biblioteket.roborally.programcards.ICardDeck;
 import biblioteket.roborally.userinterface.InterfaceRenderer;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
 import java.util.List;
 
 public interface IPlayer {
+
+    /**
+     * Tries to move robot in the direction robot is currently facing
+     *
+     * @param delay milliseconds delay after move is rendered before next move is rendered
+     * @param steps amount of times robot should try to move
+     */
+    void moveRobot(int steps, int delay);
+
+    /**
+     * Tries to move robot in direction
+     *
+     * @param direction to move robot
+     * @param delay     milliseconds delay after move is rendered before next move is rendered
+     */
+    void moveRobot(Direction direction, int delay);
+
+    /**
+     * Tries to move robot in the opposite direction of where it is currently facing
+     *
+     * @param delay milliseconds delay after move is rendered before next move is rendered
+     */
+    void backUpRobot(int delay);
+
+    /**
+     * Rotates the robot to the right or left, updates the cell to display rotation
+     *
+     * @param right true if robot should rotate right, false if robot should rotate left
+     * @param delay milliseconds delay after move is rendered before next move is rendered
+     */
+    void rotateRobot(boolean right, int delay);
 
     /**
      * Get the number of lives the player has left.
@@ -59,30 +90,17 @@ public interface IPlayer {
     void addToFlagsVisited();
 
     /**
-     * A cell representation of the current player. This is for example an image
-     * that is used to identify each player at a glance on the board.
-     *
-     * @return players cell.
-     */
-    TiledMapTileLayer.Cell getPlayerCell();
-
-    /**
      * @return players interface renderer
      */
     InterfaceRenderer getInterfaceRenderer();
 
     /**
-     * Sets number of lives and flags in the interface renderer
-     */
-    void updateInterfaceRenderer();
-
-
-    /**
-     * Draw a number of cards according to how many damage tokens robot has
+     * Player draws new cards, updates interface renderer and sets
+     * canMove flag to true
      *
-     * @param cardDeck to draw cards from
+     * @param cardDeck
      */
-    void drawCards(ICardDeck cardDeck);
+    void newTurn(ICardDeck cardDeck);
 
     /**
      * Adds a card to the program register

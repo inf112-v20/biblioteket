@@ -9,11 +9,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class CardDeck implements ICardDeck {
-
     // Cards get drawn then either placed in the register or discarded
-    private ArrayList<ICard> drawPile;
-    private ArrayList<ICard> registerPile;
-    private ArrayList<ICard> discardPile;
+    private final ArrayList<ICard> drawPile;
+    private final ArrayList<ICard> registerPile;
+    private final ArrayList<ICard> discardPile;
 
     /**
      * Makes a pile of cards
@@ -89,6 +88,4 @@ public class CardDeck implements ICardDeck {
         addToDiscardPile(card);
 
     }
-
-
 }

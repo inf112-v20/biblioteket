@@ -1,14 +1,16 @@
 package biblioteket.roborally.programcards;
 
 import biblioteket.roborally.TestRunner;
-import biblioteket.roborally.actors.IPlayer;
-import biblioteket.roborally.actors.IRobot;
-import biblioteket.roborally.actors.Player;
-import biblioteket.roborally.actors.Robot;
+import biblioteket.roborally.actors.*;
 import biblioteket.roborally.board.Board;
 import biblioteket.roborally.board.DirVector;
 import biblioteket.roborally.board.Direction;
 import biblioteket.roborally.board.IBoard;
+import biblioteket.roborally.elements.ArchiveMarkerElement;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,7 +20,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @ExtendWith(TestRunner.class)
 class CardTest {
     private IRobot robot;
-    private IBoard board;
     private ICard forwardOne;
     private ICard forwardTwo;
     private ICard forwardThree;
@@ -29,10 +30,15 @@ class CardTest {
 
     @BeforeEach
     void setUp() {
-        board = new Board("assets/TestingMap.tmx");
+        IBoard board = new Board("assets/EmptyTestMap.tmx");
 
-        robot = new Robot(board.getArchiveMarker(1));
-        IPlayer player = new Player(null, null);
+        robot = new Robot(new ArchiveMarkerElement(1));
+        RobotRenderer robotRenderer = new RobotRenderer(board.getPlayerLayer());
+        Texture playerTexture = new Texture("assets/player.png");
+        TextureRegion[][] playerTextureSplit = TextureRegion.split(playerTexture, board.getTileWidth(), board.getTileHeight());
+        TiledMapTileLayer.Cell playerCell = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(playerTextureSplit[0][0]));
+
+        IPlayer player = new Player(board, playerCell, null, robotRenderer);
         player.setRobot(robot);
         robot.setPlayer(player);
 
@@ -51,7 +57,7 @@ class CardTest {
         Direction startDir = Direction.NORTH;
         Direction endDir = Direction.WEST;
         robot.setDirection(startDir);
-        left.doCardAction(robot, board);
+        left.doCardAction(robot.getPlayer());
         assertEquals(endDir, robot.getDirection());
     }
 
@@ -60,7 +66,7 @@ class CardTest {
         Direction startDir = Direction.SOUTH;
         Direction endDir = Direction.EAST;
         robot.setDirection(startDir);
-        left.doCardAction(robot, board);
+        left.doCardAction(robot.getPlayer());
         assertEquals(endDir, robot.getDirection());
     }
 
@@ -69,7 +75,7 @@ class CardTest {
         Direction startDir = Direction.EAST;
         Direction endDir = Direction.NORTH;
         robot.setDirection(startDir);
-        left.doCardAction(robot, board);
+        left.doCardAction(robot.getPlayer());
         assertEquals(endDir, robot.getDirection());
     }
 
@@ -78,7 +84,7 @@ class CardTest {
         Direction startDir = Direction.WEST;
         Direction endDir = Direction.SOUTH;
         robot.setDirection(startDir);
-        left.doCardAction(robot, board);
+        left.doCardAction(robot.getPlayer());
         assertEquals(endDir, robot.getDirection());
     }
 
@@ -87,7 +93,7 @@ class CardTest {
         Direction startDir = Direction.NORTH;
         Direction endDir = Direction.EAST;
         robot.setDirection(startDir);
-        right.doCardAction(robot, board);
+        right.doCardAction(robot.getPlayer());
         assertEquals(endDir, robot.getDirection());
     }
 
@@ -96,7 +102,7 @@ class CardTest {
         Direction startDir = Direction.SOUTH;
         Direction endDir = Direction.WEST;
         robot.setDirection(startDir);
-        right.doCardAction(robot, board);
+        right.doCardAction(robot.getPlayer());
         assertEquals(endDir, robot.getDirection());
     }
 
@@ -105,7 +111,7 @@ class CardTest {
         Direction startDir = Direction.EAST;
         Direction endDir = Direction.SOUTH;
         robot.setDirection(startDir);
-        right.doCardAction(robot, board);
+        right.doCardAction(robot.getPlayer());
         assertEquals(endDir, robot.getDirection());
     }
 
@@ -114,7 +120,7 @@ class CardTest {
         Direction startDir = Direction.WEST;
         Direction endDir = Direction.NORTH;
         robot.setDirection(startDir);
-        right.doCardAction(robot, board);
+        right.doCardAction(robot.getPlayer());
         assertEquals(endDir, robot.getDirection());
     }
 
@@ -123,7 +129,7 @@ class CardTest {
         Direction startDir = Direction.NORTH;
         Direction endDir = startDir.opposite();
         robot.setDirection(startDir);
-        uTurn.doCardAction(robot, board);
+        uTurn.doCardAction(robot.getPlayer());
         assertEquals(endDir, robot.getDirection());
     }
 
@@ -132,7 +138,7 @@ class CardTest {
         Direction startDir = Direction.SOUTH;
         Direction endDir = startDir.opposite();
         robot.setDirection(startDir);
-        uTurn.doCardAction(robot, board);
+        uTurn.doCardAction(robot.getPlayer());
         assertEquals(endDir, robot.getDirection());
     }
 
@@ -141,7 +147,7 @@ class CardTest {
         Direction startDir = Direction.WEST;
         Direction endDir = startDir.opposite();
         robot.setDirection(startDir);
-        uTurn.doCardAction(robot, board);
+        uTurn.doCardAction(robot.getPlayer());
         assertEquals(endDir, robot.getDirection());
     }
 
@@ -150,7 +156,7 @@ class CardTest {
         Direction startDir = Direction.EAST;
         Direction endDir = startDir.opposite();
         robot.setDirection(startDir);
-        uTurn.doCardAction(robot, board);
+        uTurn.doCardAction(robot.getPlayer());
         assertEquals(endDir, robot.getDirection());
     }
 
@@ -160,7 +166,7 @@ class CardTest {
         robot.setDirection(direction);
         DirVector newLocation = robot.getPosition().dirVectorInDirection(direction);
 
-        forwardOne.doCardAction(robot, board);
+        forwardOne.doCardAction(robot.getPlayer());
 
         assertEquals(robot.getPosition(), newLocation);
         assertEquals(direction, robot.getDirection());
@@ -173,7 +179,7 @@ class CardTest {
         DirVector newLocationOneForward = robot.getPosition().dirVectorInDirection(direction);
         DirVector newLocationTwoForward = newLocationOneForward.dirVectorInDirection(direction);
 
-        forwardTwo.doCardAction(robot, board);
+        forwardTwo.doCardAction(robot.getPlayer());
 
         assertEquals(newLocationTwoForward, robot.getPosition());
         assertEquals(direction, robot.getDirection());
@@ -187,9 +193,7 @@ class CardTest {
         DirVector newLocationTwoForward = newLocationOneForward.dirVectorInDirection(direction);
         DirVector newLocationThreeForward = newLocationTwoForward.dirVectorInDirection(direction);
 
-
-        forwardThree.doCardAction(robot, board);
-
+        forwardThree.doCardAction(robot.getPlayer());
 
         assertEquals(newLocationThreeForward, robot.getPosition());
         assertEquals(direction, robot.getDirection());
@@ -202,11 +206,10 @@ class CardTest {
         DirVector newLocation = robot.getPosition().dirVectorInDirection(direction.opposite());
         newLocation.setDirection(direction);
 
-        backUp.doCardAction(robot, board);
+        backUp.doCardAction(robot.getPlayer());
 
         assertEquals(robot.getPosition().getX(), newLocation.getX());
         assertEquals(robot.getPosition().getY(), newLocation.getY());
         assertEquals(direction, robot.getDirection());
     }
-
 }

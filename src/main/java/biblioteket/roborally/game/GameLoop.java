@@ -1,9 +1,9 @@
 package biblioteket.roborally.game;
 
 import biblioteket.roborally.actors.IPlayer;
-import biblioteket.roborally.board.Board;
 import biblioteket.roborally.board.DirVector;
 import biblioteket.roborally.board.Direction;
+import biblioteket.roborally.board.IBoard;
 import biblioteket.roborally.elements.IElement;
 import biblioteket.roborally.elements.interacting.InteractingElement;
 import biblioteket.roborally.elements.interacting.cogs.CogElement;
@@ -26,18 +26,18 @@ import java.util.List;
  * plays a turn of RoboRally
  */
 public class GameLoop {
-    private final Board board;
+    private final IBoard board;
     private final int amountOfFlags;
     private final List<LaserWallElement> laserWalls;
     private final List<IPlayer> players;
     private final IPlayer currentPlayer;
     private ICardDeck cardDeck;
 
-    public GameLoop(Board board, List<IPlayer> players) {
+    public GameLoop(IBoard board, List<IPlayer> players) {
         this.board = board;
         this.players = players;
         currentPlayer = players.get(0);
-        amountOfFlags = board.getNumFlags();
+        amountOfFlags = board.getNumberOfFlags();
         laserWalls = board.getLaserWalls();
 
         try {
@@ -47,10 +47,11 @@ public class GameLoop {
         }
 
         for (IPlayer player : players) {
-            player.drawCards(cardDeck);
-            player.getRobot().setPlayer(player);
+            player.newTurn(cardDeck);
         }
+    }
 
+    public void startGame() {
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {
@@ -63,21 +64,34 @@ public class GameLoop {
             public boolean keyUp(int keycode) {
                 switch (keycode) {
                     case Input.Keys.A:
-                        return currentPlayer.getRobot().move(Direction.WEST, board);
+                        currentPlayer.moveRobot(Direction.WEST, 0);
+                        return true;
                     case Input.Keys.D:
-                        return currentPlayer.getRobot().move(Direction.EAST, board);
+                        currentPlayer.moveRobot(Direction.EAST, 0);
+                        return true;
                     case Input.Keys.W:
-                        return currentPlayer.getRobot().move(Direction.NORTH, board);
+                        currentPlayer.moveRobot(Direction.NORTH, 0);
+                        return true;
                     case Input.Keys.S:
-                        return currentPlayer.getRobot().move(Direction.SOUTH, board);
+                        currentPlayer.moveRobot(Direction.SOUTH, 0);
+                        return true;
                     case Input.Keys.SPACE:
-                        DirVector newPosition = board.interact(currentPlayer);
-                        return newPosition != null;
+                        board.interact(currentPlayer);
+                        return true;
                     case Input.Keys.P:
                         return board.registerFlag(currentPlayer);
                     case Input.Keys.ENTER:
                         interactWithBoardElements();
-                        return false;
+                        return true;
+                    case Input.Keys.UP:
+                        currentPlayer.moveRobot(currentPlayer.getRobot().getDirection(), 0);
+                        return true;
+                    case Input.Keys.LEFT:
+                        currentPlayer.rotateRobot(false, 0);
+                        return true;
+                    case Input.Keys.RIGHT:
+                        currentPlayer.rotateRobot(true, 0);
+                        return true;
                     default:
                         return true;
                 }
@@ -116,7 +130,7 @@ public class GameLoop {
             for (int i = programRegister.size() - 1; i >= 0; i--) {
                 ICard card = programRegister.get(i);
                 System.out.println("Robot executes card " + card.toString());
-                card.doCardAction(player.getRobot(), board);
+                card.doCardAction(player);
             }
             System.out.println("End of Turn Status: ");
             System.out.println("Robot damage: " + player.getRobot().getNumberOfDamageTokens());
@@ -131,8 +145,7 @@ public class GameLoop {
             Gdx.app.exit();
         else {
             for (IPlayer player : players) {
-                player.drawCards(cardDeck);
-                player.updateInterfaceRenderer();
+                player.newTurn(cardDeck);
             }
         }
 
@@ -149,6 +162,7 @@ public class GameLoop {
         // All conveyor belts move second
         interactWithBoardElement(ConveyorBeltElement.class);
 
+
         // Gears rotate
         interactWithBoardElement(CogElement.class);
 
@@ -164,7 +178,6 @@ public class GameLoop {
                 board.interact(player);
             }
         }
-
 
 //         Register flags
         for (IPlayer player : players) {
@@ -206,16 +219,6 @@ public class GameLoop {
             if (instance.isInstance(element)) {
                 board.interact(player);
             }
-        }
-    }
-
-    /**
-     * Updated the players position in player layer
-     */
-    public void renderPlayers() {
-        for (IPlayer player : players) {
-            DirVector position = player.getRobot().getPosition();
-            board.getPlayerLayer().setCell(position.getX(), position.getY(), player.getPlayerCell());
         }
     }
 
