@@ -36,7 +36,8 @@ public class GameScreen implements Screen {
     private Texture playerTexture;
 
     public GameScreen(final RoboRally gam) {
-        this.board = new Board("assets/DizzyDash.tmx");
+        this.players = new ArrayList<>();
+        this.board = new Board("assets/DizzyDash.tmx", players);
         this.robotRenderer = new RobotRenderer(board.getPlayerLayer());
         this.camera = new OrthographicCamera();
 
@@ -50,7 +51,6 @@ public class GameScreen implements Screen {
         playerTexture = new Texture("assets/player.png");
         TextureRegion[][] playerTextureSplit = TextureRegion.split(playerTexture, board.getTileWidth(), board.getTileHeight());
 
-        this.players = new ArrayList<>();
 
         for (int i = 1; i <= 4; i++) {
             TiledMapTileLayer.Cell playerCell = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(playerTextureSplit[0][0]));

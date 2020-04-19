@@ -23,7 +23,7 @@ public class ConveyorBeltTest {
 
     @BeforeAll
     private static void setup(){
-        board = new Board("assets/DizzyDash.tmx");
+        board = new Board("assets/DizzyDash.tmx", null);
     }
 
     @BeforeEach

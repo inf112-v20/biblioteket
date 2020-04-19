@@ -42,16 +42,17 @@ public class Player implements IPlayer {
     }
 
     @Override
-    public void moveRobot(Direction direction, int delay){
-        if(canMove && board.canMove(robot.getPosition(), direction)){
+    public boolean moveRobot(Direction direction, int delay){
+        if(canMove && board.canMove(robot.getPosition(), direction) && board.pushRobot(robot.getPosition(),direction)){
             DirVector oldPosition = robot.getPosition().copy();
             robot.pushRobotInDirection(direction);
             DirVector newPosition = robot.getPosition().copy();
             renderMove(oldPosition, newPosition, delay);
+            // Check if robot moved in hole or out of bounds
+            handleRobotOutOfBounds(delay);
+            return true;
         }
-
-        // Check if robot moved in hole or out of bounds
-        handleRobotOutOfBounds(delay);
+        return false;
     }
 
     @Override
