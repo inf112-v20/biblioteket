@@ -38,7 +38,7 @@ public class GameScreen implements Screen {
     public GameScreen(final RoboRally gam) {
         this.players = new ArrayList<>();
         this.board = new Board("assets/DizzyDash.tmx", players);
-        this.robotRenderer = new RobotRenderer(board.getPlayerLayer());
+        this.robotRenderer = new RobotRenderer(board.getPlayerLayer(), players);
         this.camera = new OrthographicCamera();
 
         camera.setToOrtho(false, board.getWidth() + 14, board.getHeight() + 1);

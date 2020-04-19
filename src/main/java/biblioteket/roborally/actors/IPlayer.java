@@ -3,6 +3,7 @@ package biblioteket.roborally.actors;
 import biblioteket.roborally.board.Direction;
 import biblioteket.roborally.programcards.ICard;
 import biblioteket.roborally.programcards.ICardDeck;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
 import java.util.List;
 
@@ -122,4 +123,5 @@ public interface IPlayer {
      */
     boolean fullProgramRegister();
 
+    TiledMapTileLayer.Cell getPlayerCell();
 }

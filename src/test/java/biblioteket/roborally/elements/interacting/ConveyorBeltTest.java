@@ -28,7 +28,7 @@ public class ConveyorBeltTest {
 
     @BeforeEach
     void setUp() {
-        player = new Player(board, null, null, new RobotRenderer(null));
+        player = new Player(board, null, null, new RobotRenderer(null, null));
         archiveMarker = new ArchiveMarkerElement(1);
         archiveMarker.setX(1);
         archiveMarker.setY(1);

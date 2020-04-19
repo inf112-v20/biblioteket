@@ -77,6 +77,11 @@ public class Player implements IPlayer {
     }
 
     @Override
+    public TiledMapTileLayer.Cell getPlayerCell() {
+        return playerCell;
+    }
+
+    @Override
     public boolean isPermanentDead() {
         return lives <= 0;
     }

@@ -5,6 +5,7 @@ import biblioteket.roborally.board.Direction;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.TimeUnit;
 
@@ -15,10 +16,12 @@ import java.util.concurrent.TimeUnit;
 public class RobotRenderer {
     private final TiledMapTileLayer playerLayer;
     private Queue<RobotStep> movements;
+    private List<IPlayer> players;
 
-    public RobotRenderer(TiledMapTileLayer playerLayer){
+    public RobotRenderer(TiledMapTileLayer playerLayer, List<IPlayer> players){
         this.playerLayer = playerLayer;
         movements = new LinkedList<>();
+        this.players = players;
     }
 
     /**
@@ -40,6 +43,8 @@ public class RobotRenderer {
 
         // Add delay so players can see each move
         wait(delay);
+        // Update all players in case two players were previously standing on top of each other
+        renderAllPlayers();
     }
 
     /**
@@ -71,6 +76,14 @@ public class RobotRenderer {
             TimeUnit.MILLISECONDS.sleep(milliseconds);
         } catch (InterruptedException e) {
             System.err.println("RobotRenderer timeout failed");
+        }
+    }
+
+    private void renderAllPlayers(){
+        for (IPlayer player : players) {
+            DirVector position = player.getRobot().getPosition();
+            TiledMapTileLayer.Cell playerCell = player.getPlayerCell();
+            playerLayer.setCell(position.getX(),position.getY(),playerCell);
         }
     }
 

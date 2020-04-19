@@ -28,7 +28,7 @@ public class CogTest {
     @BeforeAll
     private static void setup(){
         board = new Board("assets/RiskyExchange.tmx", null);
-        robotRenderer = new RobotRenderer(null);
+        robotRenderer = new RobotRenderer(null, null);
     }
 
     @BeforeEach
