@@ -3,7 +3,6 @@ package biblioteket.roborally.actors;
 import biblioteket.roborally.board.Direction;
 import biblioteket.roborally.programcards.ICard;
 import biblioteket.roborally.programcards.ICardDeck;
-import biblioteket.roborally.userinterface.InterfaceRenderer;
 
 import java.util.List;
 

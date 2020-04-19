@@ -8,7 +8,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MapReader {
+class MapReader {
     private List<ArchiveMarkerElement> archiveMarkers;
     private List<LaserWallElement> laserWalls;
     private int numFlags = 0;

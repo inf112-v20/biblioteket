@@ -1,4 +1,4 @@
-package biblioteket.roborally.userinterface;
+package biblioteket.roborally.actors;
 
 import biblioteket.roborally.board.IBoard;
 import biblioteket.roborally.programcards.ICard;
@@ -7,6 +7,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -223,6 +224,64 @@ public class InterfaceRenderer {
      */
     public ICard contains(int x, int y) {
         return touchableCardHand.contains(x, y);
+    }
+
+    /**
+     * Datastructure for multiple rectangles which can contain coordinates and
+     * return an ICard if they are touched
+     */
+    private class TouchableCards {
+        private final TouchableCard[] cards;
+
+        public TouchableCards(int size) {
+            cards = new TouchableCard[size];
+        }
+
+        public void initializeCard(int pos, float x, float y, float width, float height) {
+            cards[pos] = new TouchableCard(x, y, width, height);
+        }
+
+        public void setCard(int pos, ICard card) {
+            cards[pos].setCard(card);
+        }
+
+        /**
+         * @param x coordinates
+         * @param y coordinates
+         * @return an ICard if any card contains the x,y coordinates, otherwise null
+         */
+        public ICard contains(int x, int y) {
+            for (TouchableCard card : cards) {
+                if (card.contains(x, y))
+                    return card.getCard();
+
+            }
+            return null;
+        }
+
+        public void removeCard(int pos) {
+            cards[pos].setCard(null);
+        }
+
+        /**
+         * Class that extends the rectangle class, which has the contains() method for checking
+         * weather any x,y input is within the bounds of the rectangle
+         */
+        private class TouchableCard extends Rectangle {
+            private ICard card;
+
+            TouchableCard(float x, float y, float width, float height) {
+                super(x, y, width, height);
+            }
+
+            public ICard getCard() {
+                return card;
+            }
+
+            public void setCard(ICard card) {
+                this.card = card;
+            }
+        }
     }
 
 }

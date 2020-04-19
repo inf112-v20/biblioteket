@@ -22,7 +22,6 @@ public class Laser {
             IRobot robot = player.getRobot();
             DirVector robotPosition = robot.getPosition();
             if (compareDirVectorPosition(vector, robotPosition)) {
-                board.getLayer("Laser Layer").setVisible(true);
                 robot.addDamageTokens(1);
                 System.out.println("robot at " + robotPosition.getX() + "," + robotPosition.getY() + " was hit by a laser");
                 return;

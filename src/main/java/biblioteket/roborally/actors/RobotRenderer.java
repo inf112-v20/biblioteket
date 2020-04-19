@@ -106,10 +106,11 @@ public class RobotRenderer {
 
         public int getRotation() {
             switch(direction){
+                case NORTH: return 0;
                 case WEST: return 1;
                 case SOUTH: return 2;
                 case EAST: return 3;
-                default: return 0;  // Case NORTH
+                default: throw new UnsupportedOperationException();
             }
         }
 

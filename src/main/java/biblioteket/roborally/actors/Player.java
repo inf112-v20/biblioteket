@@ -5,7 +5,6 @@ import biblioteket.roborally.board.Direction;
 import biblioteket.roborally.board.IBoard;
 import biblioteket.roborally.programcards.ICard;
 import biblioteket.roborally.programcards.ICardDeck;
-import biblioteket.roborally.userinterface.InterfaceRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
 import java.util.ArrayList;
