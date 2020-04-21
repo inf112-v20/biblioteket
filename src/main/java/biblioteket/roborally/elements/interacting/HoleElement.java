@@ -8,7 +8,6 @@ public class HoleElement implements InteractingElement {
     @Override
     public void interact(IPlayer player) {
         IRobot robot = player.getRobot();
-        System.out.println("OBS, hole: robot at " + robot.getPosition().getX() + "," + robot.getPosition().getY() + " fell into a hole");
         player.removeOneLife();
         robot.moveToArchiveMarker();
     }

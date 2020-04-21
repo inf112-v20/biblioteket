@@ -125,17 +125,10 @@ public class GameLoop {
 
         for (IPlayer player : players) {
             List<ICard> programRegister = player.getProgramRegister(cardDeck);
-            System.out.println("Start of Turn");
-
             for (int i = programRegister.size() - 1; i >= 0; i--) {
                 ICard card = programRegister.get(i);
-                System.out.println("Robot executes card " + card.toString());
                 card.doCardAction(player);
             }
-            System.out.println("End of Turn Status: ");
-            System.out.println("Robot damage: " + player.getRobot().getNumberOfDamageTokens());
-            System.out.println("Player lives: " + player.getLives());
-            System.out.println("Robot dir:    " + player.getRobot().getPosition().getDirection());
         }
         // Robots interact with board elements
         interactWithBoardElements();
