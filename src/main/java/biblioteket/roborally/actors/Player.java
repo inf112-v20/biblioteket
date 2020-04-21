@@ -138,10 +138,10 @@ public class Player implements IPlayer {
     public void addCardToProgramRegister(ICard card) {
         if(programRegister.contains(card)){
             programRegister.remove(card);
-            interfaceRenderer.returnCardToCardHand(card);
+            interfaceRenderer.moveCard(card, false);
         } else{
             programRegister.add(card);
-            interfaceRenderer.addCardToProgramRegister(card);
+            interfaceRenderer.moveCard(card, true);
         }
     }
 

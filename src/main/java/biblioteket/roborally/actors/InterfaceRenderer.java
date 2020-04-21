@@ -184,40 +184,25 @@ public class InterfaceRenderer {
 
     }
 
-    /**
-     * Moves a program card from hand to program register
-     *
-     * @param card to be moved to program register
-     */
-    public void addCardToProgramRegister(ICard card) {
-        for (int i = 0; i < cardHand.length; i++) {
-            if (card.equals(cardHand[i])) {
-                cardHand[i] = null;
-                touchableCardHand.removeCard(i);
+    public void moveCard(ICard card, boolean toRegister){
+        ICard[] cardsFrom = toRegister ? cardHand : programRegister;
+        ICard[] cardsTo = toRegister ? programRegister : cardHand;
+        TouchableCards touchableFrom = toRegister ? touchableCardHand : touchableProgramRegister;
+        TouchableCards touchableTo = toRegister ? touchableProgramRegister : touchableCardHand;
+        
+        // Remove card where it is being moved from
+        for (int i = 0; i < cardsFrom.length; i++) {
+            if(card.equals(cardsFrom[i])){
+                cardsFrom[i] = null;
+                touchableFrom.removeCard(i);
                 break;
             }
         }
-        for (int i = 0; i < programRegister.length; i++) {
-            if (programRegister[i] == null) {
-                programRegister[i] = card;
-                touchableProgramRegister.setCard(i,card);
-                break;
-            }
-        }
-    }
-
-    public void returnCardToCardHand(ICard card) {
-        for (int i = 0; i < programRegister.length; i++) {
-            if (card.equals(programRegister[i])) {
-                programRegister[i] = null;
-                touchableProgramRegister.removeCard(i);
-                break;
-            }
-        }
-        for (int i = 0; i < cardHand.length; i++) {
-            if (cardHand[i] == null) {
-                cardHand[i] = card;
-                touchableCardHand.setCard(i, card);
+        // Add card to where it is being moved to
+        for (int i = 0; i < cardsTo.length; i++) {
+            if(cardsTo[i] == null){
+                cardsTo[i] = card;
+                touchableTo.setCard(i, card);
                 break;
             }
         }
