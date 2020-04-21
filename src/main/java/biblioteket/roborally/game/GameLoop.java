@@ -13,7 +13,6 @@ import biblioteket.roborally.elements.walls.LaserWallElement;
 import biblioteket.roborally.programcards.CardDeck;
 import biblioteket.roborally.programcards.ICard;
 import biblioteket.roborally.programcards.ICardDeck;
-import biblioteket.roborally.programcards.ReverseCardComparator;
 import biblioteket.roborally.actors.InterfaceRenderer;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -125,7 +124,7 @@ public class GameLoop {
      */
     public void doTurn() {
         Map<ICard, IPlayer> cardMapping = new LinkedHashMap<>();
-        Map<ICard, IPlayer> priorityMap = new TreeMap<>(new ReverseCardComparator());
+        Map<ICard, IPlayer> priorityMap = new TreeMap<>();
         for (int i = 0; i < 5; i++) {
             for (IPlayer player : players) {
                 List<ICard> programRegister = player.getProgramRegister();

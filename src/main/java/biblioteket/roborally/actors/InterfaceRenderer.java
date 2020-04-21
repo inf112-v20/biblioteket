@@ -2,7 +2,6 @@ package biblioteket.roborally.actors;
 
 import biblioteket.roborally.board.IBoard;
 import biblioteket.roborally.programcards.ICard;
-import biblioteket.roborally.programcards.ReverseCardComparator;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -10,7 +9,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Handles rendering of player interface, displaying necessary information for playing the game
@@ -38,7 +36,6 @@ public class InterfaceRenderer {
     private final ICard[] programRegister;
     private final TouchableCards touchableCardHand;
     private final TouchableCards touchableProgramRegister;
-    private static final ReverseCardComparator cardComparator = new ReverseCardComparator();
     private int flagsVisited;
     private int lives;
     private String name;

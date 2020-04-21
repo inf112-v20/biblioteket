@@ -4,7 +4,7 @@ import biblioteket.roborally.actors.IPlayer;
 
 import java.util.Objects;
 
-public class Card implements ICard {
+public class Card implements ICard, Comparable<ICard> {
     private static final int RENDERING_DELAY = 500;
     private final CardType type;
     private final int priorityNumber;
@@ -82,4 +82,8 @@ public class Card implements ICard {
         return Objects.hash(type, priorityNumber);
     }
 
+    @Override
+    public int compareTo(ICard o) {
+        return o.getPriorityNumber() - getPriorityNumber();
+    }
 }
