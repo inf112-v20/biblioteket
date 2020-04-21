@@ -8,7 +8,7 @@ public class HoleElement implements InteractingElement {
     @Override
     public void interact(IPlayer player) {
         IRobot robot = player.getRobot();
-        robot.addDamageTokens(1);
+        player.removeOneLife();
         robot.moveToArchiveMarker();
     }
 

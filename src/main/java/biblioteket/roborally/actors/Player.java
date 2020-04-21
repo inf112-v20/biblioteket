@@ -23,6 +23,8 @@ public class Player implements IPlayer {
     private int lives = 3;
     private int visitedFlags = 0;
     private IRobot robot;
+    private ArrayList<ICard> drawnCards;
+    private int lockedRegisters = 0;
 
     private boolean canMove = true;
 
@@ -33,6 +35,7 @@ public class Player implements IPlayer {
         this.robotRenderer = robotRenderer;
 
         programRegister = new ArrayList<>();
+        drawnCards = new ArrayList<>();
     }
 
     @Override
@@ -115,6 +118,83 @@ public class Player implements IPlayer {
         return interfaceRenderer;
     }
 
+    public void updateInterfaceRenderer() {
+        interfaceRenderer.setFlagsVisited(getNumberOfVisitedFlags());
+        interfaceRenderer.setLives(getLives());
+        interfaceRenderer.clearProgramRegister();
+    }
+
+    public void drawCards(ICardDeck cardDeck) { //Signals start of new round, check damage clean register.
+        int defaultNumber = 9; //default number of cards to draw
+        int damageTokens = robot.getNumberOfDamageTokens();
+        int cardsToDraw = defaultNumber - damageTokens;
+        if (!drawnCards.isEmpty())
+            for (ICard card : drawnCards)
+                cardDeck.addToDiscardPile(card);
+
+        if (!programRegister.isEmpty()) {// Should stop it from breaking first round
+            cleanRegister(damageTokens, cardDeck);
+            updateRegisterRender();
+        }
+
+        drawnCards = cardDeck.drawCards(cardsToDraw);
+        interfaceRenderer.setCardHand(drawnCards);
+    }
+
+    /**
+     * Cleans the register based on damage tokens.
+     *
+     * @param damageTokens how many damage tokens the players robot has accumulated.
+     * @param cardDeck     The cardDeck used in the game.
+     */
+    private void cleanRegister(int damageTokens, ICardDeck cardDeck) {
+        switch (damageTokens) {
+            case 9:
+                lockedRegisters = 5;
+                break;
+            case 8:
+                lockedRegisters = 4;
+                cardDeck.removeFromRegisterPile(programRegister.remove(programRegister.size() - 1));
+                break;
+            case 7:
+                lockedRegisters = 3;
+                cardDeck.removeFromRegisterPile(programRegister.remove(programRegister.size() - 1));
+                cardDeck.removeFromRegisterPile(programRegister.remove(programRegister.size() - 1));
+                break;
+            case 6:
+                lockedRegisters = 2;
+                cardDeck.removeFromRegisterPile(programRegister.remove(programRegister.size() - 1));
+                cardDeck.removeFromRegisterPile(programRegister.remove(programRegister.size() - 1));
+                cardDeck.removeFromRegisterPile(programRegister.remove(programRegister.size() - 1));
+                break;
+            case 5:
+                lockedRegisters = 1;
+                cardDeck.removeFromRegisterPile(programRegister.remove(programRegister.size() - 1));
+                cardDeck.removeFromRegisterPile(programRegister.remove(programRegister.size() - 1));
+                cardDeck.removeFromRegisterPile(programRegister.remove(programRegister.size() - 1));
+                cardDeck.removeFromRegisterPile(programRegister.remove(programRegister.size() - 1));
+                break;
+            default:
+                for (ICard card : programRegister)
+                    cardDeck.removeFromRegisterPile(card);
+                programRegister.clear();
+                break;
+        }
+    }
+
+    /**
+     * Updated the register, so that locked cards are placed correctly
+     */
+    private void updateRegisterRender() {
+        interfaceRenderer.clearProgramRegister();
+        if (!programRegister.isEmpty()) {
+            int place = 4;
+            for (ICard card : programRegister) {
+                interfaceRenderer.addCardToLockedRegister(card, place--);
+            }
+        }
+    }
+
     @Override
     public void newTurn(ICardDeck cardDeck) {
         drawCards(cardDeck);
@@ -123,16 +203,16 @@ public class Player implements IPlayer {
     }
 
     @Override
-    public void addCardToProgramRegister(ICard card) {
-        programRegister.add(card);
-        interfaceRenderer.addCardToProgramRegister(card);
+    public void addCardToProgramRegister(ICard card, ICardDeck cardDeck) {
+        drawnCards.remove(card);
+        cardDeck.addToRegisterPile(card);
+        interfaceRenderer.addCardToProgramRegisterIndex(card, programRegister.size() - lockedRegisters);
+        programRegister.add(lockedRegisters, card);
     }
 
     @Override
-    public List<ICard> getProgramRegister() {
-        List<ICard> programCards = new ArrayList<>(programRegister);
-        programRegister.clear();
-        return programCards;
+    public List<ICard> getProgramRegister(ICardDeck cardDeck) { //Used in game loop to execute moves.
+        return new ArrayList<>(programRegister);
     }
 
 
@@ -165,25 +245,4 @@ public class Player implements IPlayer {
             removeOneLife();
         }
     }
-
-    /**
-     * Sets number of lives and flags in the interface renderer
-     */
-    private void updateInterfaceRenderer() {
-        interfaceRenderer.setFlagsVisited(getNumberOfVisitedFlags());
-        interfaceRenderer.setLives(getLives());
-        interfaceRenderer.clearProgramRegister();
-    }
-
-    /**
-     * Draw a number of cards according to how many damage tokens robot has
-     *
-     * @param cardDeck to draw cards from
-     */
-
-    private void drawCards(ICardDeck cardDeck) {
-        ArrayList<ICard> cards = cardDeck.drawCards(9);
-        interfaceRenderer.setCardHand(cards);
-    }
-
 }
