@@ -189,7 +189,7 @@ public class InterfaceRenderer {
         ICard[] cardsTo = toRegister ? programRegister : cardHand;
         TouchableCards touchableFrom = toRegister ? touchableCardHand : touchableProgramRegister;
         TouchableCards touchableTo = toRegister ? touchableProgramRegister : touchableCardHand;
-        
+
         // Remove card where it is being moved from
         for (int i = 0; i < cardsFrom.length; i++) {
             if(card.equals(cardsFrom[i])){

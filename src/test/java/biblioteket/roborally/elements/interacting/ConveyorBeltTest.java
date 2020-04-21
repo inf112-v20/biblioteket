@@ -30,8 +30,7 @@ public class ConveyorBeltTest {
     void setUp() {
         player = new Player(board, null, null, new RobotRenderer(null, null, null));
         archiveMarker = new ArchiveMarkerElement(1);
-        archiveMarker.setX(1);
-        archiveMarker.setY(1);
+        archiveMarker.setPosition(new DirVector(1,1,null));
 
     }
 
