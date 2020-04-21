@@ -14,10 +14,10 @@ public class Player implements IPlayer {
     private final IBoard board;
     private final TiledMapTileLayer.Cell playerCell;
 
-    private ArrayList<ICard> programRegister;
+    private final ArrayList<ICard> programRegister;
 
-    private InterfaceRenderer interfaceRenderer;
-    private RobotRenderer robotRenderer;
+    private final InterfaceRenderer interfaceRenderer;
+    private final RobotRenderer robotRenderer;
 
     private int lives = 3;
     private int visitedFlags = 0;
@@ -35,7 +35,7 @@ public class Player implements IPlayer {
     }
 
     @Override
-    public void moveRobot(int steps, int delay){
+    public void moveRobot(int steps, int delay) {
         for (int i = 0; i < steps; i++) {
             moveRobot(robot.getDirection(), delay);
         }
@@ -56,7 +56,7 @@ public class Player implements IPlayer {
     }
 
     @Override
-    public void backUpRobot(int delay){
+    public void backUpRobot(int delay) {
         moveRobot(robot.getDirection().opposite(), delay);
     }
 
@@ -127,7 +127,7 @@ public class Player implements IPlayer {
     }
 
     @Override
-    public void newTurn(ICardDeck cardDeck){
+    public void newTurn(ICardDeck cardDeck) {
         drawCards(cardDeck);
         programRegister.clear();
         canMove = true;
@@ -160,22 +160,22 @@ public class Player implements IPlayer {
      * Requests robotRenderer to render one move
      *
      * @param from position robot is moving from
-     * @param to position robot is moving to
+     * @param to   position robot is moving to
      */
-    private void renderMove(DirVector from, DirVector to, int delay){
+    private void renderMove(DirVector from, DirVector to, int delay) {
         robotRenderer.requestRendering(from, to, robot.getDirection(), delay, playerCell);
     }
 
     /**
      * If robot is out of bounds, moves robot to archive marker and removes one life.
      */
-    private void handleRobotOutOfBounds(int delay){
+    private void handleRobotOutOfBounds(int delay) {
         DirVector position = robot.getPosition();
-        if(board.outOfBounds(position) || board.isHole(position)){
+        if (board.outOfBounds(position) || board.isHole(position)) {
             DirVector oldPosition = robot.getPosition().copy();
             robot.moveToArchiveMarker();
             DirVector newPosition = robot.getPosition().copy();
-            renderMove(oldPosition,newPosition, delay);
+            renderMove(oldPosition, newPosition, delay);
             canMove = false;
             removeOneLife();
         }

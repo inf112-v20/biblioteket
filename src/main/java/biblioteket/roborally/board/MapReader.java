@@ -13,7 +13,7 @@ class MapReader {
     private List<LaserWallElement> laserWalls;
     private int numFlags = 0;
 
-    public MapReader(IBoard board){
+    public MapReader(IBoard board) {
         archiveMarkers = new ArrayList<>();
         laserWalls = new ArrayList<>();
 
@@ -48,7 +48,6 @@ class MapReader {
             }
         }
     }
-
 
 
     /**

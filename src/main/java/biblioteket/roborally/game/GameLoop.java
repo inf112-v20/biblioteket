@@ -50,7 +50,7 @@ public class GameLoop {
 
     }
 
-    public void startGame(){
+    public void startGame() {
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {

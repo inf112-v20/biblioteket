@@ -33,7 +33,7 @@ public class GameScreen implements Screen {
 
     private final OrthogonalTiledMapRenderer tiledMapRenderer;
 
-    private Texture playerTexture;
+    private final Texture playerTexture;
 
     public GameScreen(final RoboRally gam) {
         this.players = new ArrayList<>();
@@ -83,7 +83,7 @@ public class GameScreen implements Screen {
         gameLoop.getCurrentPlayer().getInterfaceRenderer().renderInterface(board);
 
         // Render robot movement
-        if(robotRenderer.isRequestingRendering()) {
+        if (robotRenderer.isRequestingRendering()) {
             robotRenderer.render();
         }
 

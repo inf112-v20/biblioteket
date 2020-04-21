@@ -11,6 +11,7 @@ public interface IPlayer {
 
     /**
      * Tries to move robot in the direction robot is currently facing
+     *
      * @param delay milliseconds delay after move is rendered before next move is rendered
      * @param steps amount of times robot should try to move
      */
@@ -18,6 +19,7 @@ public interface IPlayer {
 
     /**
      * Tries to move robot in direction
+     *
      * @param direction to move robot
      * @param delay milliseconds delay after move is rendered before next move is rendered
      * @return
@@ -26,6 +28,7 @@ public interface IPlayer {
 
     /**
      * Tries to move robot in the opposite direction of where it is currently facing
+     *
      * @param delay milliseconds delay after move is rendered before next move is rendered
      */
     void backUpRobot(int delay);
@@ -102,6 +105,7 @@ public interface IPlayer {
     /**
      * Player draws new cards, updates interface renderer and sets
      * canMove flag to true
+     *
      * @param cardDeck
      */
     void newTurn(ICardDeck cardDeck);
