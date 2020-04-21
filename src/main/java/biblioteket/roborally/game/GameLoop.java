@@ -48,9 +48,6 @@ public class GameLoop {
             e.printStackTrace();
         }
 
-        for (IPlayer player : players) {
-            player.newTurn(cardDeck);
-        }
     }
 
     public void startGame(){
@@ -148,11 +145,7 @@ public class GameLoop {
         // End turn
         if (checkWinCondition() || everyPlayerDead())
             Gdx.app.exit();
-        else {
-            for (IPlayer player : players) {
-                player.newTurn(cardDeck);
-            }
-        }
+
 
     }
 
@@ -237,6 +230,12 @@ public class GameLoop {
 
     public IPlayer getCurrentPlayer(){
         return players.get(currentPlayerPtr);
+    }
+
+    public void newTurn(){
+        for (IPlayer player : players) {
+            player.newTurn(cardDeck);
+        }
     }
 
 }

@@ -2,6 +2,7 @@ package biblioteket.roborally.actors;
 
 import biblioteket.roborally.board.DirVector;
 import biblioteket.roborally.board.Direction;
+import biblioteket.roborally.game.GameLoop;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
 import java.util.LinkedList;
@@ -15,13 +16,15 @@ import java.util.concurrent.TimeUnit;
  */
 public class RobotRenderer {
     private final TiledMapTileLayer playerLayer;
+    private GameLoop gameLoop;
     private Queue<RobotStep> movements;
     private List<IPlayer> players;
 
-    public RobotRenderer(TiledMapTileLayer playerLayer, List<IPlayer> players){
+    public RobotRenderer(TiledMapTileLayer playerLayer, List<IPlayer> players, GameLoop gameLoop){
         this.playerLayer = playerLayer;
-        movements = new LinkedList<>();
         this.players = players;
+        this.gameLoop = gameLoop;
+        movements = new LinkedList<>();
     }
 
     /**
@@ -43,8 +46,10 @@ public class RobotRenderer {
 
         // Add delay so players can see each move
         wait(delay);
-        // Update all players in case two players were previously standing on top of each other
-        renderAllPlayers();
+        if(movements.isEmpty()){
+            renderAllPlayers();
+            gameLoop.newTurn(); // New turn event starts only after all moves have been rendered
+        }
     }
 
     /**
@@ -79,6 +84,9 @@ public class RobotRenderer {
         }
     }
 
+    /**
+     * Handles rare visual bug caused by two robots stadning on top of each other causes only one to be rendered
+     */
     private void renderAllPlayers(){
         for (IPlayer player : players) {
             DirVector position = player.getRobot().getPosition();
