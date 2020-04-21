@@ -38,7 +38,7 @@ public class InterfaceRenderer {
     private final ICard[] programRegister;
     private final TouchableCards touchableCardHand;
     private final TouchableCards touchableProgramRegister;
-    private final ReverseCardComparator cardComparator = new ReverseCardComparator();
+    private static final ReverseCardComparator cardComparator = new ReverseCardComparator();
     private int flagsVisited;
     private int lives;
     private String name;
@@ -191,20 +191,36 @@ public class InterfaceRenderer {
      */
     public void addCardToProgramRegister(ICard card) {
         for (int i = 0; i < cardHand.length; i++) {
-            if (cardHand[i] == card) {
+            if (card.equals(cardHand[i])) {
                 cardHand[i] = null;
                 touchableCardHand.removeCard(i);
                 break;
             }
         }
-        ICard copy = card.copy();
         for (int i = 0; i < programRegister.length; i++) {
             if (programRegister[i] == null) {
-                programRegister[i] = copy;
+                programRegister[i] = card;
+                touchableProgramRegister.setCard(i,card);
                 break;
             }
         }
-        Arrays.sort(programRegister, cardComparator);
+    }
+
+    public void returnCardToCardHand(ICard card) {
+        for (int i = 0; i < programRegister.length; i++) {
+            if (card.equals(programRegister[i])) {
+                programRegister[i] = null;
+                touchableProgramRegister.removeCard(i);
+                break;
+            }
+        }
+        for (int i = 0; i < cardHand.length; i++) {
+            if (cardHand[i] == null) {
+                cardHand[i] = card;
+                touchableCardHand.setCard(i, card);
+                break;
+            }
+        }
     }
 
     /**
@@ -223,7 +239,9 @@ public class InterfaceRenderer {
      * @return an ICard if the coordinates contain a card, or null otherwise
      */
     public ICard contains(int x, int y) {
-        return touchableCardHand.contains(x, y);
+        ICard cardHandCard = touchableCardHand.contains(x, y);
+        ICard programRegisterCard = touchableProgramRegister.contains(x,y);
+        return cardHandCard != null ? cardHandCard : programRegisterCard;
     }
 
     /**

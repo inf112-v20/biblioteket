@@ -129,21 +129,25 @@ public class Player implements IPlayer {
     @Override
     public void newTurn(ICardDeck cardDeck){
         drawCards(cardDeck);
+        programRegister.clear();
         canMove = true;
         updateInterfaceRenderer();
     }
 
     @Override
     public void addCardToProgramRegister(ICard card) {
-        programRegister.add(card);
-        interfaceRenderer.addCardToProgramRegister(card);
+        if(programRegister.contains(card)){
+            programRegister.remove(card);
+            interfaceRenderer.returnCardToCardHand(card);
+        } else{
+            programRegister.add(card);
+            interfaceRenderer.addCardToProgramRegister(card);
+        }
     }
 
     @Override
     public List<ICard> getProgramRegister() {
-        List<ICard> programCards = new ArrayList<>(programRegister);
-        programRegister.clear();
-        return programCards;
+        return programRegister;
     }
 
 

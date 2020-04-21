@@ -20,6 +20,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 
 import java.io.IOException;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -111,7 +112,7 @@ public class GameLoop {
         InterfaceRenderer interfaceRenderer = player.getInterfaceRenderer();
         ICard card = interfaceRenderer.contains(x, y);
         if (card != null)
-            player.addCardToProgramRegister(card);
+            player.addCardToProgramRegister(card.copy());
 
         if (player.fullProgramRegister())
             nextPlayer();
@@ -123,14 +124,17 @@ public class GameLoop {
      *
      */
     public void doTurn() {
-        // Use red-black tree to sort every programming card according to their priority,
-        // mapped to correct robot
-        Map<ICard, IPlayer> cardMapping = new TreeMap<>(new ReverseCardComparator());
-        for (IPlayer player : players) {
-            List<ICard> programRegister = player.getProgramRegister();
-            for (ICard card : programRegister) {
-                cardMapping.put(card, player);
+        Map<ICard, IPlayer> cardMapping = new LinkedHashMap<>();
+        Map<ICard, IPlayer> priorityMap = new TreeMap<>(new ReverseCardComparator());
+        for (int i = 0; i < 5; i++) {
+            for (IPlayer player : players) {
+                List<ICard> programRegister = player.getProgramRegister();
+                priorityMap.put(programRegister.get(i), player);
             }
+            for (ICard card : priorityMap.keySet()) {
+                cardMapping.put(card, priorityMap.get(card));
+            }
+            priorityMap.clear();
         }
 
         // Execute program cards in order from highest to lowest priority
@@ -141,12 +145,6 @@ public class GameLoop {
 
         // Robots interact with board elements
         interactWithBoardElements();
-
-        // End turn
-        if (checkWinCondition() || everyPlayerDead())
-            Gdx.app.exit();
-
-
     }
 
     /**
@@ -232,7 +230,9 @@ public class GameLoop {
         return players.get(currentPlayerPtr);
     }
 
-    public void newTurn(){
+    public void newTurn() {
+        if (checkWinCondition() || everyPlayerDead())
+            Gdx.app.exit();
         for (IPlayer player : players) {
             player.newTurn(cardDeck);
         }
