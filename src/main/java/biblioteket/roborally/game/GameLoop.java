@@ -14,7 +14,6 @@ import biblioteket.roborally.elements.walls.LaserWallElement;
 import biblioteket.roborally.programcards.CardDeck;
 import biblioteket.roborally.programcards.ICard;
 import biblioteket.roborally.programcards.ICardDeck;
-import biblioteket.roborally.userinterface.InterfaceRenderer;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
@@ -110,8 +109,7 @@ public class GameLoop {
         InterfaceRenderer interfaceRenderer = player.getInterfaceRenderer();
         ICard card = interfaceRenderer.contains(x, y);
         if (card != null)
-            currentPlayer.addCardToProgramRegister(card, cardDeck);
-            player.addCardToProgramRegister(card.copy());
+            player.addCardToProgramRegister(card.copy(), cardDeck);
 
         if (player.fullProgramRegister())
             nextPlayer();
@@ -123,12 +121,6 @@ public class GameLoop {
      *
      */
     public void doTurn() {
-
-        for (IPlayer player : players) {
-            List<ICard> programRegister = player.getProgramRegister(cardDeck);
-            for (int i = programRegister.size() - 1; i >= 0; i--) {
-                ICard card = programRegister.get(i);
-                card.doCardAction(player);
         Map<ICard, IPlayer> cardMapping = new LinkedHashMap<>();
         Map<ICard, IPlayer> priorityMap = new TreeMap<>(Collections.reverseOrder());
         for (int i = 0; i < 5; i++) {

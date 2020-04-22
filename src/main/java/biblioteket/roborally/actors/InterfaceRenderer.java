@@ -216,8 +216,7 @@ public class InterfaceRenderer {
      * @param index Index to place card in
      */
     public void addCardToLockedRegister(ICard card, int index) {
-        ICard copy = card.copy(); //not really sure why a copy, but saw it was uses elsewhere.
-        programRegister[index] = copy;
+        programRegister[index] = card;
     }
 
     /**
@@ -226,15 +225,14 @@ public class InterfaceRenderer {
      */
     public void addCardToProgramRegisterIndex(ICard card, int index) {
         for (int i = 0; i < cardHand.length; i++) {
-            if (cardHand[i] == card) {
+            if (card.equals(cardHand[i])) {
                 cardHand[i] = null;
                 touchableCardHand.removeCard(i);
                 break;
             }
         }
 
-        ICard copy = card.copy(); //not really sure why a copy, but saw it was uses elsewhere.
-        programRegister[index] = copy;
+        programRegister[index] = card;
     }
 
     /**

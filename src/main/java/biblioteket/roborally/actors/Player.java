@@ -22,6 +22,7 @@ public class Player implements IPlayer {
     private int lives = 3;
     private int visitedFlags = 0;
     private IRobot robot;
+    private String name;
     private ArrayList<ICard> drawnCards;
     private int lockedRegisters = 0;
 
@@ -106,7 +107,13 @@ public class Player implements IPlayer {
 
     @Override
     public void setName(String name){
+        this.name = name;
         interfaceRenderer.setName(name);
+    }
+
+    @Override
+    public String getName(){
+        return name;
     }
 
     @Override
@@ -214,24 +221,15 @@ public class Player implements IPlayer {
         updateInterfaceRenderer();
     }
 
-    @Override
     public void addCardToProgramRegister(ICard card, ICardDeck cardDeck) {
-        drawnCards.remove(card);
-        cardDeck.addToRegisterPile(card);
-        interfaceRenderer.addCardToProgramRegisterIndex(card, programRegister.size() - lockedRegisters);
-        programRegister.add(lockedRegisters, card);
-    }
-
-    @Override
-    public List<ICard> getProgramRegister(ICardDeck cardDeck) { //Used in game loop to execute moves.
-        return new ArrayList<>(programRegister);
-    public void addCardToProgramRegister(ICard card) {
         if(programRegister.contains(card)){
             programRegister.remove(card);
             interfaceRenderer.moveCard(card, false);
         } else{
-            programRegister.add(card);
+            drawnCards.remove(card);
+            cardDeck.addToRegisterPile(card);
             interfaceRenderer.moveCard(card, true);
+            programRegister.add(card);
         }
     }
 

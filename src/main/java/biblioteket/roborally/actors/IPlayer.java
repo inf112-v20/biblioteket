@@ -78,6 +78,8 @@ public interface IPlayer {
      */
     void setName(String name);
 
+    String getName();
+
     /**
      * Set the players robot.
      *
@@ -118,13 +120,14 @@ public interface IPlayer {
      */
     void addCardToProgramRegister(ICard card, ICardDeck cardDeck);
 
+
     /**
      * returns a list of the players program register and clears the program register
      *
      * @param cardDeck The cardDeck used in the game
      * @return a list of the players program register
      */
-    List<ICard> getProgramRegister(ICardDeck cardDeck);
+    List<ICard> getProgramRegister();
 
     /**
      * @return true if the player is done registering cards for this turn
@@ -132,4 +135,5 @@ public interface IPlayer {
     boolean fullProgramRegister();
 
     TiledMapTileLayer.Cell getPlayerCell();
+
 }
