@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -233,12 +234,14 @@ public class InterfaceRenderer {
         }
 
         programRegister[index] = card;
+        touchableProgramRegister.setCard(index, card);
     }
 
     /**
      * Clears program register
      */
     public void clearProgramRegister() {
+        System.out.println("interface: " + Arrays.toString(programRegister));
         for (int i = 0; i < programRegister.length; i++) {
             programRegister[i] = null;
             touchableProgramRegister.setCard(i, null);

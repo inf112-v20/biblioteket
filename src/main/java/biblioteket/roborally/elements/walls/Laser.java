@@ -23,7 +23,7 @@ public class Laser {
             DirVector robotPosition = robot.getPosition();
             if (vector.compareVector(robotPosition)) {
                 robot.addDamageTokens(1);
-                System.out.println(player.getName()  + " was hit by a laser");
+                System.out.println(player.getName()  + " was hit by a laser, " + player.getRobot().getNumberOfDamageTokens() + " damage tokens");
                 return;
             }
         }

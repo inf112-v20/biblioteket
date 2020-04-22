@@ -131,6 +131,7 @@ public class GameLoop {
 
         // Execute program cards in correct order
         Map<ICard, IPlayer> registersInPriority = new TreeMap<>(Collections.reverseOrder());
+        System.out.println("player: " + getCurrentPlayer().getProgramRegister());
         for (int i = 4; i >= 0; i--) { // Five registers, program register is reversed.
             for (IPlayer player : players) {
                 ICard currentCard = player.getProgramRegister().get(i);
@@ -138,10 +139,12 @@ public class GameLoop {
             }
             for (Entry<ICard, IPlayer> entry : registersInPriority.entrySet()) {
                 entry.getKey().doCardAction(entry.getValue());
-                System.out.println(entry.getKey().getPriorityNumber());
+                System.out.println(entry.getKey());
+
             }
             registersInPriority.clear();
         }
+        System.out.println();
 
         // Robots interact with board elements*/
         interactWithBoardElements();
@@ -225,6 +228,8 @@ public class GameLoop {
         if (currentPlayerPtr == players.size()){
             currentPlayerPtr = 0;
             doTurn();
+        } else if (getCurrentPlayer().getRobot().getNumberOfDamageTokens() == 9) {
+            nextPlayer();
         }
     }
 

@@ -221,6 +221,11 @@ public class Player implements IPlayer {
     }
 
     public void addCardToProgramRegister(ICard card, ICardDeck cardDeck) {
+        if (programRegister.contains(card)){
+            programRegister.remove(card);
+            interfaceRenderer.moveCard(card,false);
+            return;
+        }
         drawnCards.remove(card);
         cardDeck.addToRegisterPile(card); // Cleaning up
         interfaceRenderer.addCardToProgramRegisterIndex(card, programRegister.size() - lockedRegisters);
