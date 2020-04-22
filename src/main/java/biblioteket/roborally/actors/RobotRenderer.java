@@ -46,7 +46,7 @@ public class RobotRenderer {
 
         // Add delay so players can see each move
         wait(delay);
-        
+
         if(movements.isEmpty()){
             renderAllPlayers();
             gameLoop.newTurn(); // New turn event starts only after all moves have been rendered

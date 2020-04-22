@@ -4,7 +4,6 @@ import biblioteket.roborally.actors.*;
 import biblioteket.roborally.board.Board;
 import biblioteket.roborally.board.IBoard;
 import biblioteket.roborally.elements.ArchiveMarkerElement;
-import biblioteket.roborally.actors.InterfaceRenderer;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -28,7 +27,6 @@ public class GameScreen implements Screen {
     private final RobotRenderer robotRenderer;
     private final OrthographicCamera camera;
 
-    private final List<IPlayer> players;
     private final GameLoop gameLoop;
 
     private final OrthogonalTiledMapRenderer tiledMapRenderer;
@@ -36,7 +34,7 @@ public class GameScreen implements Screen {
     private final Texture playerTexture;
 
     public GameScreen(final RoboRally gam) {
-        this.players = new ArrayList<>();
+        List<IPlayer> players = new ArrayList<>();
         this.board = new Board("assets/DizzyDash.tmx", players);
         gameLoop = new GameLoop(board, players);
         this.robotRenderer = new RobotRenderer(board.getPlayerLayer(), players, gameLoop);
