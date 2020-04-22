@@ -73,7 +73,7 @@ public class MapSelect implements Screen {
             game.getBatch().draw(riskyPost, riskyX, mapY, mapWidth, mapHeight);
             if (Gdx.input.isTouched()) {
                 map = "assets/RiskyExchange.tmx";
-                game.setScreen(new GameScreen(game));
+                game.setScreen(new DifficultySelect(game));
                 dispose();
             }
         }
