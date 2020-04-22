@@ -35,6 +35,7 @@ public class GameLoop {
     private final List<LaserWallElement> laserWalls;
     private final List<IPlayer> players;
     private int currentPlayerPtr = 0;
+    boolean programmingPhase = true;
     private ICardDeck cardDeck;
 
     public GameLoop(IBoard board, List<IPlayer> players) {
@@ -55,6 +56,7 @@ public class GameLoop {
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+                if (!programmingPhase) return false;
                 int y = Gdx.graphics.getHeight() - 1 - screenY; // Translate from y-down to y-up
                 return registerInput(screenX, y, getCurrentPlayer());
             }
@@ -124,38 +126,27 @@ public class GameLoop {
      *
      */
     public void doTurn() {
+        // Dont allow players to program robots while turn is rendering
+        programmingPhase = false;
+
+        // Execute program cards in correct order
+        Map<ICard, IPlayer> registersInPriority = new TreeMap<>(Collections.reverseOrder());
         for (int i = 4; i >= 0; i--) { // Five registers, program register is reversed.
-            Map<ICard, IPlayer> registersInPriority = new TreeMap<>(Collections.reverseOrder());
             for (IPlayer player : players) {
                 ICard currentCard = player.getProgramRegister().get(i);
                 registersInPriority.put(currentCard, player);
             }
             for (Entry<ICard, IPlayer> entry : registersInPriority.entrySet()) {
                 entry.getKey().doCardAction(entry.getValue());
+                System.out.println(entry.getKey().getPriorityNumber());
             }
-        }
-
-// TODO: Silje: Thinks the one above works better
-/*        Map<ICard, IPlayer> cardMapping = new LinkedHashMap<>();
-        Map<ICard, IPlayer> priorityMap = new TreeMap<>(Collections.reverseOrder());
-        for (int i = 0; i < 5; i++) { //
-            for (IPlayer player : players) {
-                List<ICard> programRegister = player.getProgramRegister();
-                Collections.reverse(programRegister);
-                priorityMap.put(programRegister.get(i), player);
-            }
-            for (Entry<ICard, IPlayer> entry : priorityMap.entrySet()) {
-                cardMapping.put(entry.getKey(), entry.getValue());
-            }
-            priorityMap.clear();
-        }
-        // Execute program cards in order from highest to lowest priority
-        for (Entry<ICard, IPlayer> entry : cardMapping.entrySet()) {
-            entry.getKey().doCardAction(entry.getValue());
+            registersInPriority.clear();
         }
 
         // Robots interact with board elements*/
         interactWithBoardElements();
+
+         // Start new turn
     }
 
     /**
@@ -247,6 +238,7 @@ public class GameLoop {
         for (IPlayer player : players) {
             player.newTurn(cardDeck);
         }
+        programmingPhase = true;
     }
 
 }
