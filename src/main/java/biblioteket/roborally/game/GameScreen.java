@@ -53,7 +53,7 @@ public class GameScreen implements Screen {
         TextureRegion[][] playerTextureSplit = TextureRegion.split(playerTexture, board.getTileWidth(), board.getTileHeight());
 
 
-        for (int i = 1; i <= 4; i++) {
+        for (int i = 1; i <= 2; i++) {
             TiledMapTileLayer.Cell playerCell = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(playerTextureSplit[0][0]));
             Player player = new Player(board, playerCell, new InterfaceRenderer(), robotRenderer);
             players.add(player);
@@ -81,19 +81,12 @@ public class GameScreen implements Screen {
 
         // Render interface of current player
         gameLoop.getCurrentPlayer().getInterfaceRenderer().renderInterface(board);
-
         // Render robot movement
         if (robotRenderer.isRequestingRendering()) {
-            robotRenderer.render();
+            robotRenderer.renderStep();
         }
-
         tiledMapRenderer.render();
-        tiledMapRenderer.getBatch().begin();
-        tiledMapRenderer.renderTileLayer(board.getPlayerLayer());
-        tiledMapRenderer.getBatch().end();
         camera.update();
-
-
     }
 
     @Override

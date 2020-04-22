@@ -8,7 +8,10 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * Handles rendering of player interface, displaying necessary information for playing the game
@@ -86,13 +89,13 @@ public class InterfaceRenderer {
 
     public void renderInterface(IBoard board) {
         batch.begin();
-        batch.draw(playerOverview, 0, Gdx.graphics.getHeight() - 90, Gdx.graphics.getWidth(), 90);
+        batch.draw(playerOverview, 0, Gdx.graphics.getHeight() - 90f, Gdx.graphics.getWidth(), 90);
         batch.draw(background, board.getTileWidth(), 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        batch.draw(flag, 290, Gdx.graphics.getHeight() - 180, 40, 40);
-        batch.draw(hp, 330, Gdx.graphics.getHeight() - 180, 40, 40);
-        font.draw(batch, Integer.toString(flagsVisited), 310, Gdx.graphics.getHeight() - 165);
-        font.draw(batch, Integer.toString(lives), 360, Gdx.graphics.getHeight() - 165);
-        font.draw(batch, name, 410, Gdx.graphics.getHeight() - 165);
+        batch.draw(flag, 290, Gdx.graphics.getHeight() - 180f, 40, 40);
+        batch.draw(hp, 330, Gdx.graphics.getHeight() - 180f, 40, 40);
+        font.draw(batch, Integer.toString(flagsVisited), 310, Gdx.graphics.getHeight() - 165f);
+        font.draw(batch, Integer.toString(lives), 360, Gdx.graphics.getHeight() - 165f);
+        font.draw(batch, name, 410, Gdx.graphics.getHeight() - 165f);
 
 
         drawCard(cardHand[0], 375, 100, 100, 90);
@@ -169,7 +172,7 @@ public class InterfaceRenderer {
     /**
      * @param cardHand to be drawn
      */
-    public void setCardHand(ArrayList<ICard> cardHand) {
+    public void setCardHand(List<ICard> cardHand) {
         if (cardHand.size() > this.cardHand.length)
             throw new IndexOutOfBoundsException("Tried to deal too many cards to player");
 
@@ -268,7 +271,7 @@ public class InterfaceRenderer {
          * weather any x,y input is within the bounds of the rectangle
          */
         private class TouchableCard extends Rectangle {
-            private ICard card;
+            private transient ICard card;
 
             TouchableCard(float x, float y, float width, float height) {
                 super(x, y, width, height);
@@ -280,6 +283,20 @@ public class InterfaceRenderer {
 
             public void setCard(ICard card) {
                 this.card = card;
+            }
+
+            @Override
+            public boolean equals(Object o) {
+                if (this == o) return true;
+                if (o == null || getClass() != o.getClass()) return false;
+                if (!super.equals(o)) return false;
+                TouchableCard that = (TouchableCard) o;
+                return Objects.equals(card, that.card);
+            }
+
+            @Override
+            public int hashCode() {
+                return Objects.hash(super.hashCode(), card);
             }
         }
     }

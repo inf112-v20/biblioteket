@@ -19,10 +19,8 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 
 import java.io.IOException;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * Once every player has finished programming their robot,
@@ -124,22 +122,21 @@ public class GameLoop {
      */
     public void doTurn() {
         Map<ICard, IPlayer> cardMapping = new LinkedHashMap<>();
-        Map<ICard, IPlayer> priorityMap = new TreeMap<>();
+        Map<ICard, IPlayer> priorityMap = new TreeMap<>(Collections.reverseOrder());
         for (int i = 0; i < 5; i++) {
             for (IPlayer player : players) {
                 List<ICard> programRegister = player.getProgramRegister();
                 priorityMap.put(programRegister.get(i), player);
             }
-            for (ICard card : priorityMap.keySet()) {
-                cardMapping.put(card, priorityMap.get(card));
+            for (Entry<ICard, IPlayer> entry : priorityMap.entrySet()) {
+                cardMapping.put(entry.getKey(), entry.getValue());
             }
             priorityMap.clear();
         }
 
         // Execute program cards in order from highest to lowest priority
-        for (ICard card : cardMapping.keySet()) {
-            IPlayer player = cardMapping.get(card);
-            card.doCardAction(player);
+        for (Entry<ICard, IPlayer> entry : cardMapping.entrySet()) {
+            entry.getKey().doCardAction(entry.getValue());
         }
 
         // Robots interact with board elements

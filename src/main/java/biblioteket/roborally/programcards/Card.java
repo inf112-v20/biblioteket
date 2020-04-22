@@ -84,6 +84,6 @@ public class Card implements ICard, Comparable<ICard> {
 
     @Override
     public int compareTo(ICard o) {
-        return o.getPriorityNumber() - getPriorityNumber();
+        return getPriorityNumber() - o.getPriorityNumber();
     }
 }

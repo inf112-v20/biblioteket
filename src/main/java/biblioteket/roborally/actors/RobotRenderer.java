@@ -30,7 +30,7 @@ public class RobotRenderer {
     /**
      * Updates the PlayerLayer of the TiledMap with a single robot step
      */
-    public void render() {
+    public void renderStep() {
         RobotStep movement = movements.remove();
 
         DirVector oldPosition = movement.getOldPosition();
@@ -46,6 +46,7 @@ public class RobotRenderer {
 
         // Add delay so players can see each move
         wait(delay);
+        
         if(movements.isEmpty()){
             renderAllPlayers();
             gameLoop.newTurn(); // New turn event starts only after all moves have been rendered
