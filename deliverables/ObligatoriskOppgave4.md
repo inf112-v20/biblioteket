@@ -1,14 +1,14 @@
 # Task 1 - Team and Project
-##Hvordan fungerer rollene i teamet? Trenger dere å oppdatere hvem som er teamleader eller kundekontakt?
-- We are still using the same roles.
-- Roles are flexible, meaning people who have a set role can also take on tasks of another kind.
-- Sondre still teamleader, responsible for github too
-- Marcus also still takes notes at the meeting, but has also been working with the rendering of robots (displaying rotations, etc.)
-- Silje is still our customer contact, and a master of the rules of roborally, informing us if anything we are going to do defy’s any set game laws.
-- Tor Kristian has been continuing to work with the GUI for the game, making sure that the player has all necessary information visible to them during gameplay (damagetokens for example)
-- Tobias is still working on animation, but is struggling with implementation, reaching somewhat of a standstill, and therefore has also been assigned the task of the written part, as to still contribute for commits.
-- Er det noen erfaringer enten team-messig eller mtp prosjektmetodikk som er verdt å nevne? Synes teamet at de valgene dere har tatt er gode? Hvis ikke, hva kan dere gjøre annerledes for å forbedre måten teamet fungerer på? 
--- Unsure.
+- Hvordan fungerer rollene i teamet? Trenger dere å oppdatere hvem som er teamleader eller kundekontakt?
+-- We are still using the same roles.
+-- Roles are flexible, meaning people who have a set role can also take on tasks of another kind.
+-- Sondre still teamleader, responsible for github too
+-- Marcus also still takes notes at the meeting, but has also been working with the rendering of robots (displaying rotations, etc.)
+-- Silje is still our customer contact, and a master of the rules of roborally, informing us if anything we are going to do defy’s any set game laws.
+-- Tor Kristian has been continuing to work with the GUI for the game, making sure that the player has all necessary information visible to them during gameplay (damagetokens for example)
+-- Tobias is still working on animation, but is struggling with implementation, reaching somewhat of a standstill, and therefore has also been assigned the task of the written part, as to still contribute for commits.
+-- Er det noen erfaringer enten team-messig eller mtp prosjektmetodikk som er verdt å nevne? Synes teamet at de valgene dere har tatt er gode? Hvis ikke, hva kan dere gjøre annerledes for å forbedre måten teamet fungerer på? 
+--- Unsure.
 - Gjør et retrospektiv hvor dere vurderer prosjektet har gått. Hva har dere gjort bra, hva hadde dere gjort annerledes hvis dere begynte på nytt? 
 -- Things we have done well:
 --- Adapted to the coronavirus situation
