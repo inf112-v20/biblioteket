@@ -47,6 +47,7 @@ public class MainMenuScreen implements Screen {
 
     }
 
+
     public void buttonSize() {
         center = camera.viewportWidth / 2 - buttonWidth / 2;
         buttonHeight = camera.viewportHeight / (256 / 100);
@@ -54,6 +55,7 @@ public class MainMenuScreen implements Screen {
         startY = camera.viewportHeight / (6);
         exitY = camera.viewportHeight / 130;
     }
+
 
     @Override
     public void render(float delta) {

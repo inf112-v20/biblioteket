@@ -18,6 +18,7 @@ public class MapSelect implements Screen {
     private final Texture riskyPost;
     private final BitmapFont font;
     private final Texture selectMap;
+    private static String map;
 
     public MapSelect(final RoboRally game) {
         this.game = game;
@@ -32,7 +33,6 @@ public class MapSelect implements Screen {
         font = new BitmapFont();
         selectMap = new Texture("assets/selectMap.png");
     }
-
 
     @Override
     public void show() {
@@ -64,7 +64,7 @@ public class MapSelect implements Screen {
         if (Gdx.input.getX() < dizzyX + mapWidth && Gdx.input.getX() > dizzyX && camera.viewportHeight - Gdx.input.getY() < mapY + mapHeight && camera.viewportHeight - Gdx.input.getY() > mapY) {
             game.getBatch().draw(dizzyPost, dizzyX, mapY, mapWidth, mapHeight);
             if (Gdx.input.isTouched()) {
-                GameScreen.map = "assets/DizzyDash.tmx";
+                map = "assets/DizzyDash.tmx";
                 game.setScreen(new GameScreen(game));
                 dispose();
 
@@ -72,7 +72,7 @@ public class MapSelect implements Screen {
         } else if (Gdx.input.getX() < riskyX + mapWidth && Gdx.input.getX() > riskyX && camera.viewportHeight - Gdx.input.getY() < mapY + mapHeight && camera.viewportHeight - Gdx.input.getY() > mapY) {
             game.getBatch().draw(riskyPost, riskyX, mapY, mapWidth, mapHeight);
             if (Gdx.input.isTouched()) {
-                GameScreen.map = "assets/RiskyExchange.tmx";
+                map = "assets/RiskyExchange.tmx";
                 game.setScreen(new GameScreen(game));
                 dispose();
             }
@@ -85,6 +85,10 @@ public class MapSelect implements Screen {
         this.camera = new OrthographicCamera();
         camera.setToOrtho(false, width, height);
         camera.update();
+    }
+
+    public static String getMap() {
+        return map;
     }
 
     @Override

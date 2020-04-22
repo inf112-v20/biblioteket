@@ -1,6 +1,5 @@
 package biblioteket.roborally.userinterface;
 
-import biblioteket.roborally.actors.IPlayer;
 import biblioteket.roborally.board.IBoard;
 import biblioteket.roborally.game.GameScreen;
 import biblioteket.roborally.programcards.ICard;
@@ -30,7 +29,7 @@ public class InterfaceRenderer {
     private final Texture rotateRightCard;
     private final Texture rotateLeftCard;
     private final Texture uTurnCard;
-    private final Texture damageToken;
+    //private final Texture damageToken;
 
     private final SpriteBatch batch;
     private final BitmapFont font;
@@ -42,7 +41,6 @@ public class InterfaceRenderer {
     private final OrthographicCamera camera;
     private int flagsVisited;
     private int lives;
-    private IPlayer player;
 
     private float cardWidth;
     private float cardHeight;
@@ -50,11 +48,14 @@ public class InterfaceRenderer {
     private float touchableHeight;
     private float rightOfBoard;
     private float healthFlagSize;
-    private float damageTokenSize;
+    //private float damageTokenSize;
 
 
-    public InterfaceRenderer() {
+
+    public InterfaceRenderer()  {
+
         camera = GameScreen.getCamera();
+
         background = new Texture("assets/background2.jpg");
         hp = new Texture("assets/hp.png");
         flag = new Texture("assets/flag.png");
@@ -67,19 +68,20 @@ public class InterfaceRenderer {
         rotateRightCard = new Texture("assets/programCards/rotateRight.png");
         rotateLeftCard = new Texture("assets/programCards/rotateLeft.png");
         uTurnCard = new Texture("assets/programCards/uTurn.png");
-        damageToken = new Texture("assets/damageToken.png");
+        //damageToken = new Texture("assets/damageToken.png");
 
 
         batch = new SpriteBatch();
         font = new BitmapFont();
         fontBatch = new SpriteBatch();
 
+
         flagsVisited = 0;
         lives = 3;
         cardHand = new ICard[9];
         programRegister = new ICard[5];
 
-
+        
         graphicSize();
         // Card hand
         touchableCardHand = new TouchableCards(cardHand.length);
@@ -113,15 +115,12 @@ public class InterfaceRenderer {
         touchableHeight = (Gdx.graphics.getWidth() / (640f / 90f));
         rightOfBoard = Gdx.graphics.getWidth() / 2;
         healthFlagSize = Gdx.graphics.getHeight() / (640f / 40f);
-        damageTokenSize = Gdx.graphics.getHeight() / (640f / 35f);
+        //damageTokenSize = Gdx.graphics.getHeight() / (640f / 35f);
 
     }
 
-
     public void renderInterface(IBoard board) {
         graphicSize();
-        player = GameScreen.getPlayer();
-
 
         camera.update();
         batch.setProjectionMatrix(camera.combined);
@@ -328,4 +327,7 @@ public class InterfaceRenderer {
     }
 
 
-}
+    }
+
+
+

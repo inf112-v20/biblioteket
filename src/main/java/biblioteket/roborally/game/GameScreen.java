@@ -23,17 +23,19 @@ import java.util.List;
  * flag and hole that they player can move around on.
  */
 public class GameScreen implements Screen {
-    public static String map;
-    private static OrthographicCamera camera;
-    private static List<IPlayer> players;
+    private static final OrthographicCamera camera = new OrthographicCamera();
+    private final List<IPlayer> players;
     private final Board board;
     private final RobotRenderer robotRenderer;
     private final OrthogonalTiledMapRenderer tiledMapRenderer;
+    private String map;
+    private final RoboRally gam;
 
     public GameScreen(final RoboRally gam) {
+        this.gam = gam;
+        map = MapSelect.getMap();
         this.board = new Board(map);
         this.robotRenderer = new RobotRenderer(board.getPlayerLayer());
-        camera = new OrthographicCamera();
 
         camera.setToOrtho(false, board.getWidth() * 2, board.getHeight());
         camera.update();
@@ -61,19 +63,18 @@ public class GameScreen implements Screen {
         gameLoop.startGame();
 
     }
-
     public static OrthographicCamera getCamera() {
         return camera;
     }
 
-    public static IPlayer getPlayer() {
-        return players.get(0);
+    public RoboRally getGame() {
+        return gam;
     }
 
     @Override
     public void show() {
-
     }
+
 
     @Override
     public void render(float delta) {
