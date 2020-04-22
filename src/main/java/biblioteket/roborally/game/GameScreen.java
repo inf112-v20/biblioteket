@@ -29,10 +29,10 @@ public class GameScreen implements Screen {
     private final RobotRenderer robotRenderer;
     private final OrthogonalTiledMapRenderer tiledMapRenderer;
     private String map;
-    private final RoboRally gam;
+    private final RoboRally game;
 
-    public GameScreen(final RoboRally gam) {
-        this.gam = gam;
+    public GameScreen(final RoboRally game) {
+        this.game = game;
         map = MapSelect.getMap();
         this.board = new Board(map);
         this.robotRenderer = new RobotRenderer(board.getPlayerLayer());
@@ -65,10 +65,6 @@ public class GameScreen implements Screen {
     }
     public static OrthographicCamera getCamera() {
         return camera;
-    }
-
-    public RoboRally getGame() {
-        return gam;
     }
 
     @Override
