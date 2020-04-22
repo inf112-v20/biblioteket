@@ -180,7 +180,6 @@ public class GameLoop {
 
         // Interact with priority 2 elements
         for (IPlayer player : players) {
-            System.out.println(player.getName());
             InteractingElement element = board.getInteractingElement(player.getRobot().getPosition());
             if (element != null && element.getPriority() == 2) {
                 board.interact(player);
