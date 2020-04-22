@@ -139,7 +139,6 @@ public class Player implements IPlayer {
     public void updateInterfaceRenderer() {
         interfaceRenderer.setFlagsVisited(getNumberOfVisitedFlags());
         interfaceRenderer.setLives(getLives());
-        interfaceRenderer.clearProgramRegister();
     }
 
     public void drawCards(ICardDeck cardDeck) { //Signals start of new round, check damage clean register.
