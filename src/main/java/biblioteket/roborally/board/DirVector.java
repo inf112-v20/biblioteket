@@ -185,6 +185,10 @@ public class DirVector {
         return new DirVector(getX(), getY(), getDirection());
     }
 
+    public boolean compareVector(DirVector o){
+        return vector.equals(o.getVector());
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

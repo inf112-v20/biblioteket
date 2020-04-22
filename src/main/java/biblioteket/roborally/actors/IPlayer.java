@@ -3,7 +3,7 @@ package biblioteket.roborally.actors;
 import biblioteket.roborally.board.Direction;
 import biblioteket.roborally.programcards.ICard;
 import biblioteket.roborally.programcards.ICardDeck;
-import biblioteket.roborally.userinterface.InterfaceRenderer;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
 import java.util.List;
 
@@ -21,9 +21,10 @@ public interface IPlayer {
      * Tries to move robot in direction
      *
      * @param direction to move robot
-     * @param delay     milliseconds delay after move is rendered before next move is rendered
+     * @param delay milliseconds delay after move is rendered before next move is rendered
+     * @return
      */
-    void moveRobot(Direction direction, int delay);
+    boolean moveRobot(Direction direction, int delay);
 
     /**
      * Tries to move robot in the opposite direction of where it is currently facing
@@ -69,6 +70,13 @@ public interface IPlayer {
      * @return the players robot.
      */
     IRobot getRobot();
+
+    /**
+     * Sets the name of the player to be displayed in the players interface
+     *
+     * @param name
+     */
+    void setName(String name);
 
     /**
      * Set the players robot.
@@ -123,4 +131,5 @@ public interface IPlayer {
      */
     boolean fullProgramRegister();
 
+    TiledMapTileLayer.Cell getPlayerCell();
 }

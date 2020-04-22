@@ -13,25 +13,29 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(TestRunner.class)
 public class ConveyorBeltTest {
     private static IBoard board;
-    private IPlayer player;
+    private static IPlayer player;
     private ArchiveMarkerElement archiveMarker;
 
     @BeforeAll
-    private static void setup() {
-        board = new Board("assets/DizzyDash.tmx");
+    private static void setup(){
+        List<IPlayer> players = new ArrayList<>();
+        board = new Board("assets/DizzyDash.tmx", players);
+        player = new Player(board, null, null, new RobotRenderer(null, null, null));
+        players.add(player);
     }
 
     @BeforeEach
     void setUp() {
-        player = new Player(board, null, null, new RobotRenderer(null));
         archiveMarker = new ArchiveMarkerElement(1);
-        archiveMarker.setX(1);
-        archiveMarker.setY(1);
+        archiveMarker.setPosition(new DirVector(1,1,null));
 
     }
 

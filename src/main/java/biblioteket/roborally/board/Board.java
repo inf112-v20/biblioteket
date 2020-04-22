@@ -27,9 +27,10 @@ public class Board implements IBoard {
     private final int height;
     private final int tileWidth;
     private final int tileHeight;
-    private final MapReader mapReader;
+    private List<IPlayer> players;
+    private MapReader mapReader;
 
-    public Board(String board) {
+    public Board(String board, List<IPlayer> players) {
         this.map = new TmxMapLoader().load(board);
 
         MapProperties properties = map.getProperties();
@@ -44,6 +45,7 @@ public class Board implements IBoard {
         this.laserLayer = (TiledMapTileLayer) map.getLayers().get("Laser Layer");
         this.wallLayer = (TiledMapTileLayer) map.getLayers().get("Wall Layer");
 
+        this.players = players;
         mapReader = new MapReader(this);
     }
 
@@ -163,6 +165,16 @@ public class Board implements IBoard {
     public boolean isHole(DirVector position) {
         InteractingElement element = getInteractingElement(position);
         return element instanceof HoleElement;
+    }
+
+    @Override
+    public boolean pushRobot(DirVector position, Direction direction) {
+        DirVector positionInDirection = positionInDirection(position,direction);
+        for (IPlayer player : players) {
+            if(player.getRobot().getPosition().compareVector(positionInDirection))
+                return player.moveRobot(direction,500);
+        }
+        return true;
     }
 
     @Override

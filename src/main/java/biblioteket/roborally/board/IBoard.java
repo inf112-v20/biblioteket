@@ -84,6 +84,15 @@ public interface IBoard {
     boolean isHole(DirVector position);
 
     /**
+     * Checks if position contains a robot and tries to push the robot
+     *
+     * @param position
+     * @param direction
+     * @return false if position contains a robot that cannot be pushed, true otherwise
+     */
+    boolean pushRobot(DirVector position, Direction direction);
+
+    /**
      * Checks if the position robot is moving to contains immovable object or a wall is blocking the way,
      * or if move puts robot out of bounds
      *

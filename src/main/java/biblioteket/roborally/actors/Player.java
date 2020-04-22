@@ -5,7 +5,6 @@ import biblioteket.roborally.board.Direction;
 import biblioteket.roborally.board.IBoard;
 import biblioteket.roborally.programcards.ICard;
 import biblioteket.roborally.programcards.ICardDeck;
-import biblioteket.roborally.userinterface.InterfaceRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
 import java.util.ArrayList;
@@ -46,16 +45,17 @@ public class Player implements IPlayer {
     }
 
     @Override
-    public void moveRobot(Direction direction, int delay) {
-        if (canMove && board.canMove(robot.getPosition(), direction)) {
+    public boolean moveRobot(Direction direction, int delay){
+        if(canMove && board.canMove(robot.getPosition(), direction) && board.pushRobot(robot.getPosition(),direction)){
             DirVector oldPosition = robot.getPosition().copy();
             robot.pushRobotInDirection(direction);
             DirVector newPosition = robot.getPosition().copy();
             renderMove(oldPosition, newPosition, delay);
+            // Check if robot moved in hole or out of bounds
+            handleRobotOutOfBounds(delay);
+            return true;
         }
-
-        // Check if robot moved in hole or out of bounds
-        handleRobotOutOfBounds(delay);
+        return false;
     }
 
     @Override
@@ -64,7 +64,8 @@ public class Player implements IPlayer {
     }
 
     @Override
-    public void rotateRobot(boolean right, int delay) {
+    public void rotateRobot(boolean right, int delay){
+        if(!canMove) return;
         if (right) {
             robot.turnRight();
         } else {
@@ -76,6 +77,11 @@ public class Player implements IPlayer {
     @Override
     public int getLives() {
         return lives;
+    }
+
+    @Override
+    public TiledMapTileLayer.Cell getPlayerCell() {
+        return playerCell;
     }
 
     @Override
@@ -96,6 +102,11 @@ public class Player implements IPlayer {
     @Override
     public IRobot getRobot() {
         return robot;
+    }
+
+    @Override
+    public void setName(String name){
+        interfaceRenderer.setName(name);
     }
 
     @Override
@@ -198,6 +209,7 @@ public class Player implements IPlayer {
     @Override
     public void newTurn(ICardDeck cardDeck) {
         drawCards(cardDeck);
+        programRegister.clear();
         canMove = true;
         updateInterfaceRenderer();
     }
@@ -213,6 +225,19 @@ public class Player implements IPlayer {
     @Override
     public List<ICard> getProgramRegister(ICardDeck cardDeck) { //Used in game loop to execute moves.
         return new ArrayList<>(programRegister);
+    public void addCardToProgramRegister(ICard card) {
+        if(programRegister.contains(card)){
+            programRegister.remove(card);
+            interfaceRenderer.moveCard(card, false);
+        } else{
+            programRegister.add(card);
+            interfaceRenderer.moveCard(card, true);
+        }
+    }
+
+    @Override
+    public List<ICard> getProgramRegister() {
+        return programRegister;
     }
 
 

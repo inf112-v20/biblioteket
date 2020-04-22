@@ -2,9 +2,11 @@ package biblioteket.roborally.actors;
 
 import biblioteket.roborally.board.DirVector;
 import biblioteket.roborally.board.Direction;
+import biblioteket.roborally.game.GameLoop;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.TimeUnit;
 
@@ -14,17 +16,21 @@ import java.util.concurrent.TimeUnit;
  */
 public class RobotRenderer {
     private final TiledMapTileLayer playerLayer;
-    private final Queue<RobotStep> movements;
+    private GameLoop gameLoop;
+    private Queue<RobotStep> movements;
+    private List<IPlayer> players;
 
-    public RobotRenderer(TiledMapTileLayer playerLayer) {
+    public RobotRenderer(TiledMapTileLayer playerLayer, List<IPlayer> players, GameLoop gameLoop){
         this.playerLayer = playerLayer;
+        this.players = players;
+        this.gameLoop = gameLoop;
         movements = new LinkedList<>();
     }
 
     /**
      * Updates the PlayerLayer of the TiledMap with a single robot step
      */
-    public void render() {
+    public void renderStep() {
         RobotStep movement = movements.remove();
 
         DirVector oldPosition = movement.getOldPosition();
@@ -40,6 +46,11 @@ public class RobotRenderer {
 
         // Add delay so players can see each move
         wait(delay);
+
+        if(movements.isEmpty()){
+            renderAllPlayers();
+            gameLoop.newTurn(); // New turn event starts only after all moves have been rendered
+        }
     }
 
     /**
@@ -75,6 +86,17 @@ public class RobotRenderer {
     }
 
     /**
+     * Handles rare visual bug caused by two robots stadning on top of each other causes only one to be rendered
+     */
+    private void renderAllPlayers(){
+        for (IPlayer player : players) {
+            DirVector position = player.getRobot().getPosition();
+            TiledMapTileLayer.Cell playerCell = player.getPlayerCell();
+            playerLayer.setCell(position.getX(),position.getY(),playerCell);
+        }
+    }
+
+    /**
      * Datastructure that holds a single step of a single robot
      */
     private class RobotStep {
@@ -105,15 +127,12 @@ public class RobotRenderer {
         }
 
         public int getRotation() {
-            switch (direction) {
-                case WEST:
-                    return 1;
-                case SOUTH:
-                    return 2;
-                case EAST:
-                    return 3;
-                default:
-                    return 0;  // Case NORTH
+            switch(direction){
+                case NORTH: return 0;
+                case WEST: return 1;
+                case SOUTH: return 2;
+                case EAST: return 3;
+                default: throw new UnsupportedOperationException();
             }
         }
 
