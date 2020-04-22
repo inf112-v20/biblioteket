@@ -162,7 +162,7 @@ public class Board implements IBoard {
     }
 
     @Override
-    public boolean isHole(DirVector position){
+    public boolean isHole(DirVector position) {
         InteractingElement element = getInteractingElement(position);
         return element instanceof HoleElement;
     }

@@ -30,7 +30,7 @@ public class RobotRenderer {
     /**
      * Updates the PlayerLayer of the TiledMap with a single robot step
      */
-    public void render(){
+    public void render() {
         RobotStep movement = movements.remove();
 
         DirVector oldPosition = movement.getOldPosition();
@@ -57,9 +57,9 @@ public class RobotRenderer {
      *
      * @param oldPosition position robot is moving from
      * @param newPosition position the robot is moving to
-     * @param playerCell the playercell of the player moving a robot
+     * @param playerCell  the playercell of the player moving a robot
      */
-    public void requestRendering(DirVector oldPosition, DirVector newPosition, Direction direction, int delay, TiledMapTileLayer.Cell playerCell){
+    public void requestRendering(DirVector oldPosition, DirVector newPosition, Direction direction, int delay, TiledMapTileLayer.Cell playerCell) {
         RobotStep movement = new RobotStep(oldPosition, newPosition, direction, delay, playerCell);
         movements.add(movement);
     }
@@ -67,7 +67,7 @@ public class RobotRenderer {
     /**
      * @return true if there are any movements left in queue to be rendered
      */
-    public boolean isRequestingRendering(){
+    public boolean isRequestingRendering() {
         return !movements.isEmpty();
     }
 
@@ -99,13 +99,13 @@ public class RobotRenderer {
      * Datastructure that holds a single step of a single robot
      */
     private class RobotStep {
-        private DirVector oldPosition;
-        private DirVector newPosition;
-        private Direction direction;
-        private int delay;
-        private TiledMapTileLayer.Cell playerCell;
+        private final DirVector oldPosition;
+        private final DirVector newPosition;
+        private final Direction direction;
+        private final int delay;
+        private final TiledMapTileLayer.Cell playerCell;
 
-        public RobotStep(DirVector oldPosition, DirVector newPosition, Direction direction, int delay, TiledMapTileLayer.Cell playerCell){
+        public RobotStep(DirVector oldPosition, DirVector newPosition, Direction direction, int delay, TiledMapTileLayer.Cell playerCell) {
             this.oldPosition = oldPosition;
             this.newPosition = newPosition;
             this.direction = direction;
