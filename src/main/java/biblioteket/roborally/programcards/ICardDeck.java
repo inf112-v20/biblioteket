@@ -35,4 +35,11 @@ public interface ICardDeck {
      * @param card card to be removed.
      */
     void removeFromRegisterPile(ICard card);
+
+    /**
+     * Checks if it is correct amount of cards in the piles.
+     *
+     * @return true if correct false if not
+     */
+    boolean correctAmountOfCards();
 }

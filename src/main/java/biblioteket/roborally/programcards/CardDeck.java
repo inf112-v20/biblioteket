@@ -81,11 +81,19 @@ public class CardDeck implements ICardDeck {
 
     @Override
     public void removeFromRegisterPile(ICard card) {
-        if ((drawPile.size() + discardPile.size() + registerPile.size()) != 84) {
-            System.out.println("OBS, CardDeck: Not correct amount of cards " + (drawPile.size() + discardPile.size() + registerPile.size()));
-        }
         registerPile.remove(card);
         addToDiscardPile(card);
 
     }
+
+    @Override
+    public boolean correctAmountOfCards() {
+        if ((drawPile.size() + discardPile.size() + registerPile.size()) != 84) {
+            System.out.println("OBS, CardDeck: Not correct amount of cards " + (drawPile.size() + discardPile.size() + registerPile.size()));
+            return false;
+        }
+        return true;
+    }
+
+
 }

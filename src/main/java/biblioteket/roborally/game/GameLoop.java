@@ -19,8 +19,11 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.TreeMap;
 
 /**
  * Once every player has finished programming their robot,
@@ -121,11 +124,24 @@ public class GameLoop {
      *
      */
     public void doTurn() {
-        Map<ICard, IPlayer> cardMapping = new LinkedHashMap<>();
+        for (int i = 4; i >= 0; i--) { // Five registers, program register is reversed.
+            Map<ICard, IPlayer> registersInPriority = new TreeMap<>(Collections.reverseOrder());
+            for (IPlayer player : players) {
+                ICard currentCard = player.getProgramRegister().get(i);
+                registersInPriority.put(currentCard, player);
+            }
+            for (Entry<ICard, IPlayer> entry : registersInPriority.entrySet()) {
+                entry.getKey().doCardAction(entry.getValue());
+            }
+        }
+
+// TODO: Silje: Thinks the one above works better
+/*        Map<ICard, IPlayer> cardMapping = new LinkedHashMap<>();
         Map<ICard, IPlayer> priorityMap = new TreeMap<>(Collections.reverseOrder());
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 5; i++) { //
             for (IPlayer player : players) {
                 List<ICard> programRegister = player.getProgramRegister();
+                Collections.reverse(programRegister);
                 priorityMap.put(programRegister.get(i), player);
             }
             for (Entry<ICard, IPlayer> entry : priorityMap.entrySet()) {
@@ -133,13 +149,12 @@ public class GameLoop {
             }
             priorityMap.clear();
         }
-
         // Execute program cards in order from highest to lowest priority
         for (Entry<ICard, IPlayer> entry : cardMapping.entrySet()) {
             entry.getKey().doCardAction(entry.getValue());
         }
 
-        // Robots interact with board elements
+        // Robots interact with board elements*/
         interactWithBoardElements();
     }
 
@@ -165,6 +180,7 @@ public class GameLoop {
 
         // Interact with priority 2 elements
         for (IPlayer player : players) {
+            System.out.println(player.getName());
             InteractingElement element = board.getInteractingElement(player.getRobot().getPosition());
             if (element != null && element.getPriority() == 2) {
                 board.interact(player);

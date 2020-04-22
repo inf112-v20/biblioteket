@@ -14,7 +14,7 @@ public class Player implements IPlayer {
     private final IBoard board;
     private final TiledMapTileLayer.Cell playerCell;
 
-    private final ArrayList<ICard> programRegister;
+    private final ArrayList<ICard> programRegister; // This is reversed, reg 5 is placed at 0
 
     private final InterfaceRenderer interfaceRenderer;
     private final RobotRenderer robotRenderer;
@@ -141,18 +141,10 @@ public class Player implements IPlayer {
         interfaceRenderer.setLives(getLives());
     }
 
-    public void drawCards(ICardDeck cardDeck) { //Signals start of new round, check damage clean register.
+    public void drawCards(ICardDeck cardDeck) {
         int defaultNumber = 9; //default number of cards to draw
         int damageTokens = robot.getNumberOfDamageTokens();
         int cardsToDraw = defaultNumber - damageTokens;
-        if (!drawnCards.isEmpty())
-            for (ICard card : drawnCards)
-                cardDeck.addToDiscardPile(card);
-
-        if (!programRegister.isEmpty()) {// Should stop it from breaking first round
-            cleanRegister(damageTokens, cardDeck);
-            updateRegisterRender();
-        }
 
         drawnCards = cardDeck.drawCards(cardsToDraw);
         interfaceRenderer.setCardHand(drawnCards);
@@ -192,6 +184,7 @@ public class Player implements IPlayer {
                 cardDeck.removeFromRegisterPile(programRegister.remove(programRegister.size() - 1));
                 break;
             default:
+                lockedRegisters = 0;
                 for (ICard card : programRegister)
                     cardDeck.removeFromRegisterPile(card);
                 programRegister.clear();
@@ -214,22 +207,24 @@ public class Player implements IPlayer {
 
     @Override
     public void newTurn(ICardDeck cardDeck) {
+        int damageTokens = robot.getNumberOfDamageTokens();  // Check damage and clean register.
+        if (!drawnCards.isEmpty()) // Should stop it from breaking first round
+            for (ICard card : drawnCards) // adds the cards not uses last round to discard pile
+                cardDeck.addToDiscardPile(card);
+        if (!programRegister.isEmpty()) { // Should stop it from breaking first round
+            cleanRegister(damageTokens, cardDeck); // Corrects the register
+            updateRegisterRender(); // Render cards if they are locked in register
+        }
         drawCards(cardDeck);
-        programRegister.clear();
         canMove = true;
         updateInterfaceRenderer();
     }
 
     public void addCardToProgramRegister(ICard card, ICardDeck cardDeck) {
-        if(programRegister.contains(card)){
-            programRegister.remove(card);
-            interfaceRenderer.moveCard(card, false);
-        } else{
-            drawnCards.remove(card);
-            cardDeck.addToRegisterPile(card);
-            interfaceRenderer.moveCard(card, true);
-            programRegister.add(card);
-        }
+        drawnCards.remove(card);
+        cardDeck.addToRegisterPile(card); // Cleaning up
+        interfaceRenderer.addCardToProgramRegisterIndex(card, programRegister.size() - lockedRegisters);
+        programRegister.add(lockedRegisters, card);
     }
 
     @Override
