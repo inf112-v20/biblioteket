@@ -1,6 +1,7 @@
 package biblioteket.roborally.game;
 
-import biblioteket.roborally.actors.IPlayer;
+import biblioteket.roborally.actors.IActor;
+import biblioteket.roborally.actors.INonPlayer;
 import biblioteket.roborally.actors.InterfaceRenderer;
 import biblioteket.roborally.board.DirVector;
 import biblioteket.roborally.board.Direction;
@@ -33,12 +34,12 @@ public class GameLoop {
     private final IBoard board;
     private final int amountOfFlags;
     private final List<LaserWallElement> laserWalls;
-    private final List<IPlayer> players;
+    private final List<IActor> players;
     boolean programmingPhase = true;
     private int currentPlayerPtr = 0;
     private ICardDeck cardDeck;
 
-    public GameLoop(IBoard board, List<IPlayer> players) {
+    public GameLoop(IBoard board, List<IActor> players) {
         this.board = board;
         this.players = players;
         amountOfFlags = board.getNumberOfFlags();
@@ -64,7 +65,7 @@ public class GameLoop {
             // Keyboard movement for testing
             @Override
             public boolean keyUp(int keycode) {
-                IPlayer currentPlayer = getCurrentPlayer();
+                IActor currentPlayer = getCurrentPlayer();
                 switch (keycode) {
                     case Input.Keys.A:
                         currentPlayer.moveRobot(Direction.WEST, 0, true);
@@ -108,7 +109,7 @@ public class GameLoop {
      * @param y coordinate from user input
      * @return true if input was handled correctly
      */
-    private boolean registerInput(int x, int y, IPlayer player) {
+    private boolean registerInput(int x, int y, IActor player) {
         InterfaceRenderer interfaceRenderer = player.getInterfaceRenderer();
         ICard card = interfaceRenderer.contains(x, y);
         if (card != null)
@@ -128,13 +129,13 @@ public class GameLoop {
         programmingPhase = false;
 
         // Execute program cards in correct order
-        Map<ICard, IPlayer> registersInPriority = new TreeMap<>(Collections.reverseOrder());
+        Map<ICard, IActor> registersInPriority = new TreeMap<>(Collections.reverseOrder());
         for (int i = 4; i >= 0; i--) { // Five registers, program register is reversed.
-            for (IPlayer player : players) {
+            for (IActor player : players) {
                 ICard currentCard = player.getProgramRegister().get(i);
                 registersInPriority.put(currentCard, player);
             }
-            for (Entry<ICard, IPlayer> entry : registersInPriority.entrySet()) {
+            for (Entry<ICard, IActor> entry : registersInPriority.entrySet()) {
                 entry.getKey().doCardAction(entry.getValue());
             }
             registersInPriority.clear();
@@ -167,7 +168,7 @@ public class GameLoop {
         }
 
         // Interact with priority 2 elements
-        for (IPlayer player : players) {
+        for (IActor player : players) {
             InteractingElement element = board.getInteractingElement(player.getRobot().getPosition());
             if (element != null && element.getPriority() == 2) {
                 board.interact(player);
@@ -175,7 +176,7 @@ public class GameLoop {
         }
 
 //         Register flags
-        for (IPlayer player : players) {
+        for (IActor player : players) {
             board.registerFlag(player);
             player.handleRobotDestruction(500);
         }
@@ -186,7 +187,7 @@ public class GameLoop {
      * @return true if any player has registered all flags on board
      */
     private boolean checkWinCondition() {
-        for (IPlayer player : players) {
+        for (IActor player : players) {
             if (player.getNumberOfVisitedFlags() == amountOfFlags) return true;
         }
         return false;
@@ -196,7 +197,7 @@ public class GameLoop {
      * @return true if every player is dead
      */
     private boolean everyPlayerDead() {
-        for (IPlayer player : players) {
+        for (IActor player : players) {
             if (!player.isPermanentDead())
                 return false;
         }
@@ -209,7 +210,7 @@ public class GameLoop {
      * @param instance robots should interact with
      */
     private void interactWithBoardElement(Class<? extends InteractingElement> instance) {
-        for (IPlayer player : players) {
+        for (IActor player : players) {
             DirVector position = player.getRobot().getPosition();
             IElement element = board.getInteractingElement(position);
             if (instance.isInstance(element)) {
@@ -224,19 +225,23 @@ public class GameLoop {
             currentPlayerPtr = 0;
             doTurn();
         }
+        if (getCurrentPlayer() instanceof INonPlayer) {
+            ((INonPlayer) getCurrentPlayer()).chooseCards(cardDeck);
+            nextPlayer();
+        }
         if (getCurrentPlayer().getRobot().getNumberOfDamageTokens() == 9) {
             nextPlayer();
         }
     }
 
-    public IPlayer getCurrentPlayer() {
+    public IActor getCurrentPlayer() {
         return players.get(currentPlayerPtr);
     }
 
     public void newTurn() {
         if (checkWinCondition() || everyPlayerDead())
             Gdx.app.exit();
-        for (IPlayer player : players) {
+        for (IActor player : players) {
             player.newTurn(cardDeck);
         }
         programmingPhase = true;

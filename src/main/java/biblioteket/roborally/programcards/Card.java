@@ -1,6 +1,6 @@
 package biblioteket.roborally.programcards;
 
-import biblioteket.roborally.actors.IPlayer;
+import biblioteket.roborally.actors.IActor;
 
 import java.util.Objects;
 
@@ -25,7 +25,7 @@ public class Card implements ICard, Comparable<ICard> {
     }
 
     @Override
-    public void doCardAction(IPlayer player) {
+    public void doCardAction(IActor player) {
         switch (type) {
             case ROTATE_LEFT:
                 player.rotateRobot(false, RENDERING_DELAY);

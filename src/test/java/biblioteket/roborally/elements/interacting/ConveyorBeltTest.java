@@ -20,14 +20,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(TestRunner.class)
 public class ConveyorBeltTest {
-    private static IPlayer player;
+    private static IActor player;
     private ArchiveMarkerElement archiveMarker;
 
     @BeforeAll
     private static void setup() {
-        List<IPlayer> players = new ArrayList<>();
+        List<IActor> players = new ArrayList<>();
         IBoard board = new Board("assets/DizzyDash.tmx", players);
-        player = new Player(board, null, null, new RobotRenderer(null, null, null));
+        player = new Actor(board, null, null, new RobotRenderer(null, null, null));
         players.add(player);
     }
 

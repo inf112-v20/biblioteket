@@ -32,7 +32,7 @@ public class GameScreen implements Screen {
     private final OrthogonalTiledMapRenderer tiledMapRenderer;
 
     public GameScreen(final RoboRally gam) {
-        List<IPlayer> players = new ArrayList<>();
+        List<IActor> players = new ArrayList<>();
         this.board = new Board("assets/DizzyDash.tmx", players);
         gameLoop = new GameLoop(board, players);
         this.robotRenderer = new RobotRenderer(board.getPlayerLayer(), players, gameLoop);
@@ -48,15 +48,25 @@ public class GameScreen implements Screen {
         Texture playerTexture = new Texture("assets/player.png");
         TextureRegion[][] playerTextureSplit = TextureRegion.split(playerTexture, board.getTileWidth(), board.getTileHeight());
 
-
-        for (int i = 1; i <= 1; i++) {
+        for (int i = 1; i < 2; i++) {
             TiledMapTileLayer.Cell playerCell = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(playerTextureSplit[0][0]));
-            Player player = new Player(board, playerCell, new InterfaceRenderer(), robotRenderer);
+            IActor player = new Player(board, playerCell, new InterfaceRenderer(), robotRenderer);
             players.add(player);
             ArchiveMarkerElement archiveMarker = board.getArchiveMarker(i);
             IRobot robot = new Robot(archiveMarker);
             player.setRobot(robot);
             player.setName("Player " + i);
+            board.getPlayerLayer().setCell(player.getRobot().getPosition().getX(), player.getRobot().getPosition().getY(), playerCell);
+        }
+
+        for (int i = players.size() + 1; i < 3; i++) {
+            TiledMapTileLayer.Cell playerCell = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(playerTextureSplit[0][0]));
+            IActor player = new EasyAI(board, playerCell, new InterfaceRenderer(), robotRenderer);
+            players.add(player);
+            ArchiveMarkerElement archiveMarker = board.getArchiveMarker(i);
+            IRobot robot = new Robot(archiveMarker);
+            player.setRobot(robot);
+            player.setName("EasyAI " + i);
             board.getPlayerLayer().setCell(player.getRobot().getPosition().getX(), player.getRobot().getPosition().getY(), playerCell);
         }
 

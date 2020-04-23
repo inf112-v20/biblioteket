@@ -1,6 +1,6 @@
 package biblioteket.roborally.board;
 
-import biblioteket.roborally.actors.IPlayer;
+import biblioteket.roborally.actors.IActor;
 import biblioteket.roborally.elements.ArchiveMarkerElement;
 import biblioteket.roborally.elements.interacting.InteractingElement;
 import biblioteket.roborally.elements.walls.LaserWallElement;
@@ -108,7 +108,7 @@ public interface IBoard {
      *
      * @param player with current robot moving on the board.
      */
-    void interact(IPlayer player);
+    void interact(IActor player);
 
     /**
      * If players robot is standing on a flag that can be picked up, registers flag to player
@@ -116,7 +116,7 @@ public interface IBoard {
      * @param player with robot registering flag
      * @return true if registering flag was successfull
      */
-    boolean registerFlag(IPlayer player);
+    boolean registerFlag(IActor player);
 
     /**
      * Finds a players archive marker.

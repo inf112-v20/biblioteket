@@ -33,7 +33,7 @@ class CardTest {
 
     @BeforeEach
     void setUp() {
-        List<IPlayer> players = new ArrayList<>();
+        List<IActor> players = new ArrayList<>();
         IBoard board = new Board("assets/EmptyTestMap.tmx", players);
 
         robot = new Robot(new ArchiveMarkerElement(1));
@@ -41,7 +41,7 @@ class CardTest {
         Texture playerTexture = new Texture("assets/player.png");
         TextureRegion[][] playerTextureSplit = TextureRegion.split(playerTexture, board.getTileWidth(), board.getTileHeight());
         TiledMapTileLayer.Cell playerCell = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(playerTextureSplit[0][0]));
-        IPlayer player = new Player(board, playerCell, null, robotRenderer);
+        IActor player = new Actor(board, playerCell, null, robotRenderer);
         player.setRobot(robot);
         robot.setPlayer(player);
         players.add(player);

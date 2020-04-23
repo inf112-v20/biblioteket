@@ -1,8 +1,8 @@
 package biblioteket.roborally.elements.interacting;
 
-import biblioteket.roborally.actors.IPlayer;
+import biblioteket.roborally.actors.IActor;
 import biblioteket.roborally.actors.IRobot;
-import biblioteket.roborally.actors.Player;
+import biblioteket.roborally.actors.Actor;
 import biblioteket.roborally.actors.Robot;
 import biblioteket.roborally.board.DirVector;
 import biblioteket.roborally.board.Direction;
@@ -13,11 +13,11 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class WrenchRepairTest {
-    private IPlayer player;
+    private IActor player;
 
     @BeforeEach
     void setUp() {
-        player = new Player(null, null, null, null);
+        player = new Actor(null, null, null, null);
         player.setRobot(new Robot(new ArchiveMarkerElement(1)));
     }
 
