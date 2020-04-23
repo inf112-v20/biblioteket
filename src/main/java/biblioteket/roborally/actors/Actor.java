@@ -135,11 +135,13 @@ public class Actor implements IActor {
         return interfaceRenderer;
     }
 
+    @Override
     public void updateInterfaceRenderer() {
         interfaceRenderer.setFlagsVisited(getNumberOfVisitedFlags());
         interfaceRenderer.setLives(getLives());
     }
 
+    @Override
     public void drawCards(ICardDeck cardDeck) {
         int defaultNumber = 9; //default number of cards to draw
         int damageTokens = robot.getNumberOfDamageTokens();
@@ -219,6 +221,7 @@ public class Actor implements IActor {
         updateInterfaceRenderer();
     }
 
+    @Override
     public void addCardToProgramRegister(ICard card, ICardDeck cardDeck) {
         if (programRegister.contains(card)) {
             programRegister.remove(card);
@@ -277,7 +280,6 @@ public class Actor implements IActor {
             renderMove(oldPosition, newPosition, delay, false);
             removeOneLife();
             robot.removeDamageTokens(robot.getNumberOfDamageTokens());
-
         }
     }
 }

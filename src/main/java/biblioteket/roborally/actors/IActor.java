@@ -78,6 +78,11 @@ public interface IActor {
      */
     void setRobot(IRobot robot);
 
+    /**
+     * Gets the players name.
+     *
+     * @return the name of the actor
+     */
     String getName();
 
     /**
@@ -105,6 +110,20 @@ public interface IActor {
     InterfaceRenderer getInterfaceRenderer();
 
     /**
+     * Update the interface for the current player, e.g. his new card deck
+     * and selected cards etc.
+     */
+    void updateInterfaceRenderer();
+
+    /**
+     * Draw a new deck of cards from a random selection of all possible
+     * cards. Chooses a valid amount of cards to draw.
+     *
+     * @param cardDeck a deck of cards
+     */
+    void drawCards(ICardDeck cardDeck);
+
+    /**
      * Player draws new cards, updates interface renderer and sets
      * canMove flag to true
      *
@@ -120,7 +139,6 @@ public interface IActor {
      */
     void addCardToProgramRegister(ICard card, ICardDeck cardDeck);
 
-
     /**
      * returns a list of the players program register and clears the program register
      *
@@ -133,7 +151,18 @@ public interface IActor {
      */
     boolean fullProgramRegister();
 
+    /**
+     * Get the player sprite (or cell as it is called libgdx).
+     *
+     * @return players sprite
+     */
     TiledMapTileLayer.Cell getPlayerCell();
 
+    /**
+     * Handle destruction of a players robot, i.e. removing life points, moving
+     * the robot to a new spawn point and giving it a damage token.
+     *
+     * @param delay animation delay
+     */
     void handleRobotDestruction(int delay);
 }
