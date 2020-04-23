@@ -22,9 +22,10 @@ public interface IPlayer {
      *
      * @param direction to move robot
      * @param delay milliseconds delay after move is rendered before next move is rendered
+     * @param debug
      * @return
      */
-    boolean moveRobot(Direction direction, int delay);
+    boolean moveRobot(Direction direction, int delay, boolean debug);
 
     /**
      * Tries to move robot in the opposite direction of where it is currently facing

@@ -41,17 +41,17 @@ public class Player implements IPlayer {
     @Override
     public void moveRobot(int steps, int delay) {
         for (int i = 0; i < steps; i++) {
-            moveRobot(robot.getDirection(), delay);
+            moveRobot(robot.getDirection(), delay, false);
         }
     }
 
     @Override
-    public boolean moveRobot(Direction direction, int delay){
+    public boolean moveRobot(Direction direction, int delay, boolean debug){
         if(canMove && board.canMove(robot.getPosition(), direction) && board.pushRobot(robot.getPosition(),direction)){
             DirVector oldPosition = robot.getPosition().copy();
             robot.pushRobotInDirection(direction);
             DirVector newPosition = robot.getPosition().copy();
-            renderMove(oldPosition, newPosition, delay);
+            renderMove(oldPosition, newPosition, delay, debug);
             // Check if robot moved in hole or out of bounds
             handleRobotOutOfBounds(delay);
             return true;
@@ -61,7 +61,7 @@ public class Player implements IPlayer {
 
     @Override
     public void backUpRobot(int delay) {
-        moveRobot(robot.getDirection().opposite(), delay);
+        moveRobot(robot.getDirection().opposite(), delay, false);
     }
 
     @Override
@@ -72,7 +72,7 @@ public class Player implements IPlayer {
         } else {
             robot.turnLeft();
         }
-        renderMove(robot.getPosition().copy(), robot.getPosition().copy(), delay);
+        renderMove(robot.getPosition().copy(), robot.getPosition().copy(), delay, false);
     }
 
     @Override
@@ -245,12 +245,12 @@ public class Player implements IPlayer {
 
     /**
      * Requests robotRenderer to render one move
-     *
-     * @param from position robot is moving from
+     *  @param from position robot is moving from
      * @param to   position robot is moving to
+     * @param debug
      */
-    private void renderMove(DirVector from, DirVector to, int delay) {
-        robotRenderer.requestRendering(from, to, robot.getDirection(), delay, playerCell);
+    private void renderMove(DirVector from, DirVector to, int delay, boolean debug) {
+        robotRenderer.requestRendering(from, to, robot.getDirection(), delay, playerCell, debug);
     }
 
     /**
@@ -262,7 +262,7 @@ public class Player implements IPlayer {
             DirVector oldPosition = robot.getPosition().copy();
             robot.moveToArchiveMarker();
             DirVector newPosition = robot.getPosition().copy();
-            renderMove(oldPosition, newPosition, delay);
+            renderMove(oldPosition, newPosition, delay, false);
             canMove = false;
             removeOneLife();
         }

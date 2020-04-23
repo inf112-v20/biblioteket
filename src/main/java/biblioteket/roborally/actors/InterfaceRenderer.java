@@ -241,7 +241,6 @@ public class InterfaceRenderer {
      * Clears program register
      */
     public void clearProgramRegister() {
-        System.out.println("interface: " + Arrays.toString(programRegister));
         for (int i = 0; i < programRegister.length; i++) {
             programRegister[i] = null;
             touchableProgramRegister.setCard(i, null);

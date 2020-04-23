@@ -67,19 +67,20 @@ public class GameLoop {
                 IPlayer currentPlayer = getCurrentPlayer();
                 switch (keycode) {
                     case Input.Keys.A:
-                        currentPlayer.moveRobot(Direction.WEST, 0);
+                        currentPlayer.moveRobot(Direction.WEST, 0, true);
                         return true;
                     case Input.Keys.D:
-                        currentPlayer.moveRobot(Direction.EAST, 0);
+                        currentPlayer.moveRobot(Direction.EAST, 0, true);
                         return true;
                     case Input.Keys.W:
-                        currentPlayer.moveRobot(Direction.NORTH, 0);
+                        currentPlayer.moveRobot(Direction.NORTH, 0, true);
                         return true;
                     case Input.Keys.S:
-                        currentPlayer.moveRobot(Direction.SOUTH, 0);
+                        currentPlayer.moveRobot(Direction.SOUTH, 0, true);
                         return true;
                     case Input.Keys.SPACE:
-                        board.interact(currentPlayer);
+                        System.out.println(getCurrentPlayer().getProgramRegister());
+                        System.out.println(getCurrentPlayer().fullProgramRegister());
                         return true;
                     case Input.Keys.P:
                         return board.registerFlag(currentPlayer);
@@ -87,7 +88,7 @@ public class GameLoop {
                         interactWithBoardElements();
                         return true;
                     case Input.Keys.UP:
-                        currentPlayer.moveRobot(currentPlayer.getRobot().getDirection(), 0);
+                        currentPlayer.moveRobot(currentPlayer.getRobot().getDirection(), 0, false);
                         return true;
                     case Input.Keys.LEFT:
                         currentPlayer.rotateRobot(false, 0);
@@ -131,7 +132,6 @@ public class GameLoop {
 
         // Execute program cards in correct order
         Map<ICard, IPlayer> registersInPriority = new TreeMap<>(Collections.reverseOrder());
-        System.out.println("player: " + getCurrentPlayer().getProgramRegister());
         for (int i = 4; i >= 0; i--) { // Five registers, program register is reversed.
             for (IPlayer player : players) {
                 ICard currentCard = player.getProgramRegister().get(i);
@@ -139,12 +139,10 @@ public class GameLoop {
             }
             for (Entry<ICard, IPlayer> entry : registersInPriority.entrySet()) {
                 entry.getKey().doCardAction(entry.getValue());
-                System.out.println(entry.getKey());
 
             }
             registersInPriority.clear();
         }
-        System.out.println();
 
         // Robots interact with board elements*/
         interactWithBoardElements();
