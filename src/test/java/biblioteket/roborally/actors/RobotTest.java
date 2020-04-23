@@ -15,19 +15,19 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @ExtendWith(TestRunner.class)
 class RobotTest {
     private IRobot robot;
-    private IBoard board;
 
     @BeforeEach
     void setUp() {
-        board = new Board("assets/TestingMap.tmx");
+        IBoard board = new Board("assets/TestingMap.tmx", null);
         robot = new Robot(board.getArchiveMarker(1));
-        IPlayer player = new Player(null, null, null, null);
+        IActor player = new Actor(null, null, null, null);
         player.setRobot(robot);
         robot.setPlayer(player);
     }
 
     @Test
     void removeDamageTokens() {
+        robot.addDamageTokens(5);
         int removedDamageTokens = 2;
         int originalNumberOfDamageTokens = robot.getNumberOfDamageTokens();
         robot.removeDamageTokens(removedDamageTokens);

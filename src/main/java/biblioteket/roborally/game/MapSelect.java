@@ -9,8 +9,8 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 public class MapSelect implements Screen {
 
 
+    private static String map;
     private final RoboRally game;
-    private OrthographicCamera camera;
     private final Texture background;
     private final Texture dizzyPre;
     private final Texture dizzyPost;
@@ -18,7 +18,7 @@ public class MapSelect implements Screen {
     private final Texture riskyPost;
     private final BitmapFont font;
     private final Texture selectMap;
-    private static String map;
+    private OrthographicCamera camera;
 
     public MapSelect(final RoboRally game) {
         this.game = game;
@@ -32,6 +32,10 @@ public class MapSelect implements Screen {
         riskyPost = new Texture("assets/gamemaps/riskyPost.png");
         font = new BitmapFont();
         selectMap = new Texture("assets/selectMap.png");
+    }
+
+    public static String getMap() {
+        return map;
     }
 
     @Override
@@ -54,16 +58,16 @@ public class MapSelect implements Screen {
         game.getBatch().draw(background, 0, 0, camera.viewportWidth, camera.viewportHeight);
         game.getBatch().draw(dizzyPre, dizzyX, mapY, mapWidth, mapHeight);
         game.getBatch().draw(riskyPre, riskyX, mapY, mapWidth, mapHeight);
-        game.getBatch().draw(selectMap, camera.viewportWidth / 2 - (float)selectMap.getWidth() / 2 * camera.viewportHeight / 640, camera.viewportHeight / 2, selectMap.getWidth() * camera.viewportHeight / 640, selectMap.getHeight() * camera.viewportHeight / 640);
-        font.draw(game.getBatch(), "Dizzy Dash", camera.viewportWidth / 7 + 70, camera.viewportHeight / (float)(390 / 100));
-        font.draw(game.getBatch(), "Risky Exchange", camera.viewportWidth / 2 + 100, camera.viewportHeight / (float)(390 / 100));
+        game.getBatch().draw(selectMap, camera.viewportWidth / 2 - (float) selectMap.getWidth() / 2 * camera.viewportHeight / 640, camera.viewportHeight / 2, selectMap.getWidth() * camera.viewportHeight / 640, selectMap.getHeight() * camera.viewportHeight / 640);
+        font.draw(game.getBatch(), "Dizzy Dash", camera.viewportWidth / 7 + 70, camera.viewportHeight / (float) (390 / 100));
+        font.draw(game.getBatch(), "Risky Exchange", camera.viewportWidth / 2 + 100, camera.viewportHeight / (float) (390 / 100));
 
 
         if (Gdx.input.getX() < dizzyX + mapWidth && Gdx.input.getX() > dizzyX && camera.viewportHeight - Gdx.input.getY() < mapY + mapHeight && camera.viewportHeight - Gdx.input.getY() > mapY) {
             game.getBatch().draw(dizzyPost, dizzyX, mapY, mapWidth, mapHeight);
             if (Gdx.input.isTouched()) {
                 map = "assets/DizzyDash.tmx";
-                game.setScreen(new GameScreen(game));
+                game.setScreen(new GameScreen());
                 dispose();
 
             }
@@ -71,7 +75,7 @@ public class MapSelect implements Screen {
             game.getBatch().draw(riskyPost, riskyX, mapY, mapWidth, mapHeight);
             if (Gdx.input.isTouched()) {
                 map = "assets/RiskyExchange.tmx";
-                game.setScreen(new GameScreen(game));
+                game.setScreen(new GameScreen());
                 dispose();
             }
         }
@@ -83,10 +87,6 @@ public class MapSelect implements Screen {
         this.camera = new OrthographicCamera();
         camera.setToOrtho(false, width, height);
         camera.update();
-    }
-
-    public static String getMap() {
-        return map;
     }
 
     @Override

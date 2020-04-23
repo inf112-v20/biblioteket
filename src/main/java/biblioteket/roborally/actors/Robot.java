@@ -7,21 +7,21 @@ import biblioteket.roborally.elements.ArchiveMarkerElement;
 public class Robot implements IRobot {
     private final ArchiveMarkerElement archiveMarker;
     private DirVector location;
-    private IPlayer player;
+    private IActor player;
     private int damageTokens = 0;
 
     public Robot(ArchiveMarkerElement archiveMarker) {
         this.archiveMarker = archiveMarker;
-        this.location = new DirVector(archiveMarker.getX(), archiveMarker.getY(), Direction.NORTH);
+        this.location = new DirVector(archiveMarker.getPosition().getX(), archiveMarker.getPosition().getY(), Direction.NORTH);
     }
 
     @Override
-    public IPlayer getPlayer() {
+    public IActor getPlayer() {
         return this.player;
     }
 
     @Override
-    public void setPlayer(IPlayer player) {
+    public void setPlayer(IActor player) {
         this.player = player;
     }
 
@@ -33,6 +33,7 @@ public class Robot implements IRobot {
     @Override
     public void removeDamageTokens(int damageTokens) {
         this.damageTokens -= damageTokens;
+        if (this.damageTokens < 0) this.damageTokens = 0;
     }
 
     @Override
@@ -52,8 +53,7 @@ public class Robot implements IRobot {
 
     @Override
     public void setArchiveMarker(DirVector location) {
-        archiveMarker.setX(location.getX());
-        archiveMarker.setY(location.getY());
+        archiveMarker.setPosition(location.copy());
     }
 
     @Override
@@ -98,6 +98,6 @@ public class Robot implements IRobot {
 
     @Override
     public void moveToArchiveMarker() {
-        setPosition(archiveMarker.getX(), archiveMarker.getY());
+        setPosition(archiveMarker.getPosition().getX(), archiveMarker.getPosition().getY());
     }
 }

@@ -1,6 +1,6 @@
 package biblioteket.roborally.board;
 
-import biblioteket.roborally.actors.IPlayer;
+import biblioteket.roborally.actors.IActor;
 import biblioteket.roborally.actors.IRobot;
 import biblioteket.roborally.elements.ArchiveMarkerElement;
 import biblioteket.roborally.elements.interacting.FlagElement;
@@ -27,9 +27,10 @@ public class Board implements IBoard {
     private final int height;
     private final int tileWidth;
     private final int tileHeight;
+    private final List<IActor> players;
     private final MapReader mapReader;
 
-    public Board(String board) {
+    public Board(String board, List<IActor> players) {
         this.map = new TmxMapLoader().load(board);
 
         MapProperties properties = map.getProperties();
@@ -44,6 +45,7 @@ public class Board implements IBoard {
         this.laserLayer = (TiledMapTileLayer) map.getLayers().get("Laser Layer");
         this.wallLayer = (TiledMapTileLayer) map.getLayers().get("Wall Layer");
 
+        this.players = players;
         mapReader = new MapReader(this);
     }
 
@@ -166,6 +168,16 @@ public class Board implements IBoard {
     }
 
     @Override
+    public boolean pushRobot(DirVector position, Direction direction) {
+        DirVector positionInDirection = positionInDirection(position, direction);
+        for (IActor player : players) {
+            if (player.getRobot().getPosition().compareVector(positionInDirection))
+                return player.moveRobot(direction, 500, false);
+        }
+        return true;
+    }
+
+    @Override
     public boolean canMove(DirVector position, Direction direction) {
         DirVector to = positionInDirection(position, direction);
         return !moveBlocked(position, to, direction);
@@ -214,7 +226,7 @@ public class Board implements IBoard {
 
 
     @Override
-    public void interact(IPlayer player) {
+    public void interact(IActor player) {
         InteractingElement element = getInteractingElement(player.getRobot().getPosition());
         if (element != null) {
             element.interact(player);
@@ -222,7 +234,7 @@ public class Board implements IBoard {
     }
 
     @Override
-    public boolean registerFlag(IPlayer player) {
+    public boolean registerFlag(IActor player) {
         IRobot robot = player.getRobot();
         FlagElement flag = getFlagElement(robot.getPosition());
         if (flag != null) {
