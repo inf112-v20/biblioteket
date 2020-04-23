@@ -228,8 +228,8 @@ public class Player implements IPlayer {
         }
         drawnCards.remove(card);
         cardDeck.addToRegisterPile(card); // Cleaning up
-        interfaceRenderer.addCardToProgramRegisterIndex(card, programRegister.size() - lockedRegisters);
-        programRegister.add(lockedRegisters, card);
+        int index = interfaceRenderer.moveCard(card, true);
+        programRegister.add(programRegister.size() - index, card);
     }
 
     @Override

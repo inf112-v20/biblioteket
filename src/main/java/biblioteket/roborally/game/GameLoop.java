@@ -139,7 +139,6 @@ public class GameLoop {
             }
             for (Entry<ICard, IPlayer> entry : registersInPriority.entrySet()) {
                 entry.getKey().doCardAction(entry.getValue());
-
             }
             registersInPriority.clear();
         }

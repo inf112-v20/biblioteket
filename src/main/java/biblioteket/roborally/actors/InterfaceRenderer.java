@@ -188,7 +188,7 @@ public class InterfaceRenderer {
 
     }
 
-    public void moveCard(ICard card, boolean toRegister){
+    public int moveCard(ICard card, boolean toRegister){
         ICard[] cardsFrom = toRegister ? cardHand : programRegister;
         ICard[] cardsTo = toRegister ? programRegister : cardHand;
         TouchableCards touchableFrom = toRegister ? touchableCardHand : touchableProgramRegister;
@@ -207,9 +207,10 @@ public class InterfaceRenderer {
             if(cardsTo[i] == null){
                 cardsTo[i] = card;
                 touchableTo.setCard(i, card);
-                break;
+                return i;
             }
         }
+        return -1;
     }
 
     /**
