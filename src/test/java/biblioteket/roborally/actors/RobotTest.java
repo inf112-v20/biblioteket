@@ -28,6 +28,7 @@ class RobotTest {
 
     @Test
     void removeDamageTokens() {
+        robot.addDamageTokens(5);
         int removedDamageTokens = 2;
         int originalNumberOfDamageTokens = robot.getNumberOfDamageTokens();
         robot.removeDamageTokens(removedDamageTokens);

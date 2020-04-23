@@ -172,7 +172,7 @@ public class Board implements IBoard {
         DirVector positionInDirection = positionInDirection(position,direction);
         for (IPlayer player : players) {
             if(player.getRobot().getPosition().compareVector(positionInDirection))
-                return player.moveRobot(direction,500);
+                return player.moveRobot(direction,500, false);
         }
         return true;
     }

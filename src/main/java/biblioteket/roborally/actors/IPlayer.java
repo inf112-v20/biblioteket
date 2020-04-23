@@ -22,9 +22,10 @@ public interface IPlayer {
      *
      * @param direction to move robot
      * @param delay milliseconds delay after move is rendered before next move is rendered
+     * @param debug
      * @return
      */
-    boolean moveRobot(Direction direction, int delay);
+    boolean moveRobot(Direction direction, int delay, boolean debug);
 
     /**
      * Tries to move robot in the opposite direction of where it is currently facing
@@ -78,6 +79,8 @@ public interface IPlayer {
      */
     void setName(String name);
 
+    String getName();
+
     /**
      * Set the players robot.
      *
@@ -111,13 +114,18 @@ public interface IPlayer {
     void newTurn(ICardDeck cardDeck);
 
     /**
-     * @param card added
+     * Adds a card to the program register
+     *
+     * @param card     card to be added
+     * @param cardDeck The cardDeck used in the game.
      */
-    void addCardToProgramRegister(ICard card);
+    void addCardToProgramRegister(ICard card, ICardDeck cardDeck);
+
 
     /**
      * returns a list of the players program register and clears the program register
      *
+     * @param cardDeck The cardDeck used in the game
      * @return a list of the players program register
      */
     List<ICard> getProgramRegister();
@@ -128,4 +136,6 @@ public interface IPlayer {
     boolean fullProgramRegister();
 
     TiledMapTileLayer.Cell getPlayerCell();
+
+    void handleRobotDestruction(int delay);
 }

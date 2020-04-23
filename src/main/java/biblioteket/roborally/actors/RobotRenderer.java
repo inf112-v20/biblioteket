@@ -38,6 +38,7 @@ public class RobotRenderer {
         int rotation = movement.getRotation();
         int delay = movement.getDelay();
         TiledMapTileLayer.Cell playerCell = movement.getPlayerCell();
+        boolean debug = movement.isDebug();
 
         // Update the playerlayer with robots new position
         playerLayer.setCell(oldPosition.getX(), oldPosition.getY(), null);
@@ -47,7 +48,7 @@ public class RobotRenderer {
         // Add delay so players can see each move
         wait(delay);
 
-        if(movements.isEmpty()){
+        if(movements.isEmpty() && !debug){
             renderAllPlayers();
             gameLoop.newTurn(); // New turn event starts only after all moves have been rendered
         }
@@ -55,13 +56,13 @@ public class RobotRenderer {
 
     /**
      * Adds a single robot step to the movements queue to be rendered
-     *
-     * @param oldPosition position robot is moving from
+     *  @param oldPosition position robot is moving from
      * @param newPosition position the robot is moving to
      * @param playerCell  the playercell of the player moving a robot
+     * @param debug
      */
-    public void requestRendering(DirVector oldPosition, DirVector newPosition, Direction direction, int delay, TiledMapTileLayer.Cell playerCell) {
-        RobotStep movement = new RobotStep(oldPosition, newPosition, direction, delay, playerCell);
+    public void requestRendering(DirVector oldPosition, DirVector newPosition, Direction direction, int delay, TiledMapTileLayer.Cell playerCell, boolean debug) {
+        RobotStep movement = new RobotStep(oldPosition, newPosition, direction, delay, playerCell, debug);
         movements.add(movement);
     }
 
@@ -105,13 +106,15 @@ public class RobotRenderer {
         private final Direction direction;
         private final int delay;
         private final TiledMapTileLayer.Cell playerCell;
+        private boolean debug;
 
-        public RobotStep(DirVector oldPosition, DirVector newPosition, Direction direction, int delay, TiledMapTileLayer.Cell playerCell) {
+        public RobotStep(DirVector oldPosition, DirVector newPosition, Direction direction, int delay, TiledMapTileLayer.Cell playerCell, boolean debug) {
             this.oldPosition = oldPosition;
             this.newPosition = newPosition;
             this.direction = direction;
             this.delay = delay;
             this.playerCell = playerCell;
+            this.debug = debug;
         }
 
         public DirVector getOldPosition() {
@@ -138,6 +141,10 @@ public class RobotRenderer {
 
         public int getDelay() {
             return delay;
+        }
+
+        public boolean isDebug(){
+            return debug;
         }
     }
 

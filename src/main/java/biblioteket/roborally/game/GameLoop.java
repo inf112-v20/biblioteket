@@ -19,8 +19,11 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.TreeMap;
 
 /**
  * Once every player has finished programming their robot,
@@ -32,6 +35,7 @@ public class GameLoop {
     private final List<LaserWallElement> laserWalls;
     private final List<IPlayer> players;
     private int currentPlayerPtr = 0;
+    boolean programmingPhase = true;
     private ICardDeck cardDeck;
 
     public GameLoop(IBoard board, List<IPlayer> players) {
@@ -52,6 +56,7 @@ public class GameLoop {
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+                if (!programmingPhase) return false;
                 int y = Gdx.graphics.getHeight() - 1 - screenY; // Translate from y-down to y-up
                 return registerInput(screenX, y, getCurrentPlayer());
             }
@@ -62,19 +67,19 @@ public class GameLoop {
                 IPlayer currentPlayer = getCurrentPlayer();
                 switch (keycode) {
                     case Input.Keys.A:
-                        currentPlayer.moveRobot(Direction.WEST, 0);
+                        currentPlayer.moveRobot(Direction.WEST, 0, true);
                         return true;
                     case Input.Keys.D:
-                        currentPlayer.moveRobot(Direction.EAST, 0);
+                        currentPlayer.moveRobot(Direction.EAST, 0, true);
                         return true;
                     case Input.Keys.W:
-                        currentPlayer.moveRobot(Direction.NORTH, 0);
+                        currentPlayer.moveRobot(Direction.NORTH, 0, true);
                         return true;
                     case Input.Keys.S:
-                        currentPlayer.moveRobot(Direction.SOUTH, 0);
+                        currentPlayer.moveRobot(Direction.SOUTH, 0, true);
                         return true;
                     case Input.Keys.SPACE:
-                        board.interact(currentPlayer);
+                        interactWithBoardElements();
                         return true;
                     case Input.Keys.P:
                         return board.registerFlag(currentPlayer);
@@ -82,7 +87,7 @@ public class GameLoop {
                         interactWithBoardElements();
                         return true;
                     case Input.Keys.UP:
-                        currentPlayer.moveRobot(currentPlayer.getRobot().getDirection(), 0);
+                        currentPlayer.moveRobot(currentPlayer.getRobot().getDirection(), 0, false);
                         return true;
                     case Input.Keys.LEFT:
                         currentPlayer.rotateRobot(false, 0);
@@ -109,7 +114,7 @@ public class GameLoop {
         InterfaceRenderer interfaceRenderer = player.getInterfaceRenderer();
         ICard card = interfaceRenderer.contains(x, y);
         if (card != null)
-            player.addCardToProgramRegister(card.copy());
+            player.addCardToProgramRegister(card.copy(), cardDeck);
 
         if (player.fullProgramRegister())
             nextPlayer();
@@ -121,26 +126,26 @@ public class GameLoop {
      *
      */
     public void doTurn() {
-        Map<ICard, IPlayer> cardMapping = new LinkedHashMap<>();
-        Map<ICard, IPlayer> priorityMap = new TreeMap<>(Collections.reverseOrder());
-        for (int i = 0; i < 5; i++) {
+        // Dont allow players to program robots while turn is rendering
+        programmingPhase = false;
+
+        // Execute program cards in correct order
+        Map<ICard, IPlayer> registersInPriority = new TreeMap<>(Collections.reverseOrder());
+        for (int i = 4; i >= 0; i--) { // Five registers, program register is reversed.
             for (IPlayer player : players) {
-                List<ICard> programRegister = player.getProgramRegister();
-                priorityMap.put(programRegister.get(i), player);
+                ICard currentCard = player.getProgramRegister().get(i);
+                registersInPriority.put(currentCard, player);
             }
-            for (Entry<ICard, IPlayer> entry : priorityMap.entrySet()) {
-                cardMapping.put(entry.getKey(), entry.getValue());
+            for (Entry<ICard, IPlayer> entry : registersInPriority.entrySet()) {
+                entry.getKey().doCardAction(entry.getValue());
             }
-            priorityMap.clear();
+            registersInPriority.clear();
         }
 
-        // Execute program cards in order from highest to lowest priority
-        for (Entry<ICard, IPlayer> entry : cardMapping.entrySet()) {
-            entry.getKey().doCardAction(entry.getValue());
-        }
-
-        // Robots interact with board elements
+        // Robots interact with board elements*/
         interactWithBoardElements();
+
+         // Start new turn
     }
 
     /**
@@ -174,6 +179,7 @@ public class GameLoop {
 //         Register flags
         for (IPlayer player : players) {
             board.registerFlag(player);
+            player.handleRobotDestruction(500);
         }
 
     }
@@ -219,6 +225,8 @@ public class GameLoop {
         if (currentPlayerPtr == players.size()){
             currentPlayerPtr = 0;
             doTurn();
+        } if (getCurrentPlayer().getRobot().getNumberOfDamageTokens() == 9) {
+            nextPlayer();
         }
     }
 
@@ -232,6 +240,7 @@ public class GameLoop {
         for (IPlayer player : players) {
             player.newTurn(cardDeck);
         }
+        programmingPhase = true;
     }
 
 }

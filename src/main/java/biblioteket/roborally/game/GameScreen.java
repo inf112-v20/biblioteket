@@ -51,7 +51,7 @@ public class GameScreen implements Screen {
         TextureRegion[][] playerTextureSplit = TextureRegion.split(playerTexture, board.getTileWidth(), board.getTileHeight());
 
 
-        for (int i = 1; i <= 2; i++) {
+        for (int i = 1; i <= 1; i++) {
             TiledMapTileLayer.Cell playerCell = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(playerTextureSplit[0][0]));
             Player player = new Player(board, playerCell, new InterfaceRenderer(), robotRenderer);
             players.add(player);

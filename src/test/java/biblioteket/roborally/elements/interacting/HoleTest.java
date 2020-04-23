@@ -21,11 +21,11 @@ public class HoleTest {
     }
 
     @Test
-    void interactingWithHoleAddsDamageTokenTest() {
+    void interactingWithHoleRemoveLifeTest() {
         HoleElement hole = new HoleElement();
         hole.interact(player);
 
-        assertEquals(1, player.getRobot().getNumberOfDamageTokens());
+        assertEquals(2, player.getLives());
 
     }
 

@@ -171,8 +171,16 @@ public class InterfaceRenderer {
      * @param cardHand to be drawn
      */
     public void setCardHand(List<ICard> cardHand) {
-        if (cardHand.size() > this.cardHand.length)
+        if (cardHand.size() > this.cardHand.length){
+            System.out.println(cardHand);
+            System.out.println(this.cardHand.length);
             throw new IndexOutOfBoundsException("Tried to deal too many cards to player");
+        }
+
+        for (int i = 0; i < this.cardHand.length; i++) {
+            this.cardHand[i] = null;
+            touchableCardHand.setCard(i, null);
+        }
 
         for (int i = 0; i < cardHand.size(); i++) {
             ICard card = cardHand.get(i);
@@ -182,7 +190,7 @@ public class InterfaceRenderer {
 
     }
 
-    public void moveCard(ICard card, boolean toRegister){
+    public int moveCard(ICard card, boolean toRegister){
         ICard[] cardsFrom = toRegister ? cardHand : programRegister;
         ICard[] cardsTo = toRegister ? programRegister : cardHand;
         TouchableCards touchableFrom = toRegister ? touchableCardHand : touchableProgramRegister;
@@ -201,9 +209,35 @@ public class InterfaceRenderer {
             if(cardsTo[i] == null){
                 cardsTo[i] = card;
                 touchableTo.setCard(i, card);
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * @param card  Card to place
+     * @param index Index to place card in
+     */
+    public void addCardToLockedRegister(ICard card, int index) {
+        programRegister[index] = card;
+    }
+
+    /**
+     * @param card  Card to place
+     * @param index Index to place card in
+     */
+    public void addCardToProgramRegisterIndex(ICard card, int index) {
+        for (int i = 0; i < cardHand.length; i++) {
+            if (card.equals(cardHand[i])) {
+                cardHand[i] = null;
+                touchableCardHand.removeCard(i);
                 break;
             }
         }
+
+        programRegister[index] = card;
+        touchableProgramRegister.setCard(index, card);
     }
 
     /**
