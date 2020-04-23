@@ -3,7 +3,7 @@ package biblioteket.roborally.actors;
 import biblioteket.roborally.board.Direction;
 import biblioteket.roborally.programcards.ICard;
 import biblioteket.roborally.programcards.ICardDeck;
-import biblioteket.roborally.userinterface.InterfaceRenderer;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
 import java.util.List;
 
@@ -21,9 +21,11 @@ public interface IPlayer {
      * Tries to move robot in direction
      *
      * @param direction to move robot
-     * @param delay     milliseconds delay after move is rendered before next move is rendered
+     * @param delay milliseconds delay after move is rendered before next move is rendered
+     * @param debug
+     * @return
      */
-    void moveRobot(Direction direction, int delay);
+    boolean moveRobot(Direction direction, int delay, boolean debug);
 
     /**
      * Tries to move robot in the opposite direction of where it is currently facing
@@ -71,6 +73,15 @@ public interface IPlayer {
     IRobot getRobot();
 
     /**
+     * Sets the name of the player to be displayed in the players interface
+     *
+     * @param name
+     */
+    void setName(String name);
+
+    String getName();
+
+    /**
      * Set the players robot.
      *
      * @param robot robot that player will control.
@@ -110,17 +121,21 @@ public interface IPlayer {
      */
     void addCardToProgramRegister(ICard card, ICardDeck cardDeck);
 
+
     /**
      * returns a list of the players program register and clears the program register
      *
      * @param cardDeck The cardDeck used in the game
      * @return a list of the players program register
      */
-    List<ICard> getProgramRegister(ICardDeck cardDeck);
+    List<ICard> getProgramRegister();
 
     /**
      * @return true if the player is done registering cards for this turn
      */
     boolean fullProgramRegister();
 
+    TiledMapTileLayer.Cell getPlayerCell();
+
+    void handleRobotDestruction(int delay);
 }

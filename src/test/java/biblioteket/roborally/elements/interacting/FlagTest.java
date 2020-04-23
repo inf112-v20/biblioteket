@@ -54,7 +54,7 @@ public class FlagTest {
         robot.setPosition(newPosition);
         flag.interact(player);
 
-        assertEquals(newPosition.getX(), robot.getArchiveMarker().getX());
-        assertEquals(newPosition.getY(), robot.getArchiveMarker().getY());
+        assertEquals(newPosition.getX(), robot.getArchiveMarker().getPosition().getX());
+        assertEquals(newPosition.getY(), robot.getArchiveMarker().getPosition().getY());
     }
 }

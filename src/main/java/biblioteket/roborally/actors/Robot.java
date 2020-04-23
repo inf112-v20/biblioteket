@@ -12,7 +12,7 @@ public class Robot implements IRobot {
 
     public Robot(ArchiveMarkerElement archiveMarker) {
         this.archiveMarker = archiveMarker;
-        this.location = new DirVector(archiveMarker.getX(), archiveMarker.getY(), Direction.NORTH);
+        this.location = new DirVector(archiveMarker.getPosition().getX(), archiveMarker.getPosition().getY(), Direction.NORTH);
     }
 
     @Override
@@ -33,6 +33,7 @@ public class Robot implements IRobot {
     @Override
     public void removeDamageTokens(int damageTokens) {
         this.damageTokens -= damageTokens;
+        if (this.damageTokens < 0) this.damageTokens = 0;
     }
 
     @Override
@@ -52,8 +53,7 @@ public class Robot implements IRobot {
 
     @Override
     public void setArchiveMarker(DirVector location) {
-        archiveMarker.setX(location.getX());
-        archiveMarker.setY(location.getY());
+        archiveMarker.setPosition(location.copy());
     }
 
     @Override
@@ -98,6 +98,6 @@ public class Robot implements IRobot {
 
     @Override
     public void moveToArchiveMarker() {
-        setPosition(archiveMarker.getX(), archiveMarker.getY());
+        setPosition(archiveMarker.getPosition().getX(), archiveMarker.getPosition().getY());
     }
 }

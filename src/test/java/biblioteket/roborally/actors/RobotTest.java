@@ -19,7 +19,7 @@ class RobotTest {
 
     @BeforeEach
     void setUp() {
-        board = new Board("assets/TestingMap.tmx");
+        board = new Board("assets/TestingMap.tmx", null);
         robot = new Robot(board.getArchiveMarker(1));
         IPlayer player = new Player(null, null, null, null);
         player.setRobot(robot);
@@ -28,6 +28,7 @@ class RobotTest {
 
     @Test
     void removeDamageTokens() {
+        robot.addDamageTokens(5);
         int removedDamageTokens = 2;
         int originalNumberOfDamageTokens = robot.getNumberOfDamageTokens();
         robot.removeDamageTokens(removedDamageTokens);

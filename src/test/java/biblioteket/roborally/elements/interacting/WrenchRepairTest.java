@@ -41,7 +41,7 @@ public class WrenchRepairTest {
         robot.setPosition(newPosition);
         repair.interact(player);
 
-        assertEquals(newPosition.getX(), robot.getArchiveMarker().getX());
-        assertEquals(newPosition.getY(), robot.getArchiveMarker().getY());
+        assertEquals(newPosition.getX(), robot.getArchiveMarker().getPosition().getX());
+        assertEquals(newPosition.getY(), robot.getArchiveMarker().getPosition().getY());
     }
 }

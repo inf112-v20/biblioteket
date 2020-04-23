@@ -2,8 +2,10 @@ package biblioteket.roborally.programcards;
 
 import biblioteket.roborally.actors.IPlayer;
 
-public class Card implements ICard {
-    private static final int RENDERING_DELAY = 500;
+import java.util.Objects;
+
+public class Card implements ICard, Comparable<ICard> {
+    private static final int RENDERING_DELAY = 100;
     private final CardType type;
     private final int priorityNumber;
 
@@ -66,4 +68,22 @@ public class Card implements ICard {
                 " Priority number= " + priorityNumber;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Card card = (Card) o;
+        return priorityNumber == card.priorityNumber &&
+                type == card.type;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(type, priorityNumber);
+    }
+
+    @Override
+    public int compareTo(ICard o) {
+        return getPriorityNumber() - o.getPriorityNumber();
+    }
 }

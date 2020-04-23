@@ -21,10 +21,9 @@ public class Laser {
         for (IPlayer player : players) {
             IRobot robot = player.getRobot();
             DirVector robotPosition = robot.getPosition();
-            if (compareDirVectorPosition(vector, robotPosition)) {
-                board.getLayer("Laser Layer").setVisible(true);
+            if (vector.compareVector(robotPosition)) {
                 robot.addDamageTokens(1);
-                System.out.println("robot at " + robotPosition.getX() + "," + robotPosition.getY() + " was hit by a laser");
+                System.out.println(player.getName()  + " was hit by a laser, " + player.getRobot().getNumberOfDamageTokens() + " damage tokens");
                 return;
             }
         }
@@ -36,10 +35,4 @@ public class Laser {
         }
     }
 
-    /**
-     * @return true if two DirVectors have the same x and y coordinates
-     */
-    private boolean compareDirVectorPosition(DirVector v1, DirVector v2) {
-        return v1.getX() == v2.getX() && v1.getY() == v2.getY();
-    }
 }

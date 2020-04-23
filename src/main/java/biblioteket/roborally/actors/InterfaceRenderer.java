@@ -1,4 +1,4 @@
-package biblioteket.roborally.userinterface;
+package biblioteket.roborally.actors;
 
 import biblioteket.roborally.board.IBoard;
 import biblioteket.roborally.programcards.ICard;
@@ -6,8 +6,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 
-import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * Handles rendering of player interface, displaying necessary information for playing the game
@@ -37,6 +39,7 @@ public class InterfaceRenderer {
     private final TouchableCards touchableProgramRegister;
     private int flagsVisited;
     private int lives;
+    private String name;
 
     public InterfaceRenderer() {
         background = new Texture("assets/background2.jpg");
@@ -84,12 +87,13 @@ public class InterfaceRenderer {
 
     public void renderInterface(IBoard board) {
         batch.begin();
-        batch.draw(playerOverview, 0, Gdx.graphics.getHeight() - 90, Gdx.graphics.getWidth(), 90);
+        batch.draw(playerOverview, 0, Gdx.graphics.getHeight() - 90f, Gdx.graphics.getWidth(), 90);
         batch.draw(background, board.getTileWidth(), 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        batch.draw(flag, 290, Gdx.graphics.getHeight() - 180, 40, 40);
-        batch.draw(hp, 330, Gdx.graphics.getHeight() - 180, 40, 40);
-        font.draw(batch, Integer.toString(flagsVisited), 310, Gdx.graphics.getHeight() - 165);
-        font.draw(batch, Integer.toString(lives), 360, Gdx.graphics.getHeight() - 165);
+        batch.draw(flag, 290, Gdx.graphics.getHeight() - 180f, 40, 40);
+        batch.draw(hp, 330, Gdx.graphics.getHeight() - 180f, 40, 40);
+        font.draw(batch, Integer.toString(flagsVisited), 310, Gdx.graphics.getHeight() - 165f);
+        font.draw(batch, Integer.toString(lives), 360, Gdx.graphics.getHeight() - 165f);
+        font.draw(batch, name, 410, Gdx.graphics.getHeight() - 165f);
 
 
         drawCard(cardHand[0], 375, 100, 100, 90);
@@ -159,12 +163,19 @@ public class InterfaceRenderer {
         this.lives = lives;
     }
 
+    public void setName(String name){
+        this.name = name;
+    }
+
     /**
      * @param cardHand to be drawn
      */
-    public void setCardHand(ArrayList<ICard> cardHand) {
-        if (cardHand.size() > this.cardHand.length)
+    public void setCardHand(List<ICard> cardHand) {
+        if (cardHand.size() > this.cardHand.length){
+            System.out.println(cardHand);
+            System.out.println(this.cardHand.length);
             throw new IndexOutOfBoundsException("Tried to deal too many cards to player");
+        }
 
         for (int i = 0; i < this.cardHand.length; i++) {
             this.cardHand[i] = null;
@@ -179,26 +190,29 @@ public class InterfaceRenderer {
 
     }
 
-    /**
-     * Moves a program card from hand to program register
-     *
-     * @param card to be moved to program register
-     */
-    public void addCardToProgramRegister(ICard card) {
-        for (int i = 0; i < cardHand.length; i++) {
-            if (cardHand[i] == card) {
-                cardHand[i] = null;
-                touchableCardHand.removeCard(i);
+    public int moveCard(ICard card, boolean toRegister){
+        ICard[] cardsFrom = toRegister ? cardHand : programRegister;
+        ICard[] cardsTo = toRegister ? programRegister : cardHand;
+        TouchableCards touchableFrom = toRegister ? touchableCardHand : touchableProgramRegister;
+        TouchableCards touchableTo = toRegister ? touchableProgramRegister : touchableCardHand;
+
+        // Remove card where it is being moved from
+        for (int i = 0; i < cardsFrom.length; i++) {
+            if(card.equals(cardsFrom[i])){
+                cardsFrom[i] = null;
+                touchableFrom.removeCard(i);
                 break;
             }
         }
-        ICard copy = card.copy();
-        for (int i = 0; i < programRegister.length; i++) {
-            if (programRegister[i] == null) {
-                programRegister[i] = copy;
-                break;
+        // Add card to where it is being moved to
+        for (int i = 0; i < cardsTo.length; i++) {
+            if(cardsTo[i] == null){
+                cardsTo[i] = card;
+                touchableTo.setCard(i, card);
+                return i;
             }
         }
+        return -1;
     }
 
     /**
@@ -206,8 +220,7 @@ public class InterfaceRenderer {
      * @param index Index to place card in
      */
     public void addCardToLockedRegister(ICard card, int index) {
-        ICard copy = card.copy(); //not really sure why a copy, but saw it was uses elsewhere.
-        programRegister[index] = copy;
+        programRegister[index] = card;
     }
 
     /**
@@ -216,15 +229,15 @@ public class InterfaceRenderer {
      */
     public void addCardToProgramRegisterIndex(ICard card, int index) {
         for (int i = 0; i < cardHand.length; i++) {
-            if (cardHand[i] == card) {
+            if (card.equals(cardHand[i])) {
                 cardHand[i] = null;
                 touchableCardHand.removeCard(i);
                 break;
             }
         }
 
-        ICard copy = card.copy(); //not really sure why a copy, but saw it was uses elsewhere.
-        programRegister[index] = copy;
+        programRegister[index] = card;
+        touchableProgramRegister.setCard(index, card);
     }
 
     /**
@@ -243,7 +256,81 @@ public class InterfaceRenderer {
      * @return an ICard if the coordinates contain a card, or null otherwise
      */
     public ICard contains(int x, int y) {
-        return touchableCardHand.contains(x, y);
+        ICard cardHandCard = touchableCardHand.contains(x, y);
+        ICard programRegisterCard = touchableProgramRegister.contains(x,y);
+        return cardHandCard != null ? cardHandCard : programRegisterCard;
+    }
+
+    /**
+     * Datastructure for multiple rectangles which can contain coordinates and
+     * return an ICard if they are touched
+     */
+    private class TouchableCards {
+        private final TouchableCard[] cards;
+
+        public TouchableCards(int size) {
+            cards = new TouchableCard[size];
+        }
+
+        public void initializeCard(int pos, float x, float y, float width, float height) {
+            cards[pos] = new TouchableCard(x, y, width, height);
+        }
+
+        public void setCard(int pos, ICard card) {
+            cards[pos].setCard(card);
+        }
+
+        /**
+         * @param x coordinates
+         * @param y coordinates
+         * @return an ICard if any card contains the x,y coordinates, otherwise null
+         */
+        public ICard contains(int x, int y) {
+            for (TouchableCard card : cards) {
+                if (card.contains(x, y))
+                    return card.getCard();
+
+            }
+            return null;
+        }
+
+        public void removeCard(int pos) {
+            cards[pos].setCard(null);
+        }
+
+        /**
+         * Class that extends the rectangle class, which has the contains() method for checking
+         * weather any x,y input is within the bounds of the rectangle
+         */
+        private class TouchableCard extends Rectangle {
+            private transient ICard card;
+
+            TouchableCard(float x, float y, float width, float height) {
+                super(x, y, width, height);
+            }
+
+            public ICard getCard() {
+                return card;
+            }
+
+            public void setCard(ICard card) {
+                this.card = card;
+            }
+
+            @Override
+            public boolean equals(Object o) {
+                if (this == o) return true;
+                if (o == null || getClass() != o.getClass()) return false;
+                if (!super.equals(o)) return false;
+                TouchableCard that = (TouchableCard) o;
+                return Objects.equals(card, that.card);
+            }
+
+            @Override
+            public int hashCode() {
+                return Objects.hash(super.hashCode(), card);
+            }
+        }
     }
 
 }

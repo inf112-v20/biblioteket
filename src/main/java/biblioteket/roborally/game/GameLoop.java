@@ -1,6 +1,7 @@
 package biblioteket.roborally.game;
 
 import biblioteket.roborally.actors.IPlayer;
+import biblioteket.roborally.actors.InterfaceRenderer;
 import biblioteket.roborally.board.DirVector;
 import biblioteket.roborally.board.Direction;
 import biblioteket.roborally.board.IBoard;
@@ -13,13 +14,16 @@ import biblioteket.roborally.elements.walls.LaserWallElement;
 import biblioteket.roborally.programcards.CardDeck;
 import biblioteket.roborally.programcards.ICard;
 import biblioteket.roborally.programcards.ICardDeck;
-import biblioteket.roborally.userinterface.InterfaceRenderer;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.TreeMap;
 
 /**
  * Once every player has finished programming their robot,
@@ -30,13 +34,13 @@ public class GameLoop {
     private final int amountOfFlags;
     private final List<LaserWallElement> laserWalls;
     private final List<IPlayer> players;
-    private final IPlayer currentPlayer;
+    private int currentPlayerPtr = 0;
+    boolean programmingPhase = true;
     private ICardDeck cardDeck;
 
     public GameLoop(IBoard board, List<IPlayer> players) {
         this.board = board;
         this.players = players;
-        currentPlayer = players.get(0);
         amountOfFlags = board.getNumberOfFlags();
         laserWalls = board.getLaserWalls();
 
@@ -46,37 +50,36 @@ public class GameLoop {
             e.printStackTrace();
         }
 
-        for (IPlayer player : players) {
-            player.newTurn(cardDeck);
-        }
     }
 
     public void startGame() {
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+                if (!programmingPhase) return false;
                 int y = Gdx.graphics.getHeight() - 1 - screenY; // Translate from y-down to y-up
-                return registerInput(screenX, y);
+                return registerInput(screenX, y, getCurrentPlayer());
             }
 
             // Keyboard movement for testing
             @Override
             public boolean keyUp(int keycode) {
+                IPlayer currentPlayer = getCurrentPlayer();
                 switch (keycode) {
                     case Input.Keys.A:
-                        currentPlayer.moveRobot(Direction.WEST, 0);
+                        currentPlayer.moveRobot(Direction.WEST, 0, true);
                         return true;
                     case Input.Keys.D:
-                        currentPlayer.moveRobot(Direction.EAST, 0);
+                        currentPlayer.moveRobot(Direction.EAST, 0, true);
                         return true;
                     case Input.Keys.W:
-                        currentPlayer.moveRobot(Direction.NORTH, 0);
+                        currentPlayer.moveRobot(Direction.NORTH, 0, true);
                         return true;
                     case Input.Keys.S:
-                        currentPlayer.moveRobot(Direction.SOUTH, 0);
+                        currentPlayer.moveRobot(Direction.SOUTH, 0, true);
                         return true;
                     case Input.Keys.SPACE:
-                        board.interact(currentPlayer);
+                        interactWithBoardElements();
                         return true;
                     case Input.Keys.P:
                         return board.registerFlag(currentPlayer);
@@ -84,7 +87,7 @@ public class GameLoop {
                         interactWithBoardElements();
                         return true;
                     case Input.Keys.UP:
-                        currentPlayer.moveRobot(currentPlayer.getRobot().getDirection(), 0);
+                        currentPlayer.moveRobot(currentPlayer.getRobot().getDirection(), 0, false);
                         return true;
                     case Input.Keys.LEFT:
                         currentPlayer.rotateRobot(false, 0);
@@ -107,13 +110,14 @@ public class GameLoop {
      * @param y coordinate from user input
      * @return true if input was handled correctly
      */
-    private boolean registerInput(int x, int y) {
-        InterfaceRenderer interfaceRenderer = currentPlayer.getInterfaceRenderer();
+    private boolean registerInput(int x, int y, IPlayer player) {
+        InterfaceRenderer interfaceRenderer = player.getInterfaceRenderer();
         ICard card = interfaceRenderer.contains(x, y);
         if (card != null)
-            currentPlayer.addCardToProgramRegister(card, cardDeck);
+            player.addCardToProgramRegister(card.copy(), cardDeck);
 
-        if (currentPlayer.fullProgramRegister()) doTurn();
+        if (player.fullProgramRegister())
+            nextPlayer();
 
         return true;
     }
@@ -122,26 +126,26 @@ public class GameLoop {
      *
      */
     public void doTurn() {
+        // Dont allow players to program robots while turn is rendering
+        programmingPhase = false;
 
-        for (IPlayer player : players) {
-            List<ICard> programRegister = player.getProgramRegister(cardDeck);
-            for (int i = programRegister.size() - 1; i >= 0; i--) {
-                ICard card = programRegister.get(i);
-                card.doCardAction(player);
+        // Execute program cards in correct order
+        Map<ICard, IPlayer> registersInPriority = new TreeMap<>(Collections.reverseOrder());
+        for (int i = 4; i >= 0; i--) { // Five registers, program register is reversed.
+            for (IPlayer player : players) {
+                ICard currentCard = player.getProgramRegister().get(i);
+                registersInPriority.put(currentCard, player);
             }
+            for (Entry<ICard, IPlayer> entry : registersInPriority.entrySet()) {
+                entry.getKey().doCardAction(entry.getValue());
+            }
+            registersInPriority.clear();
         }
-        // Robots interact with board elements
+
+        // Robots interact with board elements*/
         interactWithBoardElements();
 
-        // End turn
-        if (checkWinCondition() || everyPlayerDead())
-            Gdx.app.exit();
-        else {
-            for (IPlayer player : players) {
-                player.newTurn(cardDeck);
-            }
-        }
-
+         // Start new turn
     }
 
     /**
@@ -175,6 +179,7 @@ public class GameLoop {
 //         Register flags
         for (IPlayer player : players) {
             board.registerFlag(player);
+            player.handleRobotDestruction(500);
         }
 
     }
@@ -213,6 +218,29 @@ public class GameLoop {
                 board.interact(player);
             }
         }
+    }
+
+    private void nextPlayer(){
+        currentPlayerPtr++;
+        if (currentPlayerPtr == players.size()){
+            currentPlayerPtr = 0;
+            doTurn();
+        } if (getCurrentPlayer().getRobot().getNumberOfDamageTokens() == 9) {
+            nextPlayer();
+        }
+    }
+
+    public IPlayer getCurrentPlayer(){
+        return players.get(currentPlayerPtr);
+    }
+
+    public void newTurn() {
+        if (checkWinCondition() || everyPlayerDead())
+            Gdx.app.exit();
+        for (IPlayer player : players) {
+            player.newTurn(cardDeck);
+        }
+        programmingPhase = true;
     }
 
 }
