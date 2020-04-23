@@ -12,7 +12,6 @@ public class AssetLoader extends ApplicationAdapter {
     SpriteBatch batch;
     private Skin skin;
 
-    private Assets assets;
     private BarrelBot player;
 
     @Override
@@ -20,7 +19,7 @@ public class AssetLoader extends ApplicationAdapter {
         batch = new SpriteBatch();
         Gdx.gl.glClearColor(1f, 1f, 1f, 1);
 
-        assets = new Assets();
+        Assets assets = new Assets();
         assets.load();
         assets.getManager().finishLoading();
 

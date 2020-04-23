@@ -31,8 +31,6 @@ public class GameScreen implements Screen {
 
     private final OrthogonalTiledMapRenderer tiledMapRenderer;
 
-    private final Texture playerTexture;
-
     public GameScreen(final RoboRally gam) {
         List<IPlayer> players = new ArrayList<>();
         this.board = new Board("assets/DizzyDash.tmx", players);
@@ -40,14 +38,14 @@ public class GameScreen implements Screen {
         this.robotRenderer = new RobotRenderer(board.getPlayerLayer(), players, gameLoop);
         this.camera = new OrthographicCamera();
 
-        camera.setToOrtho(false, board.getWidth() + 14, board.getHeight() + 1);
+        camera.setToOrtho(false, (float) board.getWidth() + 14, (float) board.getHeight() + 1);
         camera.update();
 
         tiledMapRenderer = new OrthogonalTiledMapRenderer(board.getMap(), (float) 1 / board.getTileWidth());
         tiledMapRenderer.setView(camera);
 
 
-        playerTexture = new Texture("assets/player.png");
+        Texture playerTexture = new Texture("assets/player.png");
         TextureRegion[][] playerTextureSplit = TextureRegion.split(playerTexture, board.getTileWidth(), board.getTileHeight());
 
 
@@ -69,7 +67,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
-
+        // Not used, but method must be overwritten
     }
 
     @Override
@@ -89,26 +87,26 @@ public class GameScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-
+        // Not used, but method must be overwritten
     }
 
     @Override
     public void pause() {
-
+        // Not used, but method must be overwritten
     }
 
     @Override
     public void resume() {
-
+        // Not used, but method must be overwritten
     }
 
     @Override
     public void hide() {
-
+        // Not used, but method must be overwritten
     }
 
     @Override
     public void dispose() {
-
+        // Not used, but method must be overwritten
     }
 }

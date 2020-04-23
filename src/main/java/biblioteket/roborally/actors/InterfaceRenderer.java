@@ -163,7 +163,7 @@ public class InterfaceRenderer {
         this.lives = lives;
     }
 
-    public void setName(String name){
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -171,9 +171,9 @@ public class InterfaceRenderer {
      * @param cardHand to be drawn
      */
     public void setCardHand(List<ICard> cardHand) {
-        if (cardHand.size() > this.cardHand.length){
-            System.out.println(cardHand);
-            System.out.println(this.cardHand.length);
+        if (cardHand.size() > this.cardHand.length) {
+            Gdx.app.error("InterfaceRenderer: %s", cardHand.toString());
+            Gdx.app.error("InterfaceRenderer: %d", String.valueOf(this.cardHand.length));
             throw new IndexOutOfBoundsException("Tried to deal too many cards to player");
         }
 
@@ -190,7 +190,7 @@ public class InterfaceRenderer {
 
     }
 
-    public int moveCard(ICard card, boolean toRegister){
+    public int moveCard(ICard card, boolean toRegister) {
         ICard[] cardsFrom = toRegister ? cardHand : programRegister;
         ICard[] cardsTo = toRegister ? programRegister : cardHand;
         TouchableCards touchableFrom = toRegister ? touchableCardHand : touchableProgramRegister;
@@ -198,7 +198,7 @@ public class InterfaceRenderer {
 
         // Remove card where it is being moved from
         for (int i = 0; i < cardsFrom.length; i++) {
-            if(card.equals(cardsFrom[i])){
+            if (card.equals(cardsFrom[i])) {
                 cardsFrom[i] = null;
                 touchableFrom.removeCard(i);
                 break;
@@ -206,7 +206,7 @@ public class InterfaceRenderer {
         }
         // Add card to where it is being moved to
         for (int i = 0; i < cardsTo.length; i++) {
-            if(cardsTo[i] == null){
+            if (cardsTo[i] == null) {
                 cardsTo[i] = card;
                 touchableTo.setCard(i, card);
                 return i;
@@ -257,7 +257,7 @@ public class InterfaceRenderer {
      */
     public ICard contains(int x, int y) {
         ICard cardHandCard = touchableCardHand.contains(x, y);
-        ICard programRegisterCard = touchableProgramRegister.contains(x,y);
+        ICard programRegisterCard = touchableProgramRegister.contains(x, y);
         return cardHandCard != null ? cardHandCard : programRegisterCard;
     }
 
@@ -265,7 +265,7 @@ public class InterfaceRenderer {
      * Datastructure for multiple rectangles which can contain coordinates and
      * return an ICard if they are touched
      */
-    private class TouchableCards {
+    private static class TouchableCards {
         private final TouchableCard[] cards;
 
         public TouchableCards(int size) {

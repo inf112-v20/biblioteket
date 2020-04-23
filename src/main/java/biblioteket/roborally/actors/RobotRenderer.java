@@ -3,6 +3,7 @@ package biblioteket.roborally.actors;
 import biblioteket.roborally.board.DirVector;
 import biblioteket.roborally.board.Direction;
 import biblioteket.roborally.game.GameLoop;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
 import java.util.LinkedList;
@@ -16,11 +17,11 @@ import java.util.concurrent.TimeUnit;
  */
 public class RobotRenderer {
     private final TiledMapTileLayer playerLayer;
-    private GameLoop gameLoop;
-    private Queue<RobotStep> movements;
-    private List<IPlayer> players;
+    private final GameLoop gameLoop;
+    private final Queue<RobotStep> movements;
+    private final List<IPlayer> players;
 
-    public RobotRenderer(TiledMapTileLayer playerLayer, List<IPlayer> players, GameLoop gameLoop){
+    public RobotRenderer(TiledMapTileLayer playerLayer, List<IPlayer> players, GameLoop gameLoop) {
         this.playerLayer = playerLayer;
         this.players = players;
         this.gameLoop = gameLoop;
@@ -48,7 +49,7 @@ public class RobotRenderer {
         // Add delay so players can see each move
         wait(delay);
 
-        if(movements.isEmpty() && !debug){
+        if (movements.isEmpty() && !debug) {
             renderAllPlayers();
             gameLoop.newTurn(); // New turn event starts only after all moves have been rendered
         }
@@ -56,10 +57,11 @@ public class RobotRenderer {
 
     /**
      * Adds a single robot step to the movements queue to be rendered
-     *  @param oldPosition position robot is moving from
+     *
+     * @param oldPosition position robot is moving from
      * @param newPosition position the robot is moving to
      * @param playerCell  the playercell of the player moving a robot
-     * @param debug
+     * @param debug       print debug information
      */
     public void requestRendering(DirVector oldPosition, DirVector newPosition, Direction direction, int delay, TiledMapTileLayer.Cell playerCell, boolean debug) {
         RobotStep movement = new RobotStep(oldPosition, newPosition, direction, delay, playerCell, debug);
@@ -82,31 +84,31 @@ public class RobotRenderer {
         try {
             TimeUnit.MILLISECONDS.sleep(milliseconds);
         } catch (InterruptedException e) {
-            System.err.println("RobotRenderer timeout failed");
+            Gdx.app.error("RobotRenderer: ", "Timeout faled");
         }
     }
 
     /**
      * Handles rare visual bug caused by two robots stadning on top of each other causes only one to be rendered
      */
-    private void renderAllPlayers(){
+    private void renderAllPlayers() {
         for (IPlayer player : players) {
             DirVector position = player.getRobot().getPosition();
             TiledMapTileLayer.Cell playerCell = player.getPlayerCell();
-            playerLayer.setCell(position.getX(),position.getY(),playerCell);
+            playerLayer.setCell(position.getX(), position.getY(), playerCell);
         }
     }
 
     /**
      * Datastructure that holds a single step of a single robot
      */
-    private class RobotStep {
+    private static class RobotStep {
         private final DirVector oldPosition;
         private final DirVector newPosition;
         private final Direction direction;
         private final int delay;
         private final TiledMapTileLayer.Cell playerCell;
-        private boolean debug;
+        private final boolean debug;
 
         public RobotStep(DirVector oldPosition, DirVector newPosition, Direction direction, int delay, TiledMapTileLayer.Cell playerCell, boolean debug) {
             this.oldPosition = oldPosition;
@@ -130,12 +132,17 @@ public class RobotRenderer {
         }
 
         public int getRotation() {
-            switch(direction){
-                case NORTH: return 0;
-                case WEST: return 1;
-                case SOUTH: return 2;
-                case EAST: return 3;
-                default: throw new UnsupportedOperationException();
+            switch (direction) {
+                case NORTH:
+                    return 0;
+                case WEST:
+                    return 1;
+                case SOUTH:
+                    return 2;
+                case EAST:
+                    return 3;
+                default:
+                    throw new UnsupportedOperationException();
             }
         }
 
@@ -143,7 +150,7 @@ public class RobotRenderer {
             return delay;
         }
 
-        public boolean isDebug(){
+        public boolean isDebug() {
             return debug;
         }
     }

@@ -11,12 +11,12 @@ public class ArchiveMarkerElement implements IElement {
         position = new DirVector(0, 0, null);
     }
 
-    public void setPosition(DirVector position){
-        this.position = position;
-    }
-
     public DirVector getPosition() {
         return this.position;
+    }
+
+    public void setPosition(DirVector position) {
+        this.position = position;
     }
 
     public int getArchiveNum() {

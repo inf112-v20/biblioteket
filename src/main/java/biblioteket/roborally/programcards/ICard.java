@@ -21,7 +21,7 @@ public interface ICard {
     /**
      * Make the robot do the action of the program card
      *
-     * @param player
+     * @param player player to interact with
      */
     void doCardAction(IPlayer player);
 

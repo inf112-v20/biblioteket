@@ -24,7 +24,6 @@ public class Player implements IPlayer {
     private IRobot robot;
     private String name;
     private ArrayList<ICard> drawnCards;
-    private int lockedRegisters = 0;
 
     private boolean canMove = true;
 
@@ -46,8 +45,8 @@ public class Player implements IPlayer {
     }
 
     @Override
-    public boolean moveRobot(Direction direction, int delay, boolean debug){
-        if(canMove && board.canMove(robot.getPosition(), direction) && board.pushRobot(robot.getPosition(),direction)){
+    public boolean moveRobot(Direction direction, int delay, boolean debug) {
+        if (canMove && board.canMove(robot.getPosition(), direction) && board.pushRobot(robot.getPosition(), direction)) {
             DirVector oldPosition = robot.getPosition().copy();
             robot.pushRobotInDirection(direction);
             DirVector newPosition = robot.getPosition().copy();
@@ -65,8 +64,8 @@ public class Player implements IPlayer {
     }
 
     @Override
-    public void rotateRobot(boolean right, int delay){
-        if(!canMove) return;
+    public void rotateRobot(boolean right, int delay) {
+        if (!canMove) return;
         if (right) {
             robot.turnRight();
         } else {
@@ -106,19 +105,19 @@ public class Player implements IPlayer {
     }
 
     @Override
-    public void setName(String name){
-        this.name = name;
-        interfaceRenderer.setName(name);
+    public void setRobot(IRobot robot) {
+        this.robot = robot;
     }
 
     @Override
-    public String getName(){
+    public String getName() {
         return name;
     }
 
     @Override
-    public void setRobot(IRobot robot) {
-        this.robot = robot;
+    public void setName(String name) {
+        this.name = name;
+        interfaceRenderer.setName(name);
     }
 
     @Override
@@ -159,7 +158,7 @@ public class Player implements IPlayer {
     private void cleanRegister(int damageTokens, ICardDeck cardDeck) {
         switch (damageTokens) {
             case 9:
-                lockedRegisters = 5;
+                int lockedRegisters = 5;
                 break;
             case 8:
                 lockedRegisters = 4;
@@ -221,9 +220,9 @@ public class Player implements IPlayer {
     }
 
     public void addCardToProgramRegister(ICard card, ICardDeck cardDeck) {
-        if (programRegister.contains(card)){
+        if (programRegister.contains(card)) {
             programRegister.remove(card);
-            interfaceRenderer.moveCard(card,false);
+            interfaceRenderer.moveCard(card, false);
             return;
         }
         drawnCards.remove(card);
@@ -245,9 +244,10 @@ public class Player implements IPlayer {
 
     /**
      * Requests robotRenderer to render one move
-     *  @param from position robot is moving from
-     * @param to   position robot is moving to
-     * @param debug
+     *
+     * @param from  position robot is moving from
+     * @param to    position robot is moving to
+     * @param debug print debug information
      */
     private void renderMove(DirVector from, DirVector to, int delay, boolean debug) {
         robotRenderer.requestRendering(from, to, robot.getDirection(), delay, playerCell, debug);
@@ -264,14 +264,13 @@ public class Player implements IPlayer {
             DirVector newPosition = robot.getPosition().copy();
             renderMove(oldPosition, newPosition, delay, false);
             canMove = false;
-            canMove = false;
             removeOneLife();
         }
     }
 
     @Override
-    public void handleRobotDestruction(int delay){
-        if(robot. isDestroyed()){
+    public void handleRobotDestruction(int delay) {
+        if (robot.isDestroyed()) {
             DirVector oldPosition = robot.getPosition().copy();
             robot.moveToArchiveMarker();
             DirVector newPosition = robot.getPosition().copy();

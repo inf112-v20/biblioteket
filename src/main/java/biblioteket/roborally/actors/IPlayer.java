@@ -21,9 +21,9 @@ public interface IPlayer {
      * Tries to move robot in direction
      *
      * @param direction to move robot
-     * @param delay milliseconds delay after move is rendered before next move is rendered
-     * @param debug
-     * @return
+     * @param delay     milliseconds delay after move is rendered before next move is rendered
+     * @param debug     whether to print debug information
+     * @return true if robot moved, false otherwise
      */
     boolean moveRobot(Direction direction, int delay, boolean debug);
 
@@ -73,20 +73,20 @@ public interface IPlayer {
     IRobot getRobot();
 
     /**
-     * Sets the name of the player to be displayed in the players interface
-     *
-     * @param name
-     */
-    void setName(String name);
-
-    String getName();
-
-    /**
      * Set the players robot.
      *
      * @param robot robot that player will control.
      */
     void setRobot(IRobot robot);
+
+    String getName();
+
+    /**
+     * Sets the name of the player to be displayed in the players interface
+     *
+     * @param name name of player
+     */
+    void setName(String name);
 
     /**
      * Return number of flags the player has visited.
@@ -109,7 +109,7 @@ public interface IPlayer {
      * Player draws new cards, updates interface renderer and sets
      * canMove flag to true
      *
-     * @param cardDeck
+     * @param cardDeck the new card deck for the player
      */
     void newTurn(ICardDeck cardDeck);
 
@@ -125,7 +125,6 @@ public interface IPlayer {
     /**
      * returns a list of the players program register and clears the program register
      *
-     * @param cardDeck The cardDeck used in the game
      * @return a list of the players program register
      */
     List<ICard> getProgramRegister();

@@ -41,7 +41,7 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void show() {
-
+        // Not used, but method must be overwritten
     }
 
     @Override
@@ -82,26 +82,26 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-
+        // Not used, but method must be overwritten
     }
 
     @Override
     public void pause() {
-
+        // Not used, but method must be overwritten
     }
 
     @Override
     public void resume() {
-
+        // Not used, but method must be overwritten
     }
 
     @Override
     public void hide() {
-
+        // Not used, but method must be overwritten
     }
 
     @Override
     public void dispose() {
-
+        // Not used, but method must be overwritten
     }
 }

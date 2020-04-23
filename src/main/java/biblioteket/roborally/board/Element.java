@@ -133,7 +133,7 @@ public enum Element {
             IElement element = factory(id);
             if (element instanceof ArchiveMarkerElement) {
                 ArchiveMarkerElement archiveMarker = (ArchiveMarkerElement) element;
-                archiveMarker.setPosition(new DirVector(x,y,null));
+                archiveMarker.setPosition(new DirVector(x, y, null));
                 return archiveMarker;
             }
         } catch (UnsupportedOperationException e) {

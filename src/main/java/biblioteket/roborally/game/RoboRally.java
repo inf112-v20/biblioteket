@@ -26,19 +26,6 @@ public class RoboRally extends Game {
         getFont().dispose();
     }
 
-    @Override
-    public void resize(int width, int height) {
-        super.resize(width, height);
-    }
-
-    @Override
-    public void pause() {
-    }
-
-    @Override
-    public void resume() {
-    }
-
     public SpriteBatch getBatch() {
         return batch;
     }

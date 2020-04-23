@@ -20,14 +20,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(TestRunner.class)
 public class ConveyorBeltTest {
-    private static IBoard board;
     private static IPlayer player;
     private ArchiveMarkerElement archiveMarker;
 
     @BeforeAll
-    private static void setup(){
+    private static void setup() {
         List<IPlayer> players = new ArrayList<>();
-        board = new Board("assets/DizzyDash.tmx", players);
+        IBoard board = new Board("assets/DizzyDash.tmx", players);
         player = new Player(board, null, null, new RobotRenderer(null, null, null));
         players.add(player);
     }
@@ -35,7 +34,7 @@ public class ConveyorBeltTest {
     @BeforeEach
     void setUp() {
         archiveMarker = new ArchiveMarkerElement(1);
-        archiveMarker.setPosition(new DirVector(1,1,null));
+        archiveMarker.setPosition(new DirVector(1, 1, null));
 
     }
 

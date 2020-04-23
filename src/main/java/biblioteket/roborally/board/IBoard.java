@@ -86,8 +86,8 @@ public interface IBoard {
     /**
      * Checks if position contains a robot and tries to push the robot
      *
-     * @param position
-     * @param direction
+     * @param position  position to check
+     * @param direction direction to push
      * @return false if position contains a robot that cannot be pushed, true otherwise
      */
     boolean pushRobot(DirVector position, Direction direction);

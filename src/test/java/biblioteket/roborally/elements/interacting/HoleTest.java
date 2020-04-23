@@ -35,7 +35,7 @@ public class HoleTest {
         IRobot robot = player.getRobot();
         ArchiveMarkerElement archiveMarker = robot.getArchiveMarker();
         // Set robots archive marker to 1,1 and robots position to 5,5
-        archiveMarker.setPosition(new DirVector(1,1,null));
+        archiveMarker.setPosition(new DirVector(1, 1, null));
         robot.setPosition(5, 5);
 
         hole.interact(player);

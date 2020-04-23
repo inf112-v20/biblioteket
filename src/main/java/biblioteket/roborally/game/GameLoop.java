@@ -34,8 +34,8 @@ public class GameLoop {
     private final int amountOfFlags;
     private final List<LaserWallElement> laserWalls;
     private final List<IPlayer> players;
-    private int currentPlayerPtr = 0;
     boolean programmingPhase = true;
+    private int currentPlayerPtr = 0;
     private ICardDeck cardDeck;
 
     public GameLoop(IBoard board, List<IPlayer> players) {
@@ -47,7 +47,7 @@ public class GameLoop {
         try {
             cardDeck = new CardDeck();
         } catch (IOException e) {
-            e.printStackTrace();
+            Gdx.app.error("GameLoop: %s", e.toString());
         }
 
     }
@@ -79,13 +79,11 @@ public class GameLoop {
                         currentPlayer.moveRobot(Direction.SOUTH, 0, true);
                         return true;
                     case Input.Keys.SPACE:
+                    case Input.Keys.ENTER:
                         interactWithBoardElements();
                         return true;
                     case Input.Keys.P:
                         return board.registerFlag(currentPlayer);
-                    case Input.Keys.ENTER:
-                        interactWithBoardElements();
-                        return true;
                     case Input.Keys.UP:
                         currentPlayer.moveRobot(currentPlayer.getRobot().getDirection(), 0, false);
                         return true;
@@ -145,7 +143,7 @@ public class GameLoop {
         // Robots interact with board elements*/
         interactWithBoardElements();
 
-         // Start new turn
+        // Start new turn
     }
 
     /**
@@ -220,17 +218,18 @@ public class GameLoop {
         }
     }
 
-    private void nextPlayer(){
+    private void nextPlayer() {
         currentPlayerPtr++;
-        if (currentPlayerPtr == players.size()){
+        if (currentPlayerPtr == players.size()) {
             currentPlayerPtr = 0;
             doTurn();
-        } if (getCurrentPlayer().getRobot().getNumberOfDamageTokens() == 9) {
+        }
+        if (getCurrentPlayer().getRobot().getNumberOfDamageTokens() == 9) {
             nextPlayer();
         }
     }
 
-    public IPlayer getCurrentPlayer(){
+    public IPlayer getCurrentPlayer() {
         return players.get(currentPlayerPtr);
     }
 

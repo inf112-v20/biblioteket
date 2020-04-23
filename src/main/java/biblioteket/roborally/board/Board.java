@@ -27,8 +27,8 @@ public class Board implements IBoard {
     private final int height;
     private final int tileWidth;
     private final int tileHeight;
-    private List<IPlayer> players;
-    private MapReader mapReader;
+    private final List<IPlayer> players;
+    private final MapReader mapReader;
 
     public Board(String board, List<IPlayer> players) {
         this.map = new TmxMapLoader().load(board);
@@ -169,10 +169,10 @@ public class Board implements IBoard {
 
     @Override
     public boolean pushRobot(DirVector position, Direction direction) {
-        DirVector positionInDirection = positionInDirection(position,direction);
+        DirVector positionInDirection = positionInDirection(position, direction);
         for (IPlayer player : players) {
-            if(player.getRobot().getPosition().compareVector(positionInDirection))
-                return player.moveRobot(direction,500, false);
+            if (player.getRobot().getPosition().compareVector(positionInDirection))
+                return player.moveRobot(direction, 500, false);
         }
         return true;
     }

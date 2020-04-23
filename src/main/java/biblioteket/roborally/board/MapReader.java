@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 class MapReader {
-    private List<ArchiveMarkerElement> archiveMarkers;
-    private List<LaserWallElement> laserWalls;
+    private final List<ArchiveMarkerElement> archiveMarkers;
+    private final List<LaserWallElement> laserWalls;
     private int numFlags = 0;
 
     public MapReader(IBoard board) {
