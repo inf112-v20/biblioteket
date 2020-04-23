@@ -90,19 +90,13 @@ public class InterfaceRenderer {
                 touchableCardHand.initializeCard(i, rightOfBoard + rightOfBoard / 2 - cardWidth + cardWidth / 2 * i, cardHeight, touchableWidth, touchableHeight);
             } else
                 touchableCardHand.initializeCard(i, rightOfBoard + rightOfBoard / 2 - cardWidth * 1.25f + cardWidth / 2 * (i - 4), 0, touchableWidth, touchableHeight);
-            //touchableCardHand.initializeCard(1, 425, 100, 40, 90);
-            //touchableCardHand.initializeCard(2, 475, 100, 40, 90);
-            //touchableCardHand.initializeCard(3, 525, 100, 40, 90);
         }
 
         // Progamregister
         touchableProgramRegister = new TouchableCards(programRegister.length);
         for (int i = 0; i < 5; i++) {
             touchableProgramRegister.initializeCard(i, rightOfBoard + rightOfBoard / 2 - cardWidth * 1.25f + cardWidth / 2 * i, Gdx.graphics.getHeight() / (640f / 250f), touchableWidth, touchableHeight);
-            //touchableProgramRegister.initializeCard(1, 400, 250, 40, 90);
-            //touchableProgramRegister.initializeCard(2, 450, 250, 40, 90);
-            //touchableProgramRegister.initializeCard(3, 500, 250, 40, 90);
-            //touchableProgramRegister.initializeCard(4, 550, 250, 40, 90);
+
         }
 
 
@@ -113,7 +107,7 @@ public class InterfaceRenderer {
         cardHeight = (Gdx.graphics.getHeight() / (640f / 90f));
         touchableWidth = (Gdx.graphics.getWidth() / (640f / 40f));
         touchableHeight = (Gdx.graphics.getWidth() / (640f / 90f));
-        rightOfBoard = Gdx.graphics.getWidth() / 2;
+        rightOfBoard = Gdx.graphics.getWidth() / 2f;
         healthFlagSize = Gdx.graphics.getHeight() / (640f / 40f);
         //damageTokenSize = Gdx.graphics.getHeight() / (640f / 35f);
 
@@ -132,25 +126,16 @@ public class InterfaceRenderer {
 
         for (int i = 0; i < 4; i++) {
             drawCard(cardHand[i], rightOfBoard + rightOfBoard / 2 - cardWidth + cardWidth / 2 * i, cardHeight, cardWidth, cardHeight);
-            //drawCard(cardHand[1], (float) camera.viewportWidth / (640f / 425f), cardHeight, cardWidth, cardHeight);
-            //drawCard(cardHand[2], (float) camera.viewportWidth / (640f / 475f), cardHeight, cardWidth, cardHeight);
-            //drawCard(cardHand[3], (float) camera.viewportWidth / (640f / 525f), cardHeight, cardWidth, cardHeight);
-            //System.out.println(rightOfBoard + rightOfBoard / 2 - cardWidth + cardWidth / 2 * i);
+
         }
         for (int i = 0; i < 5; i++) {
             drawCard(cardHand[4 + i], rightOfBoard + rightOfBoard / 2 - cardWidth * 1.25f + cardWidth / 2 * i, 0, cardWidth, cardHeight);
-            //drawCard(cardHand[5], (float) camera.viewportWidth / (640f / 400f), 0, cardWidth, cardHeight);
-            //drawCard(cardHand[6], (float) camera.viewportWidth / (640f / 450f), 0, cardWidth, cardHeight);
-            //drawCard(cardHand[7], (float) camera.viewportWidth / (640f / 500f), 0, cardWidth, cardHeight);
-            //drawCard(cardHand[8], (float) camera.viewportWidth / (640f / 550f), 0, cardWidth, cardHeight);
+
         }
 
         for (int i = 0; i < 5; i++) {
             drawCard(programRegister[0 + i], rightOfBoard + rightOfBoard / 2 - cardWidth * 1.25f + cardWidth / 2 * i, camera.viewportHeight / (640f / 250f), cardWidth, cardHeight);
-            //drawCard(programRegister[1], camera.viewportWidth / (640f / 400f), 250, cardWidth, cardHeight);
-            //drawCard(programRegister[2], camera.viewportWidth / (640f / 450f), 250, cardWidth, cardHeight);
-            //drawCard(programRegister[3], camera.viewportWidth / (640f / 500f), 250, cardWidth, cardHeight);
-            //drawCard(programRegister[4], camera.viewportWidth / (640f / 550f), 250, cardWidth, cardHeight);
+
         }
 
         for (int i = 0; i < 4; i++) {

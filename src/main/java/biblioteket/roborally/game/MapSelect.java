@@ -36,7 +36,7 @@ public class MapSelect implements Screen {
 
     @Override
     public void show() {
-
+        //empty method
     }
 
     @Override
@@ -52,13 +52,11 @@ public class MapSelect implements Screen {
         game.getBatch().setProjectionMatrix(camera.combined);
         game.getBatch().begin();
         game.getBatch().draw(background, 0, 0, camera.viewportWidth, camera.viewportHeight);
-        //game.getBatch().draw(logo, 70, 340);
         game.getBatch().draw(dizzyPre, dizzyX, mapY, mapWidth, mapHeight);
         game.getBatch().draw(riskyPre, riskyX, mapY, mapWidth, mapHeight);
-        game.getBatch().draw(selectMap, camera.viewportWidth / 2 - selectMap.getWidth() / 2 * camera.viewportHeight / 640, camera.viewportHeight / 2, selectMap.getWidth() * camera.viewportHeight / 640, selectMap.getHeight() * camera.viewportHeight / 640);
-        // game.getBatch().draw(logo, camera.viewportWidth/2 - logo.getWidth()/2*camera.viewportHeight/640, camera.viewportHeight/2,logo.getWidth()*camera.viewportHeight/640,logo.getHeight()*camera.viewportHeight/640);
-        font.draw(game.getBatch(), "Dizzy Dash", camera.viewportWidth / 7 + 70, camera.viewportHeight / (390 / 100));
-        font.draw(game.getBatch(), "Risky Exchange", camera.viewportWidth / 2 + 100, camera.viewportHeight / (390 / 100));
+        game.getBatch().draw(selectMap, camera.viewportWidth / 2 - (float)selectMap.getWidth() / 2 * camera.viewportHeight / 640, camera.viewportHeight / 2, selectMap.getWidth() * camera.viewportHeight / 640, selectMap.getHeight() * camera.viewportHeight / 640);
+        font.draw(game.getBatch(), "Dizzy Dash", camera.viewportWidth / 7 + 70, camera.viewportHeight / (float)(390 / 100));
+        font.draw(game.getBatch(), "Risky Exchange", camera.viewportWidth / 2 + 100, camera.viewportHeight / (float)(390 / 100));
 
 
         if (Gdx.input.getX() < dizzyX + mapWidth && Gdx.input.getX() > dizzyX && camera.viewportHeight - Gdx.input.getY() < mapY + mapHeight && camera.viewportHeight - Gdx.input.getY() > mapY) {
@@ -93,22 +91,22 @@ public class MapSelect implements Screen {
 
     @Override
     public void pause() {
-
+        //empty method
     }
 
     @Override
     public void resume() {
-
+        //empty method
     }
 
     @Override
     public void hide() {
-
+        //empty method
     }
 
     @Override
     public void dispose() {
-
+        //empty method
     }
 }
 

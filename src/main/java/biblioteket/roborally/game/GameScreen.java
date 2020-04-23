@@ -29,15 +29,14 @@ public class GameScreen implements Screen {
     private final RobotRenderer robotRenderer;
     private final OrthogonalTiledMapRenderer tiledMapRenderer;
     private String map;
-    private final RoboRally game;
 
     public GameScreen(final RoboRally game) {
-        this.game = game;
+
         map = MapSelect.getMap();
         this.board = new Board(map);
         this.robotRenderer = new RobotRenderer(board.getPlayerLayer());
 
-        camera.setToOrtho(false, board.getWidth() * 2, board.getHeight());
+        camera.setToOrtho(false, (float)board.getWidth() * 2, (float)board.getHeight());
         camera.update();
 
         tiledMapRenderer = new OrthogonalTiledMapRenderer(board.getMap(), (float) 1 / board.getTileWidth());
@@ -69,6 +68,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
+        //empty method
     }
 
 
@@ -105,21 +105,21 @@ public class GameScreen implements Screen {
 
     @Override
     public void pause() {
-
+        //empty method
     }
 
     @Override
     public void resume() {
-
+        //empty method
     }
 
     @Override
     public void hide() {
-
+        //empty method
     }
 
     @Override
     public void dispose() {
-
+        //empty method
     }
 }

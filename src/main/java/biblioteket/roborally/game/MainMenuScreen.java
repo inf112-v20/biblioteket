@@ -50,8 +50,8 @@ public class MainMenuScreen implements Screen {
 
     public void buttonSize() {
         center = camera.viewportWidth / 2 - buttonWidth / 2;
-        buttonHeight = camera.viewportHeight / (256 / 100);
-        buttonWidth = camera.viewportHeight / (356 / 100);
+        buttonHeight = camera.viewportHeight / (float)(256 / 100);
+        buttonWidth = camera.viewportHeight / (float)(356 / 100);
         startY = camera.viewportHeight / (6);
         exitY = camera.viewportHeight / 130;
     }
@@ -69,7 +69,7 @@ public class MainMenuScreen implements Screen {
 
         game.getBatch().begin();
         game.getBatch().draw(background, 0, 0, camera.viewportWidth, camera.viewportHeight);
-        game.getBatch().draw(logo, camera.viewportWidth / 2 - logo.getWidth() / 2 * camera.viewportHeight / 640, camera.viewportHeight / 2, logo.getWidth() * camera.viewportHeight / 640, logo.getHeight() * camera.viewportHeight / 640);
+        game.getBatch().draw(logo, camera.viewportWidth / 2 - (float)logo.getWidth() / 2 * camera.viewportHeight / 640, camera.viewportHeight / 2, logo.getWidth() * camera.viewportHeight / 640, logo.getHeight() * camera.viewportHeight / 640);
         game.getBatch().draw(playPre, center, startY, buttonWidth, buttonHeight);
         game.getBatch().draw(quitPre, center, exitY, buttonWidth, buttonHeight);
 
