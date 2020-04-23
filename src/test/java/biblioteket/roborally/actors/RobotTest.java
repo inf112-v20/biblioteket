@@ -20,7 +20,7 @@ class RobotTest {
     void setUp() {
         IBoard board = new Board("assets/TestingMap.tmx", null);
         robot = new Robot(board.getArchiveMarker(1));
-        IPlayer player = new Player(null, null, null, null);
+        IActor player = new Actor(null, null, null, null);
         player.setRobot(robot);
         robot.setPlayer(player);
     }

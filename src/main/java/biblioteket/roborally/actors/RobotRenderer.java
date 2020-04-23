@@ -19,9 +19,9 @@ public class RobotRenderer {
     private final TiledMapTileLayer playerLayer;
     private final GameLoop gameLoop;
     private final Queue<RobotStep> movements;
-    private final List<IPlayer> players;
+    private final List<IActor> players;
 
-    public RobotRenderer(TiledMapTileLayer playerLayer, List<IPlayer> players, GameLoop gameLoop) {
+    public RobotRenderer(TiledMapTileLayer playerLayer, List<IActor> players, GameLoop gameLoop) {
         this.playerLayer = playerLayer;
         this.players = players;
         this.gameLoop = gameLoop;
@@ -92,7 +92,7 @@ public class RobotRenderer {
      * Handles rare visual bug caused by two robots stadning on top of each other causes only one to be rendered
      */
     private void renderAllPlayers() {
-        for (IPlayer player : players) {
+        for (IActor player : players) {
             DirVector position = player.getRobot().getPosition();
             TiledMapTileLayer.Cell playerCell = player.getPlayerCell();
             playerLayer.setCell(position.getX(), position.getY(), playerCell);

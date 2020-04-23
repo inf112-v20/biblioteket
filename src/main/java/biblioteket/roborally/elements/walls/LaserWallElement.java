@@ -1,6 +1,6 @@
 package biblioteket.roborally.elements.walls;
 
-import biblioteket.roborally.actors.IPlayer;
+import biblioteket.roborally.actors.IActor;
 import biblioteket.roborally.board.DirVector;
 import biblioteket.roborally.board.Direction;
 import biblioteket.roborally.board.IBoard;
@@ -29,7 +29,7 @@ public class LaserWallElement extends WallElement {
      * Fire lasers
      * Laser moves until it hits a robot, a wall or moves off the board
      */
-    public void interact(IBoard board, List<IPlayer> players) {
+    public void interact(IBoard board, List<IActor> players) {
         // If a position is not set for the laserwall, it can not call the interact method
         if (position == null) {
             throw new NullPointerException();

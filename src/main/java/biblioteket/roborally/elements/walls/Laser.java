@@ -1,6 +1,6 @@
 package biblioteket.roborally.elements.walls;
 
-import biblioteket.roborally.actors.IPlayer;
+import biblioteket.roborally.actors.IActor;
 import biblioteket.roborally.actors.IRobot;
 import biblioteket.roborally.board.DirVector;
 import biblioteket.roborally.board.Direction;
@@ -16,10 +16,10 @@ public class Laser {
      * @param players list of players in game
      * @param vector  direction/vector that laser shoots in
      */
-    public void fireLaser(IBoard board, List<IPlayer> players, DirVector vector) {
+    public void fireLaser(IBoard board, List<IActor> players, DirVector vector) {
         if (board.outOfBounds(vector)) return;
 
-        for (IPlayer player : players) {
+        for (IActor player : players) {
             IRobot robot = player.getRobot();
             DirVector robotPosition = robot.getPosition();
             if (vector.compareVector(robotPosition)) {

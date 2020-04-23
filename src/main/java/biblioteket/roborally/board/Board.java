@@ -1,6 +1,6 @@
 package biblioteket.roborally.board;
 
-import biblioteket.roborally.actors.IPlayer;
+import biblioteket.roborally.actors.IActor;
 import biblioteket.roborally.actors.IRobot;
 import biblioteket.roborally.elements.ArchiveMarkerElement;
 import biblioteket.roborally.elements.interacting.FlagElement;
@@ -27,10 +27,10 @@ public class Board implements IBoard {
     private final int height;
     private final int tileWidth;
     private final int tileHeight;
-    private final List<IPlayer> players;
+    private final List<IActor> players;
     private final MapReader mapReader;
 
-    public Board(String board, List<IPlayer> players) {
+    public Board(String board, List<IActor> players) {
         this.map = new TmxMapLoader().load(board);
 
         MapProperties properties = map.getProperties();
@@ -170,7 +170,7 @@ public class Board implements IBoard {
     @Override
     public boolean pushRobot(DirVector position, Direction direction) {
         DirVector positionInDirection = positionInDirection(position, direction);
-        for (IPlayer player : players) {
+        for (IActor player : players) {
             if (player.getRobot().getPosition().compareVector(positionInDirection))
                 return player.moveRobot(direction, 500, false);
         }
@@ -226,7 +226,7 @@ public class Board implements IBoard {
 
 
     @Override
-    public void interact(IPlayer player) {
+    public void interact(IActor player) {
         InteractingElement element = getInteractingElement(player.getRobot().getPosition());
         if (element != null) {
             element.interact(player);
@@ -234,7 +234,7 @@ public class Board implements IBoard {
     }
 
     @Override
-    public boolean registerFlag(IPlayer player) {
+    public boolean registerFlag(IActor player) {
         IRobot robot = player.getRobot();
         FlagElement flag = getFlagElement(robot.getPosition());
         if (flag != null) {

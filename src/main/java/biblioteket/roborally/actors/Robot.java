@@ -7,7 +7,7 @@ import biblioteket.roborally.elements.ArchiveMarkerElement;
 public class Robot implements IRobot {
     private final ArchiveMarkerElement archiveMarker;
     private DirVector location;
-    private IPlayer player;
+    private IActor player;
     private int damageTokens = 0;
 
     public Robot(ArchiveMarkerElement archiveMarker) {
@@ -16,12 +16,12 @@ public class Robot implements IRobot {
     }
 
     @Override
-    public IPlayer getPlayer() {
+    public IActor getPlayer() {
         return this.player;
     }
 
     @Override
-    public void setPlayer(IPlayer player) {
+    public void setPlayer(IActor player) {
         this.player = player;
     }
 
