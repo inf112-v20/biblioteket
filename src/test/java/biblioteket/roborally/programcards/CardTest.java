@@ -15,6 +15,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(TestRunner.class)
@@ -30,17 +33,18 @@ class CardTest {
 
     @BeforeEach
     void setUp() {
-        IBoard board = new Board("assets/EmptyTestMap.tmx");
+        List<IActor> players = new ArrayList<>();
+        IBoard board = new Board("assets/EmptyTestMap.tmx", players);
 
         robot = new Robot(new ArchiveMarkerElement(1));
-        RobotRenderer robotRenderer = new RobotRenderer(board.getPlayerLayer());
+        RobotRenderer robotRenderer = new RobotRenderer(board.getPlayerLayer(), null, null);
         Texture playerTexture = new Texture("assets/player.png");
         TextureRegion[][] playerTextureSplit = TextureRegion.split(playerTexture, board.getTileWidth(), board.getTileHeight());
         TiledMapTileLayer.Cell playerCell = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(playerTextureSplit[0][0]));
-
-        IPlayer player = new Player(board, playerCell, null, robotRenderer);
+        IActor player = new Actor(board, playerCell, null, robotRenderer);
         player.setRobot(robot);
         robot.setPlayer(player);
+        players.add(player);
 
         forwardOne = new Card(CardType.MOVE_1, 4);
         forwardTwo = new Card(CardType.MOVE_2, 6);
