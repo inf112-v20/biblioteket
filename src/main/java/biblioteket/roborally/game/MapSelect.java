@@ -55,8 +55,8 @@ public class MapSelect implements Screen {
         game.getBatch().draw(dizzyPre, dizzyX, mapY, mapWidth, mapHeight);
         game.getBatch().draw(riskyPre, riskyX, mapY, mapWidth, mapHeight);
         game.getBatch().draw(selectMap, camera.viewportWidth / 2 - (float)selectMap.getWidth() / 2 * camera.viewportHeight / 640, camera.viewportHeight / 2, selectMap.getWidth() * camera.viewportHeight / 640, selectMap.getHeight() * camera.viewportHeight / 640);
-        font.draw(game.getBatch(), "Dizzy Dash", camera.viewportWidth / 7 + 70, camera.viewportHeight / (float)(390 / 100));
-        font.draw(game.getBatch(), "Risky Exchange", camera.viewportWidth / 2 + 100, camera.viewportHeight / (float)(390 / 100));
+        font.draw(game.getBatch(), "Dizzy Dash", camera.viewportWidth / 7 + 70, camera.viewportHeight / (390f / 100f));
+        font.draw(game.getBatch(), "Risky Exchange", camera.viewportWidth / 2 + 100, camera.viewportHeight / (390f / 100f));
 
 
         if (Gdx.input.getX() < dizzyX + mapWidth && Gdx.input.getX() > dizzyX && camera.viewportHeight - Gdx.input.getY() < mapY + mapHeight && camera.viewportHeight - Gdx.input.getY() > mapY) {
