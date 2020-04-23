@@ -33,6 +33,7 @@ public class Robot implements IRobot {
     @Override
     public void removeDamageTokens(int damageTokens) {
         this.damageTokens -= damageTokens;
+        if (this.damageTokens < 0) this.damageTokens = 0;
     }
 
     @Override

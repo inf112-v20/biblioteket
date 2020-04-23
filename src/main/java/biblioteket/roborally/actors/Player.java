@@ -267,4 +267,17 @@ public class Player implements IPlayer {
             removeOneLife();
         }
     }
+
+    @Override
+    public void handleRobotDestruction(int delay){
+        if(robot. isDestroyed()){
+            DirVector oldPosition = robot.getPosition().copy();
+            robot.moveToArchiveMarker();
+            DirVector newPosition = robot.getPosition().copy();
+            renderMove(oldPosition, newPosition, delay, false);
+            removeOneLife();
+            robot.removeDamageTokens(robot.getNumberOfDamageTokens());
+
+        }
+    }
 }

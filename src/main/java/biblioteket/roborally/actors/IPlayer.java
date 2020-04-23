@@ -137,4 +137,5 @@ public interface IPlayer {
 
     TiledMapTileLayer.Cell getPlayerCell();
 
+    void handleRobotDestruction(int delay);
 }
