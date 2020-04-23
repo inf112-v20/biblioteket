@@ -17,7 +17,9 @@ public class EasyAI extends Actor implements INonPlayer {
     public void chooseCards(ICardDeck deck) {
         List<ICard> cards = deck.drawCards(9);
         while (!super.fullProgramRegister()) {
-            super.addCardToProgramRegister(cards.get(new Random().nextInt(cards.size())), deck);
+            int id = new Random().nextInt(cards.size());
+            super.addCardToProgramRegister(cards.get(id), deck);
+            cards.remove(id);
         }
     }
 }
