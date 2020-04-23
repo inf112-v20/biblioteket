@@ -264,6 +264,7 @@ public class Player implements IPlayer {
             DirVector newPosition = robot.getPosition().copy();
             renderMove(oldPosition, newPosition, delay, false);
             canMove = false;
+            canMove = false;
             removeOneLife();
         }
     }
