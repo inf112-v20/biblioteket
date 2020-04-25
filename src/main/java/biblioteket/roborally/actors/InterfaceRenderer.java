@@ -31,7 +31,7 @@ public class InterfaceRenderer {
     private final Texture rotateRightCard;
     private final Texture rotateLeftCard;
     private final Texture uTurnCard;
-    //private final Texture damageToken;
+    private final Texture damageToken;
 
     private final SpriteBatch batch;
     private final BitmapFont font;
@@ -51,7 +51,7 @@ public class InterfaceRenderer {
     private float touchableHeight;
     private float rightOfBoard;
     private float healthFlagSize;
-    //private float damageTokenSize;
+    private float damageTokenSize;
 
 
     public InterfaceRenderer() {
@@ -70,7 +70,7 @@ public class InterfaceRenderer {
         rotateRightCard = new Texture("assets/programCards/rotateRight.png");
         rotateLeftCard = new Texture("assets/programCards/rotateLeft.png");
         uTurnCard = new Texture("assets/programCards/uTurn.png");
-        //damageToken = new Texture("assets/damageToken.png");
+        damageToken = new Texture("assets/damageToken.png");
 
 
         batch = new SpriteBatch();
@@ -111,7 +111,7 @@ public class InterfaceRenderer {
         touchableHeight = (Gdx.graphics.getWidth() / (640f / 90f));
         rightOfBoard = Gdx.graphics.getWidth() / 2f;
         healthFlagSize = Gdx.graphics.getHeight() / (640f / 40f);
-        //damageTokenSize = Gdx.graphics.getHeight() / (640f / 35f);
+        damageTokenSize = Gdx.graphics.getHeight() / (640f / 35f);
 
     }
 
@@ -138,6 +138,10 @@ public class InterfaceRenderer {
         for (int i = 0; i < 5; i++) {
             drawCard(programRegister[0 + i], rightOfBoard + rightOfBoard / 2 - cardWidth * 1.25f + cardWidth / 2 * i, camera.viewportHeight / (640f / 250f), cardWidth, cardHeight);
 
+        }
+
+        for (int i = 0; i < 10 ; i++) {
+            batch.draw(damageToken, rightOfBoard + rightOfBoard / 2 - damageTokenSize * 1.06f + damageTokenSize / 1.15f * (i - 4), camera.viewportHeight/1.8f, damageTokenSize, damageTokenSize);
         }
 
         for (int i = 0; i < 4; i++) {
