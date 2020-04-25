@@ -76,7 +76,7 @@ public class MainMenuScreen implements Screen {
         if (Gdx.input.getX() < center + buttonWidth && Gdx.input.getX() > center && camera.viewportHeight - Gdx.input.getY() < startY + buttonHeight / 1.35 && camera.viewportHeight - Gdx.input.getY() > startY + buttonWidth / (1.35)) {
             game.getBatch().draw(quitPost, center, exitY, buttonWidth, buttonHeight);
             if (Gdx.input.isTouched()) {
-                game.setScreen(new MapSelect(game));
+                game.setScreen(new PlayerSelect(game));
                 dispose();
             }
         } else if (Gdx.input.getX() < center + buttonWidth && Gdx.input.getX() > center && camera.viewportHeight - Gdx.input.getY() < exitY + buttonHeight / 1.35 && camera.viewportHeight - Gdx.input.getY() > exitY + buttonWidth / (1.35)) {

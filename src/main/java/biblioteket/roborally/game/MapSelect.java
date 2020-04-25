@@ -18,6 +18,12 @@ public class MapSelect implements Screen {
     private final Texture riskyPost;
     private final BitmapFont font;
     private final Texture selectMap;
+    private float mapWidth;
+    private float mapHeight;
+    private float center;
+    private float dizzyX;
+    private float riskyX;
+    private float mapY;
     private OrthographicCamera camera;
 
     public MapSelect(final RoboRally game) {
@@ -43,16 +49,18 @@ public class MapSelect implements Screen {
         //empty method
     }
 
+    public void buttonSize() {
+        mapWidth = camera.viewportHeight / (3.2f);
+        mapHeight = camera.viewportHeight / (2.42f);
+        center = camera.viewportWidth / 2;
+        dizzyX = center - camera.viewportWidth / 9 - mapWidth;
+        riskyX = center + camera.viewportWidth / 9;
+        mapY = camera.viewportHeight / 3;
+    }
+
     @Override
     public void render(float v) {
-
-        float mapWidth = camera.viewportHeight / (3.2f);
-        float mapHeight = camera.viewportHeight / (2.42f);
-        float center = camera.viewportWidth / 2;
-        float dizzyX = center - camera.viewportWidth / 9 - mapWidth;
-        float riskyX = center + camera.viewportWidth / 9;
-        float mapY = camera.viewportHeight / 3;
-
+        buttonSize();
         game.getBatch().setProjectionMatrix(camera.combined);
         game.getBatch().begin();
         game.getBatch().draw(background, 0, 0, camera.viewportWidth, camera.viewportHeight);
