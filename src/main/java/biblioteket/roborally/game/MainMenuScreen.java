@@ -31,7 +31,6 @@ public class MainMenuScreen implements Screen {
         this.camera = new OrthographicCamera();
         camera.setToOrtho(false, 640, 640);
 
-
         background = new Texture("assets/background2.jpg");
         logo = new Texture("assets/logo.png");
         playPre = new Texture("assets/buttons/playPre.png");
@@ -49,11 +48,11 @@ public class MainMenuScreen implements Screen {
 
 
     public void buttonSize() {
-        center = camera.viewportWidth / 2 - buttonWidth / 2;
+        center = camera.viewportWidth / 2f - buttonWidth / 2f;
         buttonHeight = camera.viewportHeight / ((256f / 100f));
         buttonWidth = camera.viewportHeight / (356f / 100f);
-        startY = camera.viewportHeight / (6);
-        exitY = camera.viewportHeight / 130;
+        startY = camera.viewportHeight / 5f;
+        exitY = camera.viewportHeight / 20f;
     }
 
 
@@ -69,17 +68,17 @@ public class MainMenuScreen implements Screen {
 
         game.getBatch().begin();
         game.getBatch().draw(background, 0, 0, camera.viewportWidth, camera.viewportHeight);
-        game.getBatch().draw(logo, camera.viewportWidth / 2 - (float) logo.getWidth() / 2 * camera.viewportHeight / 640, camera.viewportHeight / 2, logo.getWidth() * camera.viewportHeight / 640, logo.getHeight() * camera.viewportHeight / 640);
+        game.getBatch().draw(logo, camera.viewportWidth / 2f - (float) logo.getWidth() / 2f * camera.viewportHeight / 640f, camera.viewportHeight / 2f, logo.getWidth() * camera.viewportHeight / 640f, logo.getHeight() * camera.viewportHeight / 640f);
         game.getBatch().draw(playPre, center, startY, buttonWidth, buttonHeight);
         game.getBatch().draw(quitPre, center, exitY, buttonWidth, buttonHeight);
 
-        if (Gdx.input.getX() < center + buttonWidth && Gdx.input.getX() > center && camera.viewportHeight - Gdx.input.getY() < startY + buttonHeight / 1.35 && camera.viewportHeight - Gdx.input.getY() > startY + buttonWidth / (1.35)) {
+        if (Gdx.input.getX() < center + buttonWidth && Gdx.input.getX() > center && camera.viewportHeight - Gdx.input.getY() < startY + buttonHeight / 1.35f && camera.viewportHeight - Gdx.input.getY() > startY + buttonWidth / (1.5f)) {
             game.getBatch().draw(quitPost, center, exitY, buttonWidth, buttonHeight);
             if (Gdx.input.isTouched()) {
                 game.setScreen(new PlayerSelect(game));
                 dispose();
             }
-        } else if (Gdx.input.getX() < center + buttonWidth && Gdx.input.getX() > center && camera.viewportHeight - Gdx.input.getY() < exitY + buttonHeight / 1.35 && camera.viewportHeight - Gdx.input.getY() > exitY + buttonWidth / (1.35)) {
+        } else if (Gdx.input.getX() < center + buttonWidth && Gdx.input.getX() > center && camera.viewportHeight - Gdx.input.getY() < exitY + buttonHeight / 1.35f && camera.viewportHeight - Gdx.input.getY() > exitY + buttonWidth / (1.5f)) {
             game.getBatch().draw(playPost, center, startY, buttonWidth, buttonHeight);
             if (Gdx.input.isTouched()) {
                 Gdx.app.exit();

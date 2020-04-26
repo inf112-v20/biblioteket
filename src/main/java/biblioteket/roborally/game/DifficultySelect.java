@@ -2,6 +2,7 @@ package biblioteket.roborally.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 
@@ -59,6 +60,8 @@ public class DifficultySelect implements Screen {
     @Override
     public void render(float v) {
         buttonSize();
+        Gdx.gl.glClearColor(0, 0, 0.2f, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.getBatch().setProjectionMatrix(camera.combined);
         game.getBatch().begin();
         game.getBatch().draw(background, 0, 0, camera.viewportWidth, camera.viewportHeight);
@@ -70,7 +73,7 @@ public class DifficultySelect implements Screen {
         if (Gdx.input.getX() < center + buttonWidth && Gdx.input.getX() > center && camera.viewportHeight - Gdx.input.getY() < easyY + buttonHeight / 1.35 && camera.viewportHeight - Gdx.input.getY() > easyY + buttonWidth / (1.35)) {
             game.getBatch().draw(easyButtonPost, center, easyY, buttonWidth, buttonHeight);
             if (Gdx.input.isTouched()) {
-                game.setScreen(new DifficultySelect(game));
+                game.setScreen(new PlayerSelect(game));
                 dispose();
             }
         }
