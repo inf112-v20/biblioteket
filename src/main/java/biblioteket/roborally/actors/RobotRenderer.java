@@ -92,10 +92,12 @@ public class RobotRenderer {
      * Handles rare visual bug caused by two robots standing on top of each other causes only one to be rendered
      */
     private void renderAllPlayers() {
-        for (IActor player : gameLoop.getLivingPlayers()) {
-            DirVector position = player.getRobot().getPosition();
-            TiledMapTileLayer.Cell playerCell = player.getPlayerCell();
-            playerLayer.setCell(position.getX(), position.getY(), playerCell);
+        for (IActor player : players) {
+            if (!player.isPermanentDead()){
+                DirVector position = player.getRobot().getPosition();
+                TiledMapTileLayer.Cell playerCell = player.getPlayerCell();
+                playerLayer.setCell(position.getX(), position.getY(), playerCell);
+            }
         }
     }
 

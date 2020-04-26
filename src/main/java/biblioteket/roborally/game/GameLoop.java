@@ -188,7 +188,7 @@ public class GameLoop {
     /**
      * @return a list of all players not permanently dead
      */
-    public List<IActor> getLivingPlayers(){
+    private List<IActor> getLivingPlayers(){
         return players.stream().filter(player -> !player.isPermanentDead()).collect(Collectors.toList());
     }
 
