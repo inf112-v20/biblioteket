@@ -73,20 +73,20 @@ public class DifficultySelect implements Screen {
         if (Gdx.input.getX() < center + buttonWidth && Gdx.input.getX() > center && camera.viewportHeight - Gdx.input.getY() < easyY + buttonHeight / 1.35 && camera.viewportHeight - Gdx.input.getY() > easyY + buttonWidth / (1.35)) {
             game.getBatch().draw(easyButtonPost, center, easyY, buttonWidth, buttonHeight);
             if (Gdx.input.isTouched()) {
-                game.setScreen(new PlayerSelect(game));
+                game.setScreen(new GameScreen(game));
                 dispose();
             }
         }
         else if (Gdx.input.getX() < center + buttonWidth && Gdx.input.getX() > center && camera.viewportHeight - Gdx.input.getY() < normalY + buttonHeight / 1.35 && camera.viewportHeight - Gdx.input.getY() > normalY + buttonWidth / (1.35)) {
             game.getBatch().draw(normalButtonPost, center, normalY, buttonWidth, buttonHeight);
             if (Gdx.input.isTouched()) {
-                Gdx.app.exit();
+                game.setScreen(new GameScreen(game));
             }
         }
         else if (Gdx.input.getX() < center + buttonWidth && Gdx.input.getX() > center && camera.viewportHeight - Gdx.input.getY() < hardY + buttonHeight / 1.35 && camera.viewportHeight - Gdx.input.getY() > hardY + buttonWidth / (1.35)) {
             game.getBatch().draw(hardButtonPost, center, hardY, buttonWidth, buttonHeight);
             if (Gdx.input.isTouched()) {
-                Gdx.app.exit();
+                game.setScreen(new GameScreen(game));
             }
         }
         game.getBatch().end();

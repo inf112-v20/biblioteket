@@ -136,7 +136,7 @@ public class PlayerSelect implements Screen {
         else if (Gdx.input.getX() < buttonCenter + buttonWidth && Gdx.input.getX() > buttonCenter && camera.viewportHeight - Gdx.input.getY() < selectY + buttonHeight / 1.35 && camera.viewportHeight - Gdx.input.getY() > selectY + buttonWidth / (1.35)) {
         game.getBatch().draw(selectPost, buttonCenter, selectY, buttonWidth, buttonHeight);
         if (Gdx.input.isTouched()) {
-            game.setScreen(new GameScreen());
+            game.setScreen(new MapSelect(game));
             dispose();
         }
         }

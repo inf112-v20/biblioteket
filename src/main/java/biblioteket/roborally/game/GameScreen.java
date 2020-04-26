@@ -28,7 +28,7 @@ public class GameScreen implements Screen {
     private final GameLoop gameLoop;
     private final OrthogonalTiledMapRenderer tiledMapRenderer;
 
-    public GameScreen() {
+    public GameScreen(RoboRally game) {
         List<IActor> players = new ArrayList<>();
         String map = MapSelect.getMap();
         this.board = new Board(map, players);
