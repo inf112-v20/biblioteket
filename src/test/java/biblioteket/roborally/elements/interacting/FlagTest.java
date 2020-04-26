@@ -1,8 +1,8 @@
 package biblioteket.roborally.elements.interacting;
 
+import biblioteket.roborally.actors.Actor;
 import biblioteket.roborally.actors.IActor;
 import biblioteket.roborally.actors.IRobot;
-import biblioteket.roborally.actors.Actor;
 import biblioteket.roborally.actors.Robot;
 import biblioteket.roborally.board.DirVector;
 import biblioteket.roborally.board.Direction;
