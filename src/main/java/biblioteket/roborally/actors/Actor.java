@@ -271,6 +271,7 @@ public class Actor implements IActor {
             renderMove(oldPosition, newPosition, delay, debug);
             canMove = debug;
             removeOneLife();
+            robot.removeDamageTokens(robot.getNumberOfDamageTokens() - 2);
         }
     }
 
@@ -282,7 +283,7 @@ public class Actor implements IActor {
             DirVector newPosition = robot.getPosition().copy();
             renderMove(oldPosition, newPosition, delay, false);
             removeOneLife();
-            robot.removeDamageTokens(robot.getNumberOfDamageTokens());
+            robot.removeDamageTokens(robot.getNumberOfDamageTokens() - 2);
         }
     }
 }
