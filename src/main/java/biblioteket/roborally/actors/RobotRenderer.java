@@ -89,14 +89,19 @@ public class RobotRenderer {
     }
 
     /**
-     * Handles rare visual bug caused by two robots stadning on top of each other causes only one to be rendered
+     * Handles rare visual bug caused by two robots standing on top of each other causes only one to be rendered
      */
     private void renderAllPlayers() {
-        for (IActor player : players) {
+        for (IActor player : gameLoop.getLivingPlayers()) {
             DirVector position = player.getRobot().getPosition();
             TiledMapTileLayer.Cell playerCell = player.getPlayerCell();
             playerLayer.setCell(position.getX(), position.getY(), playerCell);
         }
+    }
+
+    public void removePlayer(DirVector oldPosition, TiledMapTileLayer.Cell playerCell) {
+        RobotStep movement = new RobotStep(oldPosition, new DirVector(-1,-1,Direction.NORTH), Direction.NORTH, 100, playerCell, false);
+        movements.add(movement);
     }
 
     /**

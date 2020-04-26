@@ -48,7 +48,7 @@ public class GameScreen implements Screen {
         Texture playerTexture = new Texture("assets/player.png");
         TextureRegion[][] playerTextureSplit = TextureRegion.split(playerTexture, board.getTileWidth(), board.getTileHeight());
 
-        for (int i = 1; i < 2; i++) {
+        for (int i = 1; i <= 2; i++) {
             TiledMapTileLayer.Cell playerCell = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(playerTextureSplit[0][0]));
             IActor player = new Player(board, playerCell, new InterfaceRenderer(), robotRenderer);
             players.add(player);
@@ -59,7 +59,7 @@ public class GameScreen implements Screen {
             board.getPlayerLayer().setCell(player.getRobot().getPosition().getX(), player.getRobot().getPosition().getY(), playerCell);
         }
 
-        for (int i = players.size() + 1; i < 3; i++) {
+        for (int i = players.size() + 1; i <= 3; i++) {
             TiledMapTileLayer.Cell playerCell = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(playerTextureSplit[0][0]));
             IActor player = new EasyAI(board, playerCell, new InterfaceRenderer(), robotRenderer);
             players.add(player);
