@@ -261,6 +261,9 @@ public class Actor implements IActor {
 
     /**
      * If robot is out of bounds, moves robot to archive marker and removes one life.
+     *
+     * @param delay rendering delay
+     * @param debug true if debug, wont start a new round after rendering
      */
     private void handleRobotOutOfBounds(int delay, boolean debug) {
         DirVector position = robot.getPosition();

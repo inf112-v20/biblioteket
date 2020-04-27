@@ -1,5 +1,7 @@
 package biblioteket.roborally.programcards;
 
+import com.badlogic.gdx.Gdx;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -89,7 +91,7 @@ public class CardDeck implements ICardDeck {
     @Override
     public boolean correctAmountOfCards() {
         if ((drawPile.size() + discardPile.size() + registerPile.size()) != 84) {
-            System.out.println("OBS, CardDeck: Not correct amount of cards " + (drawPile.size() + discardPile.size() + registerPile.size()));
+            Gdx.app.log("OBS, CardDeck: Not correct amount of cards ", Integer.toString(drawPile.size() + discardPile.size() + registerPile.size()));
             return false;
         }
         return true;

@@ -61,7 +61,7 @@ public class RobotRenderer {
      * @param oldPosition position robot is moving from
      * @param newPosition position the robot is moving to
      * @param playerCell  the playercell of the player moving a robot
-     * @param debug       print debug information
+     * @param debug       true if debug, wont start a new round after rendering
      */
     public void requestRendering(DirVector oldPosition, DirVector newPosition, Direction direction, int delay, TiledMapTileLayer.Cell playerCell, boolean debug) {
         RobotStep movement = new RobotStep(oldPosition, newPosition, direction, delay, playerCell, debug);
@@ -101,6 +101,12 @@ public class RobotRenderer {
         }
     }
 
+    /**
+     * Moves permanently dead robots off the grid
+     *
+     * @param oldPosition of dead robot
+     * @param playerCell of dead robot
+     */
     public void removePlayer(DirVector oldPosition, TiledMapTileLayer.Cell playerCell) {
         RobotStep movement = new RobotStep(oldPosition, new DirVector(-1,-1,Direction.NORTH), Direction.NORTH, 100, playerCell, false);
         movements.add(movement);

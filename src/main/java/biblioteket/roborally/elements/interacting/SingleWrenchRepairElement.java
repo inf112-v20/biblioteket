@@ -2,6 +2,7 @@ package biblioteket.roborally.elements.interacting;
 
 import biblioteket.roborally.actors.IActor;
 import biblioteket.roborally.actors.IRobot;
+import com.badlogic.gdx.Gdx;
 
 public class SingleWrenchRepairElement implements InteractingElement {
 
@@ -16,8 +17,8 @@ public class SingleWrenchRepairElement implements InteractingElement {
         robot.removeDamageTokens(1);
         robot.setArchiveMarker(robot.getPosition());
 
-        System.out.println(
-                "Robot at " + player.getRobot().getPosition().getX() + ","
+        Gdx.app.log(
+                "Robot at ", player.getRobot().getPosition().getX() + ","
                         + player.getRobot().getPosition().getY() + " discards one damage token");
     }
 

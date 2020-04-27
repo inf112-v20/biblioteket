@@ -197,12 +197,12 @@ public class GameLoop {
      */
     private boolean checkWinCondition() {
         if(getLivingPlayers().size() == 1){
-            System.out.println(players.get(0).getName() + " wins by being the last player alive");
+            Gdx.app.log(players.get(0).getName(), " wins by being the last player alive");
             return true;
         }
         for (IActor player : players) {
             if (player.getNumberOfVisitedFlags() == amountOfFlags) {
-                System.out.println(player.getName() + " wins by picking up all flags");
+                Gdx.app.log(player.getName(), " wins by picking up all flags");
                 return true;
             }
         }

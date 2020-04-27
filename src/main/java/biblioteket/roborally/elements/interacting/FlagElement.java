@@ -1,6 +1,7 @@
 package biblioteket.roborally.elements.interacting;
 
 import biblioteket.roborally.actors.IActor;
+import com.badlogic.gdx.Gdx;
 
 public class FlagElement implements InteractingElement {
     private final int flagNumber;
@@ -18,7 +19,7 @@ public class FlagElement implements InteractingElement {
     public void interact(IActor player) {
         int visited = player.getNumberOfVisitedFlags();
         if (flagNumber - 1 == visited) { // Check if player has picked up all previous flags
-            System.out.println(player.getName() + " picked up flag " + flagNumber);
+            Gdx.app.log(player.getName(), " picked up flag " + flagNumber);
             player.addToFlagsVisited();
             player.getRobot().setArchiveMarker(player.getRobot().getPosition());
         }
