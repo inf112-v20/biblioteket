@@ -177,7 +177,12 @@ public class GameLoop {
             }
         }
 
-//         Register flags
+        // Players fire main forwarding laser
+        for (IActor player : getLivingPlayers()) {
+            player.fireLaser(players);
+        }
+
+        // Handle destructed robots, register flags
         for (IActor player : players) {
             board.registerFlag(player);
             player.handleRobotDestruction(500);

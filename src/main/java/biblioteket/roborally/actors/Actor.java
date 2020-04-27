@@ -3,6 +3,7 @@ package biblioteket.roborally.actors;
 import biblioteket.roborally.board.DirVector;
 import biblioteket.roborally.board.Direction;
 import biblioteket.roborally.board.IBoard;
+import biblioteket.roborally.elements.walls.Laser;
 import biblioteket.roborally.programcards.ICard;
 import biblioteket.roborally.programcards.ICardDeck;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -47,9 +48,9 @@ public class Actor implements IActor {
     @Override
     public boolean moveRobot(Direction direction, int delay, boolean debug) {
         if (canMove && board.canMove(robot.getPosition(), direction) && board.pushRobot(robot.getPosition(), direction)) {
-            DirVector oldPosition = robot.getPosition().copy();
+            DirVector oldPosition = robot.getPosition();
             robot.pushRobotInDirection(direction);
-            DirVector newPosition = robot.getPosition().copy();
+            DirVector newPosition = robot.getPosition();
             renderMove(oldPosition, newPosition, delay, debug);
             // Check if robot moved in hole or out of bounds
             handleRobotOutOfBounds(delay, debug);
@@ -71,7 +72,7 @@ public class Actor implements IActor {
         } else {
             robot.turnLeft();
         }
-        renderMove(robot.getPosition().copy(), robot.getPosition().copy(), delay, false);
+        renderMove(robot.getPosition(), robot.getPosition(), delay, false);
     }
 
     @Override
@@ -248,6 +249,16 @@ public class Actor implements IActor {
         return programRegister.size() == 5;
     }
 
+    @Override
+    public void fireLaser(List<IActor> players){
+        DirVector vector = getRobot().getPosition();
+        if(board.canMove(vector, vector.getDirection())){
+            Laser laser = new Laser();
+            vector.forward(vector.getDirection());
+            laser.fireLaser(board,players,vector);
+        }
+    }
+
     /**
      * Requests robotRenderer to render one move
      *
@@ -268,9 +279,9 @@ public class Actor implements IActor {
     private void handleRobotOutOfBounds(int delay, boolean debug) {
         DirVector position = robot.getPosition();
         if (board.outOfBounds(position) || board.isHole(position)) {
-            DirVector oldPosition = robot.getPosition().copy();
+            DirVector oldPosition = robot.getPosition();
             robot.moveToArchiveMarker();
-            DirVector newPosition = robot.getPosition().copy();
+            DirVector newPosition = robot.getPosition();
             renderMove(oldPosition, newPosition, delay, debug);
             canMove = debug;
             removeOneLife();
@@ -281,9 +292,9 @@ public class Actor implements IActor {
     @Override
     public void handleRobotDestruction(int delay) {
         if (robot.isDestroyed()) {
-            DirVector oldPosition = robot.getPosition().copy();
+            DirVector oldPosition = robot.getPosition();
             robot.moveToArchiveMarker();
-            DirVector newPosition = robot.getPosition().copy();
+            DirVector newPosition = robot.getPosition();
             renderMove(oldPosition, newPosition, delay, false);
             removeOneLife();
             robot.removeDamageTokens(robot.getNumberOfDamageTokens() - 2);

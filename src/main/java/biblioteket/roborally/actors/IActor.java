@@ -159,6 +159,11 @@ public interface IActor {
     TiledMapTileLayer.Cell getPlayerCell();
 
     /**
+     * Fire a laser from robots current position
+     */
+    void fireLaser(List<IActor> players);
+
+    /**
      * Handle destruction of a players robot, i.e. removing life points, moving
      * the robot to a new spawn point and giving it a damage token.
      *
