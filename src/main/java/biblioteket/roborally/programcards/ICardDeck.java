@@ -7,6 +7,8 @@ public interface ICardDeck {
     /**
      * Get as many cards as specified,
      * from the conceptual "top of the draw pile".
+     * OBS - Remember to place cards in discard pile afterwards.
+     * Otherwise will the deck empty itself.
      *
      * @param number how many cards to draw.
      * @return list with as many cards as specified.
