@@ -1,17 +1,20 @@
 package biblioteket.roborally.elements.interacting;
 
+import biblioteket.roborally.TestRunner;
+import biblioteket.roborally.actors.Actor;
 import biblioteket.roborally.actors.IActor;
 import biblioteket.roborally.actors.IRobot;
-import biblioteket.roborally.actors.Actor;
 import biblioteket.roborally.actors.Robot;
 import biblioteket.roborally.board.DirVector;
 import biblioteket.roborally.board.Direction;
 import biblioteket.roborally.elements.ArchiveMarkerElement;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@ExtendWith(TestRunner.class)
 public class FlagTest {
     private IActor player;
 

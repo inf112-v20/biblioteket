@@ -52,7 +52,7 @@ public class Actor implements IActor {
             DirVector newPosition = robot.getPosition().copy();
             renderMove(oldPosition, newPosition, delay, debug);
             // Check if robot moved in hole or out of bounds
-            handleRobotOutOfBounds(delay);
+            handleRobotOutOfBounds(delay, debug);
             return true;
         }
         return false;
@@ -97,6 +97,9 @@ public class Actor implements IActor {
     @Override
     public void removeOneLife() {
         lives--;
+        if (lives <= 0) {
+            robotRenderer.removePlayer(getRobot().getPosition(),playerCell);
+        }
     }
 
     @Override
@@ -258,16 +261,20 @@ public class Actor implements IActor {
 
     /**
      * If robot is out of bounds, moves robot to archive marker and removes one life.
+     *
+     * @param delay rendering delay
+     * @param debug true if debug, wont start a new round after rendering
      */
-    private void handleRobotOutOfBounds(int delay) {
+    private void handleRobotOutOfBounds(int delay, boolean debug) {
         DirVector position = robot.getPosition();
         if (board.outOfBounds(position) || board.isHole(position)) {
             DirVector oldPosition = robot.getPosition().copy();
             robot.moveToArchiveMarker();
             DirVector newPosition = robot.getPosition().copy();
-            renderMove(oldPosition, newPosition, delay, false);
-            canMove = false;
+            renderMove(oldPosition, newPosition, delay, debug);
+            canMove = debug;
             removeOneLife();
+            robot.removeDamageTokens(robot.getNumberOfDamageTokens() - 2);
         }
     }
 
@@ -279,7 +286,7 @@ public class Actor implements IActor {
             DirVector newPosition = robot.getPosition().copy();
             renderMove(oldPosition, newPosition, delay, false);
             removeOneLife();
-            robot.removeDamageTokens(robot.getNumberOfDamageTokens());
+            robot.removeDamageTokens(robot.getNumberOfDamageTokens() - 2);
         }
     }
 }
