@@ -143,6 +143,7 @@ public class Actor implements IActor {
 
     @Override
     public void updateInterfaceRenderer() {
+        if (interfaceRenderer == null) return;   // for testing
         interfaceRenderer.setFlagsVisited(getNumberOfVisitedFlags());
         interfaceRenderer.setLives(getLives());
     }
@@ -216,7 +217,9 @@ public class Actor implements IActor {
     public void newTurn(ICardDeck cardDeck) {
         state = state.nextTurn();
         if(isPoweredDown()){
-            getRobot().removeDamageTokens(getRobot().getNumberOfDamageTokens());
+            int damageTokens = getRobot().getNumberOfDamageTokens();
+            getRobot().removeDamageTokens(damageTokens);
+            Gdx.app.log(getName(), "discards " + damageTokens + " damage tokens");
         } else {
             int damageTokens = robot.getNumberOfDamageTokens();  // Check damage and clean register.
             if (!drawnCards.isEmpty()) // Should stop it from breaking first round
