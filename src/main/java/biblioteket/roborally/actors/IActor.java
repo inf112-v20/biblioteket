@@ -170,4 +170,14 @@ public interface IActor {
      * @param delay animation delay
      */
     void handleRobotDestruction(int delay);
+
+    /**
+     * Announce intent to power down next turn
+     */
+    void announcePowerDown();
+
+    /**
+     * @return true if players robot is powered down this turn
+     */
+    boolean isPoweredDown();
 }

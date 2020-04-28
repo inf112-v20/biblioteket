@@ -26,7 +26,7 @@ public class Actor implements IActor {
     private String name;
     private ArrayList<ICard> drawnCards;
 
-    private boolean canMove = true;
+    private PlayState state = PlayState.PLAYING;
 
     public Actor(IBoard board, TiledMapTileLayer.Cell playerCell, InterfaceRenderer interfaceRenderer, RobotRenderer robotRenderer) {
         this.board = board;
@@ -47,7 +47,7 @@ public class Actor implements IActor {
 
     @Override
     public boolean moveRobot(Direction direction, int delay, boolean debug) {
-        if (canMove && board.canMove(robot.getPosition(), direction) && board.pushRobot(robot.getPosition(), direction)) {
+        if (state.canMove() && board.canMove(robot.getPosition(), direction) && board.pushRobot(robot.getPosition(), direction)) {
             DirVector oldPosition = robot.getPosition();
             robot.pushRobotInDirection(direction);
             DirVector newPosition = robot.getPosition();
@@ -66,7 +66,7 @@ public class Actor implements IActor {
 
     @Override
     public void rotateRobot(boolean right, int delay) {
-        if (!canMove) return;
+        if (!state.canMove()) return;
         if (right) {
             robot.turnRight();
         } else {
@@ -87,7 +87,7 @@ public class Actor implements IActor {
 
     @Override
     public boolean isPermanentDead() {
-        return lives <= 0;
+        return state == PlayState.DESTROYED;
     }
 
     @Override
@@ -97,8 +97,8 @@ public class Actor implements IActor {
 
     @Override
     public void removeOneLife() {
-        lives--;
-        if (lives <= 0) {
+        if (--lives <= 0) {
+            state = PlayState.DESTROYED;
             robotRenderer.removePlayer(getRobot().getPosition(),playerCell);
         }
     }
@@ -221,7 +221,7 @@ public class Actor implements IActor {
             updateRegisterRender(); // Render cards if they are locked in register
         }
         drawCards(cardDeck);
-        canMove = true;
+        state = state.nextTurn();
         updateInterfaceRenderer();
     }
 
@@ -283,7 +283,7 @@ public class Actor implements IActor {
             robot.moveToArchiveMarker();
             DirVector newPosition = robot.getPosition();
             renderMove(oldPosition, newPosition, delay, debug);
-            canMove = debug;
+            state = debug ? state : state.nextTurn();
             removeOneLife();
             robot.removeDamageTokens(robot.getNumberOfDamageTokens() - 2);
         }
@@ -300,4 +300,16 @@ public class Actor implements IActor {
             robot.removeDamageTokens(robot.getNumberOfDamageTokens() - 2);
         }
     }
+
+    @Override
+    public void announcePowerDown() {
+        state = PlayState.ANNOUNCED_POWER_DOWN;
+    }
+
+    @Override
+    public boolean isPoweredDown() {
+        return state == PlayState.POWERED_DOWN;
+    }
+
+
 }
