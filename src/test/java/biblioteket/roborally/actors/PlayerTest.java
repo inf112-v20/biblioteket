@@ -54,7 +54,7 @@ class PlayerTest {
         player.setRobot(new Robot(new ArchiveMarkerElement(1)));
         player.announcePowerDown();
         player.newTurn(null);
-        assertTrue(player.hasAnnouncedPowerDown());
+        assertTrue(player.isPoweredDown());
     }
 
     @Test

@@ -69,16 +69,16 @@ public class GameLoop {
                 IActor currentPlayer = getCurrentPlayer();
                 switch (keycode) {
                     case Input.Keys.A:
-                        currentPlayer.moveRobot(Direction.WEST, 0, true);
+                        currentPlayer.moveRobot(Direction.WEST, 0, true, false);
                         return true;
                     case Input.Keys.D:
-                        currentPlayer.moveRobot(Direction.EAST, 0, true);
+                        currentPlayer.moveRobot(Direction.EAST, 0, true, false);
                         return true;
                     case Input.Keys.W:
-                        currentPlayer.moveRobot(Direction.NORTH, 0, true);
+                        currentPlayer.moveRobot(Direction.NORTH, 0, true, false);
                         return true;
                     case Input.Keys.S:
-                        currentPlayer.moveRobot(Direction.SOUTH, 0, true);
+                        currentPlayer.moveRobot(Direction.SOUTH, 0, true, false);
                         return true;
                     case Input.Keys.SPACE:
                     case Input.Keys.ENTER:
@@ -88,7 +88,7 @@ public class GameLoop {
                         getCurrentPlayer().announcePowerDown();
                         return true;
                     case Input.Keys.UP:
-                        currentPlayer.moveRobot(currentPlayer.getRobot().getDirection(), 0, false);
+                        currentPlayer.moveRobot(currentPlayer.getRobot().getDirection(), 0, false, false);
                         return true;
                     case Input.Keys.LEFT:
                         currentPlayer.rotateRobot(false, 0);

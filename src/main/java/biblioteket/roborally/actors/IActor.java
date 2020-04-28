@@ -22,9 +22,10 @@ public interface IActor {
      * @param direction to move robot
      * @param delay     milliseconds delay after move is rendered before next move is rendered
      * @param debug     whether to print debug information
+     * @param pushed
      * @return true if robot moved, false otherwise
      */
-    boolean moveRobot(Direction direction, int delay, boolean debug);
+    boolean moveRobot(Direction direction, int delay, boolean debug, boolean pushed);
 
     /**
      * Tries to move robot in the opposite direction of where it is currently facing

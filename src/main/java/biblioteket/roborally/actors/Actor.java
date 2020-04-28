@@ -42,13 +42,14 @@ public class Actor implements IActor {
     @Override
     public void moveRobot(int steps, int delay) {
         for (int i = 0; i < steps; i++) {
-            moveRobot(robot.getDirection(), delay, false);
+            moveRobot(robot.getDirection(), delay, false, false);
         }
     }
 
     @Override
-    public boolean moveRobot(Direction direction, int delay, boolean debug) {
-        if (state.canMove() && board.canMove(robot.getPosition(), direction) && board.pushRobot(robot.getPosition(), direction)) {
+    public boolean moveRobot(Direction direction, int delay, boolean debug, boolean pushed) {
+        if(!state.canMove() && !pushed) return false;
+        if (board.canMove(robot.getPosition(), direction) && board.pushRobot(robot.getPosition(), direction)) {
             DirVector oldPosition = robot.getPosition();
             robot.pushRobotInDirection(direction);
             DirVector newPosition = robot.getPosition();
@@ -62,7 +63,7 @@ public class Actor implements IActor {
 
     @Override
     public void backUpRobot(int delay) {
-        moveRobot(robot.getDirection().opposite(), delay, false);
+        moveRobot(robot.getDirection().opposite(), delay, false, false);
     }
 
     @Override
