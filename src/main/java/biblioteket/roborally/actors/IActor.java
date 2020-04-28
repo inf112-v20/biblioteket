@@ -177,7 +177,12 @@ public interface IActor {
     void announcePowerDown();
 
     /**
-     * @return true if players robot is powered down this turn
+     * @return true if players robot is powered down next turn
+     */
+    boolean hasAnnouncedPowerDown();
+
+    /**
+     * @return true if player is powered down this turn
      */
     boolean isPoweredDown();
 }

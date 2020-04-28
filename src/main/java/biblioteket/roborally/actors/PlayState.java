@@ -37,9 +37,17 @@ public enum PlayState {
     /**
      * @return true if this is instance of POWERED_DOWN
      */
-    public boolean poweredDown(){
+    public boolean hasAnnouncedPowerDown(){
+        return this == ANNOUNCED_POWER_DOWN;
+    }
+
+    public boolean isPoweredDown() {
         return this == POWERED_DOWN;
-    };
+    }
+
+    public boolean isDestroyed(){
+        return this == DESTROYED;
+    }
 
     /**
      * @return true if this is instance of playing or announced powered down
@@ -48,6 +56,10 @@ public enum PlayState {
         return this == PLAYING || this == ANNOUNCED_POWER_DOWN;
     }
 
-    public abstract PlayState nextTurn();
+    public PlayState announcePowerDown() {
+        if (this == DESTROYED || this == ANNOUNCED_POWER_DOWN) return this;
+        return ANNOUNCED_POWER_DOWN;
+    }
 
+    public abstract PlayState nextTurn();
 }

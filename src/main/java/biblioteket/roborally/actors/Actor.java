@@ -88,7 +88,7 @@ public class Actor implements IActor {
 
     @Override
     public boolean isPermanentDead() {
-        return state == PlayState.DESTROYED;
+        return state.isDestroyed();
     }
 
     @Override
@@ -312,12 +312,18 @@ public class Actor implements IActor {
 
     @Override
     public void announcePowerDown() {
-        state = PlayState.ANNOUNCED_POWER_DOWN;
+        Gdx.app.log(getName(), "announces power down");
+        state = state.announcePowerDown();
+    }
+
+    @Override
+    public boolean hasAnnouncedPowerDown() {
+        return state.hasAnnouncedPowerDown();
     }
 
     @Override
     public boolean isPoweredDown() {
-        return state == PlayState.POWERED_DOWN;
+        return state.isPoweredDown();
     }
 
 

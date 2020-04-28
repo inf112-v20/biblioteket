@@ -85,7 +85,8 @@ public class GameLoop {
                         interactWithBoardElements();
                         return true;
                     case Input.Keys.P:
-                        return board.registerFlag(currentPlayer);
+                        getCurrentPlayer().announcePowerDown();
+                        return true;
                     case Input.Keys.UP:
                         currentPlayer.moveRobot(currentPlayer.getRobot().getDirection(), 0, false);
                         return true;
@@ -133,7 +134,7 @@ public class GameLoop {
         Map<ICard, IActor> registersInPriority = new TreeMap<>(Collections.reverseOrder());
         for (int i = 4; i >= 0; i--) { // Five registers, program register is reversed.
             // Only iterate over alive players
-            for (IActor player : getLivingPlayers()) {
+            for (IActor player : getLivingPlayers().stream().filter(player -> !player.isPoweredDown()).collect(Collectors.toList())) {
                 ICard currentCard = player.getProgramRegister().get(i);
                 registersInPriority.put(currentCard, player);
             }
@@ -235,7 +236,7 @@ public class GameLoop {
             currentPlayerPtr = 0;
             doTurn();
         }
-        if (getCurrentPlayer().isPermanentDead()){
+        if (getCurrentPlayer().isPermanentDead() || getCurrentPlayer().hasAnnouncedPowerDown()){
             nextPlayer();
         }
         if (getCurrentPlayer() instanceof INonPlayer) {
