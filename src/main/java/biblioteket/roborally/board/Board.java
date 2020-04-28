@@ -171,7 +171,7 @@ public class Board implements IBoard {
     public boolean pushRobot(DirVector position, Direction direction) {
         DirVector positionInDirection = positionInDirection(position, direction);
         for (IActor player : players) {
-            if (player.getRobot().getPosition().compareVector(positionInDirection))
+            if (!player.isPermanentDead() && player.getRobot().getPosition().compareVector(positionInDirection))
                 return player.moveRobot(direction, 500, false);
         }
         return true;

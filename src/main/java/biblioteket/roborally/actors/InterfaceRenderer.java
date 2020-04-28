@@ -1,10 +1,7 @@
 package biblioteket.roborally.actors;
 
 import biblioteket.roborally.board.IBoard;
-import biblioteket.roborally.game.EndGameScreen;
 import biblioteket.roborally.game.GameScreen;
-import biblioteket.roborally.game.PlayerSelect;
-import biblioteket.roborally.game.RoboRally;
 import biblioteket.roborally.programcards.ICard;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -123,8 +120,8 @@ public class InterfaceRenderer {
         healthFlagSize = Gdx.graphics.getHeight() / (640f / 40f);
         damageTokenSize = Gdx.graphics.getHeight() / (640f / 35f);
         powerdownSize = Gdx.graphics.getHeight() / 10f;
-        powerDownX = camera.viewportWidth/2f + camera.viewportWidth/4f - powerdownSize / 2f;
-        powerDownY = camera.viewportHeight/1.6f;
+        powerDownX = camera.viewportWidth / 2f + camera.viewportWidth / 4f - powerdownSize / 2f;
+        powerDownY = camera.viewportHeight / 1.6f;
 
     }
 
@@ -153,8 +150,8 @@ public class InterfaceRenderer {
 
         }
 
-        for (int i = 0; i < 10 ; i++) {
-            batch.draw(damageToken, rightOfBoard + rightOfBoard / 2 - damageTokenSize * 1.06f + damageTokenSize / 1.15f * (i - 4), camera.viewportHeight/1.8f, damageTokenSize, damageTokenSize);
+        for (int i = 0; i < 10; i++) {
+            batch.draw(damageToken, rightOfBoard + rightOfBoard / 2 - damageTokenSize * 1.06f + damageTokenSize / 1.15f * (i - 4), camera.viewportHeight / 1.8f, damageTokenSize, damageTokenSize);
         }
 
         for (int i = 0; i < 4; i++) {
@@ -172,7 +169,7 @@ public class InterfaceRenderer {
             font.draw(batch, Integer.toString(lives), rightOfBoard + healthFlagSize * 1.2f + rightOfBoard / 4 * i, camera.viewportHeight - camera.viewportHeight / (640f / 110f));
             font.draw(batch, Integer.toString(flagsVisited), rightOfBoard + healthFlagSize * 0.2f + rightOfBoard / 4 * i, camera.viewportHeight - camera.viewportHeight / (640f / 110f));
         }
-        batch.draw(powerDownButtonPre,powerDownX, powerDownY, powerdownSize,powerdownSize);
+        batch.draw(powerDownButtonPre, powerDownX, powerDownY, powerdownSize, powerdownSize);
 
         if (Gdx.input.getX() < powerDownX + powerdownSize && Gdx.input.getX() > powerDownX && camera.viewportHeight - Gdx.input.getY() < powerDownY + powerdownSize / 1.1f && camera.viewportHeight - Gdx.input.getY() > powerDownY + powerdownSize / (6f)) {
             batch.draw(powerDownButtonPost, powerDownX, powerDownY, powerdownSize, powerdownSize);

@@ -23,7 +23,7 @@ public class EndGameScreen implements Screen {
     private float buttonHeight;
     private float mainMenuY;
     private float exitY;
-    private BitmapFont font;
+    private final BitmapFont font;
 
 
     public EndGameScreen(final RoboRally game) {
@@ -31,7 +31,7 @@ public class EndGameScreen implements Screen {
         this.camera = new OrthographicCamera();
         camera.setToOrtho(false, 640, 640);
         font = new BitmapFont();
-        font.getData().setScale(1.5f,1.5f);
+        font.getData().setScale(1.5f, 1.5f);
 
         background = new Texture("assets/background2.jpg");
         quitPre = new Texture("assets/buttons/quitPost.png");
@@ -40,6 +40,7 @@ public class EndGameScreen implements Screen {
         mainMenuPost = new Texture("assets/buttons/mainMenuPost.png");
         logo = new Texture("assets/logo.png");
     }
+
     @Override
     public void show() {
 
@@ -60,10 +61,10 @@ public class EndGameScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.getBatch().setProjectionMatrix(camera.combined);
         game.getBatch().begin();
-        game.getBatch().draw(background,0,0,camera.viewportWidth,camera.viewportHeight);
+        game.getBatch().draw(background, 0, 0, camera.viewportWidth, camera.viewportHeight);
         game.getBatch().draw(logo, camera.viewportWidth / 2f - (float) logo.getWidth() / 2f * camera.viewportHeight / 640f, camera.viewportHeight / 2f, logo.getWidth() * camera.viewportHeight / 640f, logo.getHeight() * camera.viewportHeight / 640f);
-        game.getBatch().draw(mainMenuPre,center,mainMenuY, buttonWidth,buttonHeight);
-        game.getBatch().draw(quitPre,center,exitY,buttonWidth,buttonHeight);
+        game.getBatch().draw(mainMenuPre, center, mainMenuY, buttonWidth, buttonHeight);
+        game.getBatch().draw(quitPre, center, exitY, buttonWidth, buttonHeight);
 
 
         if (Gdx.input.getX() < center + buttonWidth && Gdx.input.getX() > center && camera.viewportHeight - Gdx.input.getY() < mainMenuY + buttonHeight / 1.35f && camera.viewportHeight - Gdx.input.getY() > mainMenuY + buttonWidth / (1.5f)) {
@@ -72,14 +73,13 @@ public class EndGameScreen implements Screen {
                 game.setScreen(new MainMenuScreen(game));
                 dispose();
             }
-        }
-        else if (Gdx.input.getX() < center + buttonWidth && Gdx.input.getX() > center && camera.viewportHeight - Gdx.input.getY() < exitY + buttonHeight / 1.35f && camera.viewportHeight - Gdx.input.getY() > exitY + buttonWidth / (1.5f)) {
+        } else if (Gdx.input.getX() < center + buttonWidth && Gdx.input.getX() > center && camera.viewportHeight - Gdx.input.getY() < exitY + buttonHeight / 1.35f && camera.viewportHeight - Gdx.input.getY() > exitY + buttonWidth / (1.5f)) {
             game.getBatch().draw(quitPost, center, exitY, buttonWidth, buttonHeight);
             if (Gdx.input.isTouched()) {
                 Gdx.app.exit();
             }
         }
-        font.draw(game.getBatch(),"Player name here" + " has won the game!",camera.viewportWidth / 2f - (float) logo.getWidth() / 3.3f * camera.viewportHeight / 640f,camera.viewportHeight/2f);
+        font.draw(game.getBatch(), "Player name here" + " has won the game!", camera.viewportWidth / 2f - (float) logo.getWidth() / 3.3f * camera.viewportHeight / 640f, camera.viewportHeight / 2f);
         game.getBatch().end();
     }
 

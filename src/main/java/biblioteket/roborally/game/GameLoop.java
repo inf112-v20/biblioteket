@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 /**
  * Once every player has finished programming their robot,
@@ -131,7 +132,8 @@ public class GameLoop {
         // Execute program cards in correct order
         Map<ICard, IActor> registersInPriority = new TreeMap<>(Collections.reverseOrder());
         for (int i = 4; i >= 0; i--) { // Five registers, program register is reversed.
-            for (IActor player : players) {
+            // Only iterate over alive players
+            for (IActor player : getLivingPlayers()) {
                 ICard currentCard = player.getProgramRegister().get(i);
                 registersInPriority.put(currentCard, player);
             }
@@ -184,24 +186,27 @@ public class GameLoop {
     }
 
     /**
-     * @return true if any player has registered all flags on board
+     * @return a list of all players not permanently dead
      */
-    private boolean checkWinCondition() {
-        for (IActor player : players) {
-            if (player.getNumberOfVisitedFlags() == amountOfFlags) return true;
-        }
-        return false;
+    private List<IActor> getLivingPlayers() {
+        return players.stream().filter(player -> !player.isPermanentDead()).collect(Collectors.toList());
     }
 
     /**
-     * @return true if every player is dead
+     * @return true if any player has registered all flags on board
      */
-    private boolean everyPlayerDead() {
-        for (IActor player : players) {
-            if (!player.isPermanentDead())
-                return false;
+    private boolean checkWinCondition() {
+        if (getLivingPlayers().size() == 1) {
+            Gdx.app.log(players.get(0).getName(), " wins by being the last player alive");
+            return true;
         }
-        return true;
+        for (IActor player : players) {
+            if (player.getNumberOfVisitedFlags() == amountOfFlags) {
+                Gdx.app.log(player.getName(), " wins by picking up all flags");
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -210,7 +215,7 @@ public class GameLoop {
      * @param instance robots should interact with
      */
     private void interactWithBoardElement(Class<? extends InteractingElement> instance) {
-        for (IActor player : players) {
+        for (IActor player : getLivingPlayers()) {
             DirVector position = player.getRobot().getPosition();
             IElement element = board.getInteractingElement(position);
             if (instance.isInstance(element)) {
@@ -224,6 +229,9 @@ public class GameLoop {
         if (currentPlayerPtr == players.size()) {
             currentPlayerPtr = 0;
             doTurn();
+        }
+        if (getCurrentPlayer().isPermanentDead()) {
+            nextPlayer();
         }
         if (getCurrentPlayer() instanceof INonPlayer) {
             ((INonPlayer) getCurrentPlayer()).chooseCards(cardDeck);
@@ -239,9 +247,9 @@ public class GameLoop {
     }
 
     public void newTurn() {
-        if (checkWinCondition() || everyPlayerDead())
+        if (checkWinCondition())
             Gdx.app.exit();
-        for (IActor player : players) {
+        for (IActor player : getLivingPlayers()) {
             player.newTurn(cardDeck);
         }
         programmingPhase = true;
