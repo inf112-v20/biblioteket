@@ -1,5 +1,13 @@
 # Task 1 - Team and Project
-- Hvordan fungerer rollene i teamet? Trenger dere å oppdatere hvem som er teamleader eller kundekontakt?
+## Hvordan fungerer rollene i teamet? Trenger dere å oppdatere hvem som er teamleader eller kundekontakt?
+We have maintained the same roles as for the previous turn in, however, we are approaching our roles with flexibility,
+meaning people who have a set role in one department can also provide key developments elsewhere. Sondre is still our 
+teamleader, and maintaining his prior github handling. Marcus still takes notes at the meetings, but also has been working
+to implement features, in parts like rendering of robots. Silje is still our customer contact, while simultaneously taking
+on the role of somewhat of a "judge", as she has mastered the rules of the game, she is able to determine
+whether or not there are any rule violations happening, Silje is also responsible for multiple positive implementations on the code.
+Tor Kristian has been continuing his work on the GUI for the game, making sure that the player has all necessary information
+visible to them during the gameplay (e.g. damagetokens). 
   - We are still using the same roles.
     - Roles are flexible, meaning people who have a set role can also take on tasks of another kind.
     - Sondre still teamleader, responsible for github too
@@ -7,21 +15,34 @@
     - Silje is still our customer contact, and a master of the rules of roborally, informing us if anything we are going to do defy’s any set game laws.
     - Tor Kristian has been continuing to work with the GUI for the game, making sure that the player has all necessary information visible to them during gameplay (damagetokens for example)
     - Tobias is still working on animation, but is struggling with implementation, reaching somewhat of a standstill, and therefore has also been assigned the task of the written part, as to still contribute for commits.
-    - Er det noen erfaringer enten team-messig eller mtp prosjektmetodikk som er verdt å nevne? Synes teamet at de valgene dere har tatt er gode? Hvis ikke, hva kan dere gjøre annerledes for å forbedre måten teamet fungerer på? 
-      - Unsure.
+    
+- Er det noen erfaringer enten team-messig eller mtp prosjektmetodikk som er verdt å nevne? Synes teamet at de valgene dere har tatt er gode? Hvis ikke, hva kan dere gjøre annerledes for å forbedre måten teamet fungerer på? 
+  - Unsure.
 - Gjør et retrospektiv hvor dere vurderer prosjektet har gått. Hva har dere gjort bra, hva hadde dere gjort annerledes hvis dere begynte på nytt? 
-  - Things we have done well:
-    - Adapted to the coronavirus situation
-    - Having diverse roles for the team
-    - Communicating issues or problems we are having during development.
-  - Things we would do different:
-    - Find a good grid solution earlier on
+  - Considering the current impact of the COVID-19 outbreak, we have adapted quickly, with a near frictionless
+   switch to online meetings rather than our prior face to face meetings. Another practice we maintained that has benefitted
+   us greatly, is having diverse roles for the team, while also being flexible about what we work on. Also, we have had 
+   good communication on Slack and Discord, which heavily furthered our ability to eliminate problems we had during
+   development. One thing we agreed we would do differently if we could start over with the knowledge we have now, is to find 
+   a good solution for the grid earlier on.
 
 
 ##Legg ved skjermdump av project board ved innlevering. Sørg for at det er oppdatert med siste status ved innlevering. 
 Screenshot of project board (when turning in)
 
 ##Hvordan fungerer gruppedynamikken og kommunikasjonen nå i forhold til i starten? Hvordan påvirket karantene og nedstengning teamet og fremdriften? 
+The group dynamic now is significantly improved relative to the one we had at the start, as we all have roles which complement
+eachother, as we have had time to try different roles. Our communication has been good, although it was somewhat deterred 
+when we could no longer have meetings on campus, our discord meetings are still progressive towards our completion of the project,
+as we all try to compile an agenda, with questions, comments, and concerns prior to each meeting. During the actual meetings, 
+we take turns one by one to explain what we've been working on, the status of it, and if there are any problems regarding it.
+The impact of the quarantine/lockdown initially seemed as though it would reduce the pace at which the game was developing,
+it has had a considerably smaller impact than expected. Our first online group meeting was on zoom, but we were quick to switch
+to discord, so that we might include a teacher's assistant in the meetings. We also have adapted to cooperating
+without face to face interaction entirely, as some group members don't have access to a suitable webcam or are uncomfortable with using it.
+If push came to shove, and we felt our progress rate was sub par, there was always the option of potentially setting up
+a work time of a few hours to cooperate on discord so that problems may be brought up with the group with instantaneous 
+available assistance, rather than waiting for a slack response or a meeting.
 - Our group dynamic has significantly improved, as we all have assigned roles which complement each other but are also flexible enough with our roles to take on issues and challenges outside of our roles field of work.
 - Communication: Although we are no longer meeting face to face because of coronavirus, our discord meetings are still proactive, as people try to prepare questions, concerns, and ideas into a list before the meetings, and then we go one by one to discuss what we’re working on, how it’s going with that, and what we are planning.
 - Quarantine/lockdown and the impact thereof on the team.
@@ -77,5 +98,5 @@ For the manual testing see the ManualTests.md file in the test folder.
 
 
 Bugs/issues/etc.
-As this is the final submission of the program, there should not be any bugs or issues.
+No known bugs.
 
