@@ -89,8 +89,8 @@ public class PlayerSelect implements Screen {
         numberWidth = camera.viewportHeight/(300/100f);
         numberHeight = camera.viewportHeight/(300/100f);
         arrowY = camera.viewportHeight/2.5f;
-        arrowLeftX = center - camera.viewportWidth/4.5f;
-        arrowRightX = center + camera.viewportWidth/4.5f - arrowWidth;
+        arrowLeftX = center - arrowWidth*2f;
+        arrowRightX = center + arrowWidth;
         arrowWidth = camera.viewportHeight/(8f);
         arrowHeight = camera.viewportHeight/(4.5f);
     }
@@ -108,7 +108,7 @@ public class PlayerSelect implements Screen {
         game.getBatch().setProjectionMatrix(camera.combined);
         game.getBatch().begin();
         game.getBatch().draw(background, 0, 0, camera.viewportWidth, camera.viewportHeight);
-        game.getBatch().draw(selectNumberOfPlayers,center - selectNumberOfPlayers.getWidth()/2f,camera.viewportHeight / 2.5f, selectNumberOfPlayers.getWidth()*camera.viewportHeight/640f,selectNumberOfPlayers.getHeight()*camera.viewportHeight/640f);
+        game.getBatch().draw(selectNumberOfPlayers,center - arrowWidth*3.9f,camera.viewportHeight / 2.5f, selectNumberOfPlayers.getWidth()*camera.viewportHeight/640f,selectNumberOfPlayers.getHeight()*camera.viewportHeight/640f);
         game.getBatch().draw(arrowLeftPre, arrowLeftX, arrowY, arrowWidth, arrowHeight);
         game.getBatch().draw(arrowRightPre,arrowRightX, arrowY, arrowWidth, arrowHeight);
         game.getBatch().draw(selectPre, center - buttonWidth/2,selectY,buttonWidth,buttonHeight);

@@ -1,7 +1,10 @@
 package biblioteket.roborally.actors;
 
 import biblioteket.roborally.board.IBoard;
+import biblioteket.roborally.game.EndGameScreen;
 import biblioteket.roborally.game.GameScreen;
+import biblioteket.roborally.game.PlayerSelect;
+import biblioteket.roborally.game.RoboRally;
 import biblioteket.roborally.programcards.ICard;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -32,6 +35,8 @@ public class InterfaceRenderer {
     private final Texture rotateLeftCard;
     private final Texture uTurnCard;
     private final Texture damageToken;
+    private final Texture powerDownButtonPre;
+    private final Texture powerDownButtonPost;
 
     private final SpriteBatch batch;
     private final BitmapFont font;
@@ -52,6 +57,9 @@ public class InterfaceRenderer {
     private float rightOfBoard;
     private float healthFlagSize;
     private float damageTokenSize;
+    private float powerdownSize;
+    private float powerDownX;
+    private float powerDownY;
 
 
     public InterfaceRenderer() {
@@ -71,6 +79,8 @@ public class InterfaceRenderer {
         rotateLeftCard = new Texture("assets/programCards/rotateLeft.png");
         uTurnCard = new Texture("assets/programCards/uTurn.png");
         damageToken = new Texture("assets/damageToken.png");
+        powerDownButtonPre = new Texture("assets/buttons/powerdownPre.png");
+        powerDownButtonPost = new Texture("assets/buttons/powerdownPost.png");
 
 
         batch = new SpriteBatch();
@@ -112,6 +122,9 @@ public class InterfaceRenderer {
         rightOfBoard = Gdx.graphics.getWidth() / 2f;
         healthFlagSize = Gdx.graphics.getHeight() / (640f / 40f);
         damageTokenSize = Gdx.graphics.getHeight() / (640f / 35f);
+        powerdownSize = Gdx.graphics.getHeight() / 10f;
+        powerDownX = camera.viewportWidth/2f + camera.viewportWidth/4f - powerdownSize / 2f;
+        powerDownY = camera.viewportHeight/1.6f;
 
     }
 
@@ -158,6 +171,13 @@ public class InterfaceRenderer {
             font.draw(batch, "Player " + (5 + i), rightOfBoard + rightOfBoard / 4 * i, camera.viewportHeight - ((camera.viewportHeight / 8f)));
             font.draw(batch, Integer.toString(lives), rightOfBoard + healthFlagSize * 1.2f + rightOfBoard / 4 * i, camera.viewportHeight - camera.viewportHeight / (640f / 110f));
             font.draw(batch, Integer.toString(flagsVisited), rightOfBoard + healthFlagSize * 0.2f + rightOfBoard / 4 * i, camera.viewportHeight - camera.viewportHeight / (640f / 110f));
+        }
+        batch.draw(powerDownButtonPre,powerDownX, powerDownY, powerdownSize,powerdownSize);
+
+        if (Gdx.input.getX() < powerDownX + powerdownSize && Gdx.input.getX() > powerDownX && camera.viewportHeight - Gdx.input.getY() < powerDownY + powerdownSize / 1.1f && camera.viewportHeight - Gdx.input.getY() > powerDownY + powerdownSize / (6f)) {
+            batch.draw(powerDownButtonPost, powerDownX, powerDownY, powerdownSize, powerdownSize);
+            if (Gdx.input.isTouched()) {
+            }
         }
 
         batch.end();
