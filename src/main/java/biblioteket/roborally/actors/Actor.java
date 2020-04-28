@@ -6,6 +6,7 @@ import biblioteket.roborally.board.IBoard;
 import biblioteket.roborally.elements.walls.Laser;
 import biblioteket.roborally.programcards.ICard;
 import biblioteket.roborally.programcards.ICardDeck;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
 import java.util.ArrayList;
@@ -99,6 +100,7 @@ public class Actor implements IActor {
     public void removeOneLife() {
         if (--lives <= 0) {
             state = PlayState.DESTROYED;
+            Gdx.app.log(getName(), "permanently destroyed");
             robotRenderer.removePlayer(getRobot().getPosition(),playerCell);
         }
     }
@@ -212,16 +214,20 @@ public class Actor implements IActor {
 
     @Override
     public void newTurn(ICardDeck cardDeck) {
-        int damageTokens = robot.getNumberOfDamageTokens();  // Check damage and clean register.
-        if (!drawnCards.isEmpty()) // Should stop it from breaking first round
-            for (ICard card : drawnCards) // adds the cards not uses last round to discard pile
-                cardDeck.addToDiscardPile(card);
-        if (!programRegister.isEmpty()) { // Should stop it from breaking first round
-            cleanRegister(damageTokens, cardDeck); // Corrects the register
-            updateRegisterRender(); // Render cards if they are locked in register
-        }
-        drawCards(cardDeck);
         state = state.nextTurn();
+        if(isPoweredDown()){
+            getRobot().removeDamageTokens(getRobot().getNumberOfDamageTokens());
+        } else {
+            int damageTokens = robot.getNumberOfDamageTokens();  // Check damage and clean register.
+            if (!drawnCards.isEmpty()) // Should stop it from breaking first round
+                for (ICard card : drawnCards) // adds the cards not uses last round to discard pile
+                    cardDeck.addToDiscardPile(card);
+            if (!programRegister.isEmpty()) { // Should stop it from breaking first round
+                cleanRegister(damageTokens, cardDeck); // Corrects the register
+                updateRegisterRender(); // Render cards if they are locked in register
+            }
+            drawCards(cardDeck);
+        }
         updateInterfaceRenderer();
     }
 
@@ -283,7 +289,7 @@ public class Actor implements IActor {
             robot.moveToArchiveMarker();
             DirVector newPosition = robot.getPosition();
             renderMove(oldPosition, newPosition, delay, debug);
-            state = debug ? state : state.nextTurn();
+            state = debug ? state : PlayState.IMMOBILE;
             removeOneLife();
             robot.removeDamageTokens(robot.getNumberOfDamageTokens() - 2);
         }
