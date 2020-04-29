@@ -89,12 +89,7 @@ public class MainMenuScreen implements Screen {
                 Gdx.app.exit();
 
             }
-        } else {
-            game.getBatch().draw(playPost, center, startY, buttonWidth, buttonHeight);
-            game.getBatch().draw(quitPost, center, exitY, buttonWidth, buttonHeight);
-
         }
-
         game.getBatch().end();
     }
 
