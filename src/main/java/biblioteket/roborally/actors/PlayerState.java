@@ -1,33 +1,33 @@
 package biblioteket.roborally.actors;
 
-public enum PlayState {
+public enum PlayerState {
     PLAYING{
         @Override
-        public PlayState nextTurn() {
+        public PlayerState nextTurn() {
             return PLAYING;
         }
     },
     IMMOBILE{
         @Override
-        public PlayState nextTurn() {
+        public PlayerState nextTurn() {
             return PLAYING;
         }
     },
     ANNOUNCED_POWER_DOWN{
         @Override
-        public PlayState nextTurn() {
+        public PlayerState nextTurn() {
             return POWERED_DOWN;
         }
     },
     POWERED_DOWN{
         @Override
-        public PlayState nextTurn() {
+        public PlayerState nextTurn() {
             return PLAYING;
         }
     },
     DESTROYED{
         @Override
-        public PlayState nextTurn() {
+        public PlayerState nextTurn() {
             return DESTROYED;
         }
     },
@@ -56,10 +56,10 @@ public enum PlayState {
         return this == PLAYING || this == ANNOUNCED_POWER_DOWN;
     }
 
-    public PlayState announcePowerDown() {
-        if (this == DESTROYED || this == ANNOUNCED_POWER_DOWN) return this;
+    public PlayerState announcePowerDown() {
+        if (this == DESTROYED) return this;
         return ANNOUNCED_POWER_DOWN;
     }
 
-    public abstract PlayState nextTurn();
+    public abstract PlayerState nextTurn();
 }

@@ -27,7 +27,7 @@ public class Actor implements IActor {
     private String name;
     private ArrayList<ICard> drawnCards;
 
-    private PlayState state = PlayState.PLAYING;
+    private PlayerState state = PlayerState.PLAYING;
 
     public Actor(IBoard board, TiledMapTileLayer.Cell playerCell, InterfaceRenderer interfaceRenderer, RobotRenderer robotRenderer) {
         this.board = board;
@@ -100,7 +100,7 @@ public class Actor implements IActor {
     @Override
     public void removeOneLife() {
         if (--lives <= 0) {
-            state = PlayState.DESTROYED;
+            state = PlayerState.DESTROYED;
             Gdx.app.log(getName(), "permanently destroyed");
             robotRenderer.removePlayer(getRobot().getPosition(),playerCell);
         }
@@ -293,7 +293,7 @@ public class Actor implements IActor {
             robot.moveToArchiveMarker();
             DirVector newPosition = robot.getPosition();
             renderMove(oldPosition, newPosition, delay, debug);
-            state = debug ? state : PlayState.IMMOBILE;
+            state = debug ? state : PlayerState.IMMOBILE;
             removeOneLife();
             robot.removeDamageTokens(robot.getNumberOfDamageTokens() - 2);
         }

@@ -203,7 +203,7 @@ public class GameLoop {
      */
     private boolean checkWinCondition() {
         if(getLivingPlayers().size() == 1){
-            Gdx.app.log(players.get(0).getName(), " wins by being the last player alive");
+            Gdx.app.log(getLivingPlayers().get(0).getName(), " wins by being the last player alive");
             return true;
         }
         for (IActor player : players) {
@@ -211,6 +211,10 @@ public class GameLoop {
                 Gdx.app.log(player.getName(), " wins by picking up all flags");
                 return true;
             }
+        }
+        if(getLivingPlayers().size() == 0){
+            Gdx.app.log("", "all players died");
+            return true;
         }
         return false;
     }
@@ -235,18 +239,16 @@ public class GameLoop {
         if (currentPlayerPtr == players.size()) {
             currentPlayerPtr = 0;
             doTurn();
-        }
-        if (getCurrentPlayer().isPermanentDead() || getCurrentPlayer().hasAnnouncedPowerDown()){
+        } else if (getCurrentPlayer().isPermanentDead() || getCurrentPlayer().isPoweredDown()) {
             nextPlayer();
-        }
-        if (getCurrentPlayer() instanceof INonPlayer) {
+        } else if (getCurrentPlayer() instanceof INonPlayer) {
             ((INonPlayer) getCurrentPlayer()).chooseCards(cardDeck);
             nextPlayer();
-        }
-        if (getCurrentPlayer().getRobot().getNumberOfDamageTokens() == 9) {
+        } else if (getCurrentPlayer().getRobot().getNumberOfDamageTokens() == 9) {
             nextPlayer();
         }
     }
+
 
     public IActor getCurrentPlayer() {
         return players.get(currentPlayerPtr);
@@ -259,6 +261,10 @@ public class GameLoop {
             player.newTurn(cardDeck);
         }
         programmingPhase = true;
+        if(getCurrentPlayer().isPoweredDown() || getCurrentPlayer().isPermanentDead()) {
+            nextPlayer();
+        }
     }
+
 
 }
