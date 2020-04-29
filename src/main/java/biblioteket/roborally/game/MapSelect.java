@@ -19,8 +19,8 @@ public class MapSelect implements Screen {
     private final Texture riskyPost;
     private final Texture quitPre;
     private final Texture quitPost;
-    private final BitmapFont font;
     private final Texture selectMap;
+    private final BitmapFont font;
     private float mapWidth;
     private float mapHeight;
     private float center;
@@ -32,19 +32,25 @@ public class MapSelect implements Screen {
     private float exitY;
     private float buttonCenter;
     private final OrthographicCamera camera;
+    private final Assets assets;
 
     public MapSelect(final RoboRally game) {
         this.game = game;
         this.camera = new OrthographicCamera();
         camera.setToOrtho(false, 640, 640);
 
-        background = new Texture("assets/background2.jpg");
-        dizzyPre = new Texture("assets/gamemaps/dizzyPre.png");
-        dizzyPost = new Texture("assets/gamemaps/dizzyPost.png");
-        riskyPre = new Texture("assets/gamemaps/riskyPre.png");
-        riskyPost = new Texture("assets/gamemaps/riskyPost.png");
-        quitPre = new Texture("assets/buttons/quitPost.png");
-        quitPost = new Texture("assets/buttons/quitPre.png");
+        assets = new Assets();
+        assets.load();
+        assets.getManager().finishLoading();
+
+        background = assets.getManager().get(assets.background, Texture.class);
+        dizzyPre = assets.getManager().get(assets.dizzyPre, Texture.class);
+        dizzyPost = assets.getManager().get(assets.dizzyPost, Texture.class);
+        riskyPre = assets.getManager().get(assets.riskyPre, Texture.class);
+        riskyPost = assets.getManager().get(assets.riskyPost, Texture.class);
+        quitPre = assets.getManager().get(assets.quitPre, Texture.class);
+        quitPost = assets.getManager().get(assets.quitPost, Texture.class);
+
         font = new BitmapFont();
         font.getData().setScale(1.5f, 1.5f);
 

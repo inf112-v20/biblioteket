@@ -2,6 +2,7 @@ package biblioteket.roborally.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -25,19 +26,23 @@ public class MainMenuScreen implements Screen {
     private float center;
     private float startY;
     private float exitY;
+    private final Assets assets;
 
     public MainMenuScreen(final RoboRally game) {
         this.game = game;
         this.camera = new OrthographicCamera();
         camera.setToOrtho(false, 640, 640);
 
-        background = new Texture("assets/background2.jpg");
-        logo = new Texture("assets/logo.png");
-        playPre = new Texture("assets/buttons/playPre.png");
-        playPost = new Texture("assets/buttons/playPost.png");
-        quitPre = new Texture("assets/buttons/quitPre.png");
-        quitPost = new Texture("assets/buttons/quitPost.png");
+        assets = new Assets();
+        assets.load();
+        assets.getManager().finishLoading();
 
+        background = assets.getManager().get(assets.background, Texture.class);
+        logo = assets.getManager().get(assets.logo, Texture.class);
+        playPre = assets.getManager().get(assets.playPre, Texture.class);
+        playPost = assets.getManager().get(assets.playPost, Texture.class);
+        quitPre = assets.getManager().get(assets.quitPre, Texture.class);
+        quitPost = assets.getManager().get(assets.quitPost, Texture.class);
 
     }
 
@@ -117,7 +122,7 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void dispose() {
-        // Not used, but method must be overwritten
+        assets.getManager().dispose();
     }
 
 }

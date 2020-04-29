@@ -91,21 +91,21 @@ public class EndGameScreen implements Screen {
 
     @Override
     public void pause() {
-
+        //empty method
     }
 
     @Override
     public void resume() {
-
+        //empty method
     }
 
     @Override
     public void hide() {
-
+        //empty method
     }
 
     @Override
     public void dispose() {
-
+        //empty method
     }
 }

@@ -24,6 +24,7 @@ public class DifficultySelect implements Screen {
     private float normalY;
     private float hardY;
     private OrthographicCamera camera;
+    private final Assets assets;
 
 
     public DifficultySelect(final RoboRally game) {
@@ -31,17 +32,19 @@ public class DifficultySelect implements Screen {
         this.camera = new OrthographicCamera();
         camera.setToOrtho(false, 640, 640);
 
-        background = new Texture("assets/background2.jpg");
-        logo = new Texture("assets/logo.png");
-        easyButtonPre = new Texture("assets/buttons/easyPre.png");
-        easyButtonPost = new Texture("assets/buttons/easyPost.png");
-        normalButtonPre = new Texture("assets/buttons/normalPre.png");
-        normalButtonPost = new Texture("assets/buttons/normalPost.png");
-        hardButtonPre = new Texture("assets/buttons/hardPre.png");
-        hardButtonPost = new Texture("assets/buttons/hardPost.png");
+        assets = new Assets();
+        assets.load();
+        assets.getManager().finishLoading();
 
+        background = assets.getManager().get(assets.background, Texture.class);
+        logo = assets.getManager().get(assets.logo, Texture.class);
+        easyButtonPre = assets.getManager().get(assets.easyButtonPre, Texture.class);
+        easyButtonPost = assets.getManager().get(assets.easyButtonPost, Texture.class);
+        normalButtonPre = assets.getManager().get(assets.normalButtonPre, Texture.class);
+        normalButtonPost = assets.getManager().get(assets.normalButtonPost, Texture.class);
+        hardButtonPre = assets.getManager().get(assets.hardButtonPre, Texture.class);
+        hardButtonPost = assets.getManager().get(assets.hardButtonPost, Texture.class);
     }
-
     @Override
     public void show() {
         //empty method
@@ -73,18 +76,18 @@ public class DifficultySelect implements Screen {
         if (Gdx.input.getX() < center + buttonWidth && Gdx.input.getX() > center && camera.viewportHeight - Gdx.input.getY() < easyY + buttonHeight / 1.35 && camera.viewportHeight - Gdx.input.getY() > easyY + buttonWidth / (1.35)) {
             game.getBatch().draw(easyButtonPost, center, easyY, buttonWidth, buttonHeight);
             if (Gdx.input.isTouched()) {
-                game.setScreen(new GameScreen(game));
+                game.setScreen(new GameScreen());
                 dispose();
             }
         } else if (Gdx.input.getX() < center + buttonWidth && Gdx.input.getX() > center && camera.viewportHeight - Gdx.input.getY() < normalY + buttonHeight / 1.35 && camera.viewportHeight - Gdx.input.getY() > normalY + buttonWidth / (1.35)) {
             game.getBatch().draw(normalButtonPost, center, normalY, buttonWidth, buttonHeight);
             if (Gdx.input.isTouched()) {
-                game.setScreen(new GameScreen(game));
+                game.setScreen(new GameScreen());
             }
         } else if (Gdx.input.getX() < center + buttonWidth && Gdx.input.getX() > center && camera.viewportHeight - Gdx.input.getY() < hardY + buttonHeight / 1.35 && camera.viewportHeight - Gdx.input.getY() > hardY + buttonWidth / (1.35)) {
             game.getBatch().draw(hardButtonPost, center, hardY, buttonWidth, buttonHeight);
             if (Gdx.input.isTouched()) {
-                game.setScreen(new GameScreen(game));
+                game.setScreen(new GameScreen());
             }
         }
         game.getBatch().end();
@@ -114,6 +117,6 @@ public class DifficultySelect implements Screen {
 
     @Override
     public void dispose() {
-        //empty method
+        assets.getManager().dispose();
     }
 }

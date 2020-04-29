@@ -174,6 +174,7 @@ public class InterfaceRenderer {
         if (Gdx.input.getX() < powerDownX + powerdownSize && Gdx.input.getX() > powerDownX && camera.viewportHeight - Gdx.input.getY() < powerDownY + powerdownSize / 1.1f && camera.viewportHeight - Gdx.input.getY() > powerDownY + powerdownSize / (6f)) {
             batch.draw(powerDownButtonPost, powerDownX, powerDownY, powerdownSize, powerdownSize);
             if (Gdx.input.isTouched()) {
+                System.out.println("powerdown metode her");
             }
         }
 
