@@ -1,6 +1,7 @@
 package biblioteket.roborally.actors;
 
 import biblioteket.roborally.board.IBoard;
+import biblioteket.roborally.game.Assets;
 import biblioteket.roborally.game.GameScreen;
 import biblioteket.roborally.programcards.ICard;
 import com.badlogic.gdx.Gdx;
@@ -54,7 +55,7 @@ public class InterfaceRenderer {
     private float rightOfBoard;
     private float healthFlagSize;
     private float damageTokenSize;
-    private float powerdownSize;
+    private float powerDownSize;
     private float powerDownX;
     private float powerDownY;
 
@@ -62,22 +63,25 @@ public class InterfaceRenderer {
     public InterfaceRenderer() {
 
         camera = GameScreen.getCamera();
+        Assets assets = new Assets();
+        assets.load();
+        assets.getManager().finishLoading();
 
-        background = new Texture("assets/background2.jpg");
-        hp = new Texture("assets/hp.png");
-        flag = new Texture("assets/flag.png");
+        background = assets.getManager().get(Assets.background,Texture.class);
+        hp = assets.getManager().get(Assets.hp,Texture.class);
+        flag = assets.getManager().get(Assets.flag,Texture.class);
 
-        emptyCard = new Texture("assets/programCards/cards.png");
-        moveOneCard = new Texture("assets/programCards/move1.png");
-        moveTwoCard = new Texture("assets/programCards/move2.png");
-        moveThreeCard = new Texture("assets/programCards/move3.png");
-        backUpCard = new Texture("assets/programCards/backUp.png");
-        rotateRightCard = new Texture("assets/programCards/rotateRight.png");
-        rotateLeftCard = new Texture("assets/programCards/rotateLeft.png");
-        uTurnCard = new Texture("assets/programCards/uTurn.png");
-        damageToken = new Texture("assets/damageToken.png");
-        powerDownButtonPre = new Texture("assets/buttons/powerdownPre.png");
-        powerDownButtonPost = new Texture("assets/buttons/powerdownPost.png");
+        emptyCard = assets.getManager().get(Assets.emptyCard,Texture.class);
+        moveOneCard = assets.getManager().get(Assets.moveOneCard,Texture.class);
+        moveTwoCard = assets.getManager().get(Assets.moveTwoCard,Texture.class);
+        moveThreeCard = assets.getManager().get(Assets.moveThreeCard,Texture.class);
+        backUpCard = assets.getManager().get(Assets.backUpCard,Texture.class);
+        rotateRightCard = assets.getManager().get(Assets.rotateRightCard,Texture.class);
+        rotateLeftCard = assets.getManager().get(Assets.rotateLeftCard,Texture.class);
+        uTurnCard = assets.getManager().get(Assets.uTurnCard,Texture.class);
+        damageToken = assets.getManager().get(Assets.damageToken,Texture.class);
+        powerDownButtonPre = assets.getManager().get(Assets.powerDownButtonPre,Texture.class);
+        powerDownButtonPost = assets.getManager().get(Assets.powerDownButtonPost,Texture.class);
 
 
         batch = new SpriteBatch();
@@ -119,8 +123,8 @@ public class InterfaceRenderer {
         rightOfBoard = Gdx.graphics.getWidth() / 2f;
         healthFlagSize = Gdx.graphics.getHeight() / (640f / 40f);
         damageTokenSize = Gdx.graphics.getHeight() / (640f / 35f);
-        powerdownSize = Gdx.graphics.getHeight() / 10f;
-        powerDownX = camera.viewportWidth / 2f + camera.viewportWidth / 4f - powerdownSize / 2f;
+        powerDownSize = Gdx.graphics.getHeight() / 10f;
+        powerDownX = camera.viewportWidth / 2f + camera.viewportWidth / 4f - powerDownSize / 2f;
         powerDownY = camera.viewportHeight / 1.6f;
 
     }
@@ -146,7 +150,7 @@ public class InterfaceRenderer {
         }
 
         for (int i = 0; i < 5; i++) {
-            drawCard(programRegister[0 + i], rightOfBoard + rightOfBoard / 2 - cardWidth * 1.25f + cardWidth / 2 * i, camera.viewportHeight / (640f / 250f), cardWidth, cardHeight);
+            drawCard(programRegister[i], rightOfBoard + rightOfBoard / 2 - cardWidth * 1.25f + cardWidth / 2 * i, camera.viewportHeight / (640f / 250f), cardWidth, cardHeight);
 
         }
 
@@ -169,10 +173,10 @@ public class InterfaceRenderer {
             font.draw(batch, Integer.toString(lives), rightOfBoard + healthFlagSize * 1.2f + rightOfBoard / 4 * i, camera.viewportHeight - camera.viewportHeight / (640f / 110f));
             font.draw(batch, Integer.toString(flagsVisited), rightOfBoard + healthFlagSize * 0.2f + rightOfBoard / 4 * i, camera.viewportHeight - camera.viewportHeight / (640f / 110f));
         }
-        batch.draw(powerDownButtonPre, powerDownX, powerDownY, powerdownSize, powerdownSize);
-
-        if (Gdx.input.getX() < powerDownX + powerdownSize && Gdx.input.getX() > powerDownX && camera.viewportHeight - Gdx.input.getY() < powerDownY + powerdownSize / 1.1f && camera.viewportHeight - Gdx.input.getY() > powerDownY + powerdownSize / (6f)) {
-            batch.draw(powerDownButtonPost, powerDownX, powerDownY, powerdownSize, powerdownSize);
+        //powerDown button
+        batch.draw(powerDownButtonPre, powerDownX, powerDownY, powerDownSize, powerDownSize);
+        if (Gdx.input.getX() < powerDownX + powerDownSize && Gdx.input.getX() > powerDownX && camera.viewportHeight - Gdx.input.getY() < powerDownY + powerDownSize / 1.1f && camera.viewportHeight - Gdx.input.getY() > powerDownY + powerDownSize / (6f)) {
+            batch.draw(powerDownButtonPost, powerDownX, powerDownY, powerDownSize, powerDownSize);
             if (Gdx.input.isTouched()) {
                 System.out.println("powerdown metode her");
             }
@@ -180,6 +184,7 @@ public class InterfaceRenderer {
 
         batch.end();
 
+        //card priority
         fontBatch.begin();
         for (int i = 0; i < 4; i++) {
             if (cardHand[i] != null) {
@@ -191,6 +196,7 @@ public class InterfaceRenderer {
                 font.draw(fontBatch, Integer.toString(cardHand[i].getPriorityNumber()), rightOfBoard + rightOfBoard / 2 - cardWidth * 1.06f + cardWidth / 2 * (i - 4), cardHeight / (117f / 100f));
             }
         }
+        //card priority program register
         for (int i = 0; i < 5; i++) {
             if (programRegister[i] != null) {
                 font.draw(fontBatch, Integer.toString(programRegister[i].getPriorityNumber()), rightOfBoard + rightOfBoard / 2 - cardWidth * 1.06f + cardWidth / 2 * i, cardHeight * (3.63f));

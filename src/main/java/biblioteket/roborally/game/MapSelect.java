@@ -1,18 +1,14 @@
 package biblioteket.roborally.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 
-public class MapSelect implements Screen {
-
+public class MapSelect extends StandardScreen {
 
     private static String map;
     private final RoboRally game;
-    private final Texture background;
     private final Texture dizzyPre;
     private final Texture dizzyPost;
     private final Texture riskyPre;
@@ -21,40 +17,26 @@ public class MapSelect implements Screen {
     private final Texture quitPost;
     private final Texture selectMap;
     private final BitmapFont font;
-    private float mapWidth;
-    private float mapHeight;
-    private float center;
-    private float dizzyX;
-    private float riskyX;
-    private float mapY;
-    private float buttonHeight;
-    private float buttonWidth;
-    private float exitY;
-    private float buttonCenter;
     private final OrthographicCamera camera;
-    private final Assets assets;
 
     public MapSelect(final RoboRally game) {
+        super(game);
         this.game = game;
-        this.camera = new OrthographicCamera();
-        camera.setToOrtho(false, 640, 640);
 
-        assets = new Assets();
-        assets.load();
-        assets.getManager().finishLoading();
+        camera = getCamera();
+        Assets assets = getAssets();
 
-        background = assets.getManager().get(assets.background, Texture.class);
-        dizzyPre = assets.getManager().get(assets.dizzyPre, Texture.class);
-        dizzyPost = assets.getManager().get(assets.dizzyPost, Texture.class);
-        riskyPre = assets.getManager().get(assets.riskyPre, Texture.class);
-        riskyPost = assets.getManager().get(assets.riskyPost, Texture.class);
-        quitPre = assets.getManager().get(assets.quitPre, Texture.class);
-        quitPost = assets.getManager().get(assets.quitPost, Texture.class);
+        dizzyPre = assets.getManager().get(Assets.dizzyPre, Texture.class);
+        dizzyPost = assets.getManager().get(Assets.dizzyPost, Texture.class);
+        riskyPre = assets.getManager().get(Assets.riskyPre, Texture.class);
+        riskyPost = assets.getManager().get(Assets.riskyPost, Texture.class);
+        quitPre = assets.getManager().get(Assets.quitPre, Texture.class);
+        quitPost = assets.getManager().get(Assets.quitPost, Texture.class);
+        selectMap = assets.getManager().get(Assets.selectMap, Texture.class);
 
         font = new BitmapFont();
         font.getData().setScale(1.5f, 1.5f);
 
-        selectMap = new Texture("assets/selectMap.png");
     }
 
     public static String getMap() {
@@ -66,34 +48,27 @@ public class MapSelect implements Screen {
         //empty method
     }
 
-    public void buttonSize() {
-        mapWidth = camera.viewportHeight / (3.2f);
-        mapHeight = camera.viewportHeight / (2.42f);
-        center = camera.viewportWidth / 2f;
-        buttonCenter = center - buttonWidth / 2f;
-        dizzyX = center - camera.viewportWidth / 9f - mapWidth;
-        riskyX = center + camera.viewportWidth / 9f;
-        mapY = camera.viewportHeight / 3f;
-        exitY = camera.viewportHeight / 30f;
-        buttonHeight = camera.viewportHeight / ((256f / 100f));
-        buttonWidth = camera.viewportHeight / (356f / 100f);
-    }
-
     @Override
     public void render(float v) {
-        buttonSize();
-        Gdx.gl.glClearColor(0, 0, 0.2f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        game.getBatch().setProjectionMatrix(camera.combined);
+        super.render(v);
+        buttonSizeAndLocation();
+
+        float mapWidth = camera.viewportHeight / (3.2f);
+        float mapHeight = camera.viewportHeight / (2.42f);
+        float mapCentered = camera.viewportWidth / 2f - mapWidth / 2f;
+        float dizzyX = mapCentered - mapWidth;
+        float riskyX = mapCentered + mapWidth;
+        float mapY = camera.viewportHeight / 3f;
+
         game.getBatch().begin();
         game.getBatch().draw(background, 0, 0, camera.viewportWidth, camera.viewportHeight);
         game.getBatch().draw(dizzyPre, dizzyX, mapY, mapWidth, mapHeight);
         game.getBatch().draw(riskyPre, riskyX, mapY, mapWidth, mapHeight);
-        game.getBatch().draw(quitPre, buttonCenter, exitY, buttonWidth, buttonHeight);
+        game.getBatch().draw(quitPre, buttonCentered, exitY, buttonWidth, buttonHeight);
 
         game.getBatch().draw(selectMap, camera.viewportWidth / 2f - (float) selectMap.getWidth() / 2f * camera.viewportHeight / 640f, camera.viewportHeight / 2f, selectMap.getWidth() * camera.viewportHeight / 640f, selectMap.getHeight() * camera.viewportHeight / 640f);
-        font.draw(game.getBatch(), "Dizzy Dash", dizzyX + mapWidth / 3.8f, camera.viewportHeight / (310f / 100f));
-        font.draw(game.getBatch(), "Risky Exchange", riskyX + mapWidth / 5.5f, camera.viewportHeight / (310f / 100f));
+        font.draw(game.getBatch(), "Dizzy Dash", dizzyX + mapWidth / 3.5f, camera.viewportHeight / (310f / 100f));
+        font.draw(game.getBatch(), "Risky Exchange", riskyX + mapWidth / 5.1f, camera.viewportHeight / (310f / 100f));
 
 
         if (Gdx.input.getX() < dizzyX + mapWidth && Gdx.input.getX() > dizzyX && camera.viewportHeight - Gdx.input.getY() < mapY + mapHeight && camera.viewportHeight - Gdx.input.getY() > mapY) {
@@ -111,8 +86,8 @@ public class MapSelect implements Screen {
                 game.setScreen(new DifficultySelect(game));
                 dispose();
             }
-        } else if (Gdx.input.getX() < buttonCenter + buttonWidth && Gdx.input.getX() > buttonCenter && camera.viewportHeight - Gdx.input.getY() < exitY + buttonHeight / 1.35f && camera.viewportHeight - Gdx.input.getY() > exitY + buttonWidth / (1.5f)) {
-            game.getBatch().draw(quitPost, buttonCenter, exitY, buttonWidth, buttonHeight);
+        } else if (Gdx.input.getX() < buttonCentered + buttonWidth && Gdx.input.getX() > buttonCentered && camera.viewportHeight - Gdx.input.getY() < exitY + buttonHeight / 1.35f && camera.viewportHeight - Gdx.input.getY() > exitY + buttonWidth / (1.5f)) {
+            game.getBatch().draw(quitPost, buttonCentered, exitY, buttonWidth, buttonHeight);
             if (Gdx.input.isTouched()) {
                 Gdx.app.exit();
             }
@@ -122,8 +97,7 @@ public class MapSelect implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        camera.setToOrtho(false, width, height);
-        camera.update();
+        super.resize(width,height);
     }
 
     @Override
@@ -143,7 +117,7 @@ public class MapSelect implements Screen {
 
     @Override
     public void dispose() {
-        //empty method
+        super.dispose();
     }
 }
 

@@ -1,93 +1,69 @@
 package biblioteket.roborally.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 
-public class DifficultySelect implements Screen {
+public class DifficultySelect extends StandardScreen {
 
     private final RoboRally game;
-    private final Texture background;
-    private final Texture logo;
     private final Texture easyButtonPre;
     private final Texture easyButtonPost;
     private final Texture normalButtonPre;
     private final Texture normalButtonPost;
     private final Texture hardButtonPre;
     private final Texture hardButtonPost;
-    private float buttonWidth;
-    private float buttonHeight;
-    private float center;
-    private float easyY;
-    private float normalY;
-    private float hardY;
-    private OrthographicCamera camera;
-    private final Assets assets;
+    private final OrthographicCamera camera;
 
 
     public DifficultySelect(final RoboRally game) {
+        super(game);
         this.game = game;
-        this.camera = new OrthographicCamera();
-        camera.setToOrtho(false, 640, 640);
 
-        assets = new Assets();
-        assets.load();
-        assets.getManager().finishLoading();
+        camera = getCamera();
+        Assets assets = getAssets();
 
-        background = assets.getManager().get(assets.background, Texture.class);
-        logo = assets.getManager().get(assets.logo, Texture.class);
-        easyButtonPre = assets.getManager().get(assets.easyButtonPre, Texture.class);
-        easyButtonPost = assets.getManager().get(assets.easyButtonPost, Texture.class);
-        normalButtonPre = assets.getManager().get(assets.normalButtonPre, Texture.class);
-        normalButtonPost = assets.getManager().get(assets.normalButtonPost, Texture.class);
-        hardButtonPre = assets.getManager().get(assets.hardButtonPre, Texture.class);
-        hardButtonPost = assets.getManager().get(assets.hardButtonPost, Texture.class);
+        easyButtonPre = assets.getManager().get(Assets.easyButtonPre, Texture.class);
+        easyButtonPost = assets.getManager().get(Assets.easyButtonPost, Texture.class);
+        normalButtonPre = assets.getManager().get(Assets.normalButtonPre, Texture.class);
+        normalButtonPost = assets.getManager().get(Assets.normalButtonPost, Texture.class);
+        hardButtonPre = assets.getManager().get(Assets.hardButtonPre, Texture.class);
+        hardButtonPost = assets.getManager().get(Assets.hardButtonPost, Texture.class);
     }
     @Override
     public void show() {
-        //empty method
-    }
-
-    public void buttonSize() {
-        center = camera.viewportWidth / 2f - buttonWidth / 2f;
-        buttonHeight = camera.viewportHeight / ((256f / 100f));
-        buttonWidth = camera.viewportHeight / (356f / 100f);
-        easyY = camera.viewportHeight / 4f;
-        normalY = camera.viewportHeight / 8f;
-        hardY = camera.viewportHeight / 130f;
-
+        // Not used, but method must be overwritten
     }
 
     @Override
     public void render(float v) {
-        buttonSize();
-        Gdx.gl.glClearColor(0, 0, 0.2f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        game.getBatch().setProjectionMatrix(camera.combined);
-        game.getBatch().begin();
-        game.getBatch().draw(background, 0, 0, camera.viewportWidth, camera.viewportHeight);
-        game.getBatch().draw(logo, camera.viewportWidth / 2 - (float) logo.getWidth() / 2 * camera.viewportHeight / 640f, camera.viewportHeight / 2, logo.getWidth() * camera.viewportHeight / 640f, logo.getHeight() * camera.viewportHeight / 640f);
-        game.getBatch().draw(easyButtonPre, center, camera.viewportHeight / 4f, buttonWidth, buttonHeight);
-        game.getBatch().draw(normalButtonPre, center, camera.viewportHeight / 8f, buttonWidth, buttonHeight);
-        game.getBatch().draw(hardButtonPre, center, camera.viewportHeight / 130f, buttonWidth, buttonHeight);
+        super.render(v);
+        buttonSizeAndLocation();
 
-        if (Gdx.input.getX() < center + buttonWidth && Gdx.input.getX() > center && camera.viewportHeight - Gdx.input.getY() < easyY + buttonHeight / 1.35 && camera.viewportHeight - Gdx.input.getY() > easyY + buttonWidth / (1.35)) {
-            game.getBatch().draw(easyButtonPost, center, easyY, buttonWidth, buttonHeight);
+        float easyY = camera.viewportHeight / 4f;
+        float normalY = camera.viewportHeight / 8f;
+        float hardY = camera.viewportHeight / 130f;
+
+        game.getBatch().begin();
+        game.getBatch().draw(easyButtonPre, buttonCentered, camera.viewportHeight / 4f, buttonWidth, buttonHeight);
+        game.getBatch().draw(normalButtonPre, buttonCentered, camera.viewportHeight / 8f, buttonWidth, buttonHeight);
+        game.getBatch().draw(hardButtonPre, buttonCentered, camera.viewportHeight / 130f, buttonWidth, buttonHeight);
+
+        if (Gdx.input.getX() < buttonCentered + buttonWidth && Gdx.input.getX() > buttonCentered && camera.viewportHeight - Gdx.input.getY() < easyY + buttonHeight / 1.35 && camera.viewportHeight - Gdx.input.getY() > easyY + buttonWidth / (1.35)) {
+            game.getBatch().draw(easyButtonPost, buttonCentered, easyY, buttonWidth, buttonHeight);
             if (Gdx.input.isTouched()) {
-                game.setScreen(new GameScreen());
+                game.setScreen(new GameScreen(game));
                 dispose();
             }
-        } else if (Gdx.input.getX() < center + buttonWidth && Gdx.input.getX() > center && camera.viewportHeight - Gdx.input.getY() < normalY + buttonHeight / 1.35 && camera.viewportHeight - Gdx.input.getY() > normalY + buttonWidth / (1.35)) {
-            game.getBatch().draw(normalButtonPost, center, normalY, buttonWidth, buttonHeight);
+        } else if (Gdx.input.getX() < buttonCentered + buttonWidth && Gdx.input.getX() > buttonCentered && camera.viewportHeight - Gdx.input.getY() < normalY + buttonHeight / 1.35 && camera.viewportHeight - Gdx.input.getY() > normalY + buttonWidth / (1.35)) {
+            game.getBatch().draw(normalButtonPost, buttonCentered, normalY, buttonWidth, buttonHeight);
             if (Gdx.input.isTouched()) {
-                game.setScreen(new GameScreen());
+                game.setScreen(new GameScreen(game));
             }
-        } else if (Gdx.input.getX() < center + buttonWidth && Gdx.input.getX() > center && camera.viewportHeight - Gdx.input.getY() < hardY + buttonHeight / 1.35 && camera.viewportHeight - Gdx.input.getY() > hardY + buttonWidth / (1.35)) {
-            game.getBatch().draw(hardButtonPost, center, hardY, buttonWidth, buttonHeight);
+        } else if (Gdx.input.getX() < buttonCentered + buttonWidth && Gdx.input.getX() > buttonCentered && camera.viewportHeight - Gdx.input.getY() < hardY + buttonHeight / 1.35 && camera.viewportHeight - Gdx.input.getY() > hardY + buttonWidth / (1.35)) {
+            game.getBatch().draw(hardButtonPost, buttonCentered, hardY, buttonWidth, buttonHeight);
             if (Gdx.input.isTouched()) {
-                game.setScreen(new GameScreen());
+                game.setScreen(new EndGameScreen(game));
             }
         }
         game.getBatch().end();
@@ -95,28 +71,26 @@ public class DifficultySelect implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        this.camera = new OrthographicCamera();
-        camera.setToOrtho(false, width, height);
-        camera.update();
+        super.resize(width,height);
     }
 
     @Override
     public void pause() {
-        //empty method
+        // Not used, but method must be overwritten
     }
 
     @Override
     public void resume() {
-        //empty method
+        // Not used, but method must be overwritten
     }
 
     @Override
     public void hide() {
-        //empty method
+        // Not used, but method must be overwritten
     }
 
     @Override
     public void dispose() {
-        assets.getManager().dispose();
+        super.dispose();
     }
 }

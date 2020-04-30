@@ -1,15 +1,13 @@
 package biblioteket.roborally.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class PlayerSelect implements Screen {
+public class PlayerSelect extends StandardScreen {
 
     private final Texture background;
     private final Texture arrowRightPre;
@@ -19,63 +17,25 @@ public class PlayerSelect implements Screen {
     private final Texture selectNumberOfPlayers;
     private final Texture selectPre;
     private final Texture selectPost;
-    private final RoboRally game;
     private final OrthographicCamera camera;
     private List<Texture> numberList;
-    private float center;
-    private float arrowY;
-    private float arrowWidth;
-    private float arrowHeight;
-    private float numberCenter;
-    private float numberWidth;
-    private float numberHeight;
-    private float arrowLeftX;
-    private float arrowRightX;
-    private float buttonHeight;
-    private float buttonWidth;
-    private float selectY;
-    private float buttonCenter;
     private int counter;
-    private final Assets assets;
+
 
     public PlayerSelect(final RoboRally game) {
-        this.game = game;
-        this.camera = new OrthographicCamera();
-        camera.setToOrtho(false, 640, 640);
+        super(game);
 
-        assets = new Assets();
-        assets.load();
-        assets.getManager().finishLoading();
+        camera = getCamera();
+        Assets assets = getAssets();
 
-        background = assets.getManager().get(assets.background, Texture.class);
-        arrowRightPre = assets.getManager().get(assets.arrowRightPre, Texture.class);
-        arrowRightPost = assets.getManager().get(assets.arrowRightPost, Texture.class);
-        arrowLeftPre = assets.getManager().get(assets.arrowLeftPre, Texture.class);
-        arrowLeftPost = assets.getManager().get(assets.arrowLeftPost, Texture.class);
-        selectPre = assets.getManager().get(assets.selectPre, Texture.class);
-        selectPost = assets.getManager().get(assets.selectPost, Texture.class);
-        selectNumberOfPlayers = assets.getManager().get(assets.selectNumberOfPlayers, Texture.class);
-
-    }
-    @Override
-    public void show() {
-        //empty method
-    }
-
-    public void buttonSize() {
-        center = camera.viewportWidth / 2f;
-        buttonCenter = camera.viewportWidth / 2f - buttonWidth / 2;
-        buttonHeight = camera.viewportHeight / ((256f / 100f));
-        buttonWidth = camera.viewportHeight / (356f / 100f);
-        selectY = camera.viewportHeight / 15f;
-        numberCenter = camera.viewportWidth / 2f - numberWidth / 2f;
-        numberWidth = camera.viewportHeight / (300 / 100f);
-        numberHeight = camera.viewportHeight / (300 / 100f);
-        arrowY = camera.viewportHeight / 2.5f;
-        arrowLeftX = center - arrowWidth * 2f;
-        arrowRightX = center + arrowWidth;
-        arrowWidth = camera.viewportHeight / (8f);
-        arrowHeight = camera.viewportHeight / (4.5f);
+        background = assets.getManager().get(Assets.background, Texture.class);
+        arrowRightPre = assets.getManager().get(Assets.arrowRightPre, Texture.class);
+        arrowRightPost = assets.getManager().get(Assets.arrowRightPost, Texture.class);
+        arrowLeftPre = assets.getManager().get(Assets.arrowLeftPre, Texture.class);
+        arrowLeftPost = assets.getManager().get(Assets.arrowLeftPost, Texture.class);
+        selectPre = assets.getManager().get(Assets.selectPre, Texture.class);
+        selectPost = assets.getManager().get(Assets.selectPost, Texture.class);
+        selectNumberOfPlayers = assets.getManager().get(Assets.selectNumberOfPlayers, Texture.class);
 
         Texture one = new Texture("assets/numbers/1.png");
         Texture two = new Texture("assets/numbers/2.png");
@@ -86,6 +46,11 @@ public class PlayerSelect implements Screen {
         Texture seven = new Texture("assets/numbers/7.png");
         Texture eight = new Texture("assets/numbers/8.png");
         numberList = Arrays.asList(one, two, three, four, five, six, seven, eight);
+
+    }
+    @Override
+    public void show() {
+        //empty method
     }
 
     public Texture convertIntToTexture(int counter) {
@@ -94,17 +59,25 @@ public class PlayerSelect implements Screen {
 
     @Override
     public void render(float v) {
-        buttonSize();
+        buttonSizeAndLocation();
 
-        Gdx.gl.glClearColor(0, 0, 0.2f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        game.getBatch().setProjectionMatrix(camera.combined);
+        float selectY = camera.viewportHeight / 15f;
+        float numberWidth = camera.viewportHeight / (300 / 100f);
+        float numberCenter = camera.viewportWidth / 2f - numberWidth / 2f;
+        float numberHeight = camera.viewportHeight / (300 / 100f);
+        float arrowY = camera.viewportHeight / 2.5f;
+        float arrowWidth = camera.viewportHeight / (8f);
+        float arrowHeight = camera.viewportHeight / (4.5f);
+        float arrowLeftX = centerOfScreenX - arrowWidth * 2f;
+        float arrowRightX = centerOfScreenX + arrowWidth;
+
+        super.render(v);
         game.getBatch().begin();
         game.getBatch().draw(background, 0, 0, camera.viewportWidth, camera.viewportHeight);
-        game.getBatch().draw(selectNumberOfPlayers, center - arrowWidth * 3.9f, camera.viewportHeight / 2.5f, selectNumberOfPlayers.getWidth() * camera.viewportHeight / 640f, selectNumberOfPlayers.getHeight() * camera.viewportHeight / 640f);
+        game.getBatch().draw(selectNumberOfPlayers, centerOfScreenX - arrowWidth * 3.9f, camera.viewportHeight / 2.5f, selectNumberOfPlayers.getWidth() * camera.viewportHeight / 640f, selectNumberOfPlayers.getHeight() * camera.viewportHeight / 640f);
         game.getBatch().draw(arrowLeftPre, arrowLeftX, arrowY, arrowWidth, arrowHeight);
         game.getBatch().draw(arrowRightPre, arrowRightX, arrowY, arrowWidth, arrowHeight);
-        game.getBatch().draw(selectPre, center - buttonWidth / 2, selectY, buttonWidth, buttonHeight);
+        game.getBatch().draw(selectPre, centerOfScreenX - buttonWidth / 2, selectY, buttonWidth, buttonHeight);
         game.getBatch().draw(convertIntToTexture(counter), numberCenter, arrowY * 0.87f, numberWidth, numberHeight);
 
         //arrow left
@@ -122,8 +95,8 @@ public class PlayerSelect implements Screen {
                 }
         }
         //select button
-        else if (Gdx.input.getX() < buttonCenter + buttonWidth && Gdx.input.getX() > buttonCenter && camera.viewportHeight - Gdx.input.getY() < selectY + buttonHeight / 1.35 && camera.viewportHeight - Gdx.input.getY() > selectY + buttonWidth / (1.35)) {
-            game.getBatch().draw(selectPost, buttonCenter, selectY, buttonWidth, buttonHeight);
+        else if (Gdx.input.getX() < buttonCentered + buttonWidth && Gdx.input.getX() > buttonCentered && camera.viewportHeight - Gdx.input.getY() < selectY + buttonHeight / 1.35 && camera.viewportHeight - Gdx.input.getY() > selectY + buttonWidth / (1.35)) {
+            game.getBatch().draw(selectPost, buttonCentered, selectY, buttonWidth, buttonHeight);
             if (Gdx.input.isTouched()) {
                 game.setScreen(new MapSelect(game));
                 dispose();
@@ -134,27 +107,26 @@ public class PlayerSelect implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        camera.setToOrtho(false, width, height);
-        camera.update();
+        super.resize(width,height);
     }
 
     @Override
     public void pause() {
-        //empty method
+        // Not used, but method must be overwritten
     }
 
     @Override
     public void resume() {
-        //empty method
+        // Not used, but method must be overwritten
     }
 
     @Override
     public void hide() {
-        //empty method
+        // Not used, but method must be overwritten
     }
 
     @Override
     public void dispose() {
-        //empty method
+        super.dispose();
     }
 }

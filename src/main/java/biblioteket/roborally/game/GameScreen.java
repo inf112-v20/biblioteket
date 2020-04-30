@@ -4,7 +4,6 @@ import biblioteket.roborally.actors.*;
 import biblioteket.roborally.board.Board;
 import biblioteket.roborally.elements.ArchiveMarkerElement;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -21,20 +20,23 @@ import java.util.List;
  * the game logic itself. Currently only renders a very simple board with a
  * flag and hole that they player can move around on.
  */
-public class GameScreen implements Screen {
-    private static final OrthographicCamera camera = new OrthographicCamera();
+public class GameScreen extends StandardScreen {
+    private final OrthographicCamera camera;
     private final Board board;
     private final RobotRenderer robotRenderer;
     private final GameLoop gameLoop;
     private final OrthogonalTiledMapRenderer tiledMapRenderer;
 
-    public GameScreen() {
+
+    public GameScreen(final RoboRally game) {
+        super(game);
         List<IActor> players = new ArrayList<>();
         String map = MapSelect.getMap();
         this.board = new Board(map, players);
         gameLoop = new GameLoop(board, players);
         this.robotRenderer = new RobotRenderer(board.getPlayerLayer(), players, gameLoop);
 
+        camera = getCamera();
         camera.setToOrtho(false, (float) board.getWidth() * 2, (float) board.getHeight());
         camera.update();
 
@@ -72,15 +74,10 @@ public class GameScreen implements Screen {
 
     }
 
-    public static OrthographicCamera getCamera() {
-        return camera;
-    }
-
     @Override
     public void show() {
         // Not used, but method must be overwritten
     }
-
 
     @Override
     public void render(float delta) {
@@ -99,8 +96,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        camera.setToOrtho(false, width, height);
-        camera.update();
+        super.resize(width, height);
     }
 
 
@@ -121,6 +117,6 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
-        // Not used, but method must be overwritten
+        super.dispose();
     }
 }

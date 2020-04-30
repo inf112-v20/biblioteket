@@ -7,30 +7,46 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 public class Assets {
     private AssetManager manager;
 
-    public static final String logo = "assets/logo.png";
+    public static final String logo = "logo.png";
     public static final String background = "background2.jpg";
-    public static final String playPre = "assets/buttons/playPre.png";
-    public static final String playPost = "assets/buttons/playPost.png";
-    public static final String quitPre = "assets/buttons/quitPre.png";
-    public static final String quitPost = "assets/buttons/quitPost.png";
-    public static final String easyButtonPre = "assets/buttons/easyPre.png";
-    public static final String easyButtonPost ="assets/buttons/easyPost.png";
-    public static final String normalButtonPre = "assets/buttons/normalPre.png";
-    public static final String normalButtonPost = "assets/buttons/normalPost.png";
-    public static final String hardButtonPre = "assets/buttons/hardPre.png";
-    public static final String hardButtonPost = "assets/buttons/hardPost.png";
-    public static final String arrowRightPre = "assets/buttons/arrowRightPre.png";
-    public static final String arrowRightPost = "assets/buttons/arrowRightPost.png";
-    public static final String arrowLeftPre = "assets/buttons/arrowLeftPre.png";
-    public static final String arrowLeftPost = "assets/buttons/arrowLeftPost.png";
-    public static final String selectNumberOfPlayers = "assets/selectPlayers.png";
-    public static final String selectPre = "assets/buttons/selectPre.png";
-    public static final String selectPost = "assets/buttons/selectPost.png";
-    public static final String dizzyPre = "assets/gamemaps/dizzyPre.png";
-    public static final String dizzyPost = "assets/gamemaps/dizzyPost.png";
-    public static final String riskyPre = "assets/gamemaps/riskyPre.png";
-    public static final String riskyPost = "assets/gamemaps/riskyPost.png";
-    public static final String selectMap = "assets/selectMap.png";
+    public static final String playPre = "buttons/playPre.png";
+    public static final String playPost = "buttons/playPost.png";
+    public static final String quitPre = "buttons/quitPre.png";
+    public static final String quitPost = "buttons/quitPost.png";
+    public static final String easyButtonPre = "buttons/easyPre.png";
+    public static final String easyButtonPost ="buttons/easyPost.png";
+    public static final String normalButtonPre = "buttons/normalPre.png";
+    public static final String normalButtonPost = "buttons/normalPost.png";
+    public static final String hardButtonPre = "buttons/hardPre.png";
+    public static final String hardButtonPost = "buttons/hardPost.png";
+    public static final String arrowRightPre = "buttons/arrowRightPre.png";
+    public static final String arrowRightPost = "buttons/arrowRightPost.png";
+    public static final String arrowLeftPre = "buttons/arrowLeftPre.png";
+    public static final String arrowLeftPost = "buttons/arrowLeftPost.png";
+    public static final String selectNumberOfPlayers = "selectPlayers.png";
+    public static final String selectPre = "buttons/selectPre.png";
+    public static final String selectPost = "buttons/selectPost.png";
+    public static final String dizzyPre = "gamemaps/dizzyPre.png";
+    public static final String dizzyPost = "gamemaps/dizzyPost.png";
+    public static final String riskyPre = "gamemaps/riskyPre.png";
+    public static final String riskyPost = "gamemaps/riskyPost.png";
+    public static final String selectMap = "selectMap.png";
+    public static final String hp = "hp.png";
+    public static final String flag = "flag.png";
+    public static final String emptyCard = "programCards/cards.png";
+    public static final String moveOneCard = "programCards/move1.png";
+    public static final String moveTwoCard = "programCards/move2.png";
+    public static final String moveThreeCard = "programCards/move3.png";
+    public static final String backUpCard ="programCards/backUp.png";
+    public static final String rotateRightCard = "programCards/rotateRight.png";
+    public static final String rotateLeftCard = "programCards/rotateLeft.png";
+    public static final String uTurnCard = "programCards/uTurn.png";
+    public static final String damageToken = "damageToken.png";
+    public static final String powerDownButtonPre = "buttons/powerdownPre.png";
+    public static final String powerDownButtonPost = "buttons/powerdownPost.png";
+    public static final String mainMenuPre = "buttons/mainMenuPre.png";
+    public static final String mainMenuPost = "assets/buttons/mainMenuPost.png";
+
 
     public void load() {
         if (manager == null) {
@@ -61,6 +77,24 @@ public class Assets {
         manager.load(riskyPre, Texture.class);
         manager.load(riskyPost, Texture.class);
         manager.load(selectMap, Texture.class);
+        manager.load(hp, Texture.class);
+        manager.load(flag, Texture.class);
+        manager.load(emptyCard, Texture.class);
+        manager.load(moveOneCard, Texture.class);
+        manager.load(moveTwoCard, Texture.class);
+        manager.load(moveThreeCard, Texture.class);
+        manager.load(backUpCard, Texture.class);
+        manager.load(rotateRightCard, Texture.class);
+        manager.load(rotateLeftCard, Texture.class);
+        manager.load(uTurnCard, Texture.class);
+        manager.load(damageToken, Texture.class);
+        manager.load(powerDownButtonPre, Texture.class);
+        manager.load(powerDownButtonPost, Texture.class);
+        manager.load(mainMenuPre, Texture.class);
+        manager.load(mainMenuPost, Texture.class);
+
+
+
     }
 
     public AssetManager getManager() {
