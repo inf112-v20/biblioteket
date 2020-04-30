@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 public class MapSelect extends StandardScreen {
 
     private static String map;
-    private final RoboRally game;
     private final Texture dizzyPre;
     private final Texture dizzyPost;
     private final Texture riskyPre;
@@ -21,18 +20,17 @@ public class MapSelect extends StandardScreen {
 
     public MapSelect(final RoboRally game) {
         super(game);
-        this.game = game;
 
         camera = getCamera();
         Assets assets = getAssets();
 
-        dizzyPre = assets.getManager().get(Assets.dizzyPre, Texture.class);
-        dizzyPost = assets.getManager().get(Assets.dizzyPost, Texture.class);
-        riskyPre = assets.getManager().get(Assets.riskyPre, Texture.class);
-        riskyPost = assets.getManager().get(Assets.riskyPost, Texture.class);
-        quitPre = assets.getManager().get(Assets.quitPre, Texture.class);
-        quitPost = assets.getManager().get(Assets.quitPost, Texture.class);
-        selectMap = assets.getManager().get(Assets.selectMap, Texture.class);
+        dizzyPre = assets.getManager().get(Assets.DIZZY_PRE, Texture.class);
+        dizzyPost = assets.getManager().get(Assets.DIZZY_POST, Texture.class);
+        riskyPre = assets.getManager().get(Assets.RISKY_PRE, Texture.class);
+        riskyPost = assets.getManager().get(Assets.RISKY_POST, Texture.class);
+        quitPre = assets.getManager().get(Assets.QUIT_PRE, Texture.class);
+        quitPost = assets.getManager().get(Assets.QUIT_POST, Texture.class);
+        selectMap = assets.getManager().get(Assets.SELECT_MAP, Texture.class);
 
         font = new BitmapFont();
         font.getData().setScale(1.5f, 1.5f);
@@ -43,6 +41,10 @@ public class MapSelect extends StandardScreen {
         return map;
     }
 
+    public void setMap(String map) {
+        MapSelect.map = map;
+    }
+
     @Override
     public void show() {
         //empty method
@@ -51,7 +53,6 @@ public class MapSelect extends StandardScreen {
     @Override
     public void render(float v) {
         super.render(v);
-        buttonSizeAndLocation();
 
         float mapWidth = camera.viewportHeight / (3.2f);
         float mapHeight = camera.viewportHeight / (2.42f);
@@ -74,7 +75,7 @@ public class MapSelect extends StandardScreen {
         if (Gdx.input.getX() < dizzyX + mapWidth && Gdx.input.getX() > dizzyX && camera.viewportHeight - Gdx.input.getY() < mapY + mapHeight && camera.viewportHeight - Gdx.input.getY() > mapY) {
             game.getBatch().draw(dizzyPost, dizzyX, mapY, mapWidth, mapHeight);
             if (Gdx.input.isTouched()) {
-                map = "assets/DizzyDash.tmx";
+                setMap("assets/DizzyDash.tmx");
                 game.setScreen(new DifficultySelect(game));
                 dispose();
 
@@ -82,7 +83,7 @@ public class MapSelect extends StandardScreen {
         } else if (Gdx.input.getX() < riskyX + mapWidth && Gdx.input.getX() > riskyX && camera.viewportHeight - Gdx.input.getY() < mapY + mapHeight && camera.viewportHeight - Gdx.input.getY() > mapY) {
             game.getBatch().draw(riskyPost, riskyX, mapY, mapWidth, mapHeight);
             if (Gdx.input.isTouched()) {
-                map = "assets/RiskyExchange.tmx";
+                setMap("assets/RiskyExchange.tmx");
                 game.setScreen(new DifficultySelect(game));
                 dispose();
             }

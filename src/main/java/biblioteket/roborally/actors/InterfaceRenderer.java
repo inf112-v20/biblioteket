@@ -5,7 +5,6 @@ import biblioteket.roborally.game.Assets;
 import biblioteket.roborally.game.GameScreen;
 import biblioteket.roborally.programcards.ICard;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -43,7 +42,6 @@ public class InterfaceRenderer {
     private final ICard[] programRegister;
     private final TouchableCards touchableCardHand;
     private final TouchableCards touchableProgramRegister;
-    private final OrthographicCamera camera;
     private int flagsVisited;
     private int lives;
     private String name;
@@ -62,26 +60,25 @@ public class InterfaceRenderer {
 
     public InterfaceRenderer() {
 
-        camera = GameScreen.getCamera();
         Assets assets = new Assets();
         assets.load();
         assets.getManager().finishLoading();
 
-        background = assets.getManager().get(Assets.background,Texture.class);
-        hp = assets.getManager().get(Assets.hp,Texture.class);
-        flag = assets.getManager().get(Assets.flag,Texture.class);
+        background = assets.getManager().get(Assets.BACKGROUND,Texture.class);
+        hp = assets.getManager().get(Assets.HP,Texture.class);
+        flag = assets.getManager().get(Assets.FLAG,Texture.class);
 
-        emptyCard = assets.getManager().get(Assets.emptyCard,Texture.class);
-        moveOneCard = assets.getManager().get(Assets.moveOneCard,Texture.class);
-        moveTwoCard = assets.getManager().get(Assets.moveTwoCard,Texture.class);
-        moveThreeCard = assets.getManager().get(Assets.moveThreeCard,Texture.class);
-        backUpCard = assets.getManager().get(Assets.backUpCard,Texture.class);
-        rotateRightCard = assets.getManager().get(Assets.rotateRightCard,Texture.class);
-        rotateLeftCard = assets.getManager().get(Assets.rotateLeftCard,Texture.class);
-        uTurnCard = assets.getManager().get(Assets.uTurnCard,Texture.class);
-        damageToken = assets.getManager().get(Assets.damageToken,Texture.class);
-        powerDownButtonPre = assets.getManager().get(Assets.powerDownButtonPre,Texture.class);
-        powerDownButtonPost = assets.getManager().get(Assets.powerDownButtonPost,Texture.class);
+        emptyCard = assets.getManager().get(Assets.EMPTY_CARD,Texture.class);
+        moveOneCard = assets.getManager().get(Assets.MOVE_ONE_CARD,Texture.class);
+        moveTwoCard = assets.getManager().get(Assets.MOVE_TWO_CARD,Texture.class);
+        moveThreeCard = assets.getManager().get(Assets.MOVE_THREE_CARD,Texture.class);
+        backUpCard = assets.getManager().get(Assets.BACK_UP_CARD,Texture.class);
+        rotateRightCard = assets.getManager().get(Assets.ROTATE_RIGHT_CARD,Texture.class);
+        rotateLeftCard = assets.getManager().get(Assets.ROTATE_LEFT_CARD,Texture.class);
+        uTurnCard = assets.getManager().get(Assets.U_TURN_CARD,Texture.class);
+        damageToken = assets.getManager().get(Assets.DAMAGE_TOKEN,Texture.class);
+        powerDownButtonPre = assets.getManager().get(Assets.POWER_DOWN_BUTTON_PRE,Texture.class);
+        powerDownButtonPost = assets.getManager().get(Assets.POWER_DOWN_BUTTON_POST,Texture.class);
 
 
         batch = new SpriteBatch();
@@ -124,21 +121,21 @@ public class InterfaceRenderer {
         healthFlagSize = Gdx.graphics.getHeight() / (640f / 40f);
         damageTokenSize = Gdx.graphics.getHeight() / (640f / 35f);
         powerDownSize = Gdx.graphics.getHeight() / 10f;
-        powerDownX = camera.viewportWidth / 2f + camera.viewportWidth / 4f - powerDownSize / 2f;
-        powerDownY = camera.viewportHeight / 1.6f;
+        powerDownX = GameScreen.getCamera().viewportWidth / 2f + GameScreen.getCamera().viewportWidth / 4f - powerDownSize / 2f;
+        powerDownY = GameScreen.getCamera().viewportHeight / 1.6f;
 
     }
 
     public void renderInterface(IBoard board) {
         graphicSize();
 
-        camera.update();
-        batch.setProjectionMatrix(camera.combined);
-        fontBatch.setProjectionMatrix(camera.combined);
+        GameScreen.getCamera().update();
+        batch.setProjectionMatrix(GameScreen.getCamera().combined);
+        fontBatch.setProjectionMatrix(GameScreen.getCamera().combined);
 
 
         batch.begin();
-        batch.draw(background, 0, 0, camera.viewportWidth, camera.viewportHeight);
+        batch.draw(background, 0, 0, GameScreen.getCamera().viewportWidth, GameScreen.getCamera().viewportHeight);
 
         for (int i = 0; i < 4; i++) {
             drawCard(cardHand[i], rightOfBoard + rightOfBoard / 2 - cardWidth + cardWidth / 2 * i, cardHeight, cardWidth, cardHeight);
@@ -150,32 +147,33 @@ public class InterfaceRenderer {
         }
 
         for (int i = 0; i < 5; i++) {
-            drawCard(programRegister[i], rightOfBoard + rightOfBoard / 2 - cardWidth * 1.25f + cardWidth / 2 * i, camera.viewportHeight / (640f / 250f), cardWidth, cardHeight);
+            drawCard(programRegister[i], rightOfBoard + rightOfBoard / 2 - cardWidth * 1.25f + cardWidth / 2 * i, GameScreen.getCamera().viewportHeight / (640f / 250f), cardWidth, cardHeight);
 
         }
 
         for (int i = 0; i < 10; i++) {
-            batch.draw(damageToken, rightOfBoard + rightOfBoard / 2 - damageTokenSize * 1.06f + damageTokenSize / 1.15f * (i - 4), camera.viewportHeight / 1.8f, damageTokenSize, damageTokenSize);
+            batch.draw(damageToken, rightOfBoard + rightOfBoard / 2 - damageTokenSize * 1.06f + damageTokenSize / 1.15f * (i - 4), GameScreen.getCamera().viewportHeight / 1.8f, damageTokenSize, damageTokenSize);
         }
 
         for (int i = 0; i < 4; i++) {
             // Player 1-4
-            batch.draw(flag, (rightOfBoard / ((320f / 315f))) + rightOfBoard / 4 * i, camera.viewportHeight - (camera.viewportHeight / 16) * 140 / 100, healthFlagSize, healthFlagSize);
-            batch.draw(hp, (rightOfBoard + healthFlagSize / 4 * 2) + rightOfBoard / 4 * i, camera.viewportHeight - (camera.viewportHeight / 16) * 140 / 100, healthFlagSize, healthFlagSize);
-            font.draw(batch, "Player " + (i + 1), rightOfBoard + rightOfBoard / 4 * i, camera.viewportHeight - (camera.viewportHeight / 16f) / 10f);
-            font.draw(batch, Integer.toString(lives), rightOfBoard + healthFlagSize * 1.2f + rightOfBoard / 4 * i, camera.viewportHeight - camera.viewportHeight / (640f / 40f));
-            font.draw(batch, Integer.toString(flagsVisited), rightOfBoard + healthFlagSize * 0.2f + rightOfBoard / 4 * i, camera.viewportHeight - camera.viewportHeight / (640f / 40f));
+            batch.draw(flag, (rightOfBoard / (320f / 315f)) + rightOfBoard / 4 * i, GameScreen.getCamera().viewportHeight - (GameScreen.getCamera().viewportHeight / 16) * 140 / 100, healthFlagSize, healthFlagSize);
+            batch.draw(hp, (rightOfBoard + healthFlagSize / 4 * 2) + rightOfBoard / 4 * i, GameScreen.getCamera().viewportHeight - (GameScreen.getCamera().viewportHeight / 16) * 140 / 100, healthFlagSize, healthFlagSize);
+            font.draw(batch, "Player " + (i + 1), rightOfBoard + rightOfBoard / 4 * i, GameScreen.getCamera().viewportHeight - (GameScreen.getCamera().viewportHeight / 16f) / 10f);
+            font.draw(batch, Integer.toString(lives), rightOfBoard + healthFlagSize * 1.2f + rightOfBoard / 4 * i, GameScreen.getCamera().viewportHeight - GameScreen.getCamera().viewportHeight / (640f / 40f));
+            font.draw(batch, Integer.toString(flagsVisited), rightOfBoard + healthFlagSize * 0.2f + rightOfBoard / 4 * i, GameScreen.getCamera().viewportHeight - GameScreen.getCamera().viewportHeight / (640f / 40f));
 
             // Player 5-8
-            batch.draw(flag, (rightOfBoard / (320f / 315f)) + rightOfBoard / 4 * i, camera.viewportHeight - ((camera.viewportHeight / 5f)), healthFlagSize, healthFlagSize);
-            batch.draw(hp, (rightOfBoard + healthFlagSize / 4 * 2) + rightOfBoard / 4 * i, camera.viewportHeight - ((camera.viewportHeight / 5f)), healthFlagSize, healthFlagSize);
-            font.draw(batch, "Player " + (5 + i), rightOfBoard + rightOfBoard / 4 * i, camera.viewportHeight - ((camera.viewportHeight / 8f)));
-            font.draw(batch, Integer.toString(lives), rightOfBoard + healthFlagSize * 1.2f + rightOfBoard / 4 * i, camera.viewportHeight - camera.viewportHeight / (640f / 110f));
-            font.draw(batch, Integer.toString(flagsVisited), rightOfBoard + healthFlagSize * 0.2f + rightOfBoard / 4 * i, camera.viewportHeight - camera.viewportHeight / (640f / 110f));
+            // Sonar thinks these parentheses are useless. They are not.
+            batch.draw(flag, (rightOfBoard / (320f / 315f)) + rightOfBoard / 4 * i, GameScreen.getCamera().viewportHeight - ((GameScreen.getCamera().viewportHeight / 5f)), healthFlagSize, healthFlagSize);
+            batch.draw(hp, rightOfBoard + healthFlagSize / 4 * 2 + rightOfBoard / 4 * i, GameScreen.getCamera().viewportHeight - ((GameScreen.getCamera().viewportHeight / 5f)), healthFlagSize, healthFlagSize);
+            font.draw(batch, "Player " + (5 + i), rightOfBoard + rightOfBoard / 4 * i, GameScreen.getCamera().viewportHeight - ((GameScreen.getCamera().viewportHeight / 8f)));
+            font.draw(batch, Integer.toString(lives), rightOfBoard + healthFlagSize * 1.2f + rightOfBoard / 4 * i, GameScreen.getCamera().viewportHeight - GameScreen.getCamera().viewportHeight / (640f / 110f));
+            font.draw(batch, Integer.toString(flagsVisited), rightOfBoard + healthFlagSize * 0.2f + rightOfBoard / 4 * i, GameScreen.getCamera().viewportHeight - GameScreen.getCamera().viewportHeight / (640f / 110f));
         }
         //powerDown button
         batch.draw(powerDownButtonPre, powerDownX, powerDownY, powerDownSize, powerDownSize);
-        if (Gdx.input.getX() < powerDownX + powerDownSize && Gdx.input.getX() > powerDownX && camera.viewportHeight - Gdx.input.getY() < powerDownY + powerDownSize / 1.1f && camera.viewportHeight - Gdx.input.getY() > powerDownY + powerDownSize / (6f)) {
+        if (Gdx.input.getX() < powerDownX + powerDownSize && Gdx.input.getX() > powerDownX && GameScreen.getCamera().viewportHeight - Gdx.input.getY() < powerDownY + powerDownSize / 1.1f && GameScreen.getCamera().viewportHeight - Gdx.input.getY() > powerDownY + powerDownSize / (6f)) {
             batch.draw(powerDownButtonPost, powerDownX, powerDownY, powerDownSize, powerDownSize);
             if (Gdx.input.isTouched()) {
                 System.out.println("powerdown metode her");

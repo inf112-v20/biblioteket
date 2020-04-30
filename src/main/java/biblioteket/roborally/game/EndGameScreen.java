@@ -7,9 +7,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 
 public class EndGameScreen extends StandardScreen {
 
-    private final RoboRally game;
     private final OrthographicCamera camera;
-
     private final Texture quitPre;
     private final Texture quitPost;
     private final Texture mainMenuPre;
@@ -19,17 +17,16 @@ public class EndGameScreen extends StandardScreen {
 
     public EndGameScreen(final RoboRally game) {
         super(game);
-        this.game = game;
         camera = getCamera();
         Assets assets = getAssets();
 
         font = new BitmapFont();
         font.getData().setScale(1.5f, 1.5f);
 
-        quitPre = assets.getManager().get(Assets.quitPre, Texture.class);
-        quitPost = assets.getManager().get(Assets.quitPost, Texture.class);
-        mainMenuPre = assets.getManager().get(Assets.mainMenuPre, Texture.class);
-        mainMenuPost = assets.getManager().get(Assets.mainMenuPost, Texture.class);
+        quitPre = assets.getManager().get(Assets.QUIT_PRE, Texture.class);
+        quitPost = assets.getManager().get(Assets.QUIT_POST, Texture.class);
+        mainMenuPre = assets.getManager().get(Assets.MAIN_MENU_PRE, Texture.class);
+        mainMenuPost = assets.getManager().get(Assets.MAIN_MENU_POST, Texture.class);
 
     }
 
@@ -41,7 +38,6 @@ public class EndGameScreen extends StandardScreen {
     @Override
     public void render(float v) {
         super.render(v);
-        buttonSizeAndLocation();
 
         float mainMenuY = camera.viewportHeight / (6f);
 

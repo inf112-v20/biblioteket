@@ -10,7 +10,6 @@ import com.badlogic.gdx.graphics.Texture;
  * canvas is displayed that the user can click and then the game launches.
  */
 public class MainMenuScreen extends StandardScreen {
-    private final RoboRally game;
     private final Texture playPre;
     private final Texture playPost;
     private final Texture quitPre;
@@ -19,15 +18,14 @@ public class MainMenuScreen extends StandardScreen {
 
     public MainMenuScreen(final RoboRally game) {
         super(game);
-        this.game = game;
 
         camera = getCamera();
         Assets assets = getAssets();
 
-        playPre = assets.getManager().get(Assets.playPre, Texture.class);
-        playPost = assets.getManager().get(Assets.playPost, Texture.class);
-        quitPre = assets.getManager().get(Assets.quitPre, Texture.class);
-        quitPost = assets.getManager().get(Assets.quitPost, Texture.class);
+        playPre = assets.getManager().get(Assets.PLAY_PRE, Texture.class);
+        playPost = assets.getManager().get(Assets.PLAY_POST, Texture.class);
+        quitPre = assets.getManager().get(Assets.QUIT_PRE, Texture.class);
+        quitPost = assets.getManager().get(Assets.QUIT_POST, Texture.class);
 
     }
 
@@ -39,7 +37,6 @@ public class MainMenuScreen extends StandardScreen {
     @Override
     public void render(float v) {
         super.render(v);
-        buttonSizeAndLocation();
 
         float startY = camera.viewportHeight / 5f;
 
@@ -51,7 +48,6 @@ public class MainMenuScreen extends StandardScreen {
             game.getBatch().draw(playPost, buttonCentered, startY, buttonWidth, buttonHeight);
             if (Gdx.input.isTouched()) {
                 game.setScreen(new PlayerSelect(game));
-                dispose();
             }
         } else if (hoverOverQuit()) {
             game.getBatch().draw(quitPost, buttonCentered, exitY, buttonWidth, buttonHeight);

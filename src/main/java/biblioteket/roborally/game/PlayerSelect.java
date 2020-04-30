@@ -9,7 +9,6 @@ import java.util.List;
 
 public class PlayerSelect extends StandardScreen {
 
-    private final Texture background;
     private final Texture arrowRightPre;
     private final Texture arrowRightPost;
     private final Texture arrowLeftPre;
@@ -28,14 +27,13 @@ public class PlayerSelect extends StandardScreen {
         camera = getCamera();
         Assets assets = getAssets();
 
-        background = assets.getManager().get(Assets.background, Texture.class);
-        arrowRightPre = assets.getManager().get(Assets.arrowRightPre, Texture.class);
-        arrowRightPost = assets.getManager().get(Assets.arrowRightPost, Texture.class);
-        arrowLeftPre = assets.getManager().get(Assets.arrowLeftPre, Texture.class);
-        arrowLeftPost = assets.getManager().get(Assets.arrowLeftPost, Texture.class);
-        selectPre = assets.getManager().get(Assets.selectPre, Texture.class);
-        selectPost = assets.getManager().get(Assets.selectPost, Texture.class);
-        selectNumberOfPlayers = assets.getManager().get(Assets.selectNumberOfPlayers, Texture.class);
+        arrowRightPre = assets.getManager().get(Assets.ARROW_RIGHT_PRE, Texture.class);
+        arrowRightPost = assets.getManager().get(Assets.ARROW_RIGHT_POST, Texture.class);
+        arrowLeftPre = assets.getManager().get(Assets.ARROW_LEFT_PRE, Texture.class);
+        arrowLeftPost = assets.getManager().get(Assets.ARROW_LEFT_POST, Texture.class);
+        selectPre = assets.getManager().get(Assets.SELECT_PRE, Texture.class);
+        selectPost = assets.getManager().get(Assets.SELECT_POST, Texture.class);
+        selectNumberOfPlayers = assets.getManager().get(Assets.SELECT_NUMBER_OF_PLAYERS, Texture.class);
 
         Texture one = new Texture("assets/numbers/1.png");
         Texture two = new Texture("assets/numbers/2.png");
@@ -59,7 +57,6 @@ public class PlayerSelect extends StandardScreen {
 
     @Override
     public void render(float v) {
-        buttonSizeAndLocation();
 
         float selectY = camera.viewportHeight / 15f;
         float numberWidth = camera.viewportHeight / (300 / 100f);

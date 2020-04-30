@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.Texture;
 
 public class DifficultySelect extends StandardScreen {
 
-    private final RoboRally game;
     private final Texture easyButtonPre;
     private final Texture easyButtonPost;
     private final Texture normalButtonPre;
@@ -18,17 +17,16 @@ public class DifficultySelect extends StandardScreen {
 
     public DifficultySelect(final RoboRally game) {
         super(game);
-        this.game = game;
 
         camera = getCamera();
         Assets assets = getAssets();
 
-        easyButtonPre = assets.getManager().get(Assets.easyButtonPre, Texture.class);
-        easyButtonPost = assets.getManager().get(Assets.easyButtonPost, Texture.class);
-        normalButtonPre = assets.getManager().get(Assets.normalButtonPre, Texture.class);
-        normalButtonPost = assets.getManager().get(Assets.normalButtonPost, Texture.class);
-        hardButtonPre = assets.getManager().get(Assets.hardButtonPre, Texture.class);
-        hardButtonPost = assets.getManager().get(Assets.hardButtonPost, Texture.class);
+        easyButtonPre = assets.getManager().get(Assets.EASY_BUTTON_PRE, Texture.class);
+        easyButtonPost = assets.getManager().get(Assets.EASY_BUTTON_POST, Texture.class);
+        normalButtonPre = assets.getManager().get(Assets.NORMAL_BUTTON_PRE, Texture.class);
+        normalButtonPost = assets.getManager().get(Assets.NORMAL_BUTTON_POST, Texture.class);
+        hardButtonPre = assets.getManager().get(Assets.HARD_BUTTON_PRE, Texture.class);
+        hardButtonPost = assets.getManager().get(Assets.HARD_BUTTON_POST, Texture.class);
     }
     @Override
     public void show() {
@@ -38,7 +36,6 @@ public class DifficultySelect extends StandardScreen {
     @Override
     public void render(float v) {
         super.render(v);
-        buttonSizeAndLocation();
 
         float easyY = camera.viewportHeight / 4f;
         float normalY = camera.viewportHeight / 8f;

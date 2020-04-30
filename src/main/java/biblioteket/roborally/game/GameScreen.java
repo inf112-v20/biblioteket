@@ -31,8 +31,7 @@ public class GameScreen extends StandardScreen {
     public GameScreen(final RoboRally game) {
         super(game);
         List<IActor> players = new ArrayList<>();
-        String map = MapSelect.getMap();
-        this.board = new Board(map, players);
+        this.board = new Board(MapSelect.getMap(), players);
         gameLoop = new GameLoop(board, players);
         this.robotRenderer = new RobotRenderer(board.getPlayerLayer(), players, gameLoop);
 

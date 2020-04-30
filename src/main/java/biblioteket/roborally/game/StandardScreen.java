@@ -13,11 +13,11 @@ public class StandardScreen implements Screen {
     public final RoboRally game;
     public final Texture background;
     public final Texture logo;
-    public float buttonCentered;
-    public float buttonWidth;
-    public float buttonHeight;
-    public float exitY;
-    public float centerOfScreenX;
+    public final float buttonCentered;
+    public final float buttonWidth;
+    public final float buttonHeight;
+    public final float exitY;
+    public final float centerOfScreenX;
 
     public StandardScreen(RoboRally game) {
         this.game = game;
@@ -26,18 +26,17 @@ public class StandardScreen implements Screen {
 
         assets.load();
         assets.getManager().finishLoading();
-        background = assets.getManager().get(Assets.background, Texture.class);
-        logo = assets.getManager().get(Assets.logo, Texture.class);
+        background = assets.getManager().get(Assets.BACKGROUND, Texture.class);
+        logo = assets.getManager().get(Assets.LOGO, Texture.class);
 
-    }
-
-    public void buttonSizeAndLocation() {
         centerOfScreenX = camera.viewportWidth / 2f;
-        buttonCentered = camera.viewportWidth / 2f - buttonWidth / 2f;
-        buttonHeight = camera.viewportHeight / ((256f / 100f));
         buttonWidth = camera.viewportHeight / (356f / 100f);
+        buttonCentered = camera.viewportWidth / 2f - buttonWidth / 2f;
+        buttonHeight = camera.viewportHeight / (256f / 100f);
         exitY = camera.viewportHeight / 20f;
+
     }
+
 
     public boolean hoverOverQuit() {
         return Gdx.input.getX() < buttonCentered + buttonWidth && Gdx.input.getX() > buttonCentered && camera.viewportHeight - Gdx.input.getY() < exitY + buttonHeight / 1.35f && camera.viewportHeight - Gdx.input.getY() > exitY + buttonWidth / (1.5f);
