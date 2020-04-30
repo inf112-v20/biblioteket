@@ -57,6 +57,7 @@ public class PlayerSelect extends StandardScreen {
 
     @Override
     public void render(float v) {
+        buttonsSizeAndScreenPlacement();
 
         float selectY = camera.viewportHeight / 15f;
         float numberWidth = camera.viewportHeight / (300 / 100f);
@@ -102,7 +103,6 @@ public class PlayerSelect extends StandardScreen {
         game.getBatch().end();
     }
 
-    @Override
     public void resize(int width, int height) {
         super.resize(width,height);
     }
@@ -122,7 +122,6 @@ public class PlayerSelect extends StandardScreen {
         // Not used, but method must be overwritten
     }
 
-    @Override
     public void dispose() {
         super.dispose();
     }

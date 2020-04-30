@@ -53,6 +53,7 @@ public class MapSelect extends StandardScreen {
     @Override
     public void render(float v) {
         super.render(v);
+        buttonsSizeAndScreenPlacement();
 
         float mapWidth = camera.viewportHeight / (3.2f);
         float mapHeight = camera.viewportHeight / (2.42f);
@@ -96,7 +97,6 @@ public class MapSelect extends StandardScreen {
         game.getBatch().end();
     }
 
-    @Override
     public void resize(int width, int height) {
         super.resize(width,height);
     }
@@ -116,7 +116,6 @@ public class MapSelect extends StandardScreen {
         //empty method
     }
 
-    @Override
     public void dispose() {
         super.dispose();
     }

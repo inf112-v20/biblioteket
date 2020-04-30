@@ -13,11 +13,11 @@ public class StandardScreen implements Screen {
     public final RoboRally game;
     public final Texture background;
     public final Texture logo;
-    public final float buttonCentered;
-    public final float buttonWidth;
-    public final float buttonHeight;
-    public final float exitY;
-    public final float centerOfScreenX;
+    public float buttonCentered;
+    public float buttonWidth;
+    public float buttonHeight;
+    public float exitY;
+    public float centerOfScreenX;
 
     public StandardScreen(RoboRally game) {
         this.game = game;
@@ -29,12 +29,15 @@ public class StandardScreen implements Screen {
         background = assets.getManager().get(Assets.BACKGROUND, Texture.class);
         logo = assets.getManager().get(Assets.LOGO, Texture.class);
 
+    }
+
+    //Resizing does not work if buttons are created in constructor.
+    public void buttonsSizeAndScreenPlacement() {
         centerOfScreenX = camera.viewportWidth / 2f;
         buttonWidth = camera.viewportHeight / (356f / 100f);
         buttonCentered = camera.viewportWidth / 2f - buttonWidth / 2f;
         buttonHeight = camera.viewportHeight / (256f / 100f);
         exitY = camera.viewportHeight / 20f;
-
     }
 
 
@@ -56,6 +59,7 @@ public class StandardScreen implements Screen {
 
     @Override
     public void render(float v) {
+
         Gdx.gl.glClearColor(v, v, v, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.getBatch().begin();
@@ -68,6 +72,7 @@ public class StandardScreen implements Screen {
     @Override
     public void resize(int width, int height) {
         camera.setToOrtho(false, width, height);
+        game.getBatch().setProjectionMatrix(camera.combined);
         camera.update();
     }
 

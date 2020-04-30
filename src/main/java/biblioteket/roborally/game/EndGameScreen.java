@@ -38,6 +38,7 @@ public class EndGameScreen extends StandardScreen {
     @Override
     public void render(float v) {
         super.render(v);
+        buttonsSizeAndScreenPlacement();
 
         float mainMenuY = camera.viewportHeight / (6f);
 
@@ -61,7 +62,6 @@ public class EndGameScreen extends StandardScreen {
         game.getBatch().end();
     }
 
-    @Override
     public void resize(int width, int height) {
         super.resize(width,height);
     }
@@ -81,7 +81,6 @@ public class EndGameScreen extends StandardScreen {
         // Not used, but method must be overwritten
     }
 
-    @Override
     public void dispose() {
         super.dispose();
     }

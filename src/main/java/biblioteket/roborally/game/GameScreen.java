@@ -93,7 +93,6 @@ public class GameScreen extends StandardScreen {
         camera.update();
     }
 
-    @Override
     public void resize(int width, int height) {
         super.resize(width, height);
     }
@@ -114,7 +113,6 @@ public class GameScreen extends StandardScreen {
         // Not used, but method must be overwritten
     }
 
-    @Override
     public void dispose() {
         super.dispose();
     }

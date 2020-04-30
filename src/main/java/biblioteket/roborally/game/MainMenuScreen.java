@@ -37,15 +37,17 @@ public class MainMenuScreen extends StandardScreen {
     @Override
     public void render(float v) {
         super.render(v);
+        buttonsSizeAndScreenPlacement();
 
         float startY = camera.viewportHeight / 5f;
 
         game.getBatch().begin();
-        game.getBatch().draw(playPre, buttonCentered, startY, buttonWidth, buttonHeight);
+        game.getBatch().setProjectionMatrix(camera.combined);
+        game.getBatch().draw(playPost, buttonCentered, startY, buttonWidth, buttonHeight);
         game.getBatch().draw(quitPre, buttonCentered, exitY, buttonWidth, buttonHeight);
 
         if (Gdx.input.getX() < buttonCentered + buttonWidth && Gdx.input.getX() > buttonCentered && camera.viewportHeight - Gdx.input.getY() < startY + buttonHeight / 1.35f && camera.viewportHeight - Gdx.input.getY() > startY + buttonWidth / (1.5f)) {
-            game.getBatch().draw(playPost, buttonCentered, startY, buttonWidth, buttonHeight);
+            game.getBatch().draw(playPre, buttonCentered, startY, buttonWidth, buttonHeight);
             if (Gdx.input.isTouched()) {
                 game.setScreen(new PlayerSelect(game));
             }
@@ -59,7 +61,7 @@ public class MainMenuScreen extends StandardScreen {
         game.getBatch().end();
     }
 
-    @Override
+
     public void resize(int width, int height) {
         super.resize(width, height);
     }
@@ -79,7 +81,6 @@ public class MainMenuScreen extends StandardScreen {
         // Not used, but method must be overwritten
     }
 
-    @Override
     public void dispose() {
         super.dispose();
     }

@@ -36,6 +36,7 @@ public class DifficultySelect extends StandardScreen {
     @Override
     public void render(float v) {
         super.render(v);
+        buttonsSizeAndScreenPlacement();
 
         float easyY = camera.viewportHeight / 4f;
         float normalY = camera.viewportHeight / 8f;
@@ -66,7 +67,6 @@ public class DifficultySelect extends StandardScreen {
         game.getBatch().end();
     }
 
-    @Override
     public void resize(int width, int height) {
         super.resize(width,height);
     }
@@ -86,7 +86,6 @@ public class DifficultySelect extends StandardScreen {
         // Not used, but method must be overwritten
     }
 
-    @Override
     public void dispose() {
         super.dispose();
     }
