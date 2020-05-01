@@ -46,7 +46,7 @@ public class GameScreen implements Screen {
         tiledMapRenderer.setView(camera);
 
 
-        Texture playerTexture = new Texture("assets/pinbot.png");
+        Texture playerTexture = new Texture("assets/Playermodels/pinbot.png");
         TextureRegion[][] playerTextureSplit = TextureRegion.split(playerTexture, board.getTileWidth(), board.getTileHeight());
 
         this.players = new ArrayList<>();
