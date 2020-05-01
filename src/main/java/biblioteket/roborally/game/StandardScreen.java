@@ -48,6 +48,7 @@ public class StandardScreen implements Screen {
     public static OrthographicCamera getCamera() {
         return camera;
     }
+
     public Assets getAssets() {
         return assets;
     }
