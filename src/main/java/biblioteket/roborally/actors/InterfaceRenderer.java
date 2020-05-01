@@ -65,21 +65,21 @@ public class InterfaceRenderer {
         assets.getManager().finishLoading();
 
 
-        background = assets.getManager().get(Assets.BACKGROUND,Texture.class);
-        hp = assets.getManager().get(Assets.HP,Texture.class);
-        flag = assets.getManager().get(Assets.FLAG,Texture.class);
+        background = assets.getManager().get(Assets.BACKGROUND, Texture.class);
+        hp = assets.getManager().get(Assets.HP, Texture.class);
+        flag = assets.getManager().get(Assets.FLAG, Texture.class);
 
-        emptyCard = assets.getManager().get(Assets.EMPTY_CARD,Texture.class);
-        moveOneCard = assets.getManager().get(Assets.MOVE_ONE_CARD,Texture.class);
-        moveTwoCard = assets.getManager().get(Assets.MOVE_TWO_CARD,Texture.class);
-        moveThreeCard = assets.getManager().get(Assets.MOVE_THREE_CARD,Texture.class);
-        backUpCard = assets.getManager().get(Assets.BACK_UP_CARD,Texture.class);
-        rotateRightCard = assets.getManager().get(Assets.ROTATE_RIGHT_CARD,Texture.class);
-        rotateLeftCard = assets.getManager().get(Assets.ROTATE_LEFT_CARD,Texture.class);
-        uTurnCard = assets.getManager().get(Assets.U_TURN_CARD,Texture.class);
-        damageToken = assets.getManager().get(Assets.DAMAGE_TOKEN,Texture.class);
-        powerDownButtonPre = assets.getManager().get(Assets.POWER_DOWN_BUTTON_PRE,Texture.class);
-        powerDownButtonPost = assets.getManager().get(Assets.POWER_DOWN_BUTTON_POST,Texture.class);
+        emptyCard = assets.getManager().get(Assets.EMPTY_CARD, Texture.class);
+        moveOneCard = assets.getManager().get(Assets.MOVE_ONE_CARD, Texture.class);
+        moveTwoCard = assets.getManager().get(Assets.MOVE_TWO_CARD, Texture.class);
+        moveThreeCard = assets.getManager().get(Assets.MOVE_THREE_CARD, Texture.class);
+        backUpCard = assets.getManager().get(Assets.BACK_UP_CARD, Texture.class);
+        rotateRightCard = assets.getManager().get(Assets.ROTATE_RIGHT_CARD, Texture.class);
+        rotateLeftCard = assets.getManager().get(Assets.ROTATE_LEFT_CARD, Texture.class);
+        uTurnCard = assets.getManager().get(Assets.U_TURN_CARD, Texture.class);
+        damageToken = assets.getManager().get(Assets.DAMAGE_TOKEN, Texture.class);
+        powerDownButtonPre = assets.getManager().get(Assets.POWER_DOWN_BUTTON_PRE, Texture.class);
+        powerDownButtonPost = assets.getManager().get(Assets.POWER_DOWN_BUTTON_POST, Texture.class);
 
         batch = new SpriteBatch();
         font = new BitmapFont();
@@ -125,36 +125,19 @@ public class InterfaceRenderer {
 
     public void renderInterface() {
         graphicSize();
-
         StandardScreen.getCamera().update();
         batch.setProjectionMatrix(StandardScreen.getCamera().combined);
         fontBatch.setProjectionMatrix(StandardScreen.getCamera().combined);
 
-
         batch.begin();
         batch.draw(background, 0, 0, StandardScreen.getCamera().viewportWidth, StandardScreen.getCamera().viewportHeight);
 
-
-        for (int i = 0; i < 10; i++) {
-            batch.draw(damageToken, rightOfBoard + rightOfBoard / 2 - damageTokenSize * 1.06f + damageTokenSize / 1.15f * (i - 4), StandardScreen.getCamera().viewportHeight / 1.8f, damageTokenSize, damageTokenSize);
-        }
+        drawDamageTokens();
+        drawPlayerInformation();
 
         for (int i = 0; i < 4; i++) {
-            // Player 1-4
-            batch.draw(flag, rightOfBoard / 1.015f + rightOfBoard / 4 * i, StandardScreen.getCamera().viewportHeight - StandardScreen.getCamera().viewportHeight / 16 * 140 / 100, healthFlagSize, healthFlagSize);
-            batch.draw(hp, (rightOfBoard + healthFlagSize / 4 * 2) + rightOfBoard / 4 * i, StandardScreen.getCamera().viewportHeight - StandardScreen.getCamera().viewportHeight / 16 * 140 / 100, healthFlagSize, healthFlagSize);
-            font.draw(batch, "Player " + (i + 1), rightOfBoard + rightOfBoard / 4 * i, StandardScreen.getCamera().viewportHeight - StandardScreen.getCamera().viewportHeight / 16f / 10f);
-            font.draw(batch, Integer.toString(lives), rightOfBoard + healthFlagSize * 1.2f + rightOfBoard / 4 * i, StandardScreen.getCamera().viewportHeight - StandardScreen.getCamera().viewportHeight / (640f / 40f));
-            font.draw(batch, Integer.toString(flagsVisited), rightOfBoard + healthFlagSize * 0.2f + rightOfBoard / 4 * i, StandardScreen.getCamera().viewportHeight - StandardScreen.getCamera().viewportHeight / (640f / 40f));
             //Row with four cards
             drawCard(cardHand[i], rightOfBoard + rightOfBoard / 2 - cardWidth + cardWidth / 2 * i, cardHeight, cardWidth, cardHeight);
-
-            // Player 5-8
-            batch.draw(flag, rightOfBoard / 1.015f + rightOfBoard / 4 * i, StandardScreen.getCamera().viewportHeight - StandardScreen.getCamera().viewportHeight / 5f, healthFlagSize, healthFlagSize);
-            batch.draw(hp, rightOfBoard + healthFlagSize / 4 * 2 + rightOfBoard / 4 * i, StandardScreen.getCamera().viewportHeight - StandardScreen.getCamera().viewportHeight / 5f, healthFlagSize, healthFlagSize);
-            font.draw(batch, "Player " + (5 + i), rightOfBoard + rightOfBoard / 4 * i, StandardScreen.getCamera().viewportHeight - StandardScreen.getCamera().viewportHeight / 8f);
-            font.draw(batch, Integer.toString(lives), rightOfBoard + healthFlagSize * 1.2f + rightOfBoard / 4 * i, StandardScreen.getCamera().viewportHeight - StandardScreen.getCamera().viewportHeight / (640f / 110f));
-            font.draw(batch, Integer.toString(flagsVisited), rightOfBoard + healthFlagSize * 0.2f + rightOfBoard / 4 * i, StandardScreen.getCamera().viewportHeight - StandardScreen.getCamera().viewportHeight / (640f / 110f));
         }
         // row with five cards.
         for (int i = 0; i < 5; i++) {
@@ -163,13 +146,12 @@ public class InterfaceRenderer {
         }
 
         //powerDown button
-        //Må være nested, siden første if sjekker om man holder musen på knappen, og andre if sjekker om man trykker på knappen.
         batch.draw(powerDownButtonPre, powerDownX, powerDownY, powerDownSize, powerDownSize);
         if (Gdx.input.getX() < powerDownX + powerDownSize && Gdx.input.getX() > powerDownX && StandardScreen.getCamera().viewportHeight - Gdx.input.getY() < powerDownY + powerDownSize / 1.1f && StandardScreen.getCamera().viewportHeight - Gdx.input.getY() > powerDownY + powerDownSize / (6f)) {
             batch.draw(powerDownButtonPost, powerDownX, powerDownY, powerDownSize, powerDownSize);
             if (Gdx.input.isTouched()) {
                 Logger logger = Logger.getLogger(InterfaceRenderer.class.getName());
-                logger.log(Level.INFO,"powerdown metode her");
+                logger.log(Level.INFO, "powerdown metode her");
             }
         }
         batch.end();
@@ -193,6 +175,30 @@ public class InterfaceRenderer {
             }
         }
         fontBatch.end();
+    }
+
+    private void drawDamageTokens() {
+        for (int i = 0; i < 10; i++) {
+            batch.draw(damageToken, rightOfBoard + rightOfBoard / 2 - damageTokenSize * 1.06f + damageTokenSize / 1.15f * (i - 4), StandardScreen.getCamera().viewportHeight / 1.8f, damageTokenSize, damageTokenSize);
+        }
+    }
+
+    private void drawPlayerInformation() {
+        for (int i = 0; i < 4; i++) {
+            // Player 1-4
+            batch.draw(flag, rightOfBoard / 1.015f + rightOfBoard / 4 * i, StandardScreen.getCamera().viewportHeight - StandardScreen.getCamera().viewportHeight / 16 * 140 / 100, healthFlagSize, healthFlagSize);
+            batch.draw(hp, (rightOfBoard + healthFlagSize / 4 * 2) + rightOfBoard / 4 * i, StandardScreen.getCamera().viewportHeight - StandardScreen.getCamera().viewportHeight / 16 * 140 / 100, healthFlagSize, healthFlagSize);
+            font.draw(batch, "Player " + (i + 1), rightOfBoard + rightOfBoard / 4 * i, StandardScreen.getCamera().viewportHeight - StandardScreen.getCamera().viewportHeight / 16f / 10f);
+            font.draw(batch, Integer.toString(lives), rightOfBoard + healthFlagSize * 1.2f + rightOfBoard / 4 * i, StandardScreen.getCamera().viewportHeight - StandardScreen.getCamera().viewportHeight / (640f / 40f));
+            font.draw(batch, Integer.toString(flagsVisited), rightOfBoard + healthFlagSize * 0.2f + rightOfBoard / 4 * i, StandardScreen.getCamera().viewportHeight - StandardScreen.getCamera().viewportHeight / (640f / 40f));
+
+            // Player 5-8
+            batch.draw(flag, rightOfBoard / 1.015f + rightOfBoard / 4 * i, StandardScreen.getCamera().viewportHeight - StandardScreen.getCamera().viewportHeight / 5f, healthFlagSize, healthFlagSize);
+            batch.draw(hp, rightOfBoard + healthFlagSize / 4 * 2 + rightOfBoard / 4 * i, StandardScreen.getCamera().viewportHeight - StandardScreen.getCamera().viewportHeight / 5f, healthFlagSize, healthFlagSize);
+            font.draw(batch, "Player " + (5 + i), rightOfBoard + rightOfBoard / 4 * i, StandardScreen.getCamera().viewportHeight - StandardScreen.getCamera().viewportHeight / 8f);
+            font.draw(batch, Integer.toString(lives), rightOfBoard + healthFlagSize * 1.2f + rightOfBoard / 4 * i, StandardScreen.getCamera().viewportHeight - StandardScreen.getCamera().viewportHeight / (640f / 110f));
+            font.draw(batch, Integer.toString(flagsVisited), rightOfBoard + healthFlagSize * 0.2f + rightOfBoard / 4 * i, StandardScreen.getCamera().viewportHeight - StandardScreen.getCamera().viewportHeight / (640f / 110f));
+        }
     }
 
     /**
@@ -342,6 +348,7 @@ public class InterfaceRenderer {
         return cardHandCard != null ? cardHandCard : programRegisterCard;
     }
 
+
     /**
      * Datastructure for multiple rectangles which can contain coordinates and
      * return an ICard if they are touched
@@ -413,9 +420,12 @@ public class InterfaceRenderer {
             }
         }
     }
-
-
 }
+
+
+
+
+
 
 
 
