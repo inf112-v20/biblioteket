@@ -31,7 +31,7 @@ public class StandardScreen implements Screen {
 
     }
 
-    //Resizing does not work if buttons are created in constructor.
+    //Resizing does not work if made in constructor.
     public void buttonsSizeAndScreenPlacement() {
         centerOfScreenX = camera.viewportWidth / 2f;
         buttonWidth = camera.viewportHeight / (356f / 100f);

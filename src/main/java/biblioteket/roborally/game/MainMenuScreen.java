@@ -29,10 +29,6 @@ public class MainMenuScreen extends StandardScreen {
 
     }
 
-    @Override
-    public void show() {
-        // Not used, but method must be overwritten
-    }
 
     @Override
     public void render(float v) {
@@ -60,29 +56,4 @@ public class MainMenuScreen extends StandardScreen {
         }
         game.getBatch().end();
     }
-
-
-    public void resize(int width, int height) {
-        super.resize(width, height);
-    }
-
-    @Override
-    public void pause() {
-        // Not used, but method must be overwritten
-    }
-
-    @Override
-    public void resume() {
-        // Not used, but method must be overwritten
-    }
-
-    @Override
-    public void hide() {
-        // Not used, but method must be overwritten
-    }
-
-    public void dispose() {
-        super.dispose();
-    }
-
 }

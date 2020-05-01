@@ -46,10 +46,6 @@ public class PlayerSelect extends StandardScreen {
         numberList = Arrays.asList(one, two, three, four, five, six, seven, eight);
 
     }
-    @Override
-    public void show() {
-        //empty method
-    }
 
     public Texture convertIntToTexture(int counter) {
         return numberList.get(counter);
@@ -101,28 +97,5 @@ public class PlayerSelect extends StandardScreen {
             }
         }
         game.getBatch().end();
-    }
-
-    public void resize(int width, int height) {
-        super.resize(width,height);
-    }
-
-    @Override
-    public void pause() {
-        // Not used, but method must be overwritten
-    }
-
-    @Override
-    public void resume() {
-        // Not used, but method must be overwritten
-    }
-
-    @Override
-    public void hide() {
-        // Not used, but method must be overwritten
-    }
-
-    public void dispose() {
-        super.dispose();
     }
 }

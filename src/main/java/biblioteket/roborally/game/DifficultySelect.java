@@ -28,10 +28,6 @@ public class DifficultySelect extends StandardScreen {
         hardButtonPre = assets.getManager().get(Assets.HARD_BUTTON_PRE, Texture.class);
         hardButtonPost = assets.getManager().get(Assets.HARD_BUTTON_POST, Texture.class);
     }
-    @Override
-    public void show() {
-        // Not used, but method must be overwritten
-    }
 
     @Override
     public void render(float v) {
@@ -67,26 +63,5 @@ public class DifficultySelect extends StandardScreen {
         game.getBatch().end();
     }
 
-    public void resize(int width, int height) {
-        super.resize(width,height);
-    }
 
-    @Override
-    public void pause() {
-        // Not used, but method must be overwritten
-    }
-
-    @Override
-    public void resume() {
-        // Not used, but method must be overwritten
-    }
-
-    @Override
-    public void hide() {
-        // Not used, but method must be overwritten
-    }
-
-    public void dispose() {
-        super.dispose();
-    }
 }

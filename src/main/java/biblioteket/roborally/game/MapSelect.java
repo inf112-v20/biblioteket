@@ -46,11 +46,6 @@ public class MapSelect extends StandardScreen {
     }
 
     @Override
-    public void show() {
-        //empty method
-    }
-
-    @Override
     public void render(float v) {
         super.render(v);
         buttonsSizeAndScreenPlacement();
@@ -95,29 +90,6 @@ public class MapSelect extends StandardScreen {
             }
         }
         game.getBatch().end();
-    }
-
-    public void resize(int width, int height) {
-        super.resize(width,height);
-    }
-
-    @Override
-    public void pause() {
-        //empty method
-    }
-
-    @Override
-    public void resume() {
-        //empty method
-    }
-
-    @Override
-    public void hide() {
-        //empty method
-    }
-
-    public void dispose() {
-        super.dispose();
     }
 }
 
