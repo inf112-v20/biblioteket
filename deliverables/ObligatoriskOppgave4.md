@@ -1,20 +1,20 @@
 # Task 1 - Team and Project
 ## Hvordan fungerer rollene i teamet? Trenger dere å oppdatere hvem som er teamleader eller kundekontakt?
-We have maintained the same roles as for the previous turn in, however, we are approaching our roles with flexibility,
+As stated in the previous deliverable, coronavirus has pushed all of us into somewhat of a strange "virtual learning" environment. As all of us in the group are accustomed to attending physical education, it has been tricky to adapt to these bizarre current norms.
+
+Our group meets online at least twice a week. As there is no face to face interaction anymore, it can be somewhat harder to follow what is going on, or to explain something. Screen share serves as somewhat of a solution, although sometimes a faulty internet connection can limit even that. Due to a lack of face to face interaction, the meetings online must be much more structured and are more difficult to maintain an adecquate flow, as this can easily be interrupted by an unwelcomed noise from someone's microphone, or a disconnection of internet. If there is a group consensus that we are lacking in some sense for the project, this can be solved "easily" by scheduling a work period in which we all sit on discord and work, allowing for live support from other group members (as close as it can get to live support anyway), we also have in the past scheduled more meetings in one week, in the case that we might be accomplishing what we are working on in one meeting rather quickly and would like the group's input.
+
+Our groups adaptation to the COVID crisis, while slow and grueling (and somewhat of a trial and error process, seeing what works and what doesn't), has swiftly improved via our improved meeting structure, our open communication on slack and discord, and our flexibility and willingness to work outside our assigned roles. The reason we must be open to versatilitile tasks regarding the project, is because we weren't sure exactly what roles were going to be in demand when we started. 
+
+We have kept the same roles as for the previous turn in, and we are approaching our roles with flexibility,
 meaning people who have a set role in one department can also provide key developments elsewhere. Sondre is still our 
-teamleader, and maintaining his prior github handling. Marcus still takes notes at the meetings, but also has been working
+teamleader, while simultaneously staying on top of github, this also means maintaining an overview of the branches and the general progress on the project board. Marcus still takes notes at the meetings, but also has been working effectively
 to implement features, in parts like rendering of robots. Silje is still our customer contact, while simultaneously taking
 on the role of somewhat of a "judge", as she has mastered the rules of the game, she is able to determine
 whether or not there are any rule violations happening, Silje is also responsible for multiple positive implementations on the code.
 Tor Kristian has been continuing his work on the GUI for the game, making sure that the player has all necessary information
-visible to them during the gameplay (e.g. damagetokens). 
-  - We are still using the same roles.
-    - Roles are flexible, meaning people who have a set role can also take on tasks of another kind.
-    - Sondre still teamleader, responsible for github too
-    - Marcus also still takes notes at the meeting, but has also been working with the rendering of robots (displaying rotations, etc.)
-    - Silje is still our customer contact, and a master of the rules of roborally, informing us if anything we are going to do defy’s any set game laws.
-    - Tor Kristian has been continuing to work with the GUI for the game, making sure that the player has all necessary information visible to them during gameplay (damagetokens for example)
-    - Tobias is still working on animation, but is struggling with implementation, reaching somewhat of a standstill, and therefore has also been assigned the task of the written part, as to still contribute for commits.
+visible to them during the gameplay (e.g. damagetokens). For this part of the project, Tobias has undertaken the process of drawing the
+playermodels, and using libGDX to pack the textures so that they function as intended, as this wasn't very a necessarily difficult task, Tobias has also been assigned the role of writing the written part of the delivery. 
     
 - Er det noen erfaringer enten team-messig eller mtp prosjektmetodikk som er verdt å nevne? Synes teamet at de valgene dere har tatt er gode? Hvis ikke, hva kan dere gjøre annerledes for å forbedre måten teamet fungerer på? 
   - Unsure.
@@ -29,6 +29,7 @@ visible to them during the gameplay (e.g. damagetokens).
 
 ##Legg ved skjermdump av project board ved innlevering. Sørg for at det er oppdatert med siste status ved innlevering. 
 Screenshot of project board (when turning in)
+
 
 ##Hvordan fungerer gruppedynamikken og kommunikasjonen nå i forhold til i starten? Hvordan påvirket karantene og nedstengning teamet og fremdriften? 
 The group dynamic now is significantly improved relative to the one we had at the start, as we all have roles which complement
