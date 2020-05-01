@@ -1,6 +1,5 @@
 package biblioteket.roborally.actors;
 
-import biblioteket.roborally.board.IBoard;
 import biblioteket.roborally.game.Assets;
 import biblioteket.roborally.game.StandardScreen;
 import biblioteket.roborally.programcards.ICard;
@@ -12,6 +11,8 @@ import com.badlogic.gdx.math.Rectangle;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Handles rendering of player interface, displaying necessary information for playing the game
@@ -80,11 +81,9 @@ public class InterfaceRenderer {
         powerDownButtonPre = assets.getManager().get(Assets.POWER_DOWN_BUTTON_PRE,Texture.class);
         powerDownButtonPost = assets.getManager().get(Assets.POWER_DOWN_BUTTON_POST,Texture.class);
 
-
         batch = new SpriteBatch();
         font = new BitmapFont();
         fontBatch = new SpriteBatch();
-
 
         flagsVisited = 0;
         lives = 3;
@@ -101,12 +100,10 @@ public class InterfaceRenderer {
             } else
                 touchableCardHand.initializeCard(i, rightOfBoard + rightOfBoard / 2 - cardWidth * 1.25f + cardWidth / 2 * (i - 4), 0, touchableWidth, touchableHeight);
         }
-
         // Progamregister
         touchableProgramRegister = new TouchableCards(programRegister.length);
         for (int i = 0; i < 5; i++) {
             touchableProgramRegister.initializeCard(i, rightOfBoard + rightOfBoard / 2 - cardWidth * 1.25f + cardWidth / 2 * i, Gdx.graphics.getHeight() / (640f / 250f), touchableWidth, touchableHeight);
-
         }
 
 
@@ -126,7 +123,7 @@ public class InterfaceRenderer {
 
     }
 
-    public void renderInterface(IBoard board) {
+    public void renderInterface() {
         graphicSize();
 
         StandardScreen.getCamera().update();
@@ -137,19 +134,6 @@ public class InterfaceRenderer {
         batch.begin();
         batch.draw(background, 0, 0, StandardScreen.getCamera().viewportWidth, StandardScreen.getCamera().viewportHeight);
 
-        for (int i = 0; i < 4; i++) {
-            drawCard(cardHand[i], rightOfBoard + rightOfBoard / 2 - cardWidth + cardWidth / 2 * i, cardHeight, cardWidth, cardHeight);
-
-        }
-        for (int i = 0; i < 5; i++) {
-            drawCard(cardHand[4 + i], rightOfBoard + rightOfBoard / 2 - cardWidth * 1.25f + cardWidth / 2 * i, 0, cardWidth, cardHeight);
-
-        }
-
-        for (int i = 0; i < 5; i++) {
-            drawCard(programRegister[i], rightOfBoard + rightOfBoard / 2 - cardWidth * 1.25f + cardWidth / 2 * i, StandardScreen.getCamera().viewportHeight / (640f / 250f), cardWidth, cardHeight);
-
-        }
 
         for (int i = 0; i < 10; i++) {
             batch.draw(damageToken, rightOfBoard + rightOfBoard / 2 - damageTokenSize * 1.06f + damageTokenSize / 1.15f * (i - 4), StandardScreen.getCamera().viewportHeight / 1.8f, damageTokenSize, damageTokenSize);
@@ -157,29 +141,37 @@ public class InterfaceRenderer {
 
         for (int i = 0; i < 4; i++) {
             // Player 1-4
-            batch.draw(flag, (rightOfBoard / (320f / 315f)) + rightOfBoard / 4 * i, StandardScreen.getCamera().viewportHeight - (StandardScreen.getCamera().viewportHeight / 16) * 140 / 100, healthFlagSize, healthFlagSize);
-            batch.draw(hp, (rightOfBoard + healthFlagSize / 4 * 2) + rightOfBoard / 4 * i, StandardScreen.getCamera().viewportHeight - (StandardScreen.getCamera().viewportHeight / 16) * 140 / 100, healthFlagSize, healthFlagSize);
-            font.draw(batch, "Player " + (i + 1), rightOfBoard + rightOfBoard / 4 * i, StandardScreen.getCamera().viewportHeight - (StandardScreen.getCamera().viewportHeight / 16f) / 10f);
+            batch.draw(flag, rightOfBoard / 1.015f + rightOfBoard / 4 * i, StandardScreen.getCamera().viewportHeight - StandardScreen.getCamera().viewportHeight / 16 * 140 / 100, healthFlagSize, healthFlagSize);
+            batch.draw(hp, (rightOfBoard + healthFlagSize / 4 * 2) + rightOfBoard / 4 * i, StandardScreen.getCamera().viewportHeight - StandardScreen.getCamera().viewportHeight / 16 * 140 / 100, healthFlagSize, healthFlagSize);
+            font.draw(batch, "Player " + (i + 1), rightOfBoard + rightOfBoard / 4 * i, StandardScreen.getCamera().viewportHeight - StandardScreen.getCamera().viewportHeight / 16f / 10f);
             font.draw(batch, Integer.toString(lives), rightOfBoard + healthFlagSize * 1.2f + rightOfBoard / 4 * i, StandardScreen.getCamera().viewportHeight - StandardScreen.getCamera().viewportHeight / (640f / 40f));
             font.draw(batch, Integer.toString(flagsVisited), rightOfBoard + healthFlagSize * 0.2f + rightOfBoard / 4 * i, StandardScreen.getCamera().viewportHeight - StandardScreen.getCamera().viewportHeight / (640f / 40f));
+            //Row with four cards
+            drawCard(cardHand[i], rightOfBoard + rightOfBoard / 2 - cardWidth + cardWidth / 2 * i, cardHeight, cardWidth, cardHeight);
 
             // Player 5-8
-            // Sonar thinks these parentheses are useless. They are not.
-            batch.draw(flag, (rightOfBoard / (320f / 315f)) + rightOfBoard / 4 * i, StandardScreen.getCamera().viewportHeight - ((StandardScreen.getCamera().viewportHeight / 5f)), healthFlagSize, healthFlagSize);
-            batch.draw(hp, rightOfBoard + healthFlagSize / 4 * 2 + rightOfBoard / 4 * i, StandardScreen.getCamera().viewportHeight - ((StandardScreen.getCamera().viewportHeight / 5f)), healthFlagSize, healthFlagSize);
-            font.draw(batch, "Player " + (5 + i), rightOfBoard + rightOfBoard / 4 * i, StandardScreen.getCamera().viewportHeight - ((StandardScreen.getCamera().viewportHeight / 8f)));
+            batch.draw(flag, rightOfBoard / 1.015f + rightOfBoard / 4 * i, StandardScreen.getCamera().viewportHeight - StandardScreen.getCamera().viewportHeight / 5f, healthFlagSize, healthFlagSize);
+            batch.draw(hp, rightOfBoard + healthFlagSize / 4 * 2 + rightOfBoard / 4 * i, StandardScreen.getCamera().viewportHeight - StandardScreen.getCamera().viewportHeight / 5f, healthFlagSize, healthFlagSize);
+            font.draw(batch, "Player " + (5 + i), rightOfBoard + rightOfBoard / 4 * i, StandardScreen.getCamera().viewportHeight - StandardScreen.getCamera().viewportHeight / 8f);
             font.draw(batch, Integer.toString(lives), rightOfBoard + healthFlagSize * 1.2f + rightOfBoard / 4 * i, StandardScreen.getCamera().viewportHeight - StandardScreen.getCamera().viewportHeight / (640f / 110f));
             font.draw(batch, Integer.toString(flagsVisited), rightOfBoard + healthFlagSize * 0.2f + rightOfBoard / 4 * i, StandardScreen.getCamera().viewportHeight - StandardScreen.getCamera().viewportHeight / (640f / 110f));
         }
+        // row with five cards.
+        for (int i = 0; i < 5; i++) {
+            drawCard(cardHand[4 + i], rightOfBoard + rightOfBoard / 2 - cardWidth * 1.25f + cardWidth / 2 * i, 0, cardWidth, cardHeight);
+            drawCard(programRegister[i], rightOfBoard + rightOfBoard / 2 - cardWidth * 1.25f + cardWidth / 2 * i, StandardScreen.getCamera().viewportHeight / (640f / 250f), cardWidth, cardHeight);
+        }
+
         //powerDown button
+        //Må være nested, siden første if sjekker om man holder musen på knappen, og andre if sjekker om man trykker på knappen.
         batch.draw(powerDownButtonPre, powerDownX, powerDownY, powerDownSize, powerDownSize);
         if (Gdx.input.getX() < powerDownX + powerDownSize && Gdx.input.getX() > powerDownX && StandardScreen.getCamera().viewportHeight - Gdx.input.getY() < powerDownY + powerDownSize / 1.1f && StandardScreen.getCamera().viewportHeight - Gdx.input.getY() > powerDownY + powerDownSize / (6f)) {
             batch.draw(powerDownButtonPost, powerDownX, powerDownY, powerDownSize, powerDownSize);
             if (Gdx.input.isTouched()) {
-                System.out.println("powerdown metode her");
+                Logger logger = Logger.getLogger(InterfaceRenderer.class.getName());
+                logger.log(Level.INFO,"powerdown metode her");
             }
         }
-
         batch.end();
 
         //card priority

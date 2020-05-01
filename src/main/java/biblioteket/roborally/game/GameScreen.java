@@ -79,7 +79,7 @@ public class GameScreen extends StandardScreen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // Clears main menu screen
 
         // Render interface of current player
-        gameLoop.getCurrentPlayer().getInterfaceRenderer().renderInterface(board);
+        gameLoop.getCurrentPlayer().getInterfaceRenderer().renderInterface();
         // Render robot movement
         if (robotRenderer.isRequestingRendering()) {
             robotRenderer.renderStep();
