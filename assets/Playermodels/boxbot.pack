@@ -1,0 +1,26 @@
+
+boxbot.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+boxbot resize
+  rotate: false
+  xy: 1, 1
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
+boxbotwin
+  rotate: false
+  xy: 103, 1
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
+boxdamaged
+  rotate: false
+  xy: 205, 1
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
