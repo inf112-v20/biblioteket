@@ -22,7 +22,6 @@ import java.util.List;
  */
 public class GameScreen extends StandardScreen {
     private final OrthographicCamera camera;
-    private final Board board;
     private final RobotRenderer robotRenderer;
     private final GameLoop gameLoop;
     private final OrthogonalTiledMapRenderer tiledMapRenderer;
@@ -31,7 +30,7 @@ public class GameScreen extends StandardScreen {
     public GameScreen(final RoboRally game) {
         super(game);
         List<IActor> players = new ArrayList<>();
-        this.board = new Board(MapSelect.getMap(), players);
+        board = new Board(MapSelect.getMap(), players);
         gameLoop = new GameLoop(board, players);
         this.robotRenderer = new RobotRenderer(board.getPlayerLayer(), players, gameLoop);
 
