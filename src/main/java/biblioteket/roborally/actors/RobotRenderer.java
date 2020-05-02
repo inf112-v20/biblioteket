@@ -167,6 +167,4 @@ public class RobotRenderer {
             return debug;
         }
     }
-
-
 }
