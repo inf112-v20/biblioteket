@@ -4,6 +4,8 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 /**
  * A small wrapper around both the main menu and the game screen, by extending Game
  * our game can now have multiple screens. We start the game in the main menu and
@@ -12,6 +14,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class RoboRally extends Game {
     private SpriteBatch batch;
     private BitmapFont font;
+    private int numPlayers;
 
     @Override
     public void create() {
@@ -40,5 +43,17 @@ public class RoboRally extends Game {
 
     public void setFont(BitmapFont font) {
         this.font = font;
+    }
+
+    public int getPlayers() {
+        return numPlayers;
+    }
+
+    public void setPlayers(int numPlayers) {
+        this.numPlayers = numPlayers;
+    }
+
+    public int getAI() {
+        return ThreadLocalRandom.current().nextInt(this.numPlayers, 8);
     }
 }

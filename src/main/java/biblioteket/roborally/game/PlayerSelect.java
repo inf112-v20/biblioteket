@@ -44,7 +44,6 @@ public class PlayerSelect extends StandardScreen {
         Texture seven = new Texture("assets/numbers/7.png");
         Texture eight = new Texture("assets/numbers/8.png");
         numberList = Arrays.asList(one, two, three, four, five, six, seven, eight);
-
     }
 
     public Texture convertIntToTexture(int counter) {
@@ -92,6 +91,7 @@ public class PlayerSelect extends StandardScreen {
         else if (Gdx.input.getX() < buttonCentered + buttonWidth && Gdx.input.getX() > buttonCentered && camera.viewportHeight - Gdx.input.getY() < selectY + buttonHeight / 1.35 && camera.viewportHeight - Gdx.input.getY() > selectY + buttonWidth / (1.35)) {
             game.getBatch().draw(selectPost, buttonCentered, selectY, buttonWidth, buttonHeight);
             if (Gdx.input.isTouched()) {
+                game.setPlayers(counter);
                 game.setScreen(new MapSelect(game));
                 dispose();
             }
