@@ -12,7 +12,7 @@ class PlayerTest {
 
     @BeforeEach
     void setUp() {
-        player = new Actor(null, null, null, new RobotRenderer(null,null,null));
+        player = new Actor(null, null, null, new RobotRenderer(null, null, null));
     }
 
     @Test

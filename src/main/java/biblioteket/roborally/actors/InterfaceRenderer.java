@@ -1,6 +1,7 @@
 package biblioteket.roborally.actors;
 
-import biblioteket.roborally.board.IBoard;
+import biblioteket.roborally.game.Assets;
+import biblioteket.roborally.game.StandardScreen;
 import biblioteket.roborally.programcards.ICard;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -10,6 +11,8 @@ import com.badlogic.gdx.math.Rectangle;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Handles rendering of player interface, displaying necessary information for playing the game
@@ -18,7 +21,6 @@ import java.util.Objects;
 public class InterfaceRenderer {
 
     private final Texture background;
-    private final Texture playerOverview;
     private final Texture flag;
     private final Texture hp;
 
@@ -30,9 +32,13 @@ public class InterfaceRenderer {
     private final Texture rotateRightCard;
     private final Texture rotateLeftCard;
     private final Texture uTurnCard;
+    private final Texture damageToken;
+    private final Texture powerDownButtonPre;
+    private final Texture powerDownButtonPost;
 
     private final SpriteBatch batch;
     private final BitmapFont font;
+    private final SpriteBatch fontBatch;
     private final ICard[] cardHand;
     private final ICard[] programRegister;
     private final TouchableCards touchableCardHand;
@@ -41,78 +47,158 @@ public class InterfaceRenderer {
     private int lives;
     private String name;
 
-    public InterfaceRenderer() {
-        background = new Texture("assets/background2.jpg");
-        playerOverview = new Texture("assets/playerOverview.jpg");
-        hp = new Texture("assets/hp.png");
-        flag = new Texture("assets/flag.png");
+    private float cardWidth;
+    private float cardHeight;
+    private float touchableWidth;
+    private float touchableHeight;
+    private float rightOfBoard;
+    private float healthFlagSize;
+    private float damageTokenSize;
+    private float powerDownSize;
+    private float powerDownX;
+    private float powerDownY;
 
-        emptyCard = new Texture("assets/programCards/cards.png");
-        moveOneCard = new Texture("assets/programCards/move1.png");
-        moveTwoCard = new Texture("assets/programCards/move2.png");
-        moveThreeCard = new Texture("assets/programCards/move3.png");
-        backUpCard = new Texture("assets/programCards/backUp.png");
-        rotateRightCard = new Texture("assets/programCards/rotateRight.png");
-        rotateLeftCard = new Texture("assets/programCards/rotateLeft.png");
-        uTurnCard = new Texture("assets/programCards/uTurn.png");
+    public InterfaceRenderer() {
+
+        Assets assets = new Assets();
+        assets.load();
+        assets.getManager().finishLoading();
+
+
+        background = assets.getManager().get(Assets.BACKGROUND, Texture.class);
+        hp = assets.getManager().get(Assets.HP, Texture.class);
+        flag = assets.getManager().get(Assets.FLAG, Texture.class);
+
+        emptyCard = assets.getManager().get(Assets.EMPTY_CARD, Texture.class);
+        moveOneCard = assets.getManager().get(Assets.MOVE_ONE_CARD, Texture.class);
+        moveTwoCard = assets.getManager().get(Assets.MOVE_TWO_CARD, Texture.class);
+        moveThreeCard = assets.getManager().get(Assets.MOVE_THREE_CARD, Texture.class);
+        backUpCard = assets.getManager().get(Assets.BACK_UP_CARD, Texture.class);
+        rotateRightCard = assets.getManager().get(Assets.ROTATE_RIGHT_CARD, Texture.class);
+        rotateLeftCard = assets.getManager().get(Assets.ROTATE_LEFT_CARD, Texture.class);
+        uTurnCard = assets.getManager().get(Assets.U_TURN_CARD, Texture.class);
+        damageToken = assets.getManager().get(Assets.DAMAGE_TOKEN, Texture.class);
+        powerDownButtonPre = assets.getManager().get(Assets.POWER_DOWN_BUTTON_PRE, Texture.class);
+        powerDownButtonPost = assets.getManager().get(Assets.POWER_DOWN_BUTTON_POST, Texture.class);
 
         batch = new SpriteBatch();
         font = new BitmapFont();
+        fontBatch = new SpriteBatch();
 
         flagsVisited = 0;
         lives = 3;
         cardHand = new ICard[9];
         programRegister = new ICard[5];
 
+
+        graphicSize();
         // Card hand
         touchableCardHand = new TouchableCards(cardHand.length);
-        touchableCardHand.initializeCard(0, 375, 100, 40, 90);
-        touchableCardHand.initializeCard(1, 425, 100, 40, 90);
-        touchableCardHand.initializeCard(2, 475, 100, 40, 90);
-        touchableCardHand.initializeCard(3, 525, 100, 40, 90);
-        touchableCardHand.initializeCard(4, 350, 0, 40, 90);
-        touchableCardHand.initializeCard(5, 400, 0, 40, 90);
-        touchableCardHand.initializeCard(6, 450, 0, 40, 90);
-        touchableCardHand.initializeCard(7, 500, 0, 40, 90);
-        touchableCardHand.initializeCard(8, 550, 0, 40, 90);
-
+        for (int i = 0; i < cardHand.length; i++) {
+            if (i < 4) {
+                touchableCardHand.initializeCard(i, rightOfBoard + (rightOfBoard / 2) - cardWidth + cardWidth / 2 * i, cardHeight, touchableWidth, touchableHeight);
+            } else
+                touchableCardHand.initializeCard(i, rightOfBoard + (rightOfBoard / 2) - cardWidth * 1.25f + cardWidth / 2 * (i - 4), 0, touchableWidth, touchableHeight);
+        }
         // Progamregister
         touchableProgramRegister = new TouchableCards(programRegister.length);
-        touchableProgramRegister.initializeCard(0, 350, 250, 40, 90);
-        touchableProgramRegister.initializeCard(1, 400, 250, 40, 90);
-        touchableProgramRegister.initializeCard(2, 450, 250, 40, 90);
-        touchableProgramRegister.initializeCard(3, 500, 250, 40, 90);
-        touchableProgramRegister.initializeCard(4, 550, 250, 40, 90);
+        for (int i = 0; i < 5; i++) {
+            touchableProgramRegister.initializeCard(i, rightOfBoard + (rightOfBoard / 2) - cardWidth * 1.25f + cardWidth / 2 * i, Gdx.graphics.getHeight() / (640f / 250f), touchableWidth, touchableHeight);
+        }
+
+
     }
 
-    public void renderInterface(IBoard board) {
+    public void graphicSize() {
+        cardWidth = (Gdx.graphics.getHeight() / (640f / 130f));
+        cardHeight = (Gdx.graphics.getHeight() / (640f / 90f));
+        touchableWidth = (Gdx.graphics.getWidth() / (640f / 40f));
+        touchableHeight = (Gdx.graphics.getWidth() / (640f / 90f));
+        rightOfBoard = Gdx.graphics.getWidth() / 2f;
+        healthFlagSize = Gdx.graphics.getHeight() / (640f / 40f);
+        damageTokenSize = Gdx.graphics.getHeight() / (640f / 35f);
+        powerDownSize = Gdx.graphics.getHeight() / 10f;
+        powerDownX = StandardScreen.getCamera().viewportWidth / 2f + StandardScreen.getCamera().viewportWidth / 4f - powerDownSize / 2f;
+        powerDownY = StandardScreen.getCamera().viewportHeight / 1.6f;
+
+    }
+
+    public void renderInterface() {
+        graphicSize();
+        StandardScreen.getCamera().update();
+        batch.setProjectionMatrix(StandardScreen.getCamera().combined);
+        fontBatch.setProjectionMatrix(StandardScreen.getCamera().combined);
+
         batch.begin();
-        batch.draw(playerOverview, 0, Gdx.graphics.getHeight() - 90f, Gdx.graphics.getWidth(), 90);
-        batch.draw(background, board.getTileWidth(), 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        batch.draw(flag, 290, Gdx.graphics.getHeight() - 180f, 40, 40);
-        batch.draw(hp, 330, Gdx.graphics.getHeight() - 180f, 40, 40);
-        font.draw(batch, Integer.toString(flagsVisited), 310, Gdx.graphics.getHeight() - 165f);
-        font.draw(batch, Integer.toString(lives), 360, Gdx.graphics.getHeight() - 165f);
-        font.draw(batch, name, 410, Gdx.graphics.getHeight() - 165f);
+        batch.draw(background, 0, 0, StandardScreen.getCamera().viewportWidth, StandardScreen.getCamera().viewportHeight);
 
+        drawDamageTokens();
+        drawPlayerInformation();
 
-        drawCard(cardHand[0], 375, 100, 100, 90);
-        drawCard(cardHand[1], 425, 100, 100, 90);
-        drawCard(cardHand[2], 475, 100, 100, 90);
-        drawCard(cardHand[3], 525, 100, 100, 90);
-        drawCard(cardHand[4], 350, 0, 100, 90);
-        drawCard(cardHand[5], 400, 0, 100, 90);
-        drawCard(cardHand[6], 450, 0, 100, 90);
-        drawCard(cardHand[7], 500, 0, 100, 90);
-        drawCard(cardHand[8], 550, 0, 100, 90);
+        for (int i = 0; i < 4; i++) {
+            //Row with four cards
+            drawCard(cardHand[i], rightOfBoard + rightOfBoard / 2 - cardWidth + cardWidth / 2 * i, cardHeight, cardWidth, cardHeight);
+        }
+        // row with five cards.
+        for (int i = 0; i < 5; i++) {
+            drawCard(cardHand[4 + i], rightOfBoard + rightOfBoard / 2 - cardWidth * 1.25f + cardWidth / 2 * i, 0, cardWidth, cardHeight);
+            drawCard(programRegister[i], rightOfBoard + rightOfBoard / 2 - cardWidth * 1.25f + cardWidth / 2 * i, StandardScreen.getCamera().viewportHeight / (640f / 250f), cardWidth, cardHeight);
+        }
 
-        drawCard(programRegister[0], 350, 250, 100, 90);
-        drawCard(programRegister[1], 400, 250, 100, 90);
-        drawCard(programRegister[2], 450, 250, 100, 90);
-        drawCard(programRegister[3], 500, 250, 100, 90);
-        drawCard(programRegister[4], 550, 250, 100, 90);
-
+        //powerDown button
+        batch.draw(powerDownButtonPre, powerDownX, powerDownY, powerDownSize, powerDownSize);
+        if (Gdx.input.getX() < powerDownX + powerDownSize && Gdx.input.getX() > powerDownX && StandardScreen.getCamera().viewportHeight - Gdx.input.getY() < powerDownY + powerDownSize / 1.1f && StandardScreen.getCamera().viewportHeight - Gdx.input.getY() > powerDownY + powerDownSize / (6f)) {
+            batch.draw(powerDownButtonPost, powerDownX, powerDownY, powerDownSize, powerDownSize);
+            if (Gdx.input.isTouched()) {
+                Logger logger = Logger.getLogger(InterfaceRenderer.class.getName());
+                logger.log(Level.INFO, "powerdown metode her");
+            }
+        }
         batch.end();
+
+        //card priority
+        fontBatch.begin();
+        for (int i = 0; i < 4; i++) {
+            if (cardHand[i] != null) {
+                font.draw(fontBatch, Integer.toString(cardHand[i].getPriorityNumber()), rightOfBoard + rightOfBoard / 2 - cardWidth * 0.80f + cardWidth / 2 * i, cardHeight / (54f / 100f));
+            }
+        }
+        for (int i = 4; i < 9; i++) {
+            if (cardHand[i] != null) {
+                font.draw(fontBatch, Integer.toString(cardHand[i].getPriorityNumber()), rightOfBoard + rightOfBoard / 2 - cardWidth * 1.06f + cardWidth / 2 * (i - 4), cardHeight / (117f / 100f));
+            }
+        }
+        //card priority program register
+        for (int i = 0; i < 5; i++) {
+            if (programRegister[i] != null) {
+                font.draw(fontBatch, Integer.toString(programRegister[i].getPriorityNumber()), rightOfBoard + rightOfBoard / 2 - cardWidth * 1.06f + cardWidth / 2 * i, cardHeight * (3.63f));
+            }
+        }
+        fontBatch.end();
+    }
+
+    private void drawDamageTokens() {
+        for (int i = 0; i < 10; i++) {
+            batch.draw(damageToken, rightOfBoard + rightOfBoard / 2 - damageTokenSize * 1.06f + damageTokenSize / 1.15f * (i - 4), StandardScreen.getCamera().viewportHeight / 1.8f, damageTokenSize, damageTokenSize);
+        }
+    }
+
+    private void drawPlayerInformation() {
+        for (int i = 0; i < 4; i++) {
+            // Player 1-4
+            batch.draw(flag, rightOfBoard / 1.015f + rightOfBoard / 4 * i, StandardScreen.getCamera().viewportHeight - StandardScreen.getCamera().viewportHeight / 16 * 140 / 100, healthFlagSize, healthFlagSize);
+            batch.draw(hp, (rightOfBoard + healthFlagSize / 4 * 2) + rightOfBoard / 4 * i, StandardScreen.getCamera().viewportHeight - StandardScreen.getCamera().viewportHeight / 16 * 140 / 100, healthFlagSize, healthFlagSize);
+            font.draw(batch, "Player " + (i + 1), rightOfBoard + rightOfBoard / 4 * i, StandardScreen.getCamera().viewportHeight - StandardScreen.getCamera().viewportHeight / 16f / 10f);
+            font.draw(batch, Integer.toString(lives), rightOfBoard + healthFlagSize * 1.2f + rightOfBoard / 4 * i, StandardScreen.getCamera().viewportHeight - StandardScreen.getCamera().viewportHeight / (640f / 40f));
+            font.draw(batch, Integer.toString(flagsVisited), rightOfBoard + healthFlagSize * 0.2f + rightOfBoard / 4 * i, StandardScreen.getCamera().viewportHeight - StandardScreen.getCamera().viewportHeight / (640f / 40f));
+
+            // Player 5-8
+            batch.draw(flag, rightOfBoard / 1.015f + rightOfBoard / 4 * i, StandardScreen.getCamera().viewportHeight - StandardScreen.getCamera().viewportHeight / 5f, healthFlagSize, healthFlagSize);
+            batch.draw(hp, rightOfBoard + healthFlagSize / 4 * 2 + rightOfBoard / 4 * i, StandardScreen.getCamera().viewportHeight - StandardScreen.getCamera().viewportHeight / 5f, healthFlagSize, healthFlagSize);
+            font.draw(batch, "Player " + (5 + i), rightOfBoard + rightOfBoard / 4 * i, StandardScreen.getCamera().viewportHeight - StandardScreen.getCamera().viewportHeight / 8f);
+            font.draw(batch, Integer.toString(lives), rightOfBoard + healthFlagSize * 1.2f + rightOfBoard / 4 * i, StandardScreen.getCamera().viewportHeight - StandardScreen.getCamera().viewportHeight / (640f / 110f));
+            font.draw(batch, Integer.toString(flagsVisited), rightOfBoard + healthFlagSize * 0.2f + rightOfBoard / 4 * i, StandardScreen.getCamera().viewportHeight - StandardScreen.getCamera().viewportHeight / (640f / 110f));
+        }
     }
 
     /**
@@ -124,10 +210,11 @@ public class InterfaceRenderer {
      * @param width  of the texture
      * @param height of the texture
      */
-    private void drawCard(ICard card, int x, int y, float width, float height) {
+    private void drawCard(ICard card, float x, float y, float width, float height) {
         Texture cardTexture = getCardTexture(card);
         batch.draw(cardTexture, x, y, width, height);
     }
+
 
     /**
      * @param card to be drawn
@@ -261,6 +348,7 @@ public class InterfaceRenderer {
         return cardHandCard != null ? cardHandCard : programRegisterCard;
     }
 
+
     /**
      * Datastructure for multiple rectangles which can contain coordinates and
      * return an ICard if they are touched
@@ -332,5 +420,12 @@ public class InterfaceRenderer {
             }
         }
     }
-
 }
+
+
+
+
+
+
+
+

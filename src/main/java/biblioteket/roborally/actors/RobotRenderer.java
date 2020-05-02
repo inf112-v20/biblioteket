@@ -93,7 +93,7 @@ public class RobotRenderer {
      */
     private void renderAllPlayers() {
         for (IActor player : players) {
-            if (!player.isPermanentDead()){
+            if (!player.isPermanentDead()) {
                 DirVector position = player.getRobot().getPosition();
                 TiledMapTileLayer.Cell playerCell = player.getPlayerCell();
                 playerLayer.setCell(position.getX(), position.getY(), playerCell);
@@ -105,10 +105,10 @@ public class RobotRenderer {
      * Moves permanently dead robots off the grid
      *
      * @param oldPosition of dead robot
-     * @param playerCell of dead robot
+     * @param playerCell  of dead robot
      */
     public void removePlayer(DirVector oldPosition, TiledMapTileLayer.Cell playerCell) {
-        RobotStep movement = new RobotStep(oldPosition, new DirVector(-1,-1,Direction.NORTH), Direction.NORTH, 100, playerCell, false);
+        RobotStep movement = new RobotStep(oldPosition, new DirVector(-1, -1, Direction.NORTH), Direction.NORTH, 100, playerCell, false);
         movements.add(movement);
     }
 

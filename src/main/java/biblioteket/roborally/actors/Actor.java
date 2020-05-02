@@ -98,7 +98,7 @@ public class Actor implements IActor {
     public void removeOneLife() {
         lives--;
         if (lives <= 0) {
-            robotRenderer.removePlayer(getRobot().getPosition(),playerCell);
+            robotRenderer.removePlayer(getRobot().getPosition(), playerCell);
         }
     }
 
