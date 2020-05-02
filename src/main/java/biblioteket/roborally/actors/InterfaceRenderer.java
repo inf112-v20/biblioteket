@@ -250,12 +250,12 @@ public class InterfaceRenderer {
         this.lives = lives;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getName() {
         return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     /**
@@ -312,23 +312,6 @@ public class InterfaceRenderer {
      */
     public void addCardToLockedRegister(ICard card, int index) {
         programRegister[index] = card;
-    }
-
-    /**
-     * @param card  Card to place
-     * @param index Index to place card in
-     */
-    public void addCardToProgramRegisterIndex(ICard card, int index) {
-        for (int i = 0; i < cardHand.length; i++) {
-            if (card.equals(cardHand[i])) {
-                cardHand[i] = null;
-                touchableCardHand.removeCard(i);
-                break;
-            }
-        }
-
-        programRegister[index] = card;
-        touchableProgramRegister.setCard(index, card);
     }
 
     /**

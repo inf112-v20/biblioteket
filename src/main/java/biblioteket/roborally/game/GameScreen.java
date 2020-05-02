@@ -46,7 +46,7 @@ public class GameScreen extends StandardScreen {
         Texture playerTexture = new Texture("assets/playermodels/pinbot.png");
         TextureRegion[][] playerTextureSplit = TextureRegion.split(playerTexture, board.getTileWidth(), board.getTileHeight());
 
-        for (int i = 1; i <= 2; i++) {
+        for (int i = 1; i <= game.getPlayers(); i++) {
             TiledMapTileLayer.Cell playerCell = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(playerTextureSplit[0][0]));
             IActor player = new Player(board, playerCell, new InterfaceRenderer(), robotRenderer);
             players.add(player);
@@ -57,7 +57,7 @@ public class GameScreen extends StandardScreen {
             board.getPlayerLayer().setCell(player.getRobot().getPosition().getX(), player.getRobot().getPosition().getY(), playerCell);
         }
 
-        for (int i = players.size() + 1; i <= 3; i++) {
+        for (int i = players.size() + 1; i <= game.getAI(); i++) {
             TiledMapTileLayer.Cell playerCell = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(playerTextureSplit[0][0]));
             IActor player = new EasyAI(board, playerCell, new InterfaceRenderer(), robotRenderer);
             players.add(player);
@@ -70,7 +70,6 @@ public class GameScreen extends StandardScreen {
 
         gameLoop.newTurn();
         gameLoop.startGame();
-
     }
 
     @Override
@@ -87,6 +86,4 @@ public class GameScreen extends StandardScreen {
         tiledMapRenderer.render();
         camera.update();
     }
-
-
 }
