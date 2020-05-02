@@ -96,14 +96,14 @@ public class InterfaceRenderer {
         touchableCardHand = new TouchableCards(cardHand.length);
         for (int i = 0; i < cardHand.length; i++) {
             if (i < 4) {
-                touchableCardHand.initializeCard(i, rightOfBoard + rightOfBoard / 2 - cardWidth + cardWidth / 2 * i, cardHeight, touchableWidth, touchableHeight);
+                touchableCardHand.initializeCard(i, rightOfBoard + (rightOfBoard / 2) - cardWidth + cardWidth / 2 * i, cardHeight, touchableWidth, touchableHeight);
             } else
-                touchableCardHand.initializeCard(i, rightOfBoard + rightOfBoard / 2 - cardWidth * 1.25f + cardWidth / 2 * (i - 4), 0, touchableWidth, touchableHeight);
+                touchableCardHand.initializeCard(i, rightOfBoard + (rightOfBoard / 2) - cardWidth * 1.25f + cardWidth / 2 * (i - 4), 0, touchableWidth, touchableHeight);
         }
         // Progamregister
         touchableProgramRegister = new TouchableCards(programRegister.length);
         for (int i = 0; i < 5; i++) {
-            touchableProgramRegister.initializeCard(i, rightOfBoard + rightOfBoard / 2 - cardWidth * 1.25f + cardWidth / 2 * i, Gdx.graphics.getHeight() / (640f / 250f), touchableWidth, touchableHeight);
+            touchableProgramRegister.initializeCard(i, rightOfBoard + (rightOfBoard / 2) - cardWidth * 1.25f + cardWidth / 2 * i, Gdx.graphics.getHeight() / (640f / 250f), touchableWidth, touchableHeight);
         }
 
 
