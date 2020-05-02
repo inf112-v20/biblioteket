@@ -50,7 +50,7 @@ class PlayerTest {
     }
 
     @Test
-    void announcingPowerDownResultsInPowerDownNextTurnTest(){
+    void announcingPowerDownResultsInPowerDownNextTurnTest() {
         player.setRobot(new Robot(new ArchiveMarkerElement(1)));
         player.announcePowerDown();
         player.newTurn(null);
@@ -58,7 +58,7 @@ class PlayerTest {
     }
 
     @Test
-    void powerDownRemovesDamageTokensTest(){
+    void powerDownRemovesDamageTokensTest() {
         player.setRobot(new Robot(new ArchiveMarkerElement(1)));
         player.getRobot().addDamageTokens(5);
         player.announcePowerDown();

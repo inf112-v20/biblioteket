@@ -202,7 +202,7 @@ public class GameLoop {
      * @return true if any player has registered all flags on board
      */
     private boolean checkWinCondition() {
-        if(getLivingPlayers().size() == 1){
+        if (getLivingPlayers().size() == 1) {
             Gdx.app.log(getLivingPlayers().get(0).getName(), " wins by being the last player alive");
             return true;
         }
@@ -212,7 +212,7 @@ public class GameLoop {
                 return true;
             }
         }
-        if(getLivingPlayers().size() == 0){
+        if (getLivingPlayers().size() == 0) {
             Gdx.app.log("", "all players died");
             return true;
         }
@@ -261,7 +261,7 @@ public class GameLoop {
             player.newTurn(cardDeck);
         }
         programmingPhase = true;
-        if(getCurrentPlayer().isPoweredDown() || getCurrentPlayer().isPermanentDead()) {
+        if (getCurrentPlayer().isPoweredDown() || getCurrentPlayer().isPermanentDead()) {
             nextPlayer();
         }
     }

@@ -17,7 +17,7 @@ public class PlayerSelect extends StandardScreen {
     private final Texture selectPre;
     private final Texture selectPost;
     private final OrthographicCamera camera;
-    private List<Texture> numberList;
+    private final List<Texture> numberList;
     private int counter;
 
 
@@ -86,7 +86,7 @@ public class PlayerSelect extends StandardScreen {
             game.getBatch().draw(arrowRightPost, arrowRightX, arrowY, arrowWidth, arrowHeight);
             if (Gdx.input.isButtonJustPressed(0) && counter != 7) {
                 counter++;
-                }
+            }
         }
         //select button
         else if (Gdx.input.getX() < buttonCentered + buttonWidth && Gdx.input.getX() > buttonCentered && camera.viewportHeight - Gdx.input.getY() < selectY + buttonHeight / 1.35 && camera.viewportHeight - Gdx.input.getY() > selectY + buttonWidth / (1.35)) {
