@@ -73,7 +73,7 @@ public class Robot implements IRobot {
 
     @Override
     public DirVector getPosition() {
-        return this.location;
+        return this.location.copy();
     }
 
     @Override
