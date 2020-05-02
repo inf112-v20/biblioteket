@@ -1,8 +1,6 @@
 package biblioteket.roborally.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 
@@ -11,97 +9,51 @@ import com.badlogic.gdx.graphics.Texture;
  * select how many players there are, multiplayer etc. Currently only a simple
  * canvas is displayed that the user can click and then the game launches.
  */
-public class MainMenuScreen implements Screen {
-    private static final int BUTTON_HEIGHT = 250;
-    private static final int BUTTON_WIDTH = 180;
-    private final RoboRally game;
-    private final OrthographicCamera camera;
-    private final Texture logo;
-    private final Texture background;
+public class MainMenuScreen extends StandardScreen {
     private final Texture playPre;
     private final Texture playPost;
     private final Texture quitPre;
     private final Texture quitPost;
-
+    private final OrthographicCamera camera;
 
     public MainMenuScreen(final RoboRally game) {
-        this.game = game;
-        this.camera = new OrthographicCamera();
-        camera.setToOrtho(false, 640, 640);
+        super(game);
 
+        camera = getCamera();
+        Assets assets = getAssets();
 
-        background = new Texture("assets/background2.jpg");
-        logo = new Texture("assets/logo.png");
-        playPre = new Texture("assets/buttons/playPre.png");
-        playPost = new Texture("assets/buttons/playPost.png");
-        quitPre = new Texture("assets/buttons/quitPre.png");
-        quitPost = new Texture("assets/buttons/quitPost.png");
+        playPre = assets.getManager().get(Assets.PLAY_PRE, Texture.class);
+        playPost = assets.getManager().get(Assets.PLAY_POST, Texture.class);
+        quitPre = assets.getManager().get(Assets.QUIT_PRE, Texture.class);
+        quitPost = assets.getManager().get(Assets.QUIT_POST, Texture.class);
 
     }
 
-    @Override
-    public void show() {
-        // Not used, but method must be overwritten
-    }
 
     @Override
-    public void render(float delta) {
-        int center = (int) camera.viewportWidth / 2 - BUTTON_WIDTH / 2;
+    public void render(float v) {
+        super.render(v);
+        buttonsSizeAndScreenPlacement();
 
-        Gdx.gl.glClearColor(0, 0, 0.2f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        float startY = camera.viewportHeight / 5f;
 
-        camera.update();
-
-        game.getBatch().setProjectionMatrix(camera.combined);
         game.getBatch().begin();
-        game.getBatch().draw(background, 0, 0, 700, 700);
-        game.getBatch().draw(logo, 70, 340);
-        game.getBatch().draw(playPre, center, camera.viewportHeight / 4, BUTTON_WIDTH, BUTTON_HEIGHT);
-        game.getBatch().draw(quitPre, center, camera.viewportHeight / 10, BUTTON_WIDTH, BUTTON_HEIGHT);
+        game.getBatch().setProjectionMatrix(camera.combined);
+        game.getBatch().draw(playPost, buttonCentered, startY, buttonWidth, buttonHeight);
+        game.getBatch().draw(quitPre, buttonCentered, exitY, buttonWidth, buttonHeight);
 
-        if (Gdx.input.getX() < center + BUTTON_WIDTH && Gdx.input.getX() > center && camera.viewportHeight - Gdx.input.getY() < camera.viewportHeight / 4 + BUTTON_WIDTH && camera.viewportHeight - Gdx.input.getY() > camera.viewportHeight / 4 + BUTTON_WIDTH / (1.5)) {
-            game.getBatch().draw(quitPost, center, camera.viewportHeight / 10, BUTTON_WIDTH, BUTTON_HEIGHT);
+        if (Gdx.input.getX() < buttonCentered + buttonWidth && Gdx.input.getX() > buttonCentered && camera.viewportHeight - Gdx.input.getY() < startY + buttonHeight / 1.35f && camera.viewportHeight - Gdx.input.getY() > startY + buttonWidth / (1.5f)) {
+            game.getBatch().draw(playPre, buttonCentered, startY, buttonWidth, buttonHeight);
             if (Gdx.input.isTouched()) {
-                game.setScreen(new GameScreen(game));
-                dispose();
+                game.setScreen(new PlayerSelect(game));
             }
-        } else if (Gdx.input.getX() < center + BUTTON_WIDTH && Gdx.input.getX() > center && camera.viewportHeight - Gdx.input.getY() < camera.viewportHeight / 7 + BUTTON_WIDTH && camera.viewportHeight - Gdx.input.getY() > camera.viewportHeight / 10 + BUTTON_WIDTH / (1.5)) {
-            game.getBatch().draw(playPost, center, camera.viewportHeight / 4, BUTTON_WIDTH, BUTTON_HEIGHT);
+        } else if (hoverOverQuit()) {
+            game.getBatch().draw(quitPost, buttonCentered, exitY, buttonWidth, buttonHeight);
             if (Gdx.input.isTouched()) {
                 Gdx.app.exit();
+
             }
-        } else {
-            game.getBatch().draw(playPost, center, camera.viewportHeight / 4, BUTTON_WIDTH, BUTTON_HEIGHT);
-            game.getBatch().draw(quitPost, center, camera.viewportHeight / 10, BUTTON_WIDTH, BUTTON_HEIGHT);
-
         }
-
         game.getBatch().end();
-    }
-
-    @Override
-    public void resize(int width, int height) {
-        // Not used, but method must be overwritten
-    }
-
-    @Override
-    public void pause() {
-        // Not used, but method must be overwritten
-    }
-
-    @Override
-    public void resume() {
-        // Not used, but method must be overwritten
-    }
-
-    @Override
-    public void hide() {
-        // Not used, but method must be overwritten
-    }
-
-    @Override
-    public void dispose() {
-        // Not used, but method must be overwritten
     }
 }

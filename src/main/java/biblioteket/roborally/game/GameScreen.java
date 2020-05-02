@@ -2,10 +2,8 @@ package biblioteket.roborally.game;
 
 import biblioteket.roborally.actors.*;
 import biblioteket.roborally.board.Board;
-import biblioteket.roborally.board.IBoard;
 import biblioteket.roborally.elements.ArchiveMarkerElement;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -22,23 +20,22 @@ import java.util.List;
  * the game logic itself. Currently only renders a very simple board with a
  * flag and hole that they player can move around on.
  */
-public class GameScreen implements Screen {
-    private final IBoard board;
-    private final RobotRenderer robotRenderer;
+public class GameScreen extends StandardScreen {
     private final OrthographicCamera camera;
-
+    private final RobotRenderer robotRenderer;
     private final GameLoop gameLoop;
-
     private final OrthogonalTiledMapRenderer tiledMapRenderer;
 
-    public GameScreen(final RoboRally gam) {
+
+    public GameScreen(final RoboRally game) {
+        super(game);
         List<IActor> players = new ArrayList<>();
-        this.board = new Board("assets/DizzyDash.tmx", players);
+        Board board = new Board(MapSelect.getMap(), players);
         gameLoop = new GameLoop(board, players);
         this.robotRenderer = new RobotRenderer(board.getPlayerLayer(), players, gameLoop);
-        this.camera = new OrthographicCamera();
 
-        camera.setToOrtho(false, (float) board.getWidth() + 14, (float) board.getHeight() + 1);
+        camera = getCamera();
+        camera.setToOrtho(false, (float) board.getWidth() * 2, (float) board.getHeight());
         camera.update();
 
         tiledMapRenderer = new OrthogonalTiledMapRenderer(board.getMap(), (float) 1 / board.getTileWidth());
@@ -76,17 +73,12 @@ public class GameScreen implements Screen {
     }
 
     @Override
-    public void show() {
-        // Not used, but method must be overwritten
-    }
-
-    @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // Clears main menu screen
 
         // Render interface of current player
-        gameLoop.getCurrentPlayer().getInterfaceRenderer().renderInterface(board);
+        gameLoop.getCurrentPlayer().getInterfaceRenderer().renderInterface();
         // Render robot movement
         if (robotRenderer.isRequestingRendering()) {
             robotRenderer.renderStep();
@@ -95,28 +87,5 @@ public class GameScreen implements Screen {
         camera.update();
     }
 
-    @Override
-    public void resize(int width, int height) {
-        // Not used, but method must be overwritten
-    }
 
-    @Override
-    public void pause() {
-        // Not used, but method must be overwritten
-    }
-
-    @Override
-    public void resume() {
-        // Not used, but method must be overwritten
-    }
-
-    @Override
-    public void hide() {
-        // Not used, but method must be overwritten
-    }
-
-    @Override
-    public void dispose() {
-        // Not used, but method must be overwritten
-    }
 }
