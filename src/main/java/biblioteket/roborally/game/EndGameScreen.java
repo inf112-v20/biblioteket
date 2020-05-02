@@ -13,12 +13,14 @@ public class EndGameScreen extends StandardScreen {
     private final Texture mainMenuPre;
     private final Texture mainMenuPost;
     private final BitmapFont font;
+    private final String winner;
 
 
-    public EndGameScreen(final RoboRally game) {
+    public EndGameScreen(final RoboRally game, String name) {
         super(game);
         camera = getCamera();
         Assets assets = getAssets();
+        this.winner = name;
 
         font = new BitmapFont();
         font.getData().setScale(1.5f, 1.5f);
@@ -27,9 +29,7 @@ public class EndGameScreen extends StandardScreen {
         quitPost = assets.getManager().get(Assets.QUIT_POST, Texture.class);
         mainMenuPre = assets.getManager().get(Assets.MAIN_MENU_PRE, Texture.class);
         mainMenuPost = assets.getManager().get(Assets.MAIN_MENU_POST, Texture.class);
-
     }
-
 
     @Override
     public void render(float v) {
@@ -54,9 +54,7 @@ public class EndGameScreen extends StandardScreen {
                 Gdx.app.exit();
             }
         }
-        font.draw(game.getBatch(), "Player name here" + " has won the game!", camera.viewportWidth / 2f - (float) logo.getWidth() / 3.3f * camera.viewportHeight / 640f, camera.viewportHeight / 2f);
+        font.draw(game.getBatch(), winner + " has won the game!", camera.viewportWidth / 2f - (float) logo.getWidth() / 3.3f * camera.viewportHeight / 640f, camera.viewportHeight / 2f);
         game.getBatch().end();
     }
-
-
 }

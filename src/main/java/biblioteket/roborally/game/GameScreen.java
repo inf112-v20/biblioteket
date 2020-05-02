@@ -26,10 +26,11 @@ public class GameScreen extends StandardScreen {
     private final RobotRenderer robotRenderer;
     private final GameLoop gameLoop;
     private final OrthogonalTiledMapRenderer tiledMapRenderer;
-
+    private final RoboRally game;
 
     public GameScreen(final RoboRally game) {
         super(game);
+        this.game = game;
         List<IActor> players = new ArrayList<>();
         Board board = new Board(MapSelect.getMap(), players);
         gameLoop = new GameLoop(board, players);
@@ -85,5 +86,9 @@ public class GameScreen extends StandardScreen {
         }
         tiledMapRenderer.render();
         camera.update();
+
+        if (gameLoop.checkWinCondition()) {
+            game.setScreen(new EndGameScreen(game, gameLoop.getLivingPlayers().get(0).getName()));
+        }
     }
 }

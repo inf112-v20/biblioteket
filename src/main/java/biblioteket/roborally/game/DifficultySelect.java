@@ -57,11 +57,9 @@ public class DifficultySelect extends StandardScreen {
         } else if (Gdx.input.getX() < buttonCentered + buttonWidth && Gdx.input.getX() > buttonCentered && camera.viewportHeight - Gdx.input.getY() < hardY + buttonHeight / 1.35 && camera.viewportHeight - Gdx.input.getY() > hardY + buttonWidth / (1.35)) {
             game.getBatch().draw(hardButtonPost, buttonCentered, hardY, buttonWidth, buttonHeight);
             if (Gdx.input.isTouched()) {
-                game.setScreen(new EndGameScreen(game));
+                game.setScreen(new EndGameScreen(game, "Cheater"));
             }
         }
         game.getBatch().end();
     }
-
-
 }
