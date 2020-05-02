@@ -1,23 +1,23 @@
 
-saucerbot.png
+barrelbot.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-saucerbotresize
+barrelbotresize
   rotate: false
   xy: 1, 1
   size: 300, 300
   orig: 300, 300
   offset: 0, 0
   index: -1
-saucerbotresizedamaged
+barrelbotresizedamaged
   rotate: false
   xy: 303, 1
   size: 300, 300
   orig: 300, 300
   offset: 0, 0
   index: -1
-saucerbotresizewin
+barrelbotresizewin
   rotate: false
   xy: 605, 1
   size: 300, 300

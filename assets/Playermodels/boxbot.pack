@@ -3,24 +3,24 @@ boxbot.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-boxbot resize
+boxbotresize
   rotate: false
   xy: 1, 1
-  size: 100, 100
-  orig: 100, 100
+  size: 300, 300
+  orig: 300, 300
   offset: 0, 0
   index: -1
-boxbotwin
+boxbotresizedamaged
   rotate: false
-  xy: 103, 1
-  size: 100, 100
-  orig: 100, 100
+  xy: 303, 1
+  size: 300, 300
+  orig: 300, 300
   offset: 0, 0
   index: -1
-boxdamaged
+boxbotresizewin
   rotate: false
-  xy: 205, 1
-  size: 100, 100
-  orig: 100, 100
+  xy: 605, 1
+  size: 300, 300
+  orig: 300, 300
   offset: 0, 0
   index: -1
