@@ -8,11 +8,11 @@ import com.badlogic.gdx.graphics.Texture;
 
 public class StandardScreen implements Screen {
 
-    private final Assets assets = new Assets();
     private static final OrthographicCamera camera = new OrthographicCamera();
     public final RoboRally game;
     public final Texture background;
     public final Texture logo;
+    private final Assets assets = new Assets();
     public float buttonCentered;
     public float buttonWidth;
     public float buttonHeight;
@@ -31,6 +31,10 @@ public class StandardScreen implements Screen {
 
     }
 
+    public static OrthographicCamera getCamera() {
+        return camera;
+    }
+
     //Resizing does not work if made in constructor.
     public void buttonsSizeAndScreenPlacement() {
         centerOfScreenX = camera.viewportWidth / 2f;
@@ -40,13 +44,8 @@ public class StandardScreen implements Screen {
         exitY = camera.viewportHeight / 20f;
     }
 
-
     public boolean hoverOverQuit() {
         return Gdx.input.getX() < buttonCentered + buttonWidth && Gdx.input.getX() > buttonCentered && camera.viewportHeight - Gdx.input.getY() < exitY + buttonHeight / 1.35f && camera.viewportHeight - Gdx.input.getY() > exitY + buttonWidth / (1.5f);
-    }
-
-    public static OrthographicCamera getCamera() {
-        return camera;
     }
 
     public Assets getAssets() {

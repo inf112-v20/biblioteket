@@ -54,7 +54,7 @@ public class EndGameScreen extends StandardScreen {
                 Gdx.app.exit();
             }
         }
-        font.draw(game.getBatch(), "Player name here" + " has won the game!", camera.viewportWidth / 2f - (float) logo.getWidth() / 3.3f  * camera.viewportHeight / 640f, camera.viewportHeight / 2f);
+        font.draw(game.getBatch(), "Player name here" + " has won the game!", camera.viewportWidth / 2f - (float) logo.getWidth() / 3.3f * camera.viewportHeight / 640f, camera.viewportHeight / 2f);
         game.getBatch().end();
     }
 

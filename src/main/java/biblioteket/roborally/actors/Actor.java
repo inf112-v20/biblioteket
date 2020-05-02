@@ -48,7 +48,7 @@ public class Actor implements IActor {
 
     @Override
     public boolean moveRobot(Direction direction, int delay, boolean debug, boolean pushed) {
-        if(!state.canMove() && !pushed) return false;
+        if (!state.canMove() && !pushed) return false;
         if (board.canMove(robot.getPosition(), direction) && board.pushRobot(robot.getPosition(), direction)) {
             DirVector oldPosition = robot.getPosition();
             robot.pushRobotInDirection(direction);
@@ -102,7 +102,7 @@ public class Actor implements IActor {
         if (--lives <= 0) {
             state = PlayerState.DESTROYED;
             Gdx.app.log(getName(), "permanently destroyed");
-            robotRenderer.removePlayer(getRobot().getPosition(),playerCell);
+            robotRenderer.removePlayer(getRobot().getPosition(), playerCell);
         }
     }
 
@@ -168,32 +168,26 @@ public class Actor implements IActor {
     private void cleanRegister(int damageTokens, ICardDeck cardDeck) {
         switch (damageTokens) {
             case 9:
-                int lockedRegisters = 5;
                 break;
             case 8:
-                lockedRegisters = 4;
                 cardDeck.removeFromRegisterPile(programRegister.remove(programRegister.size() - 1));
                 break;
             case 7:
-                lockedRegisters = 3;
                 cardDeck.removeFromRegisterPile(programRegister.remove(programRegister.size() - 1));
                 cardDeck.removeFromRegisterPile(programRegister.remove(programRegister.size() - 1));
                 break;
             case 6:
-                lockedRegisters = 2;
                 cardDeck.removeFromRegisterPile(programRegister.remove(programRegister.size() - 1));
                 cardDeck.removeFromRegisterPile(programRegister.remove(programRegister.size() - 1));
                 cardDeck.removeFromRegisterPile(programRegister.remove(programRegister.size() - 1));
                 break;
             case 5:
-                lockedRegisters = 1;
                 cardDeck.removeFromRegisterPile(programRegister.remove(programRegister.size() - 1));
                 cardDeck.removeFromRegisterPile(programRegister.remove(programRegister.size() - 1));
                 cardDeck.removeFromRegisterPile(programRegister.remove(programRegister.size() - 1));
                 cardDeck.removeFromRegisterPile(programRegister.remove(programRegister.size() - 1));
                 break;
             default:
-                lockedRegisters = 0;
                 for (ICard card : programRegister)
                     cardDeck.removeFromRegisterPile(card);
                 programRegister.clear();
@@ -217,7 +211,7 @@ public class Actor implements IActor {
     @Override
     public void newTurn(ICardDeck cardDeck) {
         state = state.nextTurn();
-        if(isPoweredDown()){
+        if (isPoweredDown()) {
             int damageTokens = getRobot().getNumberOfDamageTokens();
             getRobot().removeDamageTokens(damageTokens);
             Gdx.app.log(getName(), "discards " + damageTokens + " damage tokens");
@@ -260,12 +254,12 @@ public class Actor implements IActor {
     }
 
     @Override
-    public void fireLaser(List<IActor> players){
+    public void fireLaser(List<IActor> players) {
         DirVector vector = getRobot().getPosition();
-        if(board.canMove(vector, vector.getDirection())){
+        if (board.canMove(vector, vector.getDirection())) {
             Laser laser = new Laser();
             vector.forward(vector.getDirection());
-            laser.fireLaser(board,players,vector);
+            laser.fireLaser(board, players, vector);
         }
     }
 

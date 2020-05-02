@@ -254,6 +254,10 @@ public class InterfaceRenderer {
         this.name = name;
     }
 
+    public String getName() {
+        return this.name;
+    }
+
     /**
      * @param cardHand to be drawn
      */
