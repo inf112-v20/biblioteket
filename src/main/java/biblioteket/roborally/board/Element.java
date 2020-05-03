@@ -99,11 +99,6 @@ public enum Element {
         this.value = value;
     }
 
-    public static Element valueOf(int pageType) {
-        return map.get(pageType);
-    }
-
-
     public static InteractingElement getInteractiveElement(int id) {
         IElement element = factory(id);
         if (element instanceof InteractingElement)

@@ -109,7 +109,7 @@ public class GameScreen extends StandardScreen {
      * Splits a texture so that we can use the individual slices of the texture.
      *
      * @param texture Texture to split
-     * @param board Current game board
+     * @param board   Current game board
      * @return The split texture
      */
     private TextureRegion[][] splitTexture(Texture texture, IBoard board) {
@@ -122,14 +122,14 @@ public class GameScreen extends StandardScreen {
     private List<Texture> playerTextures() {
         Assets assets = getAssets();
         List<Texture> textures = new ArrayList<>();
-        textures.add(assets.getManager().get(Assets.BarrelBot, Texture.class));
-        textures.add(assets.getManager().get(Assets.BoxBot, Texture.class));
-        textures.add(assets.getManager().get(Assets.HammerBot, Texture.class));
-        textures.add(assets.getManager().get(Assets.PinBot, Texture.class));
-        textures.add(assets.getManager().get(Assets.SafeBot, Texture.class));
-        textures.add(assets.getManager().get(Assets.SaucerBot, Texture.class));
-        textures.add(assets.getManager().get(Assets.SpinBot, Texture.class));
-        textures.add(assets.getManager().get(Assets.OwlBot, Texture.class));
+        textures.add(assets.getManager().get(Assets.BARREL_BOT, Texture.class));
+        textures.add(assets.getManager().get(Assets.BOX_BOT, Texture.class));
+        textures.add(assets.getManager().get(Assets.HAMMER_BOT, Texture.class));
+        textures.add(assets.getManager().get(Assets.PIN_BOT, Texture.class));
+        textures.add(assets.getManager().get(Assets.SAFE_BOT, Texture.class));
+        textures.add(assets.getManager().get(Assets.SAUCER_BOT, Texture.class));
+        textures.add(assets.getManager().get(Assets.SPIN_BOT, Texture.class));
+        textures.add(assets.getManager().get(Assets.OWL_BOT, Texture.class));
 
         return textures;
     }

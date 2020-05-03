@@ -45,14 +45,14 @@ public class Assets {
     public static final String MAIN_MENU_PRE = "buttons/mainMenuPre.png";
     public static final String MAIN_MENU_POST = "assets/buttons/mainMenuPost.png";
 
-    public static final String BarrelBot = "playermodels/barrelbot.png";
-    public static final String BoxBot = "playermodels/boxbot.png";
-    public static final String HammerBot = "playermodels/hammerbot.png";
-    public static final String PinBot = "playermodels/pinbot.png";
-    public static final String SafeBot = "playermodels/safebot.png";
-    public static final String SaucerBot = "playermodels/saucerbot.png";
-    public static final String SpinBot = "playermodels/spinbot.png";
-    public static final String OwlBot = "playermodels/owlbot.png";
+    public static final String BARREL_BOT = "playermodels/barrelbot.png";
+    public static final String BOX_BOT = "playermodels/boxbot.png";
+    public static final String HAMMER_BOT = "playermodels/hammerbot.png";
+    public static final String PIN_BOT = "playermodels/pinbot.png";
+    public static final String SAFE_BOT = "playermodels/safebot.png";
+    public static final String SAUCER_BOT = "playermodels/saucerbot.png";
+    public static final String SPIN_BOT = "playermodels/spinbot.png";
+    public static final String OWL_BOT = "playermodels/owlbot.png";
     private AssetManager manager;
 
     /**
@@ -104,14 +104,14 @@ public class Assets {
         manager.load(MAIN_MENU_PRE, Texture.class);
         manager.load(MAIN_MENU_POST, Texture.class);
 
-        manager.load(BarrelBot, Texture.class);
-        manager.load(BoxBot, Texture.class);
-        manager.load(HammerBot, Texture.class);
-        manager.load(PinBot, Texture.class);
-        manager.load(SafeBot, Texture.class);
-        manager.load(SaucerBot, Texture.class);
-        manager.load(SpinBot, Texture.class);
-        manager.load(OwlBot, Texture.class);
+        manager.load(BARREL_BOT, Texture.class);
+        manager.load(BOX_BOT, Texture.class);
+        manager.load(HAMMER_BOT, Texture.class);
+        manager.load(PIN_BOT, Texture.class);
+        manager.load(SAFE_BOT, Texture.class);
+        manager.load(SAUCER_BOT, Texture.class);
+        manager.load(SPIN_BOT, Texture.class);
+        manager.load(OWL_BOT, Texture.class);
     }
 
     /**

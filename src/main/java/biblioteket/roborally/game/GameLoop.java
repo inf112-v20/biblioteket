@@ -39,7 +39,6 @@ public class GameLoop {
     boolean programmingPhase = true;
     private int currentPlayerPtr = 0;
     private ICardDeck cardDeck;
-    private Direction playerDirection = Direction.WEST;
 
     public GameLoop(IBoard board, List<IActor> players) {
         this.board = board;
@@ -52,7 +51,6 @@ public class GameLoop {
         } catch (IOException e) {
             Gdx.app.error("GameLoop: %s", e.toString());
         }
-
     }
 
     public void startGame() {
