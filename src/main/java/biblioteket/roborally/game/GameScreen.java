@@ -2,7 +2,7 @@ package biblioteket.roborally.game;
 
 import biblioteket.roborally.actors.*;
 import biblioteket.roborally.board.Board;
-import biblioteket.roborally.board.Direction;
+import biblioteket.roborally.board.IBoard;
 import biblioteket.roborally.elements.ArchiveMarkerElement;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -15,6 +15,7 @@ import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * The viewport for the game, allows us to implement the UI separately from
@@ -32,7 +33,7 @@ public class GameScreen extends StandardScreen {
         super(game);
         this.game = game;
         List<IActor> players = new ArrayList<>();
-        Board board = new Board(MapSelect.getMap(), players);
+        IBoard board = new Board(MapSelect.getMap(), players);
         gameLoop = new GameLoop(board, players);
         this.robotRenderer = new RobotRenderer(board.getPlayerLayer(), players, gameLoop);
 
@@ -43,12 +44,11 @@ public class GameScreen extends StandardScreen {
         tiledMapRenderer = new OrthogonalTiledMapRenderer(board.getMap(), (float) 1 / board.getTileWidth());
         tiledMapRenderer.setView(camera);
 
-
-        Texture playerTexture = new Texture("assets/playermodels/pinbot.png");
-        TextureRegion[][] playerTextureSplit = TextureRegion.split(playerTexture, board.getTileWidth(), board.getTileHeight());
+        List<Texture> playerTextures = playerTextures();
 
         for (int i = 1; i <= game.getPlayers(); i++) {
-            TiledMapTileLayer.Cell playerCell = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(playerTextureSplit[0][0]));
+            TextureRegion[][] texture = splitTexture(pickRandomTexture(playerTextures), board);
+            TiledMapTileLayer.Cell playerCell = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(texture[0][0]));
             IActor player = new Player(board, playerCell, new InterfaceRenderer(), robotRenderer);
             players.add(player);
             ArchiveMarkerElement archiveMarker = board.getArchiveMarker(i);
@@ -59,7 +59,8 @@ public class GameScreen extends StandardScreen {
         }
 
         for (int i = players.size() + 1; i <= game.getAI(); i++) {
-            TiledMapTileLayer.Cell playerCell = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(playerTextureSplit[0][0]));
+            TextureRegion[][] texture = splitTexture(pickRandomTexture(playerTextures), board);
+            TiledMapTileLayer.Cell playerCell = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(texture[0][0]));
             IActor player = new EasyAI(board, playerCell, new InterfaceRenderer(), robotRenderer);
             players.add(player);
             ArchiveMarkerElement archiveMarker = board.getArchiveMarker(i);
@@ -90,5 +91,46 @@ public class GameScreen extends StandardScreen {
         if (gameLoop.checkWinCondition()) {
             game.setScreen(new EndGameScreen(game, gameLoop.getLivingPlayers().get(0).getName()));
         }
+    }
+
+    /**
+     * Picks a random element from a list, removes it and returns it. Used so
+     * that each player/AI has a unique skin for their robot.
+     *
+     * @param textures A list of textures pick from
+     * @return a new texture
+     */
+    private Texture pickRandomTexture(List<Texture> textures) {
+        int element = new Random().nextInt(textures.size());
+        return textures.remove(element);
+    }
+
+    /**
+     * Splits a texture so that we can use the individual slices of the texture.
+     *
+     * @param texture Texture to split
+     * @param board Current game board
+     * @return The split texture
+     */
+    private TextureRegion[][] splitTexture(Texture texture, IBoard board) {
+        return TextureRegion.split(texture, board.getTileWidth(), board.getTileHeight());
+    }
+
+    /**
+     * @return a list of all available player textures
+     */
+    private List<Texture> playerTextures() {
+        Assets assets = getAssets();
+        List<Texture> textures = new ArrayList<>();
+        textures.add(assets.getManager().get(Assets.BarrelBot, Texture.class));
+        textures.add(assets.getManager().get(Assets.BoxBot, Texture.class));
+        textures.add(assets.getManager().get(Assets.HammerBot, Texture.class));
+        textures.add(assets.getManager().get(Assets.PinBot, Texture.class));
+        textures.add(assets.getManager().get(Assets.SafeBot, Texture.class));
+        textures.add(assets.getManager().get(Assets.SaucerBot, Texture.class));
+        textures.add(assets.getManager().get(Assets.SpinBot, Texture.class));
+        textures.add(assets.getManager().get(Assets.OwlBot, Texture.class));
+
+        return textures;
     }
 }

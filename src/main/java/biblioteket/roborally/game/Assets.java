@@ -44,8 +44,20 @@ public class Assets {
     public static final String POWER_DOWN_BUTTON_POST = "buttons/powerdownPost.png";
     public static final String MAIN_MENU_PRE = "buttons/mainMenuPre.png";
     public static final String MAIN_MENU_POST = "assets/buttons/mainMenuPost.png";
+
+    public static final String BarrelBot = "playermodels/barrelbot.png";
+    public static final String BoxBot = "playermodels/boxbot.png";
+    public static final String HammerBot = "playermodels/hammerbot.png";
+    public static final String PinBot = "playermodels/pinbot.png";
+    public static final String SafeBot = "playermodels/safebot.png";
+    public static final String SaucerBot = "playermodels/saucerbot.png";
+    public static final String SpinBot = "playermodels/spinbot.png";
+    public static final String OwlBot = "playermodels/owlbot.png";
     private AssetManager manager;
 
+    /**
+     * Loads all the necessary textures for the game.
+     */
     @SuppressWarnings("DuplicatedCode")
     public void load() {
         if (manager == null) {
@@ -91,16 +103,27 @@ public class Assets {
         manager.load(POWER_DOWN_BUTTON_POST, Texture.class);
         manager.load(MAIN_MENU_PRE, Texture.class);
         manager.load(MAIN_MENU_POST, Texture.class);
+
+        manager.load(BarrelBot, Texture.class);
+        manager.load(BoxBot, Texture.class);
+        manager.load(HammerBot, Texture.class);
+        manager.load(PinBot, Texture.class);
+        manager.load(SafeBot, Texture.class);
+        manager.load(SaucerBot, Texture.class);
+        manager.load(SpinBot, Texture.class);
+        manager.load(OwlBot, Texture.class);
     }
 
+    /**
+     * @return the current asset manager
+     */
     public AssetManager getManager() {
         return manager;
     }
 
-    public void setManager(AssetManager manager) {
-        this.manager = manager;
-    }
-
+    /**
+     * Destroy the asset manager.
+     */
     public void dispose() {
         manager.dispose();
     }
