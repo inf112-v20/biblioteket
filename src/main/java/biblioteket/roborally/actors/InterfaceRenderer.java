@@ -12,8 +12,6 @@ import com.badlogic.gdx.math.Rectangle;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Handles rendering of player interface, displaying necessary information for playing the game
@@ -133,7 +131,7 @@ public class InterfaceRenderer {
         batch.begin();
         batch.draw(background, 0, 0, StandardScreen.getCamera().viewportWidth, StandardScreen.getCamera().viewportHeight);
 
-        drawDamageTokens();
+        drawDamageTokens(players.get(currentPlayerPtr).getRobot().getNumberOfDamageTokens());
         drawPlayerInformation(players,currentPlayerPtr);
 
         //Row with four cards
@@ -174,8 +172,8 @@ public class InterfaceRenderer {
         fontBatch.end();
     }
 
-    private void drawDamageTokens() {
-        for (int i = 0; i < 10; i++) {
+    private void drawDamageTokens(int damageTokens) {
+        for (int i = 0; i < damageTokens; i++) {
             batch.draw(damageToken, rightOfBoard + rightOfBoard / 2 - damageTokenSize * 1.06f + damageTokenSize / 1.15f * (i - 4), StandardScreen.getCamera().viewportHeight / 1.8f, damageTokenSize, damageTokenSize);
         }
     }
