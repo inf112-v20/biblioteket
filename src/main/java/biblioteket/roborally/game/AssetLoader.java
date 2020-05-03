@@ -24,7 +24,7 @@ public class AssetLoader extends ApplicationAdapter {
         assets.getManager().finishLoading();
 
         skin = new Skin();
-        skin.addRegions(assets.getManager().get("bb_idle_spritesheet.pack", TextureAtlas.class));
+        skin.addRegions(assets.getManager().get("playermodels/bb_idle_spritesheet.pack", TextureAtlas.class));
 
         player = new BarrelBot(skin.getRegion("bb_idle"));
 

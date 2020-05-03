@@ -43,7 +43,7 @@ public class GameScreen extends StandardScreen {
         tiledMapRenderer.setView(camera);
 
 
-        Texture playerTexture = new Texture("assets/Playermodels/pinbot.png");
+        Texture playerTexture = new Texture("assets/playermodels/pinbot.png");
         TextureRegion[][] playerTextureSplit = TextureRegion.split(playerTexture, board.getTileWidth(), board.getTileHeight());
 
         for (int i = 1; i <= 2; i++) {
