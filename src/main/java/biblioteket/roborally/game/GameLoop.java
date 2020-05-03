@@ -58,8 +58,7 @@ public class GameLoop {
             @Override
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {
                 if (!programmingPhase) return false;
-                int y = Gdx.graphics.getHeight() - 1 - screenY; // Translate from y-down to y-up
-                return registerInput(screenX, y, getCurrentPlayer());
+                return registerInput(screenX, screenY, getCurrentPlayer());
             }
 
             // Keyboard movement for testing
@@ -112,7 +111,7 @@ public class GameLoop {
      */
     private boolean registerInput(int x, int y, IActor player) {
         InterfaceRenderer interfaceRenderer = player.getInterfaceRenderer();
-        ICard card = interfaceRenderer.contains(x, y);
+        ICard card = interfaceRenderer.contains(x, y, player);
         if (card != null)
             player.addCardToProgramRegister(card.copy(), cardDeck);
 
@@ -193,14 +192,14 @@ public class GameLoop {
     /**
      * @return a list of all players not permanently dead
      */
-    List<IActor> getLivingPlayers() {
+    public List<IActor> getLivingPlayers() {
         return players.stream().filter(player -> !player.isPermanentDead()).collect(Collectors.toList());
     }
 
     /**
      * @return true if any player has registered all flags on board
      */
-    boolean checkWinCondition() {
+    public boolean checkWinCondition() {
         if (getLivingPlayers().size() == 1) {
             Gdx.app.log(getLivingPlayers().get(0).getName(), " wins by being the last player alive");
             return true;
@@ -251,6 +250,10 @@ public class GameLoop {
 
     public IActor getCurrentPlayer() {
         return players.get(currentPlayerPtr);
+    }
+
+    public void renderCurrentInterface(){
+        getCurrentPlayer().getInterfaceRenderer().renderInterface(players, currentPlayerPtr);
     }
 
     public void newTurn() {
