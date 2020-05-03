@@ -59,11 +59,9 @@ public class InterfaceRenderer {
     private float powerDownY;
 
     public InterfaceRenderer() {
-
         Assets assets = new Assets();
         assets.load();
         assets.getManager().finishLoading();
-
 
         background = assets.getManager().get(Assets.BACKGROUND, Texture.class);
         hp = assets.getManager().get(Assets.HP, Texture.class);
@@ -89,7 +87,6 @@ public class InterfaceRenderer {
         lives = 3;
         cardHand = new ICard[9];
         programRegister = new ICard[5];
-
 
         graphicSize();
         // Card hand

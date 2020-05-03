@@ -22,7 +22,7 @@ public class StandardScreen implements Screen {
     public StandardScreen(RoboRally game) {
         this.game = game;
 
-        camera.setToOrtho(false, 640, 640);
+        camera.setToOrtho(false, game.getWidth(), game.getHeight());
 
         assets.load();
         assets.getManager().finishLoading();

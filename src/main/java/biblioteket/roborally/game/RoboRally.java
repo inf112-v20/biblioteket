@@ -12,9 +12,16 @@ import java.util.concurrent.ThreadLocalRandom;
  * then we can move between various screens.
  */
 public class RoboRally extends Game {
+    private final int width;
+    private final int height;
     private SpriteBatch batch;
     private BitmapFont font;
     private int numPlayers;
+
+    public RoboRally(int width, int height) {
+        this.width = width;
+        this.height = height;
+    }
 
     @Override
     public void create() {
@@ -55,5 +62,13 @@ public class RoboRally extends Game {
 
     public int getAI() {
         return ThreadLocalRandom.current().nextInt(1, 9 - getPlayers());
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
     }
 }
