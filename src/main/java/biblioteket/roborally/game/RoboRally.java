@@ -54,6 +54,6 @@ public class RoboRally extends Game {
     }
 
     public int getAI() {
-        return ThreadLocalRandom.current().nextInt(this.numPlayers, 8);
+        return ThreadLocalRandom.current().nextInt(this.numPlayers, 9);
     }
 }

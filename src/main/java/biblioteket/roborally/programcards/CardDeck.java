@@ -48,8 +48,14 @@ public class CardDeck implements ICardDeck {
     @Override
     public ArrayList<ICard> drawCards(int number) {
         ArrayList<ICard> drawnCards = new ArrayList<>();
-        for (int i = 0; i < number; i++)
-            drawnCards.add(drawCard());
+        for (int i = 0; i < number; i++) {
+            ICard card = drawCard();
+            if(drawnCards.contains(card)){ // Duplicate cards
+                i--;
+            } else{
+                drawnCards.add(card);
+            }
+        }
         return drawnCards;
     }
 
