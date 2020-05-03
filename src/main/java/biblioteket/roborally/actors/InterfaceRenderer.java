@@ -4,6 +4,7 @@ import biblioteket.roborally.game.Assets;
 import biblioteket.roborally.game.StandardScreen;
 import biblioteket.roborally.programcards.ICard;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -123,7 +124,7 @@ public class InterfaceRenderer {
 
     }
 
-    public void renderInterface() {
+    public void renderInterface(List<IActor> players, int currentPlayerPtr) {
         graphicSize();
         StandardScreen.getCamera().update();
         batch.setProjectionMatrix(StandardScreen.getCamera().combined);
@@ -133,10 +134,10 @@ public class InterfaceRenderer {
         batch.draw(background, 0, 0, StandardScreen.getCamera().viewportWidth, StandardScreen.getCamera().viewportHeight);
 
         drawDamageTokens();
-        drawPlayerInformation();
+        drawPlayerInformation(players,currentPlayerPtr);
 
+        //Row with four cards
         for (int i = 0; i < 4; i++) {
-            //Row with four cards
             drawCard(cardHand[i], rightOfBoard + rightOfBoard / 2 - cardWidth + cardWidth / 2 * i, cardHeight, cardWidth, cardHeight);
         }
         // row with five cards.
@@ -183,21 +184,24 @@ public class InterfaceRenderer {
         }
     }
 
-    private void drawPlayerInformation() {
-        for (int i = 0; i < 4; i++) {
-            // Player 1-4
-            batch.draw(flag, rightOfBoard / 1.015f + rightOfBoard / 4 * i, StandardScreen.getCamera().viewportHeight - StandardScreen.getCamera().viewportHeight / 16 * 140 / 100, healthFlagSize, healthFlagSize);
-            batch.draw(hp, (rightOfBoard + healthFlagSize / 4 * 2) + rightOfBoard / 4 * i, StandardScreen.getCamera().viewportHeight - StandardScreen.getCamera().viewportHeight / 16 * 140 / 100, healthFlagSize, healthFlagSize);
-            font.draw(batch, "Player " + (i + 1), rightOfBoard + rightOfBoard / 4 * i, StandardScreen.getCamera().viewportHeight - StandardScreen.getCamera().viewportHeight / 16f / 10f);
-            font.draw(batch, Integer.toString(lives), rightOfBoard + healthFlagSize * 1.2f + rightOfBoard / 4 * i, StandardScreen.getCamera().viewportHeight - StandardScreen.getCamera().viewportHeight / (640f / 40f));
-            font.draw(batch, Integer.toString(flagsVisited), rightOfBoard + healthFlagSize * 0.2f + rightOfBoard / 4 * i, StandardScreen.getCamera().viewportHeight - StandardScreen.getCamera().viewportHeight / (640f / 40f));
-
-            // Player 5-8
-            batch.draw(flag, rightOfBoard / 1.015f + rightOfBoard / 4 * i, StandardScreen.getCamera().viewportHeight - StandardScreen.getCamera().viewportHeight / 5f, healthFlagSize, healthFlagSize);
-            batch.draw(hp, rightOfBoard + healthFlagSize / 4 * 2 + rightOfBoard / 4 * i, StandardScreen.getCamera().viewportHeight - StandardScreen.getCamera().viewportHeight / 5f, healthFlagSize, healthFlagSize);
-            font.draw(batch, "Player " + (5 + i), rightOfBoard + rightOfBoard / 4 * i, StandardScreen.getCamera().viewportHeight - StandardScreen.getCamera().viewportHeight / 8f);
-            font.draw(batch, Integer.toString(lives), rightOfBoard + healthFlagSize * 1.2f + rightOfBoard / 4 * i, StandardScreen.getCamera().viewportHeight - StandardScreen.getCamera().viewportHeight / (640f / 110f));
-            font.draw(batch, Integer.toString(flagsVisited), rightOfBoard + healthFlagSize * 0.2f + rightOfBoard / 4 * i, StandardScreen.getCamera().viewportHeight - StandardScreen.getCamera().viewportHeight / (640f / 110f));
+    private void drawPlayerInformation(List<IActor> players, int currentPlayerPtr) {
+        for (int i = 0; i < players.size(); i++) {
+            if (i == currentPlayerPtr)
+                font.setColor(Color.RED);
+            if (i <= 4) {   // Players 1-4
+                batch.draw(flag, rightOfBoard / 1.015f + rightOfBoard / 4 * i, StandardScreen.getCamera().viewportHeight - StandardScreen.getCamera().viewportHeight / 16 * 140 / 100, healthFlagSize, healthFlagSize);
+                batch.draw(hp, (rightOfBoard + healthFlagSize / 4 * 2) + rightOfBoard / 4 * i, StandardScreen.getCamera().viewportHeight - StandardScreen.getCamera().viewportHeight / 16 * 140 / 100, healthFlagSize, healthFlagSize);
+                font.draw(batch, players.get(i).getName(), rightOfBoard + rightOfBoard / 4 * i, StandardScreen.getCamera().viewportHeight - StandardScreen.getCamera().viewportHeight / 16f / 10f);
+                font.draw(batch, Integer.toString(lives), rightOfBoard + healthFlagSize * 1.2f + rightOfBoard / 4 * i, StandardScreen.getCamera().viewportHeight - StandardScreen.getCamera().viewportHeight / (640f / 40f));
+                font.draw(batch, Integer.toString(flagsVisited), rightOfBoard + healthFlagSize * 0.2f + rightOfBoard / 4 * i, StandardScreen.getCamera().viewportHeight - StandardScreen.getCamera().viewportHeight / (640f / 40f));
+            } else { // Players 5-8
+                batch.draw(flag, rightOfBoard / 1.015f + rightOfBoard / 4 * i, StandardScreen.getCamera().viewportHeight - StandardScreen.getCamera().viewportHeight / 5f, healthFlagSize, healthFlagSize);
+                batch.draw(hp, rightOfBoard + healthFlagSize / 4 * 2 + rightOfBoard / 4 * i, StandardScreen.getCamera().viewportHeight - StandardScreen.getCamera().viewportHeight / 5f, healthFlagSize, healthFlagSize);
+                font.draw(batch, players.get(i).getName(), rightOfBoard + rightOfBoard / 4 * i, StandardScreen.getCamera().viewportHeight - StandardScreen.getCamera().viewportHeight / 8f);
+                font.draw(batch, Integer.toString(lives), rightOfBoard + healthFlagSize * 1.2f + rightOfBoard / 4 * i, StandardScreen.getCamera().viewportHeight - StandardScreen.getCamera().viewportHeight / (640f / 110f));
+                font.draw(batch, Integer.toString(flagsVisited), rightOfBoard + healthFlagSize * 0.2f + rightOfBoard / 4 * i, StandardScreen.getCamera().viewportHeight - StandardScreen.getCamera().viewportHeight / (640f / 110f));
+            }
+            font.setColor(Color.WHITE);
         }
     }
 

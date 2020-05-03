@@ -254,6 +254,10 @@ public class GameLoop {
         return players.get(currentPlayerPtr);
     }
 
+    public void renderCurrentInterface(){
+        getCurrentPlayer().getInterfaceRenderer().renderInterface(players, currentPlayerPtr);
+    }
+
     public void newTurn() {
         if (checkWinCondition()) {
             return;
