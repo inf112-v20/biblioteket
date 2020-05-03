@@ -59,8 +59,7 @@ public class GameLoop {
             @Override
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {
                 if (!programmingPhase) return false;
-                int y = Gdx.graphics.getHeight() - 1 - screenY; // Translate from y-down to y-up
-                return registerInput(screenX, y, getCurrentPlayer());
+                return registerInput(screenX, screenY, getCurrentPlayer());
             }
 
             // Keyboard movement for testing
@@ -113,7 +112,7 @@ public class GameLoop {
      */
     private boolean registerInput(int x, int y, IActor player) {
         InterfaceRenderer interfaceRenderer = player.getInterfaceRenderer();
-        ICard card = interfaceRenderer.contains(x, y);
+        ICard card = interfaceRenderer.contains(x, y, player);
         if (card != null)
             player.addCardToProgramRegister(card.copy(), cardDeck);
 

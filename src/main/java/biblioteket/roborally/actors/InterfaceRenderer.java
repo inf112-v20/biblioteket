@@ -150,10 +150,6 @@ public class InterfaceRenderer {
         batch.draw(powerDownButtonPre, powerDownX, powerDownY, powerDownSize, powerDownSize);
         if (Gdx.input.getX() < powerDownX + powerDownSize && Gdx.input.getX() > powerDownX && StandardScreen.getCamera().viewportHeight - Gdx.input.getY() < powerDownY + powerDownSize / 1.1f && StandardScreen.getCamera().viewportHeight - Gdx.input.getY() > powerDownY + powerDownSize / (6f)) {
             batch.draw(powerDownButtonPost, powerDownX, powerDownY, powerDownSize, powerDownSize);
-            if (Gdx.input.isTouched()) {
-                Logger logger = Logger.getLogger(InterfaceRenderer.class.getName());
-                logger.log(Level.INFO, "powerdown metode her");
-            }
         }
         batch.end();
 
@@ -331,12 +327,22 @@ public class InterfaceRenderer {
     /**
      * @param x coordinate
      * @param y coordinate
+     * @param player
      * @return an ICard if the coordinates contain a card, or null otherwise
      */
-    public ICard contains(int x, int y) {
+    public ICard contains(int x, int y, IActor player) {
+        if(powerDownButtenTouched(x,y)) {
+            player.announcePowerDown();
+            return null;
+        }
         ICard cardHandCard = touchableCardHand.contains(x, y);
         ICard programRegisterCard = touchableProgramRegister.contains(x, y);
         return cardHandCard != null ? cardHandCard : programRegisterCard;
+    }
+
+    private boolean powerDownButtenTouched(int x, int y){
+        return x < powerDownX + powerDownSize && x > powerDownX && StandardScreen.getCamera().viewportHeight - y < powerDownY + powerDownSize / 1.1f && StandardScreen.getCamera().viewportHeight - y > powerDownY + powerDownSize / (6f);
+
     }
 
 
@@ -365,6 +371,7 @@ public class InterfaceRenderer {
          * @return an ICard if any card contains the x,y coordinates, otherwise null
          */
         public ICard contains(int x, int y) {
+            y = Gdx.graphics.getHeight() - 1 - y; // Translate from y-down to y-up
             for (TouchableCard card : cards) {
                 if (card.contains(x, y))
                     return card.getCard();
