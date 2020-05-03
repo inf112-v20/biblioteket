@@ -1,29 +1,27 @@
 package biblioteket.roborally.actors;
 
-import biblioteket.roborally.board.Board;
 import biblioteket.roborally.board.DirVector;
 import biblioteket.roborally.board.Direction;
-import biblioteket.roborally.board.IBoard;
 import biblioteket.roborally.elements.ArchiveMarkerElement;
 
 public class Robot implements IRobot {
     private final ArchiveMarkerElement archiveMarker;
     private DirVector location;
-    private IPlayer player;
+    private IActor player;
     private int damageTokens = 0;
 
     public Robot(ArchiveMarkerElement archiveMarker) {
         this.archiveMarker = archiveMarker;
-        this.location = new DirVector(archiveMarker.getX(), archiveMarker.getY(), Direction.NORTH);
+        this.location = new DirVector(archiveMarker.getPosition().getX(), archiveMarker.getPosition().getY(), Direction.NORTH);
     }
 
     @Override
-    public IPlayer getPlayer() {
+    public IActor getPlayer() {
         return this.player;
     }
 
     @Override
-    public void setPlayer(IPlayer player) {
+    public void setPlayer(IActor player) {
         this.player = player;
     }
 
@@ -35,6 +33,7 @@ public class Robot implements IRobot {
     @Override
     public void removeDamageTokens(int damageTokens) {
         this.damageTokens -= damageTokens;
+        if (this.damageTokens < 0) this.damageTokens = 0;
     }
 
     @Override
@@ -54,8 +53,7 @@ public class Robot implements IRobot {
 
     @Override
     public void setArchiveMarker(DirVector location) {
-        archiveMarker.setX(location.getX());
-        archiveMarker.setY(location.getY());
+        archiveMarker.setPosition(location.copy());
     }
 
     @Override
@@ -69,26 +67,13 @@ public class Robot implements IRobot {
     }
 
     @Override
-    public void moveForward(IBoard board) {
-        moveRobot(getDirection(), board);
-    }
-
-    @Override
-    public void moveBackward(IBoard board) {
-        Direction startDirection = getDirection();
-        moveRobot(getDirection().opposite(), board);
-        setDirection(startDirection);
-    }
-
-    @Override
     public void pushRobotInDirection(Direction direction) {
-        this.location.setDirection(direction);
-        this.location.forward(1);
+        this.location.forward(direction);
     }
 
     @Override
     public DirVector getPosition() {
-        return this.location;
+        return this.location.copy();
     }
 
     @Override
@@ -112,45 +97,7 @@ public class Robot implements IRobot {
     }
 
     @Override
-    public boolean moveForward(Board board) {
-        if (board.canMove(getPosition(), getDirection())) {
-            this.location = this.location.dirVectorInDirection(getDirection());
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public boolean move(Direction direction, IBoard board) {
-        if (board.canMove(getPosition(), direction)) {
-            this.location = this.location.dirVectorInDirection(direction);
-            if (board.outOfBounds(this.location)) {
-                this.addDamageTokens(1);
-                moveToArchiveMarker();
-            }
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public void moveRobot(Direction direction, IBoard board) {
-        DirVector locationInDirection = this.location.dirVectorInDirection(direction);
-        if (board.canMove(this.location, direction)) { //Check if blocked by immovable object. Should not include robots or out of bounds.
-            if (board.outOfBounds(locationInDirection)) { //Check if robot moves off board
-                player.removeOneLife();
-                if (player.hasLivesLeft()) {
-                    addDamageTokens(1);
-                    moveToArchiveMarker();
-                }
-            } else {// Moves the robot in direction
-                setPosition(locationInDirection);
-            }
-        }
-    }
-
-    @Override
     public void moveToArchiveMarker() {
-        setPosition(archiveMarker.getX(), archiveMarker.getY());
+        setPosition(archiveMarker.getPosition().getX(), archiveMarker.getPosition().getY());
     }
 }

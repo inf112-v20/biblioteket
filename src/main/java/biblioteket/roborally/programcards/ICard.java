@@ -1,7 +1,6 @@
 package biblioteket.roborally.programcards;
 
-import biblioteket.roborally.actors.IRobot;
-import biblioteket.roborally.board.IBoard;
+import biblioteket.roborally.actors.IActor;
 
 public interface ICard {
 
@@ -22,9 +21,9 @@ public interface ICard {
     /**
      * Make the robot do the action of the program card
      *
-     * @param robot which robot that should do the action.
+     * @param player player to interact with
      */
-    void doCardAction(IRobot robot, IBoard board);
+    void doCardAction(IActor player);
 
     /**
      * @return a copy of this card

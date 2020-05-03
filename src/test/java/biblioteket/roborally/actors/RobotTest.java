@@ -15,19 +15,19 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @ExtendWith(TestRunner.class)
 class RobotTest {
     private IRobot robot;
-    private IBoard board;
 
     @BeforeEach
     void setUp() {
-        board = new Board("assets/TestingMap.tmx");
+        IBoard board = new Board("assets/TestingMap.tmx", null);
         robot = new Robot(board.getArchiveMarker(1));
-        IPlayer player = new Player(null, null);
+        IActor player = new Actor(null, null, null, null);
         player.setRobot(robot);
         robot.setPlayer(player);
     }
 
     @Test
     void removeDamageTokens() {
+        robot.addDamageTokens(5);
         int removedDamageTokens = 2;
         int originalNumberOfDamageTokens = robot.getNumberOfDamageTokens();
         robot.removeDamageTokens(removedDamageTokens);
@@ -118,7 +118,7 @@ class RobotTest {
         robot.setDirection(direction);
         DirVector newLocation = robot.getPosition().dirVectorInDirection(direction);
 
-        robot.moveForward(board);
+        robot.pushRobotInDirection(robot.getDirection());
 
         assertEquals(robot.getPosition(), newLocation);
         assertEquals(direction, robot.getDirection());
@@ -130,7 +130,7 @@ class RobotTest {
         robot.setDirection(direction);
         DirVector newLocation = robot.getPosition().dirVectorInDirection(direction);
 
-        robot.moveForward(board);
+        robot.pushRobotInDirection(robot.getDirection());
 
         assertEquals(robot.getPosition(), newLocation);
         assertEquals(direction, robot.getDirection());
@@ -142,7 +142,7 @@ class RobotTest {
         robot.setDirection(direction);
         DirVector newLocation = robot.getPosition().dirVectorInDirection(direction);
 
-        robot.moveForward(board);
+        robot.pushRobotInDirection(robot.getDirection());
 
         assertEquals(robot.getPosition(), newLocation);
         assertEquals(direction, robot.getDirection());
@@ -154,7 +154,7 @@ class RobotTest {
         robot.setDirection(direction);
         DirVector newLocation = robot.getPosition().dirVectorInDirection(direction);
 
-        robot.moveForward(board);
+        robot.pushRobotInDirection(robot.getDirection());
 
         assertEquals(robot.getPosition(), newLocation);
         assertEquals(direction, robot.getDirection());
@@ -167,7 +167,7 @@ class RobotTest {
         DirVector newLocation = robot.getPosition().dirVectorInDirection(direction.opposite());
         newLocation.setDirection(direction);
 
-        robot.moveBackward(board);
+        robot.pushRobotInDirection(robot.getDirection().opposite());
 
         assertEquals(robot.getPosition(), newLocation);
         assertEquals(direction, robot.getDirection());
@@ -180,7 +180,7 @@ class RobotTest {
         DirVector newLocation = robot.getPosition().dirVectorInDirection(direction.opposite());
         newLocation.setDirection(direction);
 
-        robot.moveBackward(board);
+        robot.pushRobotInDirection(robot.getDirection().opposite());
 
         assertEquals(robot.getPosition(), newLocation);
         assertEquals(direction, robot.getDirection());
@@ -193,7 +193,7 @@ class RobotTest {
         DirVector newLocation = robot.getPosition().dirVectorInDirection(direction.opposite());
         newLocation.setDirection(direction);
 
-        robot.moveBackward(board);
+        robot.pushRobotInDirection(robot.getDirection().opposite());
 
         assertEquals(robot.getPosition(), newLocation);
         assertEquals(direction, robot.getDirection());
@@ -206,29 +206,10 @@ class RobotTest {
         DirVector newLocation = robot.getPosition().dirVectorInDirection(direction.opposite());
         newLocation.setDirection(direction);
 
-        robot.moveBackward(board);
+        robot.pushRobotInDirection(robot.getDirection().opposite());
 
         assertEquals(robot.getPosition(), newLocation);
         assertEquals(direction, robot.getDirection());
-    }
-
-    @Test
-    void moveForwardTowardsSouthWhenItIsOutOfBoundaries() {
-        int fullLife = 3;
-        Direction direction = Direction.SOUTH;
-        robot.setDirection(direction);
-        robot.setPosition(5, 0);
-
-        DirVector newLocation = robot.getPosition().dirVectorInDirection(direction);
-        assertTrue(board.outOfBounds(newLocation));
-
-        assertEquals(fullLife, robot.getPlayer().getLives()); // maybe remove this and the next.
-
-        robot.moveRobot(robot.getDirection(), board);
-        assertTrue(board.outOfBounds(newLocation));
-
-        assertEquals(fullLife - 1, robot.getPlayer().getLives());
-        assertEquals(robot.getArchiveMarker().getPosition(), new DirVector(robot.getPosition().getX(), robot.getPosition().getY(), null));
     }
 
     // @Test
