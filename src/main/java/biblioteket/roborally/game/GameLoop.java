@@ -193,14 +193,14 @@ public class GameLoop {
     /**
      * @return a list of all players not permanently dead
      */
-    List<IActor> getLivingPlayers() {
+    public List<IActor> getLivingPlayers() {
         return players.stream().filter(player -> !player.isPermanentDead()).collect(Collectors.toList());
     }
 
     /**
      * @return true if any player has registered all flags on board
      */
-    boolean checkWinCondition() {
+    public boolean checkWinCondition() {
         if (getLivingPlayers().size() == 1) {
             Gdx.app.log(getLivingPlayers().get(0).getName(), " wins by being the last player alive");
             return true;

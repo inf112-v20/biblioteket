@@ -111,12 +111,6 @@ public interface IActor {
     InterfaceRenderer getInterfaceRenderer();
 
     /**
-     * Update the interface for the current player, e.g. his new card deck
-     * and selected cards etc.
-     */
-    void updateInterfaceRenderer();
-
-    /**
      * Draw a new deck of cards from a random selection of all possible
      * cards. Chooses a valid amount of cards to draw.
      *

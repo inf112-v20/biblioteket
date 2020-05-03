@@ -143,13 +143,6 @@ public class Actor implements IActor {
     }
 
     @Override
-    public void updateInterfaceRenderer() {
-        if (interfaceRenderer == null) return;   // for testing
-        interfaceRenderer.setFlagsVisited(getNumberOfVisitedFlags());
-        interfaceRenderer.setLives(getLives());
-    }
-
-    @Override
     public void drawCards(ICardDeck cardDeck) {
         int defaultNumber = 9; //default number of cards to draw
         int damageTokens = robot.getNumberOfDamageTokens();
@@ -226,7 +219,6 @@ public class Actor implements IActor {
             }
             drawCards(cardDeck);
         }
-        updateInterfaceRenderer();
     }
 
     @Override

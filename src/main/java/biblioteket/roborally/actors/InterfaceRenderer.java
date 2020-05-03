@@ -42,8 +42,6 @@ public class InterfaceRenderer {
     private final ICard[] programRegister;
     private final TouchableCards touchableCardHand;
     private final TouchableCards touchableProgramRegister;
-    private int flagsVisited;
-    private int lives;
     private String name;
 
     private float cardWidth;
@@ -84,8 +82,6 @@ public class InterfaceRenderer {
         font = new BitmapFont();
         fontBatch = new SpriteBatch();
 
-        flagsVisited = 0;
-        lives = 3;
         cardHand = new ICard[9];
         programRegister = new ICard[5];
 
@@ -247,14 +243,6 @@ public class InterfaceRenderer {
             default:
                 return emptyCard;
         }
-    }
-
-    public void setFlagsVisited(int flagsVisited) {
-        this.flagsVisited = flagsVisited;
-    }
-
-    public void setLives(int lives) {
-        this.lives = lives;
     }
 
     public String getName() {
