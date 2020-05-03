@@ -125,7 +125,7 @@ public class InterfaceRenderer {
         batch.draw(background, 0, 0, StandardScreen.getCamera().viewportWidth, StandardScreen.getCamera().viewportHeight);
 
         drawDamageTokens(players.get(currentPlayerPtr).getRobot().getNumberOfDamageTokens());
-        drawPlayerInformation(players,currentPlayerPtr);
+        drawPlayerInformation(players, currentPlayerPtr);
 
         //Row with four cards
         for (int i = 0; i < 4; i++) {
@@ -317,13 +317,13 @@ public class InterfaceRenderer {
     }
 
     /**
-     * @param x coordinate
-     * @param y coordinate
-     * @param player
+     * @param x      coordinate
+     * @param y      coordinate
+     * @param player the player who is interacting
      * @return an ICard if the coordinates contain a card, or null otherwise
      */
     public ICard contains(int x, int y, IActor player) {
-        if(powerDownButtenTouched(x,y)) {
+        if (powerDownButtenTouched(x, y)) {
             player.announcePowerDown();
             return null;
         }
@@ -332,7 +332,7 @@ public class InterfaceRenderer {
         return cardHandCard != null ? cardHandCard : programRegisterCard;
     }
 
-    private boolean powerDownButtenTouched(int x, int y){
+    private boolean powerDownButtenTouched(int x, int y) {
         return x < powerDownX + powerDownSize && x > powerDownX && StandardScreen.getCamera().viewportHeight - y < powerDownY + powerDownSize / 1.1f && StandardScreen.getCamera().viewportHeight - y > powerDownY + powerDownSize / (6f);
 
     }

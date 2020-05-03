@@ -252,7 +252,7 @@ public class GameLoop {
         return players.get(currentPlayerPtr);
     }
 
-    public void renderCurrentInterface(){
+    public void renderCurrentInterface() {
         getCurrentPlayer().getInterfaceRenderer().renderInterface(players, currentPlayerPtr);
     }
 

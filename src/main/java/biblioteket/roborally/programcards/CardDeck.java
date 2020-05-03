@@ -50,9 +50,9 @@ public class CardDeck implements ICardDeck {
         ArrayList<ICard> drawnCards = new ArrayList<>();
         for (int i = 0; i < number; i++) {
             ICard card = drawCard();
-            if(drawnCards.contains(card)){ // Duplicate cards
+            if (drawnCards.contains(card)) { // Duplicate cards
                 i--;
-            } else{
+            } else {
                 drawnCards.add(card);
             }
         }
