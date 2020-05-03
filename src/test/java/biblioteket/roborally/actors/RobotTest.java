@@ -5,6 +5,7 @@ import biblioteket.roborally.board.Board;
 import biblioteket.roborally.board.DirVector;
 import biblioteket.roborally.board.Direction;
 import biblioteket.roborally.board.IBoard;
+import biblioteket.roborally.elements.IElement;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -211,39 +212,4 @@ class RobotTest {
         assertEquals(robot.getPosition(), newLocation);
         assertEquals(direction, robot.getDirection());
     }
-
-    // @Test
-    // void moveForwardTowardSouthWhenARobotWhoCanBePushedIsInTheWay() {
-    //     secondRobot = new Robot(pos1x2y, secondArchiveMarker, Direction.NORTH, board);
-    //     secondRobot.setPlayer(secondPlayer);
-
-    // robot.setDirection(Direction.SOUTH);
-    // secondRobot.setDirection(Direction.NORTH);
-    // IPosition firstRobotNewPosition = grid.positionInDirection(robot.getPosition(), robot.getDirection());
-    // assertEquals(firstRobotNewPosition, secondRobot.getPosition()); //makes sure we check for right event
-    // IPosition secondRobotNewPosition = grid.positionInDirection(secondRobot.getPosition(), robot.getDirection());
-
-    // robot.moveForward();
-
-    // assertEquals(Direction.NORTH, secondRobot.getDirection()); //Makes sure nothing weird happens, might be removed.
-    // assertEquals(firstRobotNewPosition, robot.getPosition());
-    // assertEquals(secondRobotNewPosition, secondRobot.getPosition());
-
-    // //Makes sure there is one robot at each position
-    // int numberOfRobotsOnPosition1 = 0;
-    // List<IElement> elementsInPos = firstRobotNewPosition.getContents();
-    // for (IElement element : elementsInPos)
-    //     if (element instanceof IRobot)
-    //         numberOfRobotsOnPosition1++;
-    // assertEquals(1, numberOfRobotsOnPosition1);
-
-
-    // int numberOfRobotsOnPosition2 = 0;
-    // List<IElement> elementsInPos2 = secondRobotNewPosition.getContents();
-    // for (IElement element : elementsInPos2)
-    //     if (element instanceof IRobot)
-    //         numberOfRobotsOnPosition2++;
-    // assertEquals(1, numberOfRobotsOnPosition2);
-
-    // }
 }

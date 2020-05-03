@@ -26,7 +26,6 @@ public class HoleTest {
         hole.interact(player);
 
         assertEquals(2, player.getLives());
-
     }
 
     @Test
@@ -42,6 +41,5 @@ public class HoleTest {
 
         assertEquals(archiveMarker.getPosition().getX(), robot.getPosition().getX());
         assertEquals(archiveMarker.getPosition().getY(), robot.getPosition().getY());
-
     }
 }
