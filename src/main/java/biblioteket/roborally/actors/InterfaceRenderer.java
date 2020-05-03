@@ -189,8 +189,6 @@ public class InterfaceRenderer {
                 font.setColor(Color.RED);
             else if (i == currentPlayerPtr)  // Current player green
                 font.setColor(Color.GREEN);
-            else
-                font.setColor(Color.WHITE);
 
             if (i < 4) {   // Players 1-4
                 batch.draw(flag, rightOfBoard / 1.015f + rightOfBoard / 4 * i, StandardScreen.getCamera().viewportHeight - StandardScreen.getCamera().viewportHeight / 16 * 140 / 100, healthFlagSize, healthFlagSize);
@@ -206,6 +204,7 @@ public class InterfaceRenderer {
                 font.draw(batch, Integer.toString(lives), rightOfBoard + healthFlagSize * 1.2f + rightOfBoard / 4 * j, StandardScreen.getCamera().viewportHeight - StandardScreen.getCamera().viewportHeight / (640f / 110f));
                 font.draw(batch, Integer.toString(flagsVisited), rightOfBoard + healthFlagSize * 0.2f + rightOfBoard / 4 * j, StandardScreen.getCamera().viewportHeight - StandardScreen.getCamera().viewportHeight / (640f / 110f));
             }
+            font.setColor(Color.WHITE);
         }
     }
 
