@@ -7,14 +7,8 @@ import com.badlogic.gdx.graphics.Texture;
 
 public class PlayerSelect extends StandardScreen {
 
-    private final Texture arrowRightPre;
-    private final Texture arrowRightPost;
-    private final Texture arrowLeftPre;
-    private final Texture arrowLeftPost;
-    private final Texture selectNumberOfPlayers;
-    private final Texture selectPre;
-    private final Texture selectPost;
 
+    private final Texture selectNumberOfPlayers;
     private final OrthographicCamera camera;
     private int counter;
 
@@ -25,12 +19,6 @@ public class PlayerSelect extends StandardScreen {
         camera = getCamera();
         Assets assets = getAssets();
 
-        arrowRightPre = assets.getManager().get(Assets.ARROW_RIGHT_PRE, Texture.class);
-        arrowRightPost = assets.getManager().get(Assets.ARROW_RIGHT_POST, Texture.class);
-        arrowLeftPre = assets.getManager().get(Assets.ARROW_LEFT_PRE, Texture.class);
-        arrowLeftPost = assets.getManager().get(Assets.ARROW_LEFT_POST, Texture.class);
-        selectPre = assets.getManager().get(Assets.SELECT_PRE, Texture.class);
-        selectPost = assets.getManager().get(Assets.SELECT_POST, Texture.class);
         selectNumberOfPlayers = assets.getManager().get(Assets.SELECT_NUMBER_OF_PLAYERS, Texture.class);
 
     }

@@ -18,14 +18,10 @@ public class StandardScreen implements Screen {
     public final Texture logo;
     public final Texture arrowLeftPost;
     public final Texture arrowRightPost;
-    private final Texture one;
-    private final Texture two;
-    private final Texture three;
-    private final Texture four;
-    private final Texture five;
-    private final Texture six;
-    private final Texture seven;
-    private final Texture eight;
+    public final Texture arrowRightPre;
+    public final Texture arrowLeftPre;
+    public final Texture selectPre;
+    public final Texture selectPost;
 
     public float buttonCentered;
     public float buttonWidth;
@@ -55,14 +51,18 @@ public class StandardScreen implements Screen {
         logo = assets.getManager().get(Assets.LOGO, Texture.class);
         arrowLeftPost = assets.getManager().get(Assets.ARROW_LEFT_POST, Texture.class);
         arrowRightPost = assets.getManager().get(Assets.ARROW_RIGHT_POST, Texture.class);
-        one = assets.getManager().get(Assets.ONE, Texture.class);
-        two = assets.getManager().get(Assets.TWO, Texture.class);
-        three = assets.getManager().get(Assets.THREE, Texture.class);
-        four = assets.getManager().get(Assets.FOUR, Texture.class);
-        five = assets.getManager().get(Assets.FIVE, Texture.class);
-        six = assets.getManager().get(Assets.SIX, Texture.class);
-        seven = assets.getManager().get(Assets.SEVEN, Texture.class);
-        eight = assets.getManager().get(Assets.EIGHT, Texture.class);
+        arrowLeftPre = assets.getManager().get(Assets.ARROW_LEFT_POST, Texture.class);
+        arrowRightPre = assets.getManager().get(Assets.ARROW_RIGHT_POST, Texture.class);
+        selectPre = assets.getManager().get(Assets.SELECT_PRE, Texture.class);
+        selectPost = assets.getManager().get(Assets.SELECT_POST, Texture.class);
+        Texture one = assets.getManager().get(Assets.ONE, Texture.class);
+        Texture two = assets.getManager().get(Assets.TWO, Texture.class);
+        Texture three = assets.getManager().get(Assets.THREE, Texture.class);
+        Texture four = assets.getManager().get(Assets.FOUR, Texture.class);
+        Texture five = assets.getManager().get(Assets.FIVE, Texture.class);
+        Texture six = assets.getManager().get(Assets.SIX, Texture.class);
+        Texture seven = assets.getManager().get(Assets.SEVEN, Texture.class);
+        Texture eight = assets.getManager().get(Assets.EIGHT, Texture.class);
         numberList = Arrays.asList(one, two, three, four, five, six, seven, eight);
     }
 

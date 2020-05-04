@@ -6,28 +6,15 @@ import com.badlogic.gdx.graphics.Texture;
 
 public class AISelect extends StandardScreen {
 
-    private final Texture arrowRightPre;
-    private final Texture arrowRightPost;
-    private final Texture arrowLeftPre;
-    private final Texture arrowLeftPost;
     private final Texture selectNumberOfAI;
-    private final Texture selectPre;
-    private final Texture selectPost;
-
     private final OrthographicCamera camera;
     private int counter;
 
     public AISelect(RoboRally game) {
         super(game);
         camera = getCamera();
-        Assets assets = getAssets();
 
-        arrowRightPre = assets.getManager().get(Assets.ARROW_RIGHT_PRE, Texture.class);
-        arrowRightPost = assets.getManager().get(Assets.ARROW_RIGHT_POST, Texture.class);
-        arrowLeftPre = assets.getManager().get(Assets.ARROW_LEFT_PRE, Texture.class);
-        arrowLeftPost = assets.getManager().get(Assets.ARROW_LEFT_POST, Texture.class);
-        selectPre = assets.getManager().get(Assets.SELECT_PRE, Texture.class);
-        selectPost = assets.getManager().get(Assets.SELECT_POST, Texture.class);
+        Assets assets = getAssets();
         selectNumberOfAI = assets.getManager().get(Assets.SELECT_NUMBER_OF_AI, Texture.class);
 
     }
