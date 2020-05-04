@@ -22,9 +22,10 @@ public interface IActor {
      * @param direction to move robot
      * @param delay     milliseconds delay after move is rendered before next move is rendered
      * @param debug     whether to print debug information
+     * @param pushed
      * @return true if robot moved, false otherwise
      */
-    boolean moveRobot(Direction direction, int delay, boolean debug);
+    boolean moveRobot(Direction direction, int delay, boolean debug, boolean pushed);
 
     /**
      * Tries to move robot in the opposite direction of where it is currently facing
@@ -159,10 +160,30 @@ public interface IActor {
     TiledMapTileLayer.Cell getPlayerCell();
 
     /**
+     * Fire a laser from robots current position
+     */
+    void fireLaser(List<IActor> players);
+
+    /**
      * Handle destruction of a players robot, i.e. removing life points, moving
      * the robot to a new spawn point and giving it a damage token.
      *
      * @param delay animation delay
      */
     void handleRobotDestruction(int delay);
+
+    /**
+     * Announce intent to power down next turn
+     */
+    void announcePowerDown();
+
+    /**
+     * @return true if players robot is powered down next turn
+     */
+    boolean hasAnnouncedPowerDown();
+
+    /**
+     * @return true if player is powered down this turn
+     */
+    boolean isPoweredDown();
 }

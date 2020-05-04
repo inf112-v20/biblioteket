@@ -39,6 +39,7 @@ public class GameLoop {
     boolean programmingPhase = true;
     private int currentPlayerPtr = 0;
     private ICardDeck cardDeck;
+    private Direction playerDirection = Direction.WEST;
 
     public GameLoop(IBoard board, List<IActor> players) {
         this.board = board;
@@ -69,25 +70,26 @@ public class GameLoop {
                 IActor currentPlayer = getCurrentPlayer();
                 switch (keycode) {
                     case Input.Keys.A:
-                        currentPlayer.moveRobot(Direction.WEST, 0, true);
+                        currentPlayer.moveRobot(Direction.WEST, 0, true, false);
                         return true;
                     case Input.Keys.D:
-                        currentPlayer.moveRobot(Direction.EAST, 0, true);
+                        currentPlayer.moveRobot(Direction.EAST, 0, true, false);
                         return true;
                     case Input.Keys.W:
-                        currentPlayer.moveRobot(Direction.NORTH, 0, true);
+                        currentPlayer.moveRobot(Direction.NORTH, 0, true, false);
                         return true;
                     case Input.Keys.S:
-                        currentPlayer.moveRobot(Direction.SOUTH, 0, true);
+                        currentPlayer.moveRobot(Direction.SOUTH, 0, true, false);
                         return true;
                     case Input.Keys.SPACE:
                     case Input.Keys.ENTER:
                         interactWithBoardElements();
                         return true;
                     case Input.Keys.P:
-                        return board.registerFlag(currentPlayer);
+                        getCurrentPlayer().announcePowerDown();
+                        return true;
                     case Input.Keys.UP:
-                        currentPlayer.moveRobot(currentPlayer.getRobot().getDirection(), 0, false);
+                        currentPlayer.moveRobot(currentPlayer.getRobot().getDirection(), 0, false, false);
                         return true;
                     case Input.Keys.LEFT:
                         currentPlayer.rotateRobot(false, 0);
@@ -133,7 +135,7 @@ public class GameLoop {
         Map<ICard, IActor> registersInPriority = new TreeMap<>(Collections.reverseOrder());
         for (int i = 4; i >= 0; i--) { // Five registers, program register is reversed.
             // Only iterate over alive players
-            for (IActor player : getLivingPlayers()) {
+            for (IActor player : getLivingPlayers().stream().filter(player -> !player.isPoweredDown()).collect(Collectors.toList())) {
                 ICard currentCard = player.getProgramRegister().get(i);
                 registersInPriority.put(currentCard, player);
             }
@@ -177,7 +179,12 @@ public class GameLoop {
             }
         }
 
-//         Register flags
+        // Players fire main forwarding laser
+        for (IActor player : getLivingPlayers()) {
+            player.fireLaser(players);
+        }
+
+        // Handle destructed robots, register flags
         for (IActor player : players) {
             board.registerFlag(player);
             player.handleRobotDestruction(500);
@@ -196,8 +203,8 @@ public class GameLoop {
      * @return true if any player has registered all flags on board
      */
     private boolean checkWinCondition() {
-        if (getLivingPlayers().size() == 1) {
-            Gdx.app.log(players.get(0).getName(), " wins by being the last player alive");
+        if(getLivingPlayers().size() == 1){
+            Gdx.app.log(getLivingPlayers().get(0).getName(), " wins by being the last player alive");
             return true;
         }
         for (IActor player : players) {
@@ -205,6 +212,10 @@ public class GameLoop {
                 Gdx.app.log(player.getName(), " wins by picking up all flags");
                 return true;
             }
+        }
+        if(getLivingPlayers().size() == 0){
+            Gdx.app.log("", "all players died");
+            return true;
         }
         return false;
     }
@@ -229,18 +240,16 @@ public class GameLoop {
         if (currentPlayerPtr == players.size()) {
             currentPlayerPtr = 0;
             doTurn();
-        }
-        if (getCurrentPlayer().isPermanentDead()) {
+        } else if (getCurrentPlayer().isPermanentDead() || getCurrentPlayer().isPoweredDown()) {
             nextPlayer();
-        }
-        if (getCurrentPlayer() instanceof INonPlayer) {
+        } else if (getCurrentPlayer() instanceof INonPlayer) {
             ((INonPlayer) getCurrentPlayer()).chooseCards(cardDeck);
             nextPlayer();
-        }
-        if (getCurrentPlayer().getRobot().getNumberOfDamageTokens() == 9) {
+        } else if (getCurrentPlayer().getRobot().getNumberOfDamageTokens() == 9) {
             nextPlayer();
         }
     }
+
 
     public IActor getCurrentPlayer() {
         return players.get(currentPlayerPtr);
@@ -253,6 +262,10 @@ public class GameLoop {
             player.newTurn(cardDeck);
         }
         programmingPhase = true;
+        if(getCurrentPlayer().isPoweredDown() || getCurrentPlayer().isPermanentDead()) {
+            nextPlayer();
+        }
     }
+
 
 }

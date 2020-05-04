@@ -18,7 +18,7 @@ public class Laser {
      */
     public void fireLaser(IBoard board, List<IActor> players, DirVector vector) {
         if (board.outOfBounds(vector)) return;
-
+        // Check if laser hit a robot
         for (IActor player : players) {
             IRobot robot = player.getRobot();
             DirVector robotPosition = robot.getPosition();
@@ -28,7 +28,7 @@ public class Laser {
                 return;
             }
         }
-
+        // Laser moves one step forward
         Direction direction = vector.getDirection();
         if (board.canMove(vector, direction)) {
             vector.forward(direction);

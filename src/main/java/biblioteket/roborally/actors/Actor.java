@@ -3,8 +3,10 @@ package biblioteket.roborally.actors;
 import biblioteket.roborally.board.DirVector;
 import biblioteket.roborally.board.Direction;
 import biblioteket.roborally.board.IBoard;
+import biblioteket.roborally.elements.walls.Laser;
 import biblioteket.roborally.programcards.ICard;
 import biblioteket.roborally.programcards.ICardDeck;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
 import java.util.ArrayList;
@@ -25,7 +27,7 @@ public class Actor implements IActor {
     private String name;
     private ArrayList<ICard> drawnCards;
 
-    private boolean canMove = true;
+    private PlayerState state = PlayerState.PLAYING;
 
     public Actor(IBoard board, TiledMapTileLayer.Cell playerCell, InterfaceRenderer interfaceRenderer, RobotRenderer robotRenderer) {
         this.board = board;
@@ -40,16 +42,17 @@ public class Actor implements IActor {
     @Override
     public void moveRobot(int steps, int delay) {
         for (int i = 0; i < steps; i++) {
-            moveRobot(robot.getDirection(), delay, false);
+            moveRobot(robot.getDirection(), delay, false, false);
         }
     }
 
     @Override
-    public boolean moveRobot(Direction direction, int delay, boolean debug) {
-        if (canMove && board.canMove(robot.getPosition(), direction) && board.pushRobot(robot.getPosition(), direction)) {
-            DirVector oldPosition = robot.getPosition().copy();
+    public boolean moveRobot(Direction direction, int delay, boolean debug, boolean pushed) {
+        if(!state.canMove() && !pushed) return false;
+        if (board.canMove(robot.getPosition(), direction) && board.pushRobot(robot.getPosition(), direction)) {
+            DirVector oldPosition = robot.getPosition();
             robot.pushRobotInDirection(direction);
-            DirVector newPosition = robot.getPosition().copy();
+            DirVector newPosition = robot.getPosition();
             renderMove(oldPosition, newPosition, delay, debug);
             // Check if robot moved in hole or out of bounds
             handleRobotOutOfBounds(delay, debug);
@@ -60,18 +63,18 @@ public class Actor implements IActor {
 
     @Override
     public void backUpRobot(int delay) {
-        moveRobot(robot.getDirection().opposite(), delay, false);
+        moveRobot(robot.getDirection().opposite(), delay, false, false);
     }
 
     @Override
     public void rotateRobot(boolean right, int delay) {
-        if (!canMove) return;
+        if (!state.canMove()) return;
         if (right) {
             robot.turnRight();
         } else {
             robot.turnLeft();
         }
-        renderMove(robot.getPosition().copy(), robot.getPosition().copy(), delay, false);
+        renderMove(robot.getPosition(), robot.getPosition(), delay, false);
     }
 
     @Override
@@ -86,7 +89,7 @@ public class Actor implements IActor {
 
     @Override
     public boolean isPermanentDead() {
-        return lives <= 0;
+        return state.isDestroyed();
     }
 
     @Override
@@ -96,9 +99,10 @@ public class Actor implements IActor {
 
     @Override
     public void removeOneLife() {
-        lives--;
-        if (lives <= 0) {
-            robotRenderer.removePlayer(getRobot().getPosition(), playerCell);
+        if (--lives <= 0) {
+            state = PlayerState.DESTROYED;
+            Gdx.app.log(getName(), "permanently destroyed");
+            robotRenderer.removePlayer(getRobot().getPosition(),playerCell);
         }
     }
 
@@ -140,6 +144,7 @@ public class Actor implements IActor {
 
     @Override
     public void updateInterfaceRenderer() {
+        if (interfaceRenderer == null) return;   // for testing
         interfaceRenderer.setFlagsVisited(getNumberOfVisitedFlags());
         interfaceRenderer.setLives(getLives());
     }
@@ -211,16 +216,22 @@ public class Actor implements IActor {
 
     @Override
     public void newTurn(ICardDeck cardDeck) {
-        int damageTokens = robot.getNumberOfDamageTokens();  // Check damage and clean register.
-        if (!drawnCards.isEmpty()) // Should stop it from breaking first round
-            for (ICard card : drawnCards) // adds the cards not uses last round to discard pile
-                cardDeck.addToDiscardPile(card);
-        if (!programRegister.isEmpty()) { // Should stop it from breaking first round
-            cleanRegister(damageTokens, cardDeck); // Corrects the register
-            updateRegisterRender(); // Render cards if they are locked in register
+        state = state.nextTurn();
+        if(isPoweredDown()){
+            int damageTokens = getRobot().getNumberOfDamageTokens();
+            getRobot().removeDamageTokens(damageTokens);
+            Gdx.app.log(getName(), "discards " + damageTokens + " damage tokens");
+        } else {
+            int damageTokens = robot.getNumberOfDamageTokens();  // Check damage and clean register.
+            if (!drawnCards.isEmpty()) // Should stop it from breaking first round
+                for (ICard card : drawnCards) // adds the cards not uses last round to discard pile
+                    cardDeck.addToDiscardPile(card);
+            if (!programRegister.isEmpty()) { // Should stop it from breaking first round
+                cleanRegister(damageTokens, cardDeck); // Corrects the register
+                updateRegisterRender(); // Render cards if they are locked in register
+            }
+            drawCards(cardDeck);
         }
-        drawCards(cardDeck);
-        canMove = true;
         updateInterfaceRenderer();
     }
 
@@ -248,6 +259,16 @@ public class Actor implements IActor {
         return programRegister.size() == 5;
     }
 
+    @Override
+    public void fireLaser(List<IActor> players){
+        DirVector vector = getRobot().getPosition();
+        if(board.canMove(vector, vector.getDirection())){
+            Laser laser = new Laser();
+            vector.forward(vector.getDirection());
+            laser.fireLaser(board,players,vector);
+        }
+    }
+
     /**
      * Requests robotRenderer to render one move
      *
@@ -268,11 +289,11 @@ public class Actor implements IActor {
     private void handleRobotOutOfBounds(int delay, boolean debug) {
         DirVector position = robot.getPosition();
         if (board.outOfBounds(position) || board.isHole(position)) {
-            DirVector oldPosition = robot.getPosition().copy();
+            DirVector oldPosition = robot.getPosition();
             robot.moveToArchiveMarker();
-            DirVector newPosition = robot.getPosition().copy();
+            DirVector newPosition = robot.getPosition();
             renderMove(oldPosition, newPosition, delay, debug);
-            canMove = debug;
+            state = debug ? state : PlayerState.IMMOBILE;
             removeOneLife();
             robot.removeDamageTokens(robot.getNumberOfDamageTokens() - 2);
         }
@@ -281,12 +302,30 @@ public class Actor implements IActor {
     @Override
     public void handleRobotDestruction(int delay) {
         if (robot.isDestroyed()) {
-            DirVector oldPosition = robot.getPosition().copy();
+            DirVector oldPosition = robot.getPosition();
             robot.moveToArchiveMarker();
-            DirVector newPosition = robot.getPosition().copy();
+            DirVector newPosition = robot.getPosition();
             renderMove(oldPosition, newPosition, delay, false);
             removeOneLife();
             robot.removeDamageTokens(robot.getNumberOfDamageTokens() - 2);
         }
     }
+
+    @Override
+    public void announcePowerDown() {
+        Gdx.app.log(getName(), "announces power down");
+        state = state.announcePowerDown();
+    }
+
+    @Override
+    public boolean hasAnnouncedPowerDown() {
+        return state.hasAnnouncedPowerDown();
+    }
+
+    @Override
+    public boolean isPoweredDown() {
+        return state.isPoweredDown();
+    }
+
+
 }
