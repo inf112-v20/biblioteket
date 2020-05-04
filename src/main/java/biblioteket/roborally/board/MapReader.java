@@ -81,8 +81,8 @@ class MapReader {
     }
 
     /**
-     * If there is a laserwall in this position, initialize it, set its position and add it
-     * to the laserwalls list
+     * If there is a laser wall in this position, initialize it, set its position and add it
+     * to the laser walls list
      *
      * @param x position
      * @param y position

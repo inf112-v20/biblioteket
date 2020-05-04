@@ -30,7 +30,7 @@ public class LaserWallElement extends WallElement {
      * Laser moves until it hits a robot, a wall or moves off the board
      */
     public void interact(IBoard board, List<IActor> players) {
-        // If a position is not set for the laserwall, it can not call the interact method
+        // If a position is not set for the laser wall, it can not call the interact method
         if (position == null) {
             throw new NullPointerException();
         }
@@ -42,7 +42,7 @@ public class LaserWallElement extends WallElement {
 
     @Override
     public String toString() {
-        return "Laserwall " + xDirection + ", " + yDirection;
+        return "Laser wall " + xDirection + ", " + yDirection;
     }
 
 }

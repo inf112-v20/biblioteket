@@ -92,7 +92,7 @@ public class InterfaceRenderer {
             } else
                 touchableCardHand.initializeCard(i, rightOfBoard + (rightOfBoard / 2) - cardWidth * 1.25f + cardWidth / 2 * (i - 4), 0, touchableWidth, touchableHeight);
         }
-        // Progamregister
+        // Program Register
         touchableProgramRegister = new TouchableCards(programRegister.length);
         for (int i = 0; i < 5; i++) {
             touchableProgramRegister.initializeCard(i, rightOfBoard + (rightOfBoard / 2) - cardWidth * 1.25f + cardWidth / 2 * i, Gdx.graphics.getHeight() / (640f / 250f), touchableWidth, touchableHeight);
@@ -181,7 +181,7 @@ public class InterfaceRenderer {
                 continue;
             else if (i == currentPlayerPtr)  // Current player green
                 font.setColor(Color.GREEN);
-            else if(player.isPoweredDown())
+            else if (player.isPoweredDown())
                 font.setColor(Color.RED);
 
             if (i < 4) {   // Players 1-4
@@ -324,7 +324,7 @@ public class InterfaceRenderer {
      * @return an ICard if the coordinates contain a card, or null otherwise
      */
     public ICard contains(int x, int y, IActor player) {
-        if (powerDownButtenTouched(x, y)) {
+        if (powerDownButtonTouched(x, y)) {
             player.announcePowerDown();
             return null;
         }
@@ -333,14 +333,14 @@ public class InterfaceRenderer {
         return cardHandCard != null ? cardHandCard : programRegisterCard;
     }
 
-    private boolean powerDownButtenTouched(int x, int y) {
+    private boolean powerDownButtonTouched(int x, int y) {
         return x < powerDownX + powerDownSize && x > powerDownX && StandardScreen.getCamera().viewportHeight - y < powerDownY + powerDownSize / 1.1f && StandardScreen.getCamera().viewportHeight - y > powerDownY + powerDownSize / (6f);
 
     }
 
 
     /**
-     * Datastructure for multiple rectangles which can contain coordinates and
+     * Data structure for multiple rectangles which can contain coordinates and
      * return an ICard if they are touched
      */
     private static class TouchableCards {
@@ -365,10 +365,10 @@ public class InterfaceRenderer {
          */
         public ICard contains(int x, int y) {
             // Translate from y-down to y-up
-            y = Gdx.graphics.getHeight() - 1 - y; 
-            // Translate coordinates according to current screensize
-            x = (int)((float) (640 * x) / (float) Gdx.graphics.getWidth());
-            y = (int)((float) (640 * y) / (float) Gdx.graphics.getHeight());
+            y = Gdx.graphics.getHeight() - 1 - y;
+            // Translate coordinates according to current screen size
+            x = (int) ((float) (640 * x) / (float) Gdx.graphics.getWidth());
+            y = (int) ((float) (640 * y) / (float) Gdx.graphics.getHeight());
 
             for (TouchableCard card : cards) {
                 if (card.contains(x, y))

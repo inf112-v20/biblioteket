@@ -41,7 +41,7 @@ public class RobotRenderer {
         TiledMapTileLayer.Cell playerCell = movement.getPlayerCell();
         boolean debug = movement.isDebug();
 
-        // Update the playerlayer with robots new position
+        // Update the player layer with robots new position
         playerLayer.setCell(oldPosition.getX(), oldPosition.getY(), null);
         playerLayer.setCell(newPosition.getX(), newPosition.getY(), playerCell);
         playerCell.setRotation(rotation);
@@ -60,7 +60,7 @@ public class RobotRenderer {
      *
      * @param oldPosition position robot is moving from
      * @param newPosition position the robot is moving to
-     * @param playerCell  the playercell of the player moving a robot
+     * @param playerCell  the player cell of the player moving a robot
      * @param debug       true if debug, wont start a new round after rendering
      */
     public void requestRendering(DirVector oldPosition, DirVector newPosition, Direction direction, int delay, TiledMapTileLayer.Cell playerCell, boolean debug) {
@@ -84,7 +84,7 @@ public class RobotRenderer {
         try {
             TimeUnit.MILLISECONDS.sleep(milliseconds);
         } catch (InterruptedException e) {
-            Gdx.app.error("RobotRenderer: ", "Timeout faled");
+            Gdx.app.error("RobotRenderer: ", "Timeout failed");
         }
     }
 
@@ -113,7 +113,7 @@ public class RobotRenderer {
     }
 
     /**
-     * Datastructure that holds a single step of a single robot
+     * Data structure that holds a single step of a single robot
      */
     private static class RobotStep {
         private final DirVector oldPosition;

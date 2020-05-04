@@ -19,7 +19,7 @@ public class CardDeck implements ICardDeck {
     /**
      * Makes a pile of cards
      *
-     * @throws IOException Logg will say something went wrong.
+     * @throws IOException Log will say something went wrong.
      */
     public CardDeck() throws IOException {
         drawPile = new ArrayList<>();

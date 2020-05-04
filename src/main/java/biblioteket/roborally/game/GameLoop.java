@@ -147,7 +147,7 @@ public class GameLoop {
 
         // Start new turn if all players are powered down
         for (IActor player : getLivingPlayers()) {
-            if(!player.isPoweredDown()) return;
+            if (!player.isPoweredDown()) return;
         }
         newTurn();
     }
