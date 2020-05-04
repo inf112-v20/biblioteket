@@ -38,6 +38,7 @@ public class StandardScreen implements Screen {
     public float numberCenter;
     public float numberHeight;
     private List<Texture> numberList;
+    public int counter;
 
 
     public StandardScreen(RoboRally game) {
@@ -51,8 +52,8 @@ public class StandardScreen implements Screen {
         logo = assets.getManager().get(Assets.LOGO, Texture.class);
         arrowLeftPost = assets.getManager().get(Assets.ARROW_LEFT_POST, Texture.class);
         arrowRightPost = assets.getManager().get(Assets.ARROW_RIGHT_POST, Texture.class);
-        arrowLeftPre = assets.getManager().get(Assets.ARROW_LEFT_POST, Texture.class);
-        arrowRightPre = assets.getManager().get(Assets.ARROW_RIGHT_POST, Texture.class);
+        arrowLeftPre = assets.getManager().get(Assets.ARROW_LEFT_PRE, Texture.class);
+        arrowRightPre = assets.getManager().get(Assets.ARROW_RIGHT_PRE, Texture.class);
         selectPre = assets.getManager().get(Assets.SELECT_PRE, Texture.class);
         selectPost = assets.getManager().get(Assets.SELECT_POST, Texture.class);
         Texture one = assets.getManager().get(Assets.ONE, Texture.class);
@@ -98,6 +99,27 @@ public class StandardScreen implements Screen {
     }
     public Texture convertIntToTexture(int counter) {
         return numberList.get(counter);
+    }
+
+    public void drawArrowScreen() {
+        game.getBatch().draw(background, 0, 0, camera.viewportWidth, camera.viewportHeight);
+        drawArrow(arrowLeftPre, arrowLeftX);
+        drawArrow(arrowRightPre, arrowRightX);
+        game.getBatch().draw(selectPre, centerOfScreenX - buttonWidth / 2, selectY, buttonWidth, buttonHeight);
+        //arrow left
+        if (arrowTouched(arrowLeftX)) {
+            drawArrow(arrowLeftPost, arrowLeftX);
+            if (Gdx.input.isButtonJustPressed(0) && counter != 0) {
+                counter--;
+            }
+        }
+        //arrow right
+        else if (arrowTouched(arrowRightX)) {
+            drawArrow(arrowRightPost, arrowRightX);
+            if (Gdx.input.isButtonJustPressed(0) && counter != 7) {
+                counter++;
+            }
+        }
     }
 
     public static OrthographicCamera getCamera() {
