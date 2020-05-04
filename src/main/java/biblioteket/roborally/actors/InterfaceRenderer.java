@@ -107,7 +107,7 @@ public class InterfaceRenderer {
     public void graphicSize() {
         cardWidth = (Gdx.graphics.getHeight() / (640f / 130f));
         cardHeight = (Gdx.graphics.getHeight() / (640f / 90f));
-        touchableWidth = (Gdx.graphics.getWidth() / (640f / 40f));
+        touchableWidth = cardWidth * 0.4f;
         touchableHeight = (Gdx.graphics.getWidth() / (640f / 90f));
         rightOfBoard = Gdx.graphics.getWidth() / 2f;
         healthFlagSize = Gdx.graphics.getHeight() / (640f / 40f);
@@ -366,7 +366,12 @@ public class InterfaceRenderer {
          * @return an ICard if any card contains the x,y coordinates, otherwise null
          */
         public ICard contains(int x, int y) {
-            y = Gdx.graphics.getHeight() - 1 - y; // Translate from y-down to y-up
+            // Translate from y-down to y-up
+            y = Gdx.graphics.getHeight() - 1 - y; 
+            // Translate coordinates according to current screensize
+            x = (int)((float) (640 * x) / (float) Gdx.graphics.getWidth());
+            y = (int)((float) (640 * y) / (float) Gdx.graphics.getHeight());
+
             for (TouchableCard card : cards) {
                 if (card.contains(x, y))
                     return card.getCard();
