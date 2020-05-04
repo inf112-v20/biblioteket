@@ -41,7 +41,8 @@ public class MapSelect extends StandardScreen {
         return map;
     }
 
-    public static void setMap(String map) { MapSelect.map = map;
+    public static void setMap(String map) {
+        MapSelect.map = map;
     }
 
     @Override

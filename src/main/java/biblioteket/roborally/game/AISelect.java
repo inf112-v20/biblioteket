@@ -17,6 +17,7 @@ public class AISelect extends StandardScreen {
         selectNumberOfAI = assets.getManager().get(Assets.SELECT_NUMBER_OF_AI, Texture.class);
 
     }
+
     @Override
     public void render(float v) {
         buttonsSizeAndScreenPlacement();

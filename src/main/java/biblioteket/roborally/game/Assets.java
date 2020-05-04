@@ -5,8 +5,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
 public class Assets {
-    private AssetManager manager;
-
     public static final String LOGO = "logo.png";
     public static final String BACKGROUND = "background2.jpg";
     public static final String PLAY_PRE = "buttons/playPre.png";
@@ -14,7 +12,7 @@ public class Assets {
     public static final String QUIT_PRE = "buttons/quitPre.png";
     public static final String QUIT_POST = "buttons/quitPost.png";
     public static final String EASY_BUTTON_PRE = "buttons/easyPre.png";
-    public static final String EASY_BUTTON_POST ="buttons/easyPost.png";
+    public static final String EASY_BUTTON_POST = "buttons/easyPost.png";
     public static final String NORMAL_BUTTON_PRE = "buttons/normalPre.png";
     public static final String NORMAL_BUTTON_POST = "buttons/normalPost.png";
     public static final String HARD_BUTTON_PRE = "buttons/hardPre.png";
@@ -38,7 +36,7 @@ public class Assets {
     public static final String MOVE_ONE_CARD = "programCards/move1.png";
     public static final String MOVE_TWO_CARD = "programCards/move2.png";
     public static final String MOVE_THREE_CARD = "programCards/move3.png";
-    public static final String BACK_UP_CARD ="programCards/backUp.png";
+    public static final String BACK_UP_CARD = "programCards/backUp.png";
     public static final String ROTATE_RIGHT_CARD = "programCards/rotateRight.png";
     public static final String ROTATE_LEFT_CARD = "programCards/rotateLeft.png";
     public static final String U_TURN_CARD = "programCards/uTurn.png";
@@ -55,7 +53,7 @@ public class Assets {
     public static final String SIX = "assets/numbers/6.png";
     public static final String SEVEN = "assets/numbers/7.png";
     public static final String EIGHT = "assets/numbers/8.png";
-
+    private AssetManager manager;
 
     public void load() {
         if (manager == null) {
@@ -120,6 +118,7 @@ public class Assets {
         this.manager = manager;
     }
 
-    public void dispose() { manager.dispose();
+    public void dispose() {
+        manager.dispose();
     }
 }

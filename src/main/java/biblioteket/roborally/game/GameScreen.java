@@ -2,7 +2,6 @@ package biblioteket.roborally.game;
 
 import biblioteket.roborally.actors.*;
 import biblioteket.roborally.board.Board;
-import biblioteket.roborally.board.Direction;
 import biblioteket.roborally.elements.ArchiveMarkerElement;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;

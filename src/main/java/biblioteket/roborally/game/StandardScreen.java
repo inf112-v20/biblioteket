@@ -11,7 +11,6 @@ import java.util.List;
 
 public class StandardScreen implements Screen {
 
-    private final Assets assets = new Assets();
     private static final OrthographicCamera camera = new OrthographicCamera();
     public final RoboRally game;
     public final Texture background;
@@ -22,7 +21,7 @@ public class StandardScreen implements Screen {
     public final Texture arrowLeftPre;
     public final Texture selectPre;
     public final Texture selectPost;
-
+    private final Assets assets = new Assets();
     public float buttonCentered;
     public float buttonWidth;
     public float buttonHeight;
@@ -37,8 +36,8 @@ public class StandardScreen implements Screen {
     public float numberWidth;
     public float numberCenter;
     public float numberHeight;
-    private List<Texture> numberList;
     public int counter;
+    private final List<Texture> numberList;
 
 
     public StandardScreen(RoboRally game) {
@@ -67,6 +66,10 @@ public class StandardScreen implements Screen {
         numberList = Arrays.asList(one, two, three, four, five, six, seven, eight);
     }
 
+    public static OrthographicCamera getCamera() {
+        return camera;
+    }
+
     //Resizing does not work if made in constructor.
     public void buttonsSizeAndScreenPlacement() {
         centerOfScreenX = camera.viewportWidth / 2f;
@@ -85,7 +88,6 @@ public class StandardScreen implements Screen {
         numberHeight = camera.viewportHeight / (300 / 100f);
     }
 
-
     public boolean quitButtonTouched() {
         return Gdx.input.getX() < buttonCentered + buttonWidth && Gdx.input.getX() > buttonCentered && camera.viewportHeight - Gdx.input.getY() < exitY + buttonHeight / 1.35f && camera.viewportHeight - Gdx.input.getY() > exitY + buttonWidth / (1.5f);
     }
@@ -97,6 +99,7 @@ public class StandardScreen implements Screen {
     public void drawArrow(Texture arrow, float x) {
         game.getBatch().draw(arrow, x, arrowY, arrowWidth, arrowHeight);
     }
+
     public Texture convertIntToTexture(int counter) {
         return numberList.get(counter);
     }
@@ -120,10 +123,6 @@ public class StandardScreen implements Screen {
                 counter++;
             }
         }
-    }
-
-    public static OrthographicCamera getCamera() {
-        return camera;
     }
 
     public Assets getAssets() {
