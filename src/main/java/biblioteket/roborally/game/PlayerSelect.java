@@ -6,8 +6,6 @@ import com.badlogic.gdx.graphics.Texture;
 
 
 public class PlayerSelect extends StandardScreen {
-
-
     private final Texture selectNumberOfPlayers;
     private final OrthographicCamera camera;
 
@@ -19,7 +17,6 @@ public class PlayerSelect extends StandardScreen {
         Assets assets = getAssets();
 
         selectNumberOfPlayers = assets.getManager().get(Assets.SELECT_NUMBER_OF_PLAYERS, Texture.class);
-
     }
 
     @Override
@@ -33,6 +30,7 @@ public class PlayerSelect extends StandardScreen {
         if (Gdx.input.getX() < buttonCentered + buttonWidth && Gdx.input.getX() > buttonCentered && camera.viewportHeight - Gdx.input.getY() < selectY + buttonHeight / 1.35 && camera.viewportHeight - Gdx.input.getY() > selectY + buttonWidth / (1.35)) {
             game.getBatch().draw(selectPost, buttonCentered, selectY, buttonWidth, buttonHeight);
             if (Gdx.input.isTouched()) {
+                Gdx.app.log("Player select", String.valueOf(counter + 1));
                 game.setPlayers(counter + 1);
                 game.setScreen(new AISelect(game));
                 dispose();

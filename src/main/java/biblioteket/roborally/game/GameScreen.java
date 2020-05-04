@@ -46,27 +46,27 @@ public class GameScreen extends StandardScreen {
 
         List<Texture> playerTextures = playerTextures();
 
-        for (int i = 1; i <= game.getPlayers(); i++) {
+        for (int i = 0; i < game.getPlayers(); i++) {
             TextureRegion[][] texture = splitTexture(pickRandomTexture(playerTextures), board);
             TiledMapTileLayer.Cell playerCell = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(texture[0][0]));
             IActor player = new Player(board, playerCell, new InterfaceRenderer(), robotRenderer);
             players.add(player);
-            ArchiveMarkerElement archiveMarker = board.getArchiveMarker(i);
+            ArchiveMarkerElement archiveMarker = board.getArchiveMarker(i + 1);
             IRobot robot = new Robot(archiveMarker);
             player.setRobot(robot);
-            player.setName("Player " + i);
+            player.setName("Player " + (i + 1));
             board.getPlayerLayer().setCell(player.getRobot().getPosition().getX(), player.getRobot().getPosition().getY(), playerCell);
         }
 
-        for (int i = players.size() + 1; i <= game.getAI(); i++) {
+        for (int i = players.size(); i < game.getAI() + game.getPlayers(); i++) {
             TextureRegion[][] texture = splitTexture(pickRandomTexture(playerTextures), board);
             TiledMapTileLayer.Cell playerCell = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(texture[0][0]));
             IActor player = new EasyAI(board, playerCell, new InterfaceRenderer(), robotRenderer);
             players.add(player);
-            ArchiveMarkerElement archiveMarker = board.getArchiveMarker(i);
+            ArchiveMarkerElement archiveMarker = board.getArchiveMarker(i + 1);
             IRobot robot = new Robot(archiveMarker);
             player.setRobot(robot);
-            player.setName("EasyAI " + i);
+            player.setName("EasyAI " + (i + 1));
             board.getPlayerLayer().setCell(player.getRobot().getPosition().getX(), player.getRobot().getPosition().getY(), playerCell);
         }
 
