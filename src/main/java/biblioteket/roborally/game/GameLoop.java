@@ -51,7 +51,6 @@ public class GameLoop {
         } catch (IOException e) {
             Gdx.app.error("GameLoop: %s", e.toString());
         }
-
     }
 
     public void startGame() {
@@ -257,7 +256,7 @@ public class GameLoop {
         return players.get(currentPlayerPtr);
     }
 
-    public void renderCurrentInterface(){
+    public void renderCurrentInterface() {
         getCurrentPlayer().getInterfaceRenderer().renderInterface(players, currentPlayerPtr);
     }
 

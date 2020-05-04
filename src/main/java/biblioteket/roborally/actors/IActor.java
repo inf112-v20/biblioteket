@@ -22,7 +22,7 @@ public interface IActor {
      * @param direction to move robot
      * @param delay     milliseconds delay after move is rendered before next move is rendered
      * @param debug     whether to print debug information
-     * @param pushed
+     * @param pushed    whether the move was a push or not
      * @return true if robot moved, false otherwise
      */
     boolean moveRobot(Direction direction, int delay, boolean debug, boolean pushed);

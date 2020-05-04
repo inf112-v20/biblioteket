@@ -8,13 +8,21 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * <strong>NOTE:</strong> Make note of the max number of cards, if you add
+ * or remove cards to the ProgramCards.csv file the tests will fail.
+ */
 class CardDeckTest {
     private final int maxNumberOfCards = 84; //default number of cards
     private CardDeck cardDeck;
 
     @BeforeEach
-    void setUp() throws IOException {
-        cardDeck = new CardDeck();
+    void setUp() {
+        try {
+            cardDeck = new CardDeck();
+        } catch (IOException ignored) {
+            System.err.println("Could not load card decks, make sure the ProgramCards.csv file is in the assets directory");
+        }
     }
 
     @Test
@@ -50,5 +58,4 @@ class CardDeckTest {
         ArrayList<ICard> discardPile2 = cardDeck.drawCards(maxNumberOfCards / 2 + 1);
         assertEquals(maxNumberOfCards / 2 + 1, discardPile2.size());
     }
-
 }

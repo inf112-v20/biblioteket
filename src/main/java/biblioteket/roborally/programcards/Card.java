@@ -5,7 +5,7 @@ import biblioteket.roborally.actors.IActor;
 import java.util.Objects;
 
 public class Card implements ICard, Comparable<ICard> {
-    private static final int RENDERING_DELAY = 100;
+    private static final int RENDERING_DELAY = 250;
     private final CardType type;
     private final int priorityNumber;
 

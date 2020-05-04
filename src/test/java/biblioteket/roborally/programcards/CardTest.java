@@ -38,7 +38,7 @@ class CardTest {
 
         robot = new Robot(new ArchiveMarkerElement(1));
         RobotRenderer robotRenderer = new RobotRenderer(board.getPlayerLayer(), null, null);
-        Texture playerTexture = new Texture("assets/player.png");
+        Texture playerTexture = new Texture("assets/playermodels/owlbot.png");
         TextureRegion[][] playerTextureSplit = TextureRegion.split(playerTexture, board.getTileWidth(), board.getTileHeight());
         TiledMapTileLayer.Cell playerCell = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(playerTextureSplit[0][0]));
         IActor player = new Actor(board, playerCell, null, robotRenderer);

@@ -15,7 +15,11 @@ public class EasyAI extends Actor implements INonPlayer {
 
     @Override
     public void chooseCards(ICardDeck deck) {
-        List<ICard> cards = deck.drawCards(9);
+        int defaultNumber = 9; //default number of cards to draw
+        int damageTokens = super.getRobot().getNumberOfDamageTokens();
+        int cardsToDraw = defaultNumber - damageTokens;
+
+        List<ICard> cards = deck.drawCards(cardsToDraw);
         while (!super.fullProgramRegister()) {
             int id = new Random().nextInt(cards.size());
             super.addCardToProgramRegister(cards.get(id), deck);

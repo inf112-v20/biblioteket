@@ -48,7 +48,7 @@ public class EndGameScreen extends StandardScreen {
                 game.setScreen(new MainMenuScreen(game));
                 dispose();
             }
-        } else if (hoverOverQuit()) {
+        } else if (quitButtonTouched()) {
             game.getBatch().draw(quitPost, buttonCentered, exitY, buttonWidth, buttonHeight);
             if (Gdx.input.isTouched()) {
                 Gdx.app.exit();
