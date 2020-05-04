@@ -47,7 +47,7 @@ public class MainMenuScreen extends StandardScreen {
             if (Gdx.input.isTouched()) {
                 game.setScreen(new PlayerSelect(game));
             }
-        } else if (hoverOverQuit()) {
+        } else if (quitButtonTouched()) {
             game.getBatch().draw(quitPost, buttonCentered, exitY, buttonWidth, buttonHeight);
             if (Gdx.input.isTouched()) {
                 Gdx.app.exit();

@@ -6,6 +6,9 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class StandardScreen implements Screen {
 
     private final Assets assets = new Assets();
@@ -13,11 +16,33 @@ public class StandardScreen implements Screen {
     public final RoboRally game;
     public final Texture background;
     public final Texture logo;
+    public final Texture arrowLeftPost;
+    public final Texture arrowRightPost;
+    private final Texture one;
+    private final Texture two;
+    private final Texture three;
+    private final Texture four;
+    private final Texture five;
+    private final Texture six;
+    private final Texture seven;
+    private final Texture eight;
+
     public float buttonCentered;
     public float buttonWidth;
     public float buttonHeight;
     public float exitY;
     public float centerOfScreenX;
+    public float arrowY;
+    public float arrowWidth;
+    public float arrowHeight;
+    public float arrowLeftX;
+    public float arrowRightX;
+    public float selectY;
+    public float numberWidth;
+    public float numberCenter;
+    public float numberHeight;
+    private List<Texture> numberList;
+
 
     public StandardScreen(RoboRally game) {
         this.game = game;
@@ -28,7 +53,17 @@ public class StandardScreen implements Screen {
         assets.getManager().finishLoading();
         background = assets.getManager().get(Assets.BACKGROUND, Texture.class);
         logo = assets.getManager().get(Assets.LOGO, Texture.class);
-
+        arrowLeftPost = assets.getManager().get(Assets.ARROW_LEFT_POST, Texture.class);
+        arrowRightPost = assets.getManager().get(Assets.ARROW_RIGHT_POST, Texture.class);
+        one = assets.getManager().get(Assets.ONE, Texture.class);
+        two = assets.getManager().get(Assets.TWO, Texture.class);
+        three = assets.getManager().get(Assets.THREE, Texture.class);
+        four = assets.getManager().get(Assets.FOUR, Texture.class);
+        five = assets.getManager().get(Assets.FIVE, Texture.class);
+        six = assets.getManager().get(Assets.SIX, Texture.class);
+        seven = assets.getManager().get(Assets.SEVEN, Texture.class);
+        eight = assets.getManager().get(Assets.EIGHT, Texture.class);
+        numberList = Arrays.asList(one, two, three, four, five, six, seven, eight);
     }
 
     //Resizing does not work if made in constructor.
@@ -38,11 +73,31 @@ public class StandardScreen implements Screen {
         buttonCentered = camera.viewportWidth / 2f - buttonWidth / 2f;
         buttonHeight = camera.viewportHeight / (256f / 100f);
         exitY = camera.viewportHeight / 20f;
+        arrowY = camera.viewportHeight / 2.5f;
+        arrowWidth = camera.viewportHeight / (8f);
+        arrowHeight = camera.viewportHeight / (4.5f);
+        arrowLeftX = centerOfScreenX - arrowWidth * 2f;
+        arrowRightX = centerOfScreenX + arrowWidth;
+        selectY = camera.viewportHeight / 15f;
+        numberWidth = camera.viewportHeight / (300 / 100f);
+        numberCenter = camera.viewportWidth / 2f - numberWidth / 2f;
+        numberHeight = camera.viewportHeight / (300 / 100f);
     }
 
 
-    public boolean hoverOverQuit() {
+    public boolean quitButtonTouched() {
         return Gdx.input.getX() < buttonCentered + buttonWidth && Gdx.input.getX() > buttonCentered && camera.viewportHeight - Gdx.input.getY() < exitY + buttonHeight / 1.35f && camera.viewportHeight - Gdx.input.getY() > exitY + buttonWidth / (1.5f);
+    }
+
+    public boolean arrowTouched(float x) {
+        return Gdx.input.getX() < x + arrowWidth && Gdx.input.getX() > x && camera.viewportHeight - Gdx.input.getY() < arrowY + arrowHeight && camera.viewportHeight - Gdx.input.getY() > arrowY;
+    }
+
+    public void drawArrow(Texture arrow, float x) {
+        game.getBatch().draw(arrow, x, arrowY, arrowWidth, arrowHeight);
+    }
+    public Texture convertIntToTexture(int counter) {
+        return numberList.get(counter);
     }
 
     public static OrthographicCamera getCamera() {

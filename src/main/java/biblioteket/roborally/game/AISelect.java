@@ -4,24 +4,21 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 
-
-public class PlayerSelect extends StandardScreen {
+public class AISelect extends StandardScreen {
 
     private final Texture arrowRightPre;
     private final Texture arrowRightPost;
     private final Texture arrowLeftPre;
     private final Texture arrowLeftPost;
-    private final Texture selectNumberOfPlayers;
+    private final Texture selectNumberOfAI;
     private final Texture selectPre;
     private final Texture selectPost;
 
     private final OrthographicCamera camera;
     private int counter;
 
-
-    public PlayerSelect(final RoboRally game) {
+    public AISelect(RoboRally game) {
         super(game);
-
         camera = getCamera();
         Assets assets = getAssets();
 
@@ -31,10 +28,9 @@ public class PlayerSelect extends StandardScreen {
         arrowLeftPost = assets.getManager().get(Assets.ARROW_LEFT_POST, Texture.class);
         selectPre = assets.getManager().get(Assets.SELECT_PRE, Texture.class);
         selectPost = assets.getManager().get(Assets.SELECT_POST, Texture.class);
-        selectNumberOfPlayers = assets.getManager().get(Assets.SELECT_NUMBER_OF_PLAYERS, Texture.class);
+        selectNumberOfAI = assets.getManager().get(Assets.SELECT_NUMBER_OF_AI, Texture.class);
 
     }
-
     @Override
     public void render(float v) {
         buttonsSizeAndScreenPlacement();
@@ -42,7 +38,7 @@ public class PlayerSelect extends StandardScreen {
         super.render(v);
         game.getBatch().begin();
         game.getBatch().draw(background, 0, 0, camera.viewportWidth, camera.viewportHeight);
-        game.getBatch().draw(selectNumberOfPlayers, centerOfScreenX - arrowWidth * 3.9f, camera.viewportHeight / 2.5f, selectNumberOfPlayers.getWidth() * camera.viewportHeight / 640f, selectNumberOfPlayers.getHeight() * camera.viewportHeight / 640f);
+        game.getBatch().draw(selectNumberOfAI, centerOfScreenX - arrowWidth * 3.3f, camera.viewportHeight / 2.2f, selectNumberOfAI.getWidth() * camera.viewportHeight / 540f, selectNumberOfAI.getHeight() * camera.viewportHeight / 400f);
         drawArrow(arrowLeftPre, arrowLeftX);
         drawArrow(arrowRightPre, arrowRightX);
         game.getBatch().draw(selectPre, centerOfScreenX - buttonWidth / 2, selectY, buttonWidth, buttonHeight);
@@ -60,16 +56,18 @@ public class PlayerSelect extends StandardScreen {
             drawArrow(arrowRightPost, arrowRightX);
             if (Gdx.input.isButtonJustPressed(0) && counter != 7) {
                 counter++;
-                }
+            }
         }
         //select button
         else if (Gdx.input.getX() < buttonCentered + buttonWidth && Gdx.input.getX() > buttonCentered && camera.viewportHeight - Gdx.input.getY() < selectY + buttonHeight / 1.35 && camera.viewportHeight - Gdx.input.getY() > selectY + buttonWidth / (1.35)) {
             game.getBatch().draw(selectPost, buttonCentered, selectY, buttonWidth, buttonHeight);
             if (Gdx.input.isTouched()) {
-                game.setScreen(new AISelect(game));
+                game.setScreen(new MapSelect(game));
                 dispose();
             }
         }
         game.getBatch().end();
     }
 }
+
+
