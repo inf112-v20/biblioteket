@@ -18,7 +18,7 @@ public class ConveyorBeltElement implements InteractingElement {
      */
     @Override
     public void interact(IActor player) {
-        player.moveRobot(direction, 500, false);
+        player.moveRobot(direction, 500, false, true);
     }
 
     @Override

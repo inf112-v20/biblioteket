@@ -1,12 +1,15 @@
 package biblioteket.roborally.actors;
 
+import biblioteket.roborally.TestRunner;
 import biblioteket.roborally.elements.ArchiveMarkerElement;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@ExtendWith(TestRunner.class)
 class PlayerTest {
     private IActor player;
 
@@ -44,5 +47,24 @@ class PlayerTest {
         player.addToFlagsVisited();
         int newNumberOfFlagsVisited = originalNumberOfFlagsVisited + 1;
         assertEquals(newNumberOfFlagsVisited, player.getNumberOfVisitedFlags());
+    }
+
+    @Test
+    void announcingPowerDownResultsInPowerDownNextTurnTest(){
+        player.setRobot(new Robot(new ArchiveMarkerElement(1)));
+        player.announcePowerDown();
+        player.newTurn(null);
+        assertTrue(player.isPoweredDown());
+    }
+
+    @Test
+    void powerDownRemovesDamageTokensTest(){
+        player.setRobot(new Robot(new ArchiveMarkerElement(1)));
+        player.getRobot().addDamageTokens(5);
+        player.announcePowerDown();
+        player.newTurn(null);
+
+        int damageTokens = player.getRobot().getNumberOfDamageTokens();
+        assertEquals(0, damageTokens);
     }
 }

@@ -61,7 +61,7 @@ public class Assets {
         if (manager == null) {
             manager = new AssetManager();
         }
-        manager.load("bb_idle_spritesheet.pack", TextureAtlas.class);
+        manager.load("playermodels/bb_idle_spritesheet.pack", TextureAtlas.class);
         manager.load(LOGO, Texture.class);
         manager.load(BACKGROUND, Texture.class);
         manager.load(PLAY_PRE, Texture.class);

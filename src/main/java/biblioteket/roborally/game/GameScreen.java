@@ -2,6 +2,7 @@ package biblioteket.roborally.game;
 
 import biblioteket.roborally.actors.*;
 import biblioteket.roborally.board.Board;
+import biblioteket.roborally.board.Direction;
 import biblioteket.roborally.elements.ArchiveMarkerElement;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -42,7 +43,7 @@ public class GameScreen extends StandardScreen {
         tiledMapRenderer.setView(camera);
 
 
-        Texture playerTexture = new Texture("assets/player.png");
+        Texture playerTexture = new Texture("assets/playermodels/pinbot.png");
         TextureRegion[][] playerTextureSplit = TextureRegion.split(playerTexture, board.getTileWidth(), board.getTileHeight());
 
         for (int i = 1; i <= 2; i++) {
