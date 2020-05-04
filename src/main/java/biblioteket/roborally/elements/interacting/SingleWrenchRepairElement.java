@@ -17,9 +17,7 @@ public class SingleWrenchRepairElement implements InteractingElement {
         robot.removeDamageTokens(1);
         robot.setArchiveMarker(robot.getPosition());
 
-        Gdx.app.log(
-                "Robot at ", player.getRobot().getPosition().getX() + ","
-                        + player.getRobot().getPosition().getY() + " discards one damage token");
+        Gdx.app.log(player.getName(), " discards one damage token");
     }
 
     @Override

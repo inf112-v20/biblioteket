@@ -132,7 +132,7 @@ public class GameLoop {
         // Execute program cards in correct order
         Map<ICard, IActor> registersInPriority = new TreeMap<>(Collections.reverseOrder());
         for (int i = 4; i >= 0; i--) { // Five registers, program register is reversed.
-            // Only iterate over alive players
+            // Only iterate over alive players, not powered down
             for (IActor player : getLivingPlayers().stream().filter(player -> !player.isPoweredDown()).collect(Collectors.toList())) {
                 ICard currentCard = player.getProgramRegister().get(i);
                 registersInPriority.put(currentCard, player);
@@ -146,7 +146,11 @@ public class GameLoop {
         // Robots interact with board elements*/
         interactWithBoardElements();
 
-        // Start new turn
+        // Start new turn if all players are powered down
+        for (IActor player : getLivingPlayers()) {
+            if(!player.isPoweredDown()) return;
+        }
+        newTurn();
     }
 
     /**
@@ -235,7 +239,7 @@ public class GameLoop {
 
     private void nextPlayer() {
         currentPlayerPtr++;
-        if (currentPlayerPtr == players.size()) {
+        if (currentPlayerPtr >= players.size()) {
             currentPlayerPtr = 0;
             doTurn();
         } else if (getCurrentPlayer().isPermanentDead() || getCurrentPlayer().isPoweredDown()) {

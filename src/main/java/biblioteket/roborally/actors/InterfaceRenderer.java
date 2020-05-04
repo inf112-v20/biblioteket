@@ -179,12 +179,13 @@ public class InterfaceRenderer {
             IActor player = players.get(i);
             int lives = player.getLives();
             int flagsVisited = player.getNumberOfVisitedFlags();
-            boolean dead = player.isPermanentDead();
 
-            if (dead)  // Dead players red
-                font.setColor(Color.RED);
+            if (player.isPermanentDead())  // Dead players red
+                continue;
             else if (i == currentPlayerPtr)  // Current player green
                 font.setColor(Color.GREEN);
+            else if(player.isPoweredDown())
+                font.setColor(Color.RED);
 
             if (i < 4) {   // Players 1-4
                 batch.draw(flag, rightOfBoard / 1.015f + rightOfBoard / 4 * i, StandardScreen.getCamera().viewportHeight - StandardScreen.getCamera().viewportHeight / 16 * 140 / 100, healthFlagSize, healthFlagSize);
