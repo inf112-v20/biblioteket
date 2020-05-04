@@ -74,8 +74,8 @@ public class Assets {
         manager.load(SELECT_POST, Texture.class);
         manager.load(DIZZY_PRE, Texture.class);
         manager.load(DIZZY_POST, Texture.class);
-        manager.load(RISKY_PRE, Texture.class);
         manager.load(RISKY_POST, Texture.class);
+        manager.load(RISKY_PRE, Texture.class);
         manager.load(SELECT_MAP, Texture.class);
         manager.load(HP, Texture.class);
         manager.load(FLAG, Texture.class);
