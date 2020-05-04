@@ -3,10 +3,11 @@ package biblioteket.roborally.elements.interacting;
 import biblioteket.roborally.actors.IActor;
 import com.badlogic.gdx.Gdx;
 
-public class FlagElement implements InteractingElement {
+public class FlagElement extends SingleWrenchRepairElement {
     private final int flagNumber;
 
     public FlagElement(int flagNumber) {
+        super();
         this.flagNumber = flagNumber;
     }
 
@@ -17,6 +18,7 @@ public class FlagElement implements InteractingElement {
      */
     @Override
     public void interact(IActor player) {
+        super.interact(player);
         int visited = player.getNumberOfVisitedFlags();
         if (flagNumber - 1 == visited) { // Check if player has picked up all previous flags
             Gdx.app.log(player.getName(), " picked up flag " + flagNumber);

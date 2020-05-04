@@ -22,6 +22,7 @@ public class StandardScreen implements Screen {
     public final Texture selectPre;
     public final Texture selectPost;
     private final Assets assets = new Assets();
+    private final List<Texture> numberList;
     public float buttonCentered;
     public float buttonWidth;
     public float buttonHeight;
@@ -37,13 +38,12 @@ public class StandardScreen implements Screen {
     public float numberCenter;
     public float numberHeight;
     public int counter;
-    private final List<Texture> numberList;
 
 
     public StandardScreen(RoboRally game) {
         this.game = game;
 
-        camera.setToOrtho(false, 640, 640);
+        camera.setToOrtho(false, game.getWidth(), game.getHeight());
 
         assets.load();
         assets.getManager().finishLoading();

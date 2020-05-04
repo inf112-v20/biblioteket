@@ -22,7 +22,7 @@ public interface IActor {
      * @param direction to move robot
      * @param delay     milliseconds delay after move is rendered before next move is rendered
      * @param debug     whether to print debug information
-     * @param pushed
+     * @param pushed    whether the move was a push or not
      * @return true if robot moved, false otherwise
      */
     boolean moveRobot(Direction direction, int delay, boolean debug, boolean pushed);
@@ -109,12 +109,6 @@ public interface IActor {
      * @return players interface renderer
      */
     InterfaceRenderer getInterfaceRenderer();
-
-    /**
-     * Update the interface for the current player, e.g. his new card deck
-     * and selected cards etc.
-     */
-    void updateInterfaceRenderer();
 
     /**
      * Draw a new deck of cards from a random selection of all possible

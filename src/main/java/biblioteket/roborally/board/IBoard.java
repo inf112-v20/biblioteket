@@ -114,9 +114,8 @@ public interface IBoard {
      * If players robot is standing on a flag that can be picked up, registers flag to player
      *
      * @param player with robot registering flag
-     * @return true if registering flag was successfull
      */
-    boolean registerFlag(IActor player);
+    void registerFlag(IActor player);
 
     /**
      * Finds a players archive marker.

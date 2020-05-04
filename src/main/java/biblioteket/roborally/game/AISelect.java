@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 
 public class AISelect extends StandardScreen {
-
     private final Texture selectNumberOfAI;
     private final OrthographicCamera camera;
 
@@ -15,7 +14,6 @@ public class AISelect extends StandardScreen {
 
         Assets assets = getAssets();
         selectNumberOfAI = assets.getManager().get(Assets.SELECT_NUMBER_OF_AI, Texture.class);
-
     }
 
     @Override
@@ -29,6 +27,8 @@ public class AISelect extends StandardScreen {
         if (Gdx.input.getX() < buttonCentered + buttonWidth && Gdx.input.getX() > buttonCentered && camera.viewportHeight - Gdx.input.getY() < selectY + buttonHeight / 1.35 && camera.viewportHeight - Gdx.input.getY() > selectY + buttonWidth / (1.35)) {
             game.getBatch().draw(selectPost, buttonCentered, selectY, buttonWidth, buttonHeight);
             if (Gdx.input.isTouched()) {
+                Gdx.app.debug("AI select", String.valueOf(counter + 1));
+                game.setAI(counter + 1);
                 game.setScreen(new MapSelect(game));
                 dispose();
             }

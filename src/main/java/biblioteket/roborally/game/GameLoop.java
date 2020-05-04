@@ -39,7 +39,6 @@ public class GameLoop {
     boolean programmingPhase = true;
     private int currentPlayerPtr = 0;
     private ICardDeck cardDeck;
-    private final Direction playerDirection = Direction.WEST;
 
     public GameLoop(IBoard board, List<IActor> players) {
         this.board = board;
@@ -52,7 +51,6 @@ public class GameLoop {
         } catch (IOException e) {
             Gdx.app.error("GameLoop: %s", e.toString());
         }
-
     }
 
     public void startGame() {
@@ -60,8 +58,7 @@ public class GameLoop {
             @Override
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {
                 if (!programmingPhase) return false;
-                int y = Gdx.graphics.getHeight() - 1 - screenY; // Translate from y-down to y-up
-                return registerInput(screenX, y, getCurrentPlayer());
+                return registerInput(screenX, screenY, getCurrentPlayer());
             }
 
             // Keyboard movement for testing
@@ -114,7 +111,7 @@ public class GameLoop {
      */
     private boolean registerInput(int x, int y, IActor player) {
         InterfaceRenderer interfaceRenderer = player.getInterfaceRenderer();
-        ICard card = interfaceRenderer.contains(x, y);
+        ICard card = interfaceRenderer.contains(x, y, player);
         if (card != null)
             player.addCardToProgramRegister(card.copy(), cardDeck);
 
@@ -134,7 +131,7 @@ public class GameLoop {
         // Execute program cards in correct order
         Map<ICard, IActor> registersInPriority = new TreeMap<>(Collections.reverseOrder());
         for (int i = 4; i >= 0; i--) { // Five registers, program register is reversed.
-            // Only iterate over alive players
+            // Only iterate over alive players, not powered down
             for (IActor player : getLivingPlayers().stream().filter(player -> !player.isPoweredDown()).collect(Collectors.toList())) {
                 ICard currentCard = player.getProgramRegister().get(i);
                 registersInPriority.put(currentCard, player);
@@ -148,7 +145,11 @@ public class GameLoop {
         // Robots interact with board elements*/
         interactWithBoardElements();
 
-        // Start new turn
+        // Start new turn if all players are powered down
+        for (IActor player : getLivingPlayers()) {
+            if (!player.isPoweredDown()) return;
+        }
+        newTurn();
     }
 
     /**
@@ -195,14 +196,14 @@ public class GameLoop {
     /**
      * @return a list of all players not permanently dead
      */
-    private List<IActor> getLivingPlayers() {
+    public List<IActor> getLivingPlayers() {
         return players.stream().filter(player -> !player.isPermanentDead()).collect(Collectors.toList());
     }
 
     /**
      * @return true if any player has registered all flags on board
      */
-    private boolean checkWinCondition() {
+    public boolean checkWinCondition() {
         if (getLivingPlayers().size() == 1) {
             Gdx.app.log(getLivingPlayers().get(0).getName(), " wins by being the last player alive");
             return true;
@@ -237,7 +238,7 @@ public class GameLoop {
 
     private void nextPlayer() {
         currentPlayerPtr++;
-        if (currentPlayerPtr == players.size()) {
+        if (currentPlayerPtr >= players.size()) {
             currentPlayerPtr = 0;
             doTurn();
         } else if (getCurrentPlayer().isPermanentDead() || getCurrentPlayer().isPoweredDown()) {
@@ -255,9 +256,14 @@ public class GameLoop {
         return players.get(currentPlayerPtr);
     }
 
+    public void renderCurrentInterface() {
+        getCurrentPlayer().getInterfaceRenderer().renderInterface(players, currentPlayerPtr);
+    }
+
     public void newTurn() {
-        if (checkWinCondition())
-            Gdx.app.exit();
+        if (checkWinCondition()) {
+            return;
+        }
         for (IActor player : getLivingPlayers()) {
             player.newTurn(cardDeck);
         }
@@ -266,6 +272,4 @@ public class GameLoop {
             nextPlayer();
         }
     }
-
-
 }

@@ -55,8 +55,6 @@ public class ConveyorBeltTest {
 
             assertEquals(vectorInDirection.getX(), postInteractionPosition.getX());
             assertEquals(vectorInDirection.getY(), postInteractionPosition.getY());
-
-
         }
     }
 }

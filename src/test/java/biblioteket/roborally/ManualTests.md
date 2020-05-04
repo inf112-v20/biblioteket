@@ -32,3 +32,11 @@ the cards as it currently simply teleports to the correct location...
 
 - Ensure that moving off the grid returns you to your archive marker.
 - Moving over a hole and interacting with it will respawn the robot.
+
+## Testing menu screens
+
+- The amount of players selected in the `player select` matches the amount of
+  controllable robots spawned into the game. There will always be 1 or more AI
+  spawned, which is somewhere between `randint(numPlayers(), 8)`.
+- Verify that winning a game renders the `EndGameScreen` menu with the correct
+  winners name displayed.

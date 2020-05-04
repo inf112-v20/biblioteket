@@ -234,13 +234,12 @@ public class Board implements IBoard {
     }
 
     @Override
-    public boolean registerFlag(IActor player) {
+    public void registerFlag(IActor player) {
         IRobot robot = player.getRobot();
         FlagElement flag = getFlagElement(robot.getPosition());
         if (flag != null) {
             flag.interact(player);
         }
-        return false;
     }
 
     @Override
