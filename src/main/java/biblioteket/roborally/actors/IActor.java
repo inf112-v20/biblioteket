@@ -11,7 +11,7 @@ public interface IActor {
     /**
      * Tries to move robot in the direction robot is currently facing
      *
-     * @param delay milliseconds delay after move is rendered before next move is rendered
+     * @param delay rendering delay in milliseconds
      * @param steps amount of times robot should try to move
      */
     void moveRobot(int steps, int delay);
@@ -20,8 +20,8 @@ public interface IActor {
      * Tries to move robot in direction
      *
      * @param direction to move robot
-     * @param delay     milliseconds delay after move is rendered before next move is rendered
-     * @param debug     whether to print debug information
+     * @param delay     rendering delay in milliseconds
+     * @param debug     true if debugging, will prevent renderer from starting new turn
      * @param pushed    whether the move was a push or not
      * @return true if robot moved, false otherwise
      */
@@ -30,7 +30,7 @@ public interface IActor {
     /**
      * Tries to move robot in the opposite direction of where it is currently facing
      *
-     * @param delay milliseconds delay after move is rendered before next move is rendered
+     * @param delay rendering delay in milliseconds
      */
     void backUpRobot(int delay);
 
@@ -38,7 +38,7 @@ public interface IActor {
      * Rotates the robot to the right or left, updates the cell to display rotation
      *
      * @param right true if robot should rotate right, false if robot should rotate left
-     * @param delay milliseconds delay after move is rendered before next move is rendered
+     * @param delay rendering delay in milliseconds
      */
     void rotateRobot(boolean right, int delay);
 
@@ -111,14 +111,6 @@ public interface IActor {
     InterfaceRenderer getInterfaceRenderer();
 
     /**
-     * Draw a new deck of cards from a random selection of all possible
-     * cards. Chooses a valid amount of cards to draw.
-     *
-     * @param cardDeck a deck of cards
-     */
-    void drawCards(ICardDeck cardDeck);
-
-    /**
      * Player draws new cards, updates interface renderer and sets
      * canMove flag to true
      *
@@ -154,7 +146,7 @@ public interface IActor {
     TiledMapTileLayer.Cell getPlayerCell();
 
     /**
-     * Fire a laser from robots current position
+     * Fire a laser from robots current position in direction robot is facing
      */
     void fireLaser(List<IActor> players);
 
@@ -162,7 +154,7 @@ public interface IActor {
      * Handle destruction of a players robot, i.e. removing life points, moving
      * the robot to a new spawn point and giving it a damage token.
      *
-     * @param delay animation delay
+     * @param delay rendering delay in milliseconds
      */
     void handleRobotDestruction(int delay);
 
@@ -170,11 +162,6 @@ public interface IActor {
      * Announce intent to power down next turn
      */
     void announcePowerDown();
-
-    /**
-     * @return true if players robot is powered down next turn
-     */
-    boolean hasAnnouncedPowerDown();
 
     /**
      * @return true if player is powered down this turn

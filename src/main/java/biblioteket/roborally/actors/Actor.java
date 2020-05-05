@@ -142,16 +142,6 @@ public class Actor implements IActor {
         return interfaceRenderer;
     }
 
-    @Override
-    public void drawCards(ICardDeck cardDeck) {
-        int defaultNumber = 9; //default number of cards to draw
-        int damageTokens = robot.getNumberOfDamageTokens();
-        int cardsToDraw = defaultNumber - damageTokens;
-
-        drawnCards = cardDeck.drawCards(cardsToDraw);
-        interfaceRenderer.setCardHand(drawnCards);
-    }
-
     /**
      * Cleans the register based on damage tokens.
      *
@@ -256,11 +246,27 @@ public class Actor implements IActor {
     }
 
     /**
+     * Draw a new deck of cards from a random selection of all possible
+     * cards. Chooses a valid amount of cards to draw.
+     *
+     * @param cardDeck a deck of cards
+     */
+    private void drawCards(ICardDeck cardDeck) {
+        int defaultNumber = 9; //default number of cards to draw
+        int damageTokens = robot.getNumberOfDamageTokens();
+        int cardsToDraw = defaultNumber - damageTokens;
+
+        drawnCards = cardDeck.drawCards(cardsToDraw);
+        interfaceRenderer.setCardHand(drawnCards);
+    }
+
+    /**
      * Requests robotRenderer to render one move
      *
      * @param from  position robot is moving from
      * @param to    position robot is moving to
-     * @param debug print debug information
+     * @param delay rendering delay in milliseconds
+     * @param debug true if debugging, will prevent renderer from starting new turn
      */
     private void renderMove(DirVector from, DirVector to, int delay, boolean debug) {
         robotRenderer.requestRendering(from, to, robot.getDirection(), delay, playerCell, debug);
@@ -269,8 +275,8 @@ public class Actor implements IActor {
     /**
      * If robot is out of bounds, moves robot to archive marker and removes one life.
      *
-     * @param delay rendering delay
-     * @param debug true if debug, wont start a new round after rendering
+     * @param delay rendering delay in milliseconds
+     * @param debug true if debugging, will prevent renderer from starting new turn
      */
     private void handleRobotOutOfBounds(int delay, boolean debug) {
         DirVector position = robot.getPosition();
@@ -301,11 +307,6 @@ public class Actor implements IActor {
     public void announcePowerDown() {
         Gdx.app.log(getName(), "announces power down");
         state = state.announcePowerDown();
-    }
-
-    @Override
-    public boolean hasAnnouncedPowerDown() {
-        return state.hasAnnouncedPowerDown();
     }
 
     @Override
