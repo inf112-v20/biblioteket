@@ -450,6 +450,20 @@ public class InterfaceRenderer {
             public void setCard(ICard card) {
                 this.card = card;
             }
+
+            @Override
+            public boolean equals(Object o) {
+                if (this == o) return true;
+                if (o == null || getClass() != o.getClass()) return false;
+                if (!super.equals(o)) return false;
+                TouchableCard that = (TouchableCard) o;
+                return Objects.equals(card, that.card);
+            }
+
+            @Override
+            public int hashCode() {
+                return Objects.hash(super.hashCode(), card);
+            }
         }
     }
 }

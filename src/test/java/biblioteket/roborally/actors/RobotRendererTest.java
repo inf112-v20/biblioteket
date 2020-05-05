@@ -31,14 +31,17 @@ public class RobotRendererTest {
         DirVector oldPosition = new DirVector(0,0, Direction.NORTH);
         DirVector newPosition = new DirVector(1,1, Direction.SOUTH);
         Direction direction = Direction.WEST;
-        int delay = 100;
+        int delay = 1;
         TiledMapTileLayer.Cell playerCell = new TiledMapTileLayer.Cell();
 
         RobotRenderer.RobotStep robotStep = new RobotRenderer.RobotStep(oldPosition, newPosition, direction, delay, playerCell, true);
-        assertEquals(robotStep.getOldPosition(), oldPosition);
-        assertEquals(robotStep.getRotation(), 1);       // PlayerCell rotation set to 1 is rotated to the left (west)
-        assertEquals(robotStep.getPlayerCell(), playerCell);
-        assertEquals(robotStep.isDebug(), true);
+
+        assertEquals(oldPosition, robotStep.getOldPosition());
+        assertEquals(newPosition, robotStep.getNewPosition());
+        assertEquals(1, robotStep.getRotation());       // PlayerCell rotation set to 1 is rotated to the left (west)
+        assertEquals(playerCell, robotStep.getPlayerCell());
+        assertEquals(1, robotStep.getDelay());
+        assertEquals(true, robotStep.isDebug());
     }
 
     @Test
