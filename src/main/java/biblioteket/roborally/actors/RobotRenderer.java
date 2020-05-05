@@ -105,19 +105,19 @@ public class RobotRenderer {
 
     /**
      * Moves permanently dead robots off the grid
-     *
-     * @param oldPosition of dead robot
+     *  @param oldPosition of dead robot
      * @param playerCell  of dead robot
+     * @param debug
      */
-    public void removePlayer(DirVector oldPosition, TiledMapTileLayer.Cell playerCell) {
-        RobotStep movement = new RobotStep(oldPosition, new DirVector(-1, -1, Direction.NORTH), Direction.NORTH, 100, playerCell, false);
+    public void removePlayer(DirVector oldPosition, TiledMapTileLayer.Cell playerCell, boolean debug) {
+        RobotStep movement = new RobotStep(oldPosition, new DirVector(-1, -1, Direction.NORTH), Direction.NORTH, 100, playerCell, debug);
         movements.add(movement);
     }
 
     /**
      * Data structure that holds a single step of a single robot
      */
-    private static class RobotStep {
+    static class RobotStep {
         private final DirVector oldPosition;
         private final DirVector newPosition;
         private final Direction direction;
@@ -148,16 +148,14 @@ public class RobotRenderer {
 
         public int getRotation() {
             switch (direction) {
-                case NORTH:
-                    return 0;
                 case WEST:
                     return 1;
                 case SOUTH:
                     return 2;
                 case EAST:
                     return 3;
-                default:
-                    throw new UnsupportedOperationException();
+                default: // North
+                    return 0;
             }
         }
 

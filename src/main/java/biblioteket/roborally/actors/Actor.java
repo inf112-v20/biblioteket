@@ -102,7 +102,7 @@ public class Actor implements IActor {
         if (--lives <= 0) {
             state = PlayerState.DESTROYED;
             Gdx.app.log(getName(), "permanently destroyed");
-            robotRenderer.removePlayer(getRobot().getPosition(), playerCell);
+            robotRenderer.removePlayer(getRobot().getPosition(), playerCell, false);
         }
     }
 

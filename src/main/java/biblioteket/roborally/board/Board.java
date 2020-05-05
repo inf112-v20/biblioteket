@@ -21,7 +21,6 @@ public class Board implements IBoard {
     private final TiledMapTileLayer groundLayer;
     private final TiledMapTileLayer playerLayer;
     private final TiledMapTileLayer flagLayer;
-    private final TiledMapTileLayer laserLayer;
     private final TiledMapTileLayer wallLayer;
     private final int width;
     private final int height;
@@ -42,7 +41,6 @@ public class Board implements IBoard {
         this.groundLayer = (TiledMapTileLayer) map.getLayers().get("Ground Layer");
         this.playerLayer = (TiledMapTileLayer) map.getLayers().get("Player Layer");
         this.flagLayer = (TiledMapTileLayer) map.getLayers().get("Flag Layer");
-        this.laserLayer = (TiledMapTileLayer) map.getLayers().get("Laser Layer");
         this.wallLayer = (TiledMapTileLayer) map.getLayers().get("Wall Layer");
 
         this.players = players;
