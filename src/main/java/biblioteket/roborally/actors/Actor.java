@@ -124,7 +124,6 @@ public class Actor implements IActor {
     @Override
     public void setName(String name) {
         this.name = name;
-        interfaceRenderer.setName(name);
     }
 
     @Override
