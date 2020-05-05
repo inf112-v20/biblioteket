@@ -18,7 +18,7 @@ public class MapReaderTest {
     private static MapReader mapReader;
 
     @BeforeAll
-    static void setup(){
+    static void setUp(){
         board = new Board("assets/DizzyDash.tmx", null);
         mapReader = new MapReader(board);
     }

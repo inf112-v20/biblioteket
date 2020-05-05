@@ -13,7 +13,7 @@ public class PlayerStateTest {
     private static PlayerState destroyed;
 
     @BeforeAll
-    static void setup(){
+    private static void setUp(){
         playing = PlayerState.PLAYING;
         immobile = PlayerState.IMMOBILE;
         announcedPowerDown = PlayerState.ANNOUNCED_POWER_DOWN;

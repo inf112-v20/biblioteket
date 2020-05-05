@@ -1,4 +1,4 @@
-package biblioteket.roborally.elements.Walls;
+package biblioteket.roborally.elements.walls;
 
 import biblioteket.roborally.TestRunner;
 import biblioteket.roborally.actors.*;
@@ -21,7 +21,7 @@ public class WallTest {
     private static IActor actor;
 
     @BeforeAll
-    static void setup(){
+    static void setUp(){
         board = new Board("assets/TestingMap.tmx", new ArrayList<IActor>());
         actor = new Player(board, new TiledMapTileLayer.Cell(), null, new RobotRenderer(null, null, null));
         IRobot robot = new Robot(board.getArchiveMarker(2));    //Position with wall to the north

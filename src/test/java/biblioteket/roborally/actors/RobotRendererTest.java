@@ -22,7 +22,7 @@ public class RobotRendererTest {
     private static RobotRenderer emptyRenderer;
 
     @BeforeAll
-    static void setup(){
+    static void setUp(){
         emptyRenderer = new RobotRenderer(null, null, null);
     }
 

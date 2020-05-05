@@ -1,4 +1,4 @@
-package biblioteket.roborally.elements.Walls;
+package biblioteket.roborally.elements.walls;
 
 import biblioteket.roborally.TestRunner;
 import biblioteket.roborally.actors.*;
@@ -6,7 +6,6 @@ import biblioteket.roborally.board.Board;
 import biblioteket.roborally.board.DirVector;
 import biblioteket.roborally.board.Direction;
 import biblioteket.roborally.board.IBoard;
-import biblioteket.roborally.elements.walls.Laser;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,7 +25,7 @@ public class LaserTest {
     private List<IActor> players;
 
     @BeforeEach
-    void setup(){
+    void setUp(){
         laser = new Laser();
         board = new Board("assets/DizzyDash.tmx", new ArrayList<IActor>());
         RobotRenderer robotRenderer = new RobotRenderer(null, null, null);
