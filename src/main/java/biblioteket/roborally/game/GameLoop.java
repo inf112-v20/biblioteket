@@ -53,6 +53,9 @@ public class GameLoop {
         }
     }
 
+    /**
+     * Sets inputprocesser, allowing players to start game events
+     */
     public void startGame() {
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
@@ -61,7 +64,7 @@ public class GameLoop {
                 return registerInput(screenX, screenY, getCurrentPlayer());
             }
 
-            // Keyboard movement for testing
+            // Keyboard movement for debugging
             @Override
             public boolean keyUp(int keycode) {
                 IActor currentPlayer = getCurrentPlayer();
@@ -122,7 +125,7 @@ public class GameLoop {
     }
 
     /**
-     *
+     *  Runs through one turn of game
      */
     public void doTurn() {
         // Dont allow players to program robots while turn is rendering
@@ -156,22 +159,16 @@ public class GameLoop {
      * Robots interact with board elements
      */
     private void interactWithBoardElements() {
-
         // Express conveyor belts move first
         interactWithBoardElement(ExpressConveyorBeltElement.class);
-
         // All conveyor belts move second
         interactWithBoardElement(ConveyorBeltElement.class);
-
-
         // Gears rotate
         interactWithBoardElement(CogElement.class);
-
         // Lasers shoot
         for (LaserWallElement laserWall : laserWalls) {
             laserWall.interact(board, players);
         }
-
         // Interact with priority 2 elements
         for (IActor player : players) {
             InteractingElement element = board.getInteractingElement(player.getRobot().getPosition());
@@ -179,18 +176,15 @@ public class GameLoop {
                 board.interact(player);
             }
         }
-
         // Players fire main forwarding laser
         for (IActor player : getLivingPlayers()) {
             player.fireLaser(players);
         }
-
         // Handle destructed robots, register flags
         for (IActor player : players) {
             board.registerFlag(player);
             player.handleRobotDestruction(500);
         }
-
     }
 
     /**
@@ -201,7 +195,7 @@ public class GameLoop {
     }
 
     /**
-     * @return true if any player has registered all flags on board
+     * @return true if any player has registered all flags on board, or less than 2 players are alive
      */
     public boolean checkWinCondition() {
         if (getLivingPlayers().size() == 1) {
@@ -236,6 +230,9 @@ public class GameLoop {
         }
     }
 
+    /**
+     * Updates currentPlayerPtr to next player, skipping players not playing and handling AI players
+     */
     private void nextPlayer() {
         currentPlayerPtr++;
         if (currentPlayerPtr >= players.size()) {
@@ -252,14 +249,23 @@ public class GameLoop {
     }
 
 
+    /**
+     * @return current player
+     */
     public IActor getCurrentPlayer() {
         return players.get(currentPlayerPtr);
     }
 
+    /**
+     * Renders interface of current player
+     */
     public void renderCurrentInterface() {
         getCurrentPlayer().getInterfaceRenderer().renderInterface(players, currentPlayerPtr);
     }
 
+    /**
+     * Starts a new turn
+     */
     public void newTurn() {
         if (checkWinCondition()) {
             return;

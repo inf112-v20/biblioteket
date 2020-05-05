@@ -8,6 +8,9 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Reads a board and stores number of flags, as well as locations of archive markers and laserwalls
+ */
 class MapReader {
     private final List<ArchiveMarkerElement> archiveMarkers;
     private final List<LaserWallElement> laserWalls;
@@ -48,7 +51,6 @@ class MapReader {
             }
         }
     }
-
 
     /**
      * If there is an archive marker in this position, add it to the archiveMarkers list
@@ -97,7 +99,6 @@ class MapReader {
                 laserWall.setPosition(x, y);
                 laserWalls.add(laserWall);
             }
-
         }
     }
 

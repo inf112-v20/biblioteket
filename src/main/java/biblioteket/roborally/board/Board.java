@@ -103,21 +103,11 @@ public class Board implements IBoard {
     }
 
     /**
-     * Returns the layer that the lasers are.
-     *
-     * @return a layer
-     */
-    @Override
-    public TiledMapTileLayer getLaserLayer() {
-        return this.laserLayer;
-    }
-
-    /**
      * Returns the layer that the walls are.
      *
      * @return a layer
      */
-    public TiledMapTileLayer getWallLayer() {
+    private TiledMapTileLayer getWallLayer() {
         return this.wallLayer;
     }
 
@@ -193,6 +183,7 @@ public class Board implements IBoard {
      * @return true if move is blocked, false otherwise
      */
     private boolean moveBlocked(DirVector from, DirVector to, Direction direction) {
+        // Check if cell player moving from is blocked
         try {
             int fromId = this.getWallLayer().getCell(from.getX(), from.getY()).getTile().getId();
             WallElement wall = Element.getWallElement(fromId);
@@ -203,6 +194,7 @@ public class Board implements IBoard {
             // see if there are elements here.
         }
 
+        // Check if cell player is moving to is blocked
         try {
             int toId = this.getWallLayer().getCell(to.getX(), to.getY()).getTile().getId();
             WallElement wall = Element.getWallElement(toId);
