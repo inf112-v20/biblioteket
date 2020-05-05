@@ -411,8 +411,8 @@ public class InterfaceRenderer {
             // Translate from y-down to y-up
             y = Gdx.graphics.getHeight() - 1 - y;
             // Translate coordinates according to current screen size
-            x = (int) ((float) (640 * x) / (float) Gdx.graphics.getWidth());
-            y = (int) ((float) (640 * y) / (float) Gdx.graphics.getHeight());
+            x = (int) ((float) (1280 * x) / (float) Gdx.graphics.getWidth());
+            y = (int) ((float) (720 * y) / (float) Gdx.graphics.getHeight());
 
             for (TouchableCard card : cards) {
                 if (card.contains(x, y))
