@@ -42,7 +42,6 @@ public class InterfaceRenderer {
     private final ICard[] programRegister;
     private final TouchableCards touchableCardHand;
     private final TouchableCards touchableProgramRegister;
-    private String name;
 
     private float cardWidth;
     private float cardHeight;
@@ -101,7 +100,10 @@ public class InterfaceRenderer {
 
     }
 
-    public void graphicSize() {
+    /**
+     * Updates the graphic size based on current screen proportions
+     */
+    private void graphicSize() {
         cardWidth = (Gdx.graphics.getHeight() / (640f / 130f));
         cardHeight = (Gdx.graphics.getHeight() / (640f / 90f));
         touchableWidth = cardWidth * 0.4f;
@@ -115,6 +117,10 @@ public class InterfaceRenderer {
 
     }
 
+    /**
+     * @param players           list of all players
+     * @param currentPlayerPtr  pointer for the current player who's interface is displayed in player list
+     */
     public void renderInterface(List<IActor> players, int currentPlayerPtr) {
         graphicSize();
         StandardScreen.getCamera().update();
@@ -165,12 +171,24 @@ public class InterfaceRenderer {
         fontBatch.end();
     }
 
+    /**
+     * Draws the amount of damage tokens current player's robot has taken to interface
+     *
+     * @param damageTokens  number of damage tokens for current player
+     */
     private void drawDamageTokens(int damageTokens) {
         for (int i = 0; i < damageTokens; i++) {
             batch.draw(damageToken, rightOfBoard + rightOfBoard / 2 - damageTokenSize * 1.06f + damageTokenSize / 1.15f * (i - 4), StandardScreen.getCamera().viewportHeight / 1.8f, damageTokenSize, damageTokenSize);
         }
     }
 
+    /**
+     * Draws information of all living players to interface
+     * Current player's information displayed in green, powered down players information displayed in red
+     *
+     * @param players           List of players
+     * @param currentPlayerPtr  Pointer for the current player who's interface is displayed in player list
+     */
     private void drawPlayerInformation(List<IActor> players, int currentPlayerPtr) {
         for (int i = 0; i < players.size(); i++) {
             IActor player = players.get(i);
@@ -218,6 +236,8 @@ public class InterfaceRenderer {
 
 
     /**
+     * Returns correct card texture for an ICard
+     *
      * @param card to be drawn
      * @return texture for card
      */
@@ -243,15 +263,9 @@ public class InterfaceRenderer {
         }
     }
 
-    public String getName() {
-        return this.name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     /**
+     * Updates the cardhand of current player
+     *
      * @param cardHand to be drawn
      */
     public void setCardHand(List<ICard> cardHand) {
@@ -271,9 +285,15 @@ public class InterfaceRenderer {
             this.cardHand[i] = card;
             touchableCardHand.setCard(i, card);
         }
-
     }
 
+    /**
+     * Moves a card between cardhand and program register
+     *
+     * @param card          to be moved
+     * @param toRegister    true if card is being moved to register, false if card is being returned from register to cardhand
+     * @return              index where card is moved to, or -1 if no card was moved
+     */
     public int moveCard(ICard card, boolean toRegister) {
         ICard[] cardsFrom = toRegister ? cardHand : programRegister;
         ICard[] cardsTo = toRegister ? programRegister : cardHand;
@@ -300,6 +320,8 @@ public class InterfaceRenderer {
     }
 
     /**
+     * Places a card to register
+     *
      * @param card  Card to place
      * @param index Index to place card in
      */
@@ -333,14 +355,21 @@ public class InterfaceRenderer {
         return cardHandCard != null ? cardHandCard : programRegisterCard;
     }
 
+    /**
+     * @param x coordinate
+     * @param y coordinate
+     * @return  true if power down button was touched
+     */
     private boolean powerDownButtonTouched(int x, int y) {
-        return x < powerDownX + powerDownSize && x > powerDownX && StandardScreen.getCamera().viewportHeight - y < powerDownY + powerDownSize / 1.1f && StandardScreen.getCamera().viewportHeight - y > powerDownY + powerDownSize / (6f);
-
+        return  x < powerDownX + powerDownSize && x > powerDownX
+                && StandardScreen.getCamera().viewportHeight - y < powerDownY + powerDownSize / 1.1f
+                && StandardScreen.getCamera().viewportHeight - y > powerDownY + powerDownSize / (6f);
     }
 
 
+
     /**
-     * Data structure for multiple rectangles which can contain coordinates and
+     * Data structure for multiple rectangles which can contain coordinates and cards, and
      * return an ICard if they are touched
      */
     private static class TouchableCards {
@@ -350,41 +379,62 @@ public class InterfaceRenderer {
             cards = new TouchableCard[size];
         }
 
-        public void initializeCard(int pos, float x, float y, float width, float height) {
-            cards[pos] = new TouchableCard(x, y, width, height);
+        /**
+         * Initializes a TouchableCard with coordinates and index
+         *
+         * @param i       index
+         * @param x         coordinate
+         * @param y         coordinate
+         * @param width     of rectangle
+         * @param height    of rectangle
+         */
+        public void initializeCard(int i, float x, float y, float width, float height) {
+            cards[i] = new TouchableCard(x, y, width, height);
         }
 
-        public void setCard(int pos, ICard card) {
-            cards[pos].setCard(card);
+        /**
+         * Sets an ICard to a TouchableCard
+         *
+         * @param i   index
+         * @param card  card to be set
+         */
+        public void setCard(int i, ICard card) {
+            cards[i].setCard(card);
         }
 
         /**
          * @param x coordinates
          * @param y coordinates
-         * @return an ICard if any card contains the x,y coordinates, otherwise null
+         * @return an ICard if any card contains the x,y coordinates, null otherwise
          */
         public ICard contains(int x, int y) {
             // Translate from y-down to y-up
             y = Gdx.graphics.getHeight() - 1 - y;
             // Translate coordinates according to current screen size
-            x = (int) ((float) (640 * x) / (float) Gdx.graphics.getWidth());
-            y = (int) ((float) (640 * y) / (float) Gdx.graphics.getHeight());
+            x = (int) ((float) (1280 * x) / (float) Gdx.graphics.getWidth());
+            y = (int) ((float) (720 * y) / (float) Gdx.graphics.getHeight());
 
             for (TouchableCard card : cards) {
                 if (card.contains(x, y))
                     return card.getCard();
-
             }
             return null;
         }
-
-        public void removeCard(int pos) {
-            cards[pos].setCard(null);
+        
+        /**
+         * Removes an ICard from a TouchableCard in index i
+         *
+         * @param i index
+         */
+        public void removeCard(int i) {
+            cards[i].setCard(null);
         }
 
         /**
          * Class that extends the rectangle class, which has the contains() method for checking
          * weather any x,y input is within the bounds of the rectangle
+         *
+         * Contains an ICard, and coordinates where the ICard is located on interface
          */
         private static class TouchableCard extends Rectangle {
             private transient ICard card;

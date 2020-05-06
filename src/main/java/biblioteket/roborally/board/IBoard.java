@@ -56,11 +56,6 @@ public interface IBoard {
     TiledMapTileLayer getPlayerLayer();
 
     /**
-     * @return the laser layer of the map
-     */
-    TiledMapTileLayer getLaserLayer();
-
-    /**
      * Gets an {@link InteractingElement} from the location of a robot, this can
      * be something like a conveyor belt, a rotator or something similar.
      *

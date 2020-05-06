@@ -58,10 +58,12 @@ public class RobotRenderer {
     /**
      * Adds a single robot step to the movements queue to be rendered
      *
-     * @param oldPosition position robot is moving from
-     * @param newPosition position the robot is moving to
-     * @param playerCell  the player cell of the player moving a robot
-     * @param debug       true if debug, wont start a new round after rendering
+     * @param oldPosition   position robot is moving from
+     * @param newPosition   position the robot is moving to
+     * @param direction     Direction robot should face
+     * @param delay         Rendering delay in milliseconds
+     * @param playerCell    the player cell of the player moving a robot
+     * @param debug         true if debug, wont start a new round after rendering
      */
     public void requestRendering(DirVector oldPosition, DirVector newPosition, Direction direction, int delay, TiledMapTileLayer.Cell playerCell, boolean debug) {
         RobotStep movement = new RobotStep(oldPosition, newPosition, direction, delay, playerCell, debug);
@@ -103,19 +105,19 @@ public class RobotRenderer {
 
     /**
      * Moves permanently dead robots off the grid
-     *
-     * @param oldPosition of dead robot
+     *  @param oldPosition of dead robot
      * @param playerCell  of dead robot
+     * @param debug
      */
-    public void removePlayer(DirVector oldPosition, TiledMapTileLayer.Cell playerCell) {
-        RobotStep movement = new RobotStep(oldPosition, new DirVector(-1, -1, Direction.NORTH), Direction.NORTH, 100, playerCell, false);
+    public void removePlayer(DirVector oldPosition, TiledMapTileLayer.Cell playerCell, boolean debug) {
+        RobotStep movement = new RobotStep(oldPosition, new DirVector(-1, -1, Direction.NORTH), Direction.NORTH, 100, playerCell, debug);
         movements.add(movement);
     }
 
     /**
      * Data structure that holds a single step of a single robot
      */
-    private static class RobotStep {
+    static class RobotStep {
         private final DirVector oldPosition;
         private final DirVector newPosition;
         private final Direction direction;
@@ -146,16 +148,14 @@ public class RobotRenderer {
 
         public int getRotation() {
             switch (direction) {
-                case NORTH:
-                    return 0;
                 case WEST:
                     return 1;
                 case SOUTH:
                     return 2;
                 case EAST:
                     return 3;
-                default:
-                    throw new UnsupportedOperationException();
+                default: // North
+                    return 0;
             }
         }
 

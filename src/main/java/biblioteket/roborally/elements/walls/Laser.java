@@ -12,6 +12,9 @@ import java.util.List;
 public class Laser {
 
     /**
+     * Laser moves along board in direction until it hits a wall, robot,
+     * or is out of bounds
+     *
      * @param board   board to interact with
      * @param players list of players in game
      * @param vector  direction/vector that laser shoots in

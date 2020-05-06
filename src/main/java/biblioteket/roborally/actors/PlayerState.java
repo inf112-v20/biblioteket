@@ -33,18 +33,16 @@ public enum PlayerState {
     },
     ;
 
-
     /**
      * @return true if this is instance of POWERED_DOWN
      */
-    public boolean hasAnnouncedPowerDown() {
-        return this == ANNOUNCED_POWER_DOWN;
-    }
-
     public boolean isPoweredDown() {
         return this == POWERED_DOWN;
     }
 
+    /**
+     * @return true if this is instance of DESTROYED
+     */
     public boolean isDestroyed() {
         return this == DESTROYED;
     }
@@ -56,10 +54,18 @@ public enum PlayerState {
         return this == PLAYING || this == ANNOUNCED_POWER_DOWN;
     }
 
+    /**
+     * Returns instance of ANNOUNCED_POWER_DOWN unless instance is already DESTROYED
+     *
+     * @return instance ANNOUNCED_POWERED_DOWN
+     */
     public PlayerState announcePowerDown() {
         if (this == DESTROYED) return this;
         return ANNOUNCED_POWER_DOWN;
     }
 
+    /**
+     * @return instance of the next turn
+     */
     public abstract PlayerState nextTurn();
 }

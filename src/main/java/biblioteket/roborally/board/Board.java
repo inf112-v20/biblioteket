@@ -21,7 +21,6 @@ public class Board implements IBoard {
     private final TiledMapTileLayer groundLayer;
     private final TiledMapTileLayer playerLayer;
     private final TiledMapTileLayer flagLayer;
-    private final TiledMapTileLayer laserLayer;
     private final TiledMapTileLayer wallLayer;
     private final int width;
     private final int height;
@@ -42,7 +41,6 @@ public class Board implements IBoard {
         this.groundLayer = (TiledMapTileLayer) map.getLayers().get("Ground Layer");
         this.playerLayer = (TiledMapTileLayer) map.getLayers().get("Player Layer");
         this.flagLayer = (TiledMapTileLayer) map.getLayers().get("Flag Layer");
-        this.laserLayer = (TiledMapTileLayer) map.getLayers().get("Laser Layer");
         this.wallLayer = (TiledMapTileLayer) map.getLayers().get("Wall Layer");
 
         this.players = players;
@@ -103,21 +101,11 @@ public class Board implements IBoard {
     }
 
     /**
-     * Returns the layer that the lasers are.
-     *
-     * @return a layer
-     */
-    @Override
-    public TiledMapTileLayer getLaserLayer() {
-        return this.laserLayer;
-    }
-
-    /**
      * Returns the layer that the walls are.
      *
      * @return a layer
      */
-    public TiledMapTileLayer getWallLayer() {
+    private TiledMapTileLayer getWallLayer() {
         return this.wallLayer;
     }
 
@@ -193,6 +181,7 @@ public class Board implements IBoard {
      * @return true if move is blocked, false otherwise
      */
     private boolean moveBlocked(DirVector from, DirVector to, Direction direction) {
+        // Check if cell player moving from is blocked
         try {
             int fromId = this.getWallLayer().getCell(from.getX(), from.getY()).getTile().getId();
             WallElement wall = Element.getWallElement(fromId);
@@ -203,6 +192,7 @@ public class Board implements IBoard {
             // see if there are elements here.
         }
 
+        // Check if cell player is moving to is blocked
         try {
             int toId = this.getWallLayer().getCell(to.getX(), to.getY()).getTile().getId();
             WallElement wall = Element.getWallElement(toId);
