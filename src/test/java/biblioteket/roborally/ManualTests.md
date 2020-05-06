@@ -1,7 +1,8 @@
 # Manual testing
 
 **NOTE:** These tests are run by moving the robot using `WASD` and interacting
-with the environment with `<space>`.
+with the environment with `<space>` or `<enter>`, you can also rotate the robot
+with the right and left arrow.
 
 ## Testing movement
 
