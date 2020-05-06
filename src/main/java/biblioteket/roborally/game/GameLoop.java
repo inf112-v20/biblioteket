@@ -125,7 +125,7 @@ public class GameLoop {
     }
 
     /**
-     *  Runs through one turn of game
+     * Runs through one turn of game
      */
     public void doTurn() {
         // Dont allow players to program robots while turn is rendering

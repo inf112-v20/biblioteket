@@ -58,12 +58,12 @@ public class RobotRenderer {
     /**
      * Adds a single robot step to the movements queue to be rendered
      *
-     * @param oldPosition   position robot is moving from
-     * @param newPosition   position the robot is moving to
-     * @param direction     Direction robot should face
-     * @param delay         Rendering delay in milliseconds
-     * @param playerCell    the player cell of the player moving a robot
-     * @param debug         true if debug, wont start a new round after rendering
+     * @param oldPosition position robot is moving from
+     * @param newPosition position the robot is moving to
+     * @param direction   Direction robot should face
+     * @param delay       Rendering delay in milliseconds
+     * @param playerCell  the player cell of the player moving a robot
+     * @param debug       true if debug, wont start a new round after rendering
      */
     public void requestRendering(DirVector oldPosition, DirVector newPosition, Direction direction, int delay, TiledMapTileLayer.Cell playerCell, boolean debug) {
         RobotStep movement = new RobotStep(oldPosition, newPosition, direction, delay, playerCell, debug);
@@ -105,7 +105,8 @@ public class RobotRenderer {
 
     /**
      * Moves permanently dead robots off the grid
-     *  @param oldPosition of dead robot
+     *
+     * @param oldPosition of dead robot
      * @param playerCell  of dead robot
      * @param debug
      */
