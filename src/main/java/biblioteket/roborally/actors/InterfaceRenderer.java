@@ -118,8 +118,8 @@ public class InterfaceRenderer {
     }
 
     /**
-     * @param players           list of all players
-     * @param currentPlayerPtr  pointer for the current player who's interface is displayed in player list
+     * @param players          list of all players
+     * @param currentPlayerPtr pointer for the current player who's interface is displayed in player list
      */
     public void renderInterface(List<IActor> players, int currentPlayerPtr) {
         graphicSize();
@@ -174,7 +174,7 @@ public class InterfaceRenderer {
     /**
      * Draws the amount of damage tokens current player's robot has taken to interface
      *
-     * @param damageTokens  number of damage tokens for current player
+     * @param damageTokens number of damage tokens for current player
      */
     private void drawDamageTokens(int damageTokens) {
         for (int i = 0; i < damageTokens; i++) {
@@ -186,8 +186,8 @@ public class InterfaceRenderer {
      * Draws information of all living players to interface
      * Current player's information displayed in green, powered down players information displayed in red
      *
-     * @param players           List of players
-     * @param currentPlayerPtr  Pointer for the current player who's interface is displayed in player list
+     * @param players          List of players
+     * @param currentPlayerPtr Pointer for the current player who's interface is displayed in player list
      */
     private void drawPlayerInformation(List<IActor> players, int currentPlayerPtr) {
         for (int i = 0; i < players.size(); i++) {
@@ -290,9 +290,9 @@ public class InterfaceRenderer {
     /**
      * Moves a card between cardhand and program register
      *
-     * @param card          to be moved
-     * @param toRegister    true if card is being moved to register, false if card is being returned from register to cardhand
-     * @return              index where card is moved to, or -1 if no card was moved
+     * @param card       to be moved
+     * @param toRegister true if card is being moved to register, false if card is being returned from register to cardhand
+     * @return index where card is moved to, or -1 if no card was moved
      */
     public int moveCard(ICard card, boolean toRegister) {
         ICard[] cardsFrom = toRegister ? cardHand : programRegister;
@@ -358,14 +358,13 @@ public class InterfaceRenderer {
     /**
      * @param x coordinate
      * @param y coordinate
-     * @return  true if power down button was touched
+     * @return true if power down button was touched
      */
     private boolean powerDownButtonTouched(int x, int y) {
-        return  x < powerDownX + powerDownSize && x > powerDownX
+        return x < powerDownX + powerDownSize && x > powerDownX
                 && StandardScreen.getCamera().viewportHeight - y < powerDownY + powerDownSize / 1.1f
                 && StandardScreen.getCamera().viewportHeight - y > powerDownY + powerDownSize / (6f);
     }
-
 
 
     /**
@@ -382,11 +381,11 @@ public class InterfaceRenderer {
         /**
          * Initializes a TouchableCard with coordinates and index
          *
-         * @param i       index
-         * @param x         coordinate
-         * @param y         coordinate
-         * @param width     of rectangle
-         * @param height    of rectangle
+         * @param i      index
+         * @param x      coordinate
+         * @param y      coordinate
+         * @param width  of rectangle
+         * @param height of rectangle
          */
         public void initializeCard(int i, float x, float y, float width, float height) {
             cards[i] = new TouchableCard(x, y, width, height);
@@ -395,8 +394,8 @@ public class InterfaceRenderer {
         /**
          * Sets an ICard to a TouchableCard
          *
-         * @param i   index
-         * @param card  card to be set
+         * @param i    index
+         * @param card card to be set
          */
         public void setCard(int i, ICard card) {
             cards[i].setCard(card);
@@ -420,7 +419,7 @@ public class InterfaceRenderer {
             }
             return null;
         }
-        
+
         /**
          * Removes an ICard from a TouchableCard in index i
          *
@@ -433,7 +432,7 @@ public class InterfaceRenderer {
         /**
          * Class that extends the rectangle class, which has the contains() method for checking
          * weather any x,y input is within the bounds of the rectangle
-         *
+         * <p>
          * Contains an ICard, and coordinates where the ICard is located on interface
          */
         private static class TouchableCard extends Rectangle {
