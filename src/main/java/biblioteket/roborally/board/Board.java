@@ -1,9 +1,10 @@
 package biblioteket.roborally.board;
 
-import biblioteket.roborally.actors.IPlayer;
+import biblioteket.roborally.actors.IActor;
 import biblioteket.roborally.actors.IRobot;
 import biblioteket.roborally.elements.ArchiveMarkerElement;
 import biblioteket.roborally.elements.interacting.FlagElement;
+import biblioteket.roborally.elements.interacting.HoleElement;
 import biblioteket.roborally.elements.interacting.InteractingElement;
 import biblioteket.roborally.elements.walls.LaserWallElement;
 import biblioteket.roborally.elements.walls.WallElement;
@@ -12,7 +13,6 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -21,19 +21,16 @@ public class Board implements IBoard {
     private final TiledMapTileLayer groundLayer;
     private final TiledMapTileLayer playerLayer;
     private final TiledMapTileLayer flagLayer;
-    private final TiledMapTileLayer laserLayer;
     private final TiledMapTileLayer wallLayer;
     private final int width;
     private final int height;
     private final int tileWidth;
     private final int tileHeight;
-    private final ArrayList<ArchiveMarkerElement> archiveMarkers;
-    private final ArrayList<LaserWallElement> laserWalls;
-    private int numFlags;
+    private final List<IActor> players;
+    private final MapReader mapReader;
 
-    public Board(String board) {
+    public Board(String board, List<IActor> players) {
         this.map = new TmxMapLoader().load(board);
-
 
         MapProperties properties = map.getProperties();
         this.tileWidth = properties.get("tilewidth", Integer.class);
@@ -44,13 +41,10 @@ public class Board implements IBoard {
         this.groundLayer = (TiledMapTileLayer) map.getLayers().get("Ground Layer");
         this.playerLayer = (TiledMapTileLayer) map.getLayers().get("Player Layer");
         this.flagLayer = (TiledMapTileLayer) map.getLayers().get("Flag Layer");
-        this.laserLayer = (TiledMapTileLayer) map.getLayers().get("Laser Layer");
         this.wallLayer = (TiledMapTileLayer) map.getLayers().get("Wall Layer");
 
-        numFlags = 0;
-        archiveMarkers = new ArrayList<>();
-        laserWalls = new ArrayList<>();
-        readMap();
+        this.players = players;
+        mapReader = new MapReader(this);
     }
 
     @Override
@@ -92,6 +86,7 @@ public class Board implements IBoard {
      *
      * @return a layer
      */
+    @Override
     public TiledMapTileLayer getPlayerLayer() {
         return this.playerLayer;
     }
@@ -106,20 +101,11 @@ public class Board implements IBoard {
     }
 
     /**
-     * Returns the layer that the lasers are.
-     *
-     * @return a layer
-     */
-    public TiledMapTileLayer getLaserLayer() {
-        return this.laserLayer;
-    }
-
-    /**
      * Returns the layer that the walls are.
      *
      * @return a layer
      */
-    public TiledMapTileLayer getWallLayer() {
+    private TiledMapTileLayer getWallLayer() {
         return this.wallLayer;
     }
 
@@ -128,13 +114,7 @@ public class Board implements IBoard {
         return (TiledMapTileLayer) this.map.getLayers().get(layerName);
     }
 
-    /**
-     * Gets an {@link InteractingElement} from the location of a robot, this can
-     * be something like a conveyor belt, a rotator or something similar.
-     *
-     * @param location location to check for elements
-     * @return {@link InteractingElement}
-     */
+    @Override
     public InteractingElement getInteractingElement(DirVector location) {
         try {
             int fromId = this.getGroundLayer().getCell(location.getX(), location.getY()).getTile().getId();
@@ -170,6 +150,22 @@ public class Board implements IBoard {
     }
 
     @Override
+    public boolean isHole(DirVector position) {
+        InteractingElement element = getInteractingElement(position);
+        return element instanceof HoleElement;
+    }
+
+    @Override
+    public boolean pushRobot(DirVector position, Direction direction) {
+        DirVector positionInDirection = positionInDirection(position, direction);
+        for (IActor player : players) {
+            if (!player.isPermanentDead() && player.getRobot().getPosition().compareVector(positionInDirection))
+                return player.moveRobot(direction, 500, false, true);
+        }
+        return true;
+    }
+
+    @Override
     public boolean canMove(DirVector position, Direction direction) {
         DirVector to = positionInDirection(position, direction);
         return !moveBlocked(position, to, direction);
@@ -185,6 +181,7 @@ public class Board implements IBoard {
      * @return true if move is blocked, false otherwise
      */
     private boolean moveBlocked(DirVector from, DirVector to, Direction direction) {
+        // Check if cell player moving from is blocked
         try {
             int fromId = this.getWallLayer().getCell(from.getX(), from.getY()).getTile().getId();
             WallElement wall = Element.getWallElement(fromId);
@@ -195,6 +192,7 @@ public class Board implements IBoard {
             // see if there are elements here.
         }
 
+        // Check if cell player is moving to is blocked
         try {
             int toId = this.getWallLayer().getCell(to.getX(), to.getY()).getTile().getId();
             WallElement wall = Element.getWallElement(toId);
@@ -218,111 +216,37 @@ public class Board implements IBoard {
 
 
     @Override
-    public DirVector interact(IPlayer player) {
-        IRobot robot = player.getRobot();
-        InteractingElement element = getInteractingElement(robot.getPosition());
+    public void interact(IActor player) {
+        InteractingElement element = getInteractingElement(player.getRobot().getPosition());
         if (element != null) {
             element.interact(player);
-            if (outOfBounds(robot.getPosition())) {
-                robot.addDamageTokens(1);
-                robot.moveToArchiveMarker();
-            }
-            return robot.getPosition();
         }
-        return null;
     }
 
     @Override
-    public boolean registerFlag(IPlayer player) {
+    public void registerFlag(IActor player) {
         IRobot robot = player.getRobot();
         FlagElement flag = getFlagElement(robot.getPosition());
         if (flag != null) {
             flag.interact(player);
         }
-        return false;
     }
 
-    /**
-     * @return number of flags on map
-     */
-    public int getNumFlags() {
-        return numFlags;
+    @Override
+    public int getNumberOfFlags() {
+        return mapReader.getNumberOfFlags();
     }
 
 
     @Override
     public ArchiveMarkerElement getArchiveMarker(int i) {
-        for (ArchiveMarkerElement archiveMarker : archiveMarkers) {
-            if (archiveMarker.getArchiveNum() == i) return archiveMarker;
-        }
-        return null;
+        return mapReader.getArchiveMarker(i);
     }
 
     @Override
     public List<LaserWallElement> getLaserWalls() {
-        return laserWalls;
+        return mapReader.getLaserWalls();
     }
 
-    /**
-     * Iterates through each cell of ground and flag layer
-     * Counts number of flags and registers all archive markers and laser walls
-     */
-    private void readMap() {
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
-                checkForArchiveMarker(x, y);
-                countFlag(x, y);
-                checkForLaserWall(x, y);
-            }
-        }
-    }
-
-    /**
-     * If there is an archive marker in this position, add it to the archiveMarkers list
-     *
-     * @param x position
-     * @param y position
-     */
-    private void checkForArchiveMarker(int x, int y) {
-        if (groundLayer.getCell(x, y) != null) {
-            int id = groundLayer.getCell(x, y).getTile().getId();
-            ArchiveMarkerElement archiveMarker = Element.getArchiveMarker(id, x, y);
-            if (archiveMarker != null)
-                this.archiveMarkers.add(archiveMarker);
-        }
-    }
-
-    /**
-     * If there is a flag in this position, increase the flag count
-     *
-     * @param x position
-     * @param y position
-     */
-    private void countFlag(int x, int y) {
-        if (flagLayer.getCell(x, y) != null) {
-            int id = flagLayer.getCell(x, y).getTile().getId();
-            if (Element.isFlag(id)) numFlags++;
-        }
-    }
-
-    /**
-     * If there is a laserwall in this position, initialize it, set its position and add it
-     * to the laserwalls list
-     *
-     * @param x position
-     * @param y position
-     */
-    private void checkForLaserWall(int x, int y) {
-        if (wallLayer.getCell(x, y) != null) {
-            int id = wallLayer.getCell(x, y).getTile().getId();
-            WallElement wall = Element.getWallElement(id);
-            if (wall instanceof LaserWallElement) {
-                LaserWallElement laserWall = (LaserWallElement) wall;
-                laserWall.setPosition(x, y);
-                laserWalls.add(laserWall);
-            }
-
-        }
-    }
 
 }

@@ -1,6 +1,6 @@
 package biblioteket.roborally.board;
 
-import biblioteket.roborally.actors.IPlayer;
+import biblioteket.roborally.actors.IActor;
 import biblioteket.roborally.elements.ArchiveMarkerElement;
 import biblioteket.roborally.elements.interacting.InteractingElement;
 import biblioteket.roborally.elements.walls.LaserWallElement;
@@ -51,12 +51,41 @@ public interface IBoard {
     TiledMapTileLayer getLayer(String layerName);
 
     /**
+     * @return the player layer of the tiled map
+     */
+    TiledMapTileLayer getPlayerLayer();
+
+    /**
+     * Gets an {@link InteractingElement} from the location of a robot, this can
+     * be something like a conveyor belt, a rotator or something similar.
+     *
+     * @param location location to check for elements
+     * @return {@link InteractingElement}
+     */
+    InteractingElement getInteractingElement(DirVector location);
+
+    /**
      * Checks if you move out of bounds of the board.
      *
      * @param dir direction to move
      * @return true if out of board, false otherwise
      */
     boolean outOfBounds(DirVector dir);
+
+    /**
+     * @param position current position
+     * @return true if there is a HoleElement in position
+     */
+    boolean isHole(DirVector position);
+
+    /**
+     * Checks if position contains a robot and tries to push the robot
+     *
+     * @param position  position to check
+     * @param direction direction to push
+     * @return false if position contains a robot that cannot be pushed, true otherwise
+     */
+    boolean pushRobot(DirVector position, Direction direction);
 
     /**
      * Checks if the position robot is moving to contains immovable object or a wall is blocking the way,
@@ -73,17 +102,15 @@ public interface IBoard {
      * {@link InteractingElement} and a {@link biblioteket.roborally.actors.Robot}.
      *
      * @param player with current robot moving on the board.
-     * @return new position of robot after having been interacted with.
      */
-    DirVector interact(IPlayer player);
+    void interact(IActor player);
 
     /**
      * If players robot is standing on a flag that can be picked up, registers flag to player
      *
      * @param player with robot registering flag
-     * @return true if registering flag was successfull
      */
-    boolean registerFlag(IPlayer player);
+    void registerFlag(IActor player);
 
     /**
      * Finds a players archive marker.
@@ -91,6 +118,11 @@ public interface IBoard {
      * @return an archive marker for a players ID
      */
     ArchiveMarkerElement getArchiveMarker(int i);
+
+    /**
+     * @return the number of flags on the map
+     */
+    int getNumberOfFlags();
 
 
     /**

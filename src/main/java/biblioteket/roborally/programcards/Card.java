@@ -1,9 +1,11 @@
 package biblioteket.roborally.programcards;
 
-import biblioteket.roborally.actors.IRobot;
-import biblioteket.roborally.board.IBoard;
+import biblioteket.roborally.actors.IActor;
 
-public class Card implements ICard {
+import java.util.Objects;
+
+public class Card implements ICard, Comparable<ICard> {
+    private static final int RENDERING_DELAY = 250;
     private final CardType type;
     private final int priorityNumber;
 
@@ -23,35 +25,29 @@ public class Card implements ICard {
     }
 
     @Override
-    public void doCardAction(IRobot robot, IBoard board) {
+    public void doCardAction(IActor player) {
         switch (type) {
             case ROTATE_LEFT:
-                robot.turnLeft();
+                player.rotateRobot(false, RENDERING_DELAY);
                 break;
             case ROTATE_RIGHT:
-                robot.turnRight();
+                player.rotateRobot(true, RENDERING_DELAY);
                 break;
             case U_TURN:
-                robot.turnLeft();
-                robot.turnLeft();
+                player.rotateRobot(true, RENDERING_DELAY);
+                player.rotateRobot(true, RENDERING_DELAY);
                 break;
             case MOVE_1:
-                robot.move(robot.getDirection(), board);
+                player.moveRobot(1, RENDERING_DELAY);
                 break;
             case MOVE_2:
-                robot.move(robot.getDirection(), board);
-                if (robot.getPlayer().hasLivesLeft())
-                    robot.moveForward(board);
+                player.moveRobot(2, RENDERING_DELAY);
                 break;
             case MOVE_3:
-                robot.move(robot.getDirection(), board);
-                if (robot.getPlayer().hasLivesLeft())
-                    robot.move(robot.getDirection(), board);
-                if (robot.getPlayer().hasLivesLeft())
-                    robot.move(robot.getDirection(), board);
+                player.moveRobot(3, RENDERING_DELAY);
                 break;
             case BACK_UP:
-                robot.move(robot.getDirection().opposite(), board);
+                player.backUpRobot(RENDERING_DELAY);
                 break;
             default:
                 break;
@@ -72,4 +68,22 @@ public class Card implements ICard {
                 " Priority number= " + priorityNumber;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Card card = (Card) o;
+        return priorityNumber == card.priorityNumber &&
+                type == card.type;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(type, priorityNumber);
+    }
+
+    @Override
+    public int compareTo(ICard o) {
+        return getPriorityNumber() - o.getPriorityNumber();
+    }
 }

@@ -1,23 +1,26 @@
 package biblioteket.roborally.elements.interacting;
 
-import biblioteket.roborally.actors.IPlayer;
+import biblioteket.roborally.TestRunner;
+import biblioteket.roborally.actors.Actor;
+import biblioteket.roborally.actors.IActor;
 import biblioteket.roborally.actors.IRobot;
-import biblioteket.roborally.actors.Player;
 import biblioteket.roborally.actors.Robot;
 import biblioteket.roborally.board.DirVector;
 import biblioteket.roborally.board.Direction;
 import biblioteket.roborally.elements.ArchiveMarkerElement;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@ExtendWith(TestRunner.class)
 public class FlagTest {
-    private IPlayer player;
+    private IActor player;
 
     @BeforeEach
     void setUp() {
-        player = new Player(null, null);
+        player = new Actor(null, null, null, null);
         player.setRobot(new Robot(new ArchiveMarkerElement(1)));
     }
 
@@ -54,7 +57,7 @@ public class FlagTest {
         robot.setPosition(newPosition);
         flag.interact(player);
 
-        assertEquals(newPosition.getX(), robot.getArchiveMarker().getX());
-        assertEquals(newPosition.getY(), robot.getArchiveMarker().getY());
+        assertEquals(newPosition.getX(), robot.getArchiveMarker().getPosition().getX());
+        assertEquals(newPosition.getY(), robot.getArchiveMarker().getPosition().getY());
     }
 }

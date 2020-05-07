@@ -1,9 +1,11 @@
 package biblioteket.roborally.game;
 
-import biblioteket.roborally.actors.IPlayer;
-import biblioteket.roborally.board.Board;
+import biblioteket.roborally.actors.IActor;
+import biblioteket.roborally.actors.INonPlayer;
+import biblioteket.roborally.actors.InterfaceRenderer;
 import biblioteket.roborally.board.DirVector;
 import biblioteket.roborally.board.Direction;
+import biblioteket.roborally.board.IBoard;
 import biblioteket.roborally.elements.IElement;
 import biblioteket.roborally.elements.interacting.InteractingElement;
 import biblioteket.roborally.elements.interacting.cogs.CogElement;
@@ -13,76 +15,88 @@ import biblioteket.roborally.elements.walls.LaserWallElement;
 import biblioteket.roborally.programcards.CardDeck;
 import biblioteket.roborally.programcards.ICard;
 import biblioteket.roborally.programcards.ICardDeck;
-import biblioteket.roborally.programcards.ReverseCardComparator;
-import biblioteket.roborally.userinterface.InterfaceRenderer;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 /**
  * Once every player has finished programming their robot,
  * plays a turn of RoboRally
  */
 public class GameLoop {
-    private final Board board;
+    private final IBoard board;
     private final int amountOfFlags;
     private final List<LaserWallElement> laserWalls;
-    private final List<IPlayer> players;
-    private final int currentPlayerPtr;
-    private final IPlayer currentPlayer;
+    private final List<IActor> players;
+    boolean programmingPhase = true;
+    private int currentPlayerPtr = 0;
     private ICardDeck cardDeck;
 
-    public GameLoop(Board board, List<IPlayer> players) {
+    public GameLoop(IBoard board, List<IActor> players) {
         this.board = board;
         this.players = players;
-        currentPlayerPtr = 0;
-        currentPlayer = players.get(0);
-        amountOfFlags = board.getNumFlags();
+        amountOfFlags = board.getNumberOfFlags();
         laserWalls = board.getLaserWalls();
 
         try {
             cardDeck = new CardDeck();
         } catch (IOException e) {
-            e.printStackTrace();
+            Gdx.app.error("GameLoop: %s", e.toString());
         }
+    }
 
-        for (IPlayer player : players) {
-            player.drawCards(cardDeck);
-            player.getRobot().setPlayer(player);
-        }
-
+    /**
+     * Sets inputprocesser, allowing players to start game events
+     */
+    public void startGame() {
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-                int y = Gdx.graphics.getHeight() - 1 - screenY; // Translate from y-down to y-up
-                return registerInput(screenX, y);
+                if (!programmingPhase) return false;
+                return registerInput(screenX, screenY, getCurrentPlayer());
             }
 
-            // Keyboard movement for testing
+            // Keyboard movement for debugging
             @Override
             public boolean keyUp(int keycode) {
+                IActor currentPlayer = getCurrentPlayer();
                 switch (keycode) {
                     case Input.Keys.A:
-                        return currentPlayer.getRobot().move(Direction.WEST, board);
+                        currentPlayer.moveRobot(Direction.WEST, 0, true, false);
+                        return true;
                     case Input.Keys.D:
-                        return currentPlayer.getRobot().move(Direction.EAST, board);
+                        currentPlayer.moveRobot(Direction.EAST, 0, true, false);
+                        return true;
                     case Input.Keys.W:
-                        return currentPlayer.getRobot().move(Direction.NORTH, board);
+                        currentPlayer.moveRobot(Direction.NORTH, 0, true, false);
+                        return true;
                     case Input.Keys.S:
-                        return currentPlayer.getRobot().move(Direction.SOUTH, board);
+                        currentPlayer.moveRobot(Direction.SOUTH, 0, true, false);
+                        return true;
                     case Input.Keys.SPACE:
-                        DirVector newPosition = board.interact(currentPlayer);
-                        return newPosition != null;
-                    case Input.Keys.P:
-                        return board.registerFlag(currentPlayer);
                     case Input.Keys.ENTER:
                         interactWithBoardElements();
-                        return false;
+                        return true;
+                    case Input.Keys.P:
+                        getCurrentPlayer().announcePowerDown();
+                        return true;
+                    case Input.Keys.UP:
+                        currentPlayer.moveRobot(currentPlayer.getRobot().getDirection(), 0, false, false);
+                        return true;
+                    case Input.Keys.LEFT:
+                        currentPlayer.rotateRobot(false, 0);
+                        return true;
+                    case Input.Keys.RIGHT:
+                        currentPlayer.rotateRobot(true, 0);
+                        return true;
                     default:
                         return true;
                 }
@@ -98,106 +112,107 @@ public class GameLoop {
      * @param y coordinate from user input
      * @return true if input was handled correctly
      */
-    private boolean registerInput(int x, int y) {
-        InterfaceRenderer interfaceRenderer = currentPlayer.getInterfaceRenderer();
-        ICard card = interfaceRenderer.contains(x, y);
+    private boolean registerInput(int x, int y, IActor player) {
+        InterfaceRenderer interfaceRenderer = player.getInterfaceRenderer();
+        ICard card = interfaceRenderer.contains(x, y, player);
         if (card != null)
-            currentPlayer.addCardToProgramRegister(card);
+            player.addCardToProgramRegister(card.copy(), cardDeck);
 
-        if (currentPlayer.fullProgramRegister()) doTurn();
+        if (player.fullProgramRegister())
+            nextPlayer();
 
         return true;
     }
 
     /**
-     *
+     * Runs through one turn of game
      */
     public void doTurn() {
-        // Use red-black tree to sort every programming card according to their priority,
-        // mapped to correct robot
-        Map<ICard, IPlayer> cardMapping = new TreeMap<>(new ReverseCardComparator());
-        for (IPlayer player : players) {
-            List<ICard> programRegister = player.getProgramRegister();
-            for (ICard card : programRegister) {
-                cardMapping.put(card, player);
+        // Dont allow players to program robots while turn is rendering
+        programmingPhase = false;
+
+        // Execute program cards in correct order
+        Map<ICard, IActor> registersInPriority = new TreeMap<>(Collections.reverseOrder());
+        for (int i = 4; i >= 0; i--) { // Five registers, program register is reversed.
+            // Only iterate over alive players, not powered down
+            for (IActor player : getLivingPlayers().stream().filter(player -> !player.isPoweredDown()).collect(Collectors.toList())) {
+                ICard currentCard = player.getProgramRegister().get(i);
+                registersInPriority.put(currentCard, player);
             }
+            for (Entry<ICard, IActor> entry : registersInPriority.entrySet()) {
+                entry.getKey().doCardAction(entry.getValue());
+            }
+            registersInPriority.clear();
         }
 
-        // Execute program cards in order from highest to lowest priority
-        for (ICard card : cardMapping.keySet()) {
-            IPlayer player = cardMapping.get(card);
-            card.doCardAction(player.getRobot(), board);
-        }
-
-        // Robots interact with board elements
+        // Robots interact with board elements*/
         interactWithBoardElements();
 
-        // End turn
-        if (checkWinCondition() || everyPlayerDead())
-            Gdx.app.exit();
-        else {
-            for (IPlayer player : players) {
-                player.drawCards(cardDeck);
-                player.updateInterfaceRenderer();
-            }
+        // Start new turn if all players are powered down
+        for (IActor player : getLivingPlayers()) {
+            if (!player.isPoweredDown()) return;
         }
-
+        newTurn();
     }
 
     /**
      * Robots interact with board elements
      */
     private void interactWithBoardElements() {
-
         // Express conveyor belts move first
         interactWithBoardElement(ExpressConveyorBeltElement.class);
-
         // All conveyor belts move second
         interactWithBoardElement(ConveyorBeltElement.class);
-
         // Gears rotate
         interactWithBoardElement(CogElement.class);
-
         // Lasers shoot
         for (LaserWallElement laserWall : laserWalls) {
             laserWall.interact(board, players);
         }
-
         // Interact with priority 2 elements
-        for (IPlayer player : players) {
+        for (IActor player : players) {
             InteractingElement element = board.getInteractingElement(player.getRobot().getPosition());
             if (element != null && element.getPriority() == 2) {
                 board.interact(player);
             }
         }
-
-
-//         Register flags
-        for (IPlayer player : players) {
-            board.registerFlag(player);
+        // Players fire main forwarding laser
+        for (IActor player : getLivingPlayers()) {
+            player.fireLaser(players);
         }
-
+        // Handle destructed robots, register flags
+        for (IActor player : players) {
+            board.registerFlag(player);
+            player.handleRobotDestruction(500);
+        }
     }
 
     /**
-     * @return true if any player has registered all flags on board
+     * @return a list of all players not permanently dead
      */
-    private boolean checkWinCondition() {
-        for (IPlayer player : players) {
-            if (player.getNumberOfVisitedFlags() == amountOfFlags) return true;
+    public List<IActor> getLivingPlayers() {
+        return players.stream().filter(player -> !player.isPermanentDead()).collect(Collectors.toList());
+    }
+
+    /**
+     * @return true if any player has registered all flags on board, or less than 2 players are alive
+     */
+    public boolean checkWinCondition() {
+        if (getLivingPlayers().size() == 1) {
+            Gdx.app.log(getLivingPlayers().get(0).getName(), " wins by being the last player alive");
+            return true;
+        }
+        for (IActor player : players) {
+            if (player.getNumberOfVisitedFlags() == amountOfFlags) {
+                Gdx.app.log(player.getName(), " wins by picking up all flags");
+                return true;
+            }
+        }
+        if (getLivingPlayers().size() == 0) {
+            Gdx.app.log("", "all players died");
+            return true;
         }
         return false;
-    }
-
-    /**
-     * @return true if every player is dead
-     */
-    private boolean everyPlayerDead() {
-        for (IPlayer player : players) {
-            if (!player.isPermanentDead())
-                return false;
-        }
-        return true;
     }
 
     /**
@@ -206,7 +221,7 @@ public class GameLoop {
      * @param instance robots should interact with
      */
     private void interactWithBoardElement(Class<? extends InteractingElement> instance) {
-        for (IPlayer player : players) {
+        for (IActor player : getLivingPlayers()) {
             DirVector position = player.getRobot().getPosition();
             IElement element = board.getInteractingElement(position);
             if (instance.isInstance(element)) {
@@ -216,13 +231,51 @@ public class GameLoop {
     }
 
     /**
-     * Updated the players position in player layer
+     * Updates currentPlayerPtr to next player, skipping players not playing and handling AI players
      */
-    public void renderPlayers() {
-        for (IPlayer player : players) {
-            DirVector position = player.getRobot().getPosition();
-            board.getPlayerLayer().setCell(position.getX(), position.getY(), player.getPlayerCell());
+    private void nextPlayer() {
+        currentPlayerPtr++;
+        if (currentPlayerPtr >= players.size()) {
+            currentPlayerPtr = 0;
+            doTurn();
+        } else if (getCurrentPlayer().isPermanentDead() || getCurrentPlayer().isPoweredDown()) {
+            nextPlayer();
+        } else if (getCurrentPlayer() instanceof INonPlayer) {
+            ((INonPlayer) getCurrentPlayer()).chooseCards(cardDeck);
+            nextPlayer();
+        } else if (getCurrentPlayer().getRobot().getNumberOfDamageTokens() == 9) {
+            nextPlayer();
         }
     }
 
+
+    /**
+     * @return current player
+     */
+    public IActor getCurrentPlayer() {
+        return players.get(currentPlayerPtr);
+    }
+
+    /**
+     * Renders interface of current player
+     */
+    public void renderCurrentInterface() {
+        getCurrentPlayer().getInterfaceRenderer().renderInterface(players, currentPlayerPtr);
+    }
+
+    /**
+     * Starts a new turn
+     */
+    public void newTurn() {
+        if (checkWinCondition()) {
+            return;
+        }
+        for (IActor player : getLivingPlayers()) {
+            player.newTurn(cardDeck);
+        }
+        programmingPhase = true;
+        if (getCurrentPlayer().isPoweredDown() || getCurrentPlayer().isPermanentDead()) {
+            nextPlayer();
+        }
+    }
 }

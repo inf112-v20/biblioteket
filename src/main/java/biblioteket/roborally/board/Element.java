@@ -99,11 +99,6 @@ public enum Element {
         this.value = value;
     }
 
-    public static Element valueOf(int pageType) {
-        return map.get(pageType);
-    }
-
-
     public static InteractingElement getInteractiveElement(int id) {
         IElement element = factory(id);
         if (element instanceof InteractingElement)
@@ -133,8 +128,7 @@ public enum Element {
             IElement element = factory(id);
             if (element instanceof ArchiveMarkerElement) {
                 ArchiveMarkerElement archiveMarker = (ArchiveMarkerElement) element;
-                archiveMarker.setX(x);
-                archiveMarker.setY(y);
+                archiveMarker.setPosition(new DirVector(x, y, null));
                 return archiveMarker;
             }
         } catch (UnsupportedOperationException e) {

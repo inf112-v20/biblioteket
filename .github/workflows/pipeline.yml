@@ -40,4 +40,4 @@ jobs:
       - name: SonarQube
         env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: mvn -B clean verify -Psonar -Dsonar.login=${{ SECRETS.SONAR_TOKEN }}
+        run: mvn clean verify sonar:sonar -Psonar -Pcoverage -Dsonar.login=${{ SECRETS.SONAR_TOKEN }}

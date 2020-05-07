@@ -1,14 +1,10 @@
 package biblioteket.roborally.game;
 
-import biblioteket.roborally.actors.IPlayer;
-import biblioteket.roborally.actors.IRobot;
-import biblioteket.roborally.actors.Player;
-import biblioteket.roborally.actors.Robot;
+import biblioteket.roborally.actors.*;
 import biblioteket.roborally.board.Board;
+import biblioteket.roborally.board.IBoard;
 import biblioteket.roborally.elements.ArchiveMarkerElement;
-import biblioteket.roborally.userinterface.InterfaceRenderer;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -19,53 +15,63 @@ import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * The viewport for the game, allows us to implement the UI separately from
  * the game logic itself. Currently only renders a very simple board with a
  * flag and hole that they player can move around on.
  */
-public class GameScreen implements Screen {
-    private final Board board;
-    private final GameLoop gameLoop;
+public class GameScreen extends StandardScreen {
     private final OrthographicCamera camera;
-
-    private final List<IPlayer> players;
-
+    private final RobotRenderer robotRenderer;
+    private final GameLoop gameLoop;
     private final OrthogonalTiledMapRenderer tiledMapRenderer;
+    private final RoboRally game;
 
-    public GameScreen(final RoboRally gam) {
-        this.board = new Board("assets/DizzyDash.tmx");
-        this.camera = new OrthographicCamera();
+    public GameScreen(final RoboRally game) {
+        super(game);
+        this.game = game;
+        List<IActor> players = new ArrayList<>();
+        IBoard board = new Board(MapSelect.getMap(), players);
+        gameLoop = new GameLoop(board, players);
+        this.robotRenderer = new RobotRenderer(board.getPlayerLayer(), players, gameLoop);
 
-        camera.setToOrtho(false, board.getWidth() + 14, board.getHeight() + 1);
+        camera = getCamera();
+        camera.setToOrtho(false, (float) board.getWidth() * 2, (float) board.getHeight());
         camera.update();
 
         tiledMapRenderer = new OrthogonalTiledMapRenderer(board.getMap(), (float) 1 / board.getTileWidth());
         tiledMapRenderer.setView(camera);
 
+        List<Texture> playerTextures = playerTextures();
 
-        Texture playerTexture = new Texture("assets/player.png");
-        TextureRegion[][] playerTextureSplit = TextureRegion.split(playerTexture, board.getTileWidth(), board.getTileHeight());
-
-        this.players = new ArrayList<>();
-
-        for (int i = 0; i < 1; i++) {
-            Player player = new Player(new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(playerTextureSplit[0][0])), new InterfaceRenderer());
+        for (int i = 0; i < game.getPlayers(); i++) {
+            TextureRegion[][] texture = splitTexture(pickRandomTexture(playerTextures), board);
+            TiledMapTileLayer.Cell playerCell = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(texture[0][0]));
+            IActor player = new Player(board, playerCell, new InterfaceRenderer(), robotRenderer);
             players.add(player);
             ArchiveMarkerElement archiveMarker = board.getArchiveMarker(i + 1);
             IRobot robot = new Robot(archiveMarker);
             player.setRobot(robot);
-            board.getPlayerLayer().setCell(player.getRobot().getPosition().getX(), player.getRobot().getPosition().getY(), null);
+            player.setName("Player " + (i + 1));
+            board.getPlayerLayer().setCell(player.getRobot().getPosition().getX(), player.getRobot().getPosition().getY(), playerCell);
         }
 
-        this.gameLoop = new GameLoop(board, players);
+        for (int i = players.size(); i < game.getAI() + game.getPlayers(); i++) {
+            TextureRegion[][] texture = splitTexture(pickRandomTexture(playerTextures), board);
+            TiledMapTileLayer.Cell playerCell = new TiledMapTileLayer.Cell().setTile(new StaticTiledMapTile(texture[0][0]));
+            IActor player = new EasyAI(board, playerCell, new InterfaceRenderer(), robotRenderer);
+            players.add(player);
+            ArchiveMarkerElement archiveMarker = board.getArchiveMarker(i + 1);
+            IRobot robot = new Robot(archiveMarker);
+            player.setRobot(robot);
+            player.setName("EasyAI " + (i + 1));
+            board.getPlayerLayer().setCell(player.getRobot().getPosition().getX(), player.getRobot().getPosition().getY(), playerCell);
+        }
 
-    }
-
-    @Override
-    public void show() {
-
+        gameLoop.newTurn();
+        gameLoop.startGame();
     }
 
     @Override
@@ -73,44 +79,59 @@ public class GameScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // Clears main menu screen
 
-        for (IPlayer player : players) {
-            InterfaceRenderer interfaceRenderer = player.getInterfaceRenderer();
-            interfaceRenderer.renderInterface(board);
-        }
-        gameLoop.renderPlayers();
+        // Render interface of current player
+        gameLoop.renderCurrentInterface();
 
+        // Render robot movement
+        if (robotRenderer.isRequestingRendering()) {
+            robotRenderer.renderStep();
+        }
         tiledMapRenderer.render();
-        tiledMapRenderer.getBatch().begin();
-        tiledMapRenderer.renderTileLayer(board.getPlayerLayer());
-        tiledMapRenderer.getBatch().end();
+        camera.update();
 
-        for (IPlayer player : players) {
-            board.getPlayerLayer().setCell(player.getRobot().getPosition().getX(), player.getRobot().getPosition().getY(), null);
+        if (gameLoop.checkWinCondition()) {
+            game.setScreen(new EndGameScreen(game, gameLoop.getLivingPlayers().get(0).getName()));
         }
     }
 
-    @Override
-    public void resize(int width, int height) {
-
+    /**
+     * Picks a random element from a list, removes it and returns it. Used so
+     * that each player/AI has a unique skin for their robot.
+     *
+     * @param textures A list of textures pick from
+     * @return a new texture
+     */
+    private Texture pickRandomTexture(List<Texture> textures) {
+        int element = new Random().nextInt(textures.size());
+        return textures.remove(element);
     }
 
-    @Override
-    public void pause() {
-
+    /**
+     * Splits a texture so that we can use the individual slices of the texture.
+     *
+     * @param texture Texture to split
+     * @param board   Current game board
+     * @return The split texture
+     */
+    private TextureRegion[][] splitTexture(Texture texture, IBoard board) {
+        return TextureRegion.split(texture, board.getTileWidth(), board.getTileHeight());
     }
 
-    @Override
-    public void resume() {
+    /**
+     * @return a list of all available player textures
+     */
+    private List<Texture> playerTextures() {
+        Assets assets = getAssets();
+        List<Texture> textures = new ArrayList<>();
+        textures.add(assets.getManager().get(Assets.BARREL_BOT, Texture.class));
+        textures.add(assets.getManager().get(Assets.BOX_BOT, Texture.class));
+        textures.add(assets.getManager().get(Assets.HAMMER_BOT, Texture.class));
+        textures.add(assets.getManager().get(Assets.PIN_BOT, Texture.class));
+        textures.add(assets.getManager().get(Assets.SAFE_BOT, Texture.class));
+        textures.add(assets.getManager().get(Assets.SAUCER_BOT, Texture.class));
+        textures.add(assets.getManager().get(Assets.SPIN_BOT, Texture.class));
+        textures.add(assets.getManager().get(Assets.OWL_BOT, Texture.class));
 
-    }
-
-    @Override
-    public void hide() {
-
-    }
-
-    @Override
-    public void dispose() {
-
+        return textures;
     }
 }

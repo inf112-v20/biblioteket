@@ -1,7 +1,6 @@
 package biblioteket.roborally.game;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -11,16 +10,20 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
  * then we can move between various screens.
  */
 public class RoboRally extends Game {
+    private final int width;
+    private final int height;
     private SpriteBatch batch;
     private BitmapFont font;
+    private int numPlayers;
+    private int numAI;
+
+    public RoboRally(int width, int height) {
+        this.width = width;
+        this.height = height;
+    }
 
     @Override
     public void create() {
-        // https://github.com/libgdx/libgdx/wiki/Continuous-%26-non-continuous-rendering
-        // This should be a performance increase for our game
-        Gdx.graphics.setContinuousRendering(false);
-        Gdx.graphics.requestRendering();
-
         this.setBatch(new SpriteBatch());
         this.setFont(new BitmapFont());
         this.setScreen(new MainMenuScreen(this));
@@ -30,19 +33,6 @@ public class RoboRally extends Game {
     public void dispose() {
         getBatch().dispose();
         getFont().dispose();
-    }
-
-    @Override
-    public void resize(int width, int height) {
-        super.resize(width, height);
-    }
-
-    @Override
-    public void pause() {
-    }
-
-    @Override
-    public void resume() {
     }
 
     public SpriteBatch getBatch() {
@@ -59,5 +49,29 @@ public class RoboRally extends Game {
 
     public void setFont(BitmapFont font) {
         this.font = font;
+    }
+
+    public int getPlayers() {
+        return numPlayers;
+    }
+
+    public void setPlayers(int numPlayers) {
+        this.numPlayers = numPlayers;
+    }
+
+    public int getAI() {
+        return numAI;
+    }
+
+    public void setAI(int numAI) {
+        this.numAI = Math.min(numAI, 8 - getPlayers());
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
     }
 }

@@ -10,6 +10,6 @@ public class ExpressConveyorBeltElement extends ConveyorBeltElement {
 
     @Override
     public String toString() {
-        return "Express Converor Belt";
+        return "Express Conveyor Belt";
     }
 }

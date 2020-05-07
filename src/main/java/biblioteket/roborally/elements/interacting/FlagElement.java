@@ -1,11 +1,13 @@
 package biblioteket.roborally.elements.interacting;
 
-import biblioteket.roborally.actors.IPlayer;
+import biblioteket.roborally.actors.IActor;
+import com.badlogic.gdx.Gdx;
 
-public class FlagElement implements InteractingElement {
+public class FlagElement extends SingleWrenchRepairElement {
     private final int flagNumber;
 
     public FlagElement(int flagNumber) {
+        super();
         this.flagNumber = flagNumber;
     }
 
@@ -15,10 +17,11 @@ public class FlagElement implements InteractingElement {
      * @param player with robot at flag
      */
     @Override
-    public void interact(IPlayer player) {
+    public void interact(IActor player) {
+        super.interact(player);
         int visited = player.getNumberOfVisitedFlags();
         if (flagNumber - 1 == visited) { // Check if player has picked up all previous flags
-            System.out.println("Picked up flag " + flagNumber);
+            Gdx.app.log(player.getName(), " picked up flag " + flagNumber);
             player.addToFlagsVisited();
             player.getRobot().setArchiveMarker(player.getRobot().getPosition());
         }

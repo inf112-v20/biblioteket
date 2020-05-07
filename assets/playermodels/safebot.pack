@@ -1,0 +1,26 @@
+
+safebot.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+safebotresize
+  rotate: false
+  xy: 1, 1
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: -1
+safebotresizedamaged
+  rotate: false
+  xy: 303, 1
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: -1
+safebotresizewin
+  rotate: false
+  xy: 605, 1
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: -1
